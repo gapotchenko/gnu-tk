@@ -1,0 +1,19 @@
+﻿<Project>
+
+  <!-- Language Configuration -->
+  <PropertyGroup>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System.ComponentModel" />
+    <Using Include="System.Diagnostics" />
+    <Using Include="System.Diagnostics.CodeAnalysis" />
+    <Using Include="System.Runtime.InteropServices" />
+    <Using Include="System.Runtime.Versioning" />
+    <Using Include="System.FormattableString" Static="true" />
+  </ItemGroup>
+  
+</Project>

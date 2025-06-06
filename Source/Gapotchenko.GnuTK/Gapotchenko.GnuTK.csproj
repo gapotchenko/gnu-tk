@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>gnu-tk</AssemblyName>
+    <PackAsTool>true</PackAsTool>
+    <PublishAot>true</PublishAot>
+  </PropertyGroup>
+
+</Project>

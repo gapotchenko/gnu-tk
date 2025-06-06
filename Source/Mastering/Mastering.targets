@@ -1,0 +1,6 @@
+﻿<Project>
+
+  <Import Project="Gapotchenko.MSBuild.PatchKit/Profiles/GP2025.targets" />
+  <Import Project="AssemblySignature.targets" />
+
+</Project>

@@ -1,0 +1,7 @@
+<Project>
+
+  <PropertyGroup>
+    <SignAssembly Condition=" '$(MasteringProjectKind)' == 'module' ">true</SignAssembly>
+  </PropertyGroup>
+
+</Project>

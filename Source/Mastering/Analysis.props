@@ -1,0 +1,17 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- Language agnostic -->
+    <NoWarn>$(NoWarn),CA1031,CA1040,CA1034,CA1305,CA1307,CA1859,CA1861,CA2217,CA2265,CA5392</NoWarn>
+    <NoWarn>$(NoWarn),SYSLIB1045</NoWarn>
+    <WarningsAsErrors>$(WarningsAsErrors),CA2248</WarningsAsErrors>
+
+    <!-- C# -->
+    <NoWarn>$(NoWarn),CS8524</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AnalysisMode Condition=" '$(MasteringProjectKind)' == 'module' ">recommended</AnalysisMode>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,35 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <MasteringProjectModulePrefix>Gapotchenko.GnuTK</MasteringProjectModulePrefix>
+    <BaseMasteringDir>$(MSBuildThisFileDirectory)</BaseMasteringDir>
+  </PropertyGroup>
+
+  <Import Project="Gapotchenko.MSBuild.PatchKit/Profiles/GP2025.props" />
+  <Import Project="Traits.props" />
+  <Import Project="Product.props" />
+  <Import Project="Version.props" />
+  <Import Project="Debug.props" />
+  <Import Project="Language.props" />
+
+  <!-- =================================================================== -->
+
+  <PropertyGroup>
+    <Deterministic>true</Deterministic>
+    <NeutralLanguage>en-US</NeutralLanguage>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' != 'Debug' ">
+    <!-- Ensure that all files can be cleaned in release configurations.
+         Otherwise, this can cause an artifact pollution. -->
+    <WarningsAsErrors>$(WarningsAsErrors),MSB3061</WarningsAsErrors>
+  </PropertyGroup>
+
+  <!-- =================================================================== -->
+
+  <Import Project="Analysis.props" />
+  <Import Project="Targeting.props" />
+  <Import Project="NuGet.props" />
+  <Import Project="AssemblySignature.props" />
+
+</Project>

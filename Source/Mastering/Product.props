@@ -1,0 +1,10 @@
+<Project>
+
+  <!-- Product Information -->
+  <PropertyGroup>
+    <Product>GNU-TK</Product>
+    <Company>Gapotchenko</Company>
+    <Copyright>Copyright © $([System.DateTime]::UtcNow.Year) $(Company) and Contributors</Copyright>
+  </PropertyGroup>
+
+</Project>

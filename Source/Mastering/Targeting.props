@@ -1,0 +1,9 @@
+﻿<Project>
+
+  <!-- Target Frameworks -->
+  <PropertyGroup>
+    <TargetFrameworks Condition=" '$(MasteringProjectKind)' == 'module' ">net8.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(MasteringProjectKind)' == 'test' ">net8.0</TargetFrameworks>
+  </PropertyGroup>
+
+</Project>
