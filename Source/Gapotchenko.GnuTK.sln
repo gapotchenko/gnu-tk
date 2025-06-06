@@ -21,6 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mastering", "Mastering", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gapotchenko.GnuTK", "Gapotchenko.GnuTK\Gapotchenko.GnuTK.csproj", "{CE8BE23D-19DE-427C-8A0A-24E1D13BD413}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{15B1976F-673F-4E8D-BBBA-F31ABA504B08}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +43,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A7DB6F6B-05D7-43AD-99D2-116D76F6DDDA} = {69AA8A86-F4A8-46B4-9487-E1FAAEA5CF9B}
 		{CE8BE23D-19DE-427C-8A0A-24E1D13BD413} = {C037E129-B61E-4285-A785-B05CECE46CEA}
+		{15B1976F-673F-4E8D-BBBA-F31ABA504B08} = {69AA8A86-F4A8-46B4-9487-E1FAAEA5CF9B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1919B43B-528B-49D8-9028-356CABBE5D8E}
