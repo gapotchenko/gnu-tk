@@ -1,0 +1,3 @@
+Error code    Description
+-----------------------------------------------------------------------------
+GNUTK0001     Invalid program arguments.

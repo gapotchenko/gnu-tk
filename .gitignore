@@ -13,6 +13,7 @@
 CodeCoverage/
 .env
 .vs
+launchSettings.json
 
 # MSTest Results
 [Tt]est[Rr]esult*/
