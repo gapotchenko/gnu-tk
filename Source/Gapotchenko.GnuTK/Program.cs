@@ -156,6 +156,9 @@ static class Program
             return 0;
         }
 
+        if ((bool)arguments[ProgramOptions.Check])
+            return engine.CheckToolkit() ? 0 : 1;
+
         CliServices.DumpArguments(arguments);
 
         return 1;

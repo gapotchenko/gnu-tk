@@ -6,6 +6,8 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.Console;
+using Gapotchenko.FX.Linq;
+using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Hosting;
 using Gapotchenko.GnuTK.Toolkits;
 
@@ -35,12 +37,18 @@ public sealed class Engine
     /// </summary>
     public bool Quiet { get; init; }
 
+    IToolkit GetToolkit() =>
+        ToolkitServices.TrySelectToolkit(EnumerateToolkits(), ToolkitName)
+        ?? throw new GnuTKDiagnosticException("No suitable GNU toolkit is found.") { ErrorCode = DiagnosticErrorCodes.NoSuitableToolkitIsFound };
+
     /// <summary>
     /// Lists all available toolkits.
     /// </summary>
     public void ListToolkits()
     {
-        bool useColor = ConsoleTraits.IsColorEnabled;
+        bool quiet = Quiet;
+        bool useColor = !quiet && ConsoleTraits.IsColorEnabled;
+
         bool hasToolkits = false;
 
         foreach (var toolkit in EnumerateToolkits())
@@ -51,7 +59,7 @@ public sealed class Engine
 
             if (!hasToolkits)
             {
-                if (!Quiet)
+                if (!quiet)
                 {
                     if (useColor)
                         Console.ForegroundColor = ConsoleColor.White;
@@ -81,7 +89,7 @@ public sealed class Engine
         if (!hasToolkits)
             Console.WriteLine("No available GNU toolkits are found.");
 
-        if (Quiet)
+        if (quiet)
             return;
 
         Console.WriteLine();
@@ -144,6 +152,96 @@ public sealed class Engine
                     """);
             }
         }
+    }
+
+    /// <summary>
+    /// Checks the toolkit.
+    /// </summary>
+    /// <returns>
+    /// <see langword="true"/> if the toolkit check passes;
+    /// otherwise, <see langword="false"/>.
+    /// </returns>
+    public bool CheckToolkit()
+    {
+        bool quiet = Quiet;
+
+        var toolkits = EnumerateToolkits().Memoize();
+        var toolkit = ToolkitServices.TrySelectToolkit(toolkits, ToolkitName);
+
+        if (toolkit is null)
+        {
+            if (toolkits.Any())
+            {
+                Console.WriteLine("No suitable GNU toolkit is found.");
+
+                if (!quiet)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("To list all available toolkits, use 'gnu-tk list' command.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No available GNU toolkits are found.");
+
+                if (!quiet)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Learn more: https://gapt.ch/help/gnu-tk/install-toolkits");
+                }
+            }
+            return false;
+        }
+
+        bool useColor = !quiet && ConsoleTraits.IsColorEnabled;
+
+        if (!quiet)
+        {
+            if (useColor)
+                Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("GNU Toolkit Check");
+            if (useColor)
+                Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+
+        Console.WriteLine("Toolkit: {0}", toolkit.Name);
+        Console.WriteLine("Description: {0}", toolkit.Description);
+        Console.WriteLine("Location: {0}", toolkit.InstallationPath);
+
+        if (!quiet)
+            Console.WriteLine();
+        Console.Write("Check status: ");
+        if (useColor)
+            Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write("PASS");
+        if (useColor)
+            Console.ResetColor();
+        Console.WriteLine();
+
+        if (!quiet)
+        {
+            Console.WriteLine();
+
+            if (useColor)
+                Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Tips:");
+            if (useColor)
+                Console.ResetColor();
+            Console.WriteLine();
+
+            Console.WriteLine(
+                """
+                  - To list all available toolkits, use 'gnu-tk list' command
+                  - To change the selected toolkit, use '--toolkit' command-line option or its
+                    shorthand '-t'
+                  - Alternatively, you can set 'GNU_TK_TOOLKIT' environment variable to the
+                    name of a GNU toolkit to use by default
+                """);
+        }
+
+        return true;
     }
 
     IEnumerable<IToolkit> EnumerateToolkits() => ToolkitServices.EnumerateToolkits(ToolkitPaths);

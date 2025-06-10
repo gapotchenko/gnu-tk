@@ -13,4 +13,5 @@ namespace Gapotchenko.GnuTK.Diagnostics;
 static class DiagnosticErrorCodes
 {
     public const int InvalidProgramArguments = 1;
+    public const int NoSuitableToolkitIsFound = 2;
 }

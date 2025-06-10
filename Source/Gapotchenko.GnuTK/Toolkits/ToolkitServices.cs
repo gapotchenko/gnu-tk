@@ -17,6 +17,26 @@ namespace Gapotchenko.GnuTK.Toolkits;
 static class ToolkitServices
 {
     /// <summary>
+    /// Selects the toolkit by the specified name.
+    /// </summary>
+    /// <param name="toolkits">The sequence of toolkits to select from.</param>
+    /// <param name="name">
+    /// The name of a toolkit to select,
+    /// or <see langword="null"/> to select a toolkit automatically.
+    /// </param>
+    /// <returns>
+    /// The selected toolkit
+    /// or <see langword="null"/> if it cannot be selected.
+    /// </returns>
+    public static IToolkit? TrySelectToolkit(IEnumerable<IToolkit> toolkits, string? name) =>
+        name is null
+            ? toolkits.FirstOrDefault()
+            : toolkits.FirstOrDefault(
+                toolkit =>
+                    toolkit.Name.Equals(name, StringComparison.OrdinalIgnoreCase) ||
+                    toolkit.Family.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+
+    /// <summary>
     /// Enumerates portable and installed toolkits.
     /// </summary>
     /// <param name="paths">The paths to portable toolkits.</param>
