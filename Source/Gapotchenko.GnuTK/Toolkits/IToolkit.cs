@@ -35,4 +35,9 @@ interface IToolkit
     /// For example: "C:\msys64\ucrt64".
     /// </remarks>
     string? InstallationPath { get; }
+
+    /// <summary>
+    /// Gets the toolkit family.
+    /// </summary>
+    IToolkitFamily Family { get; }
 }

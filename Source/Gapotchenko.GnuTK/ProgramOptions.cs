@@ -23,7 +23,8 @@ static class ProgramOptions
     public const string ExecuteFile = "--file";
     public const string File = "<file>";
 
-    public const string ToolkitCommand = "toolkit";
-    public const string ListCommand = "list";
-    public const string CheckCommand = "check";
+    public const string Toolkit = "--toolkit";
+
+    public const string List = "list";
+    public const string Check = "check";
 }

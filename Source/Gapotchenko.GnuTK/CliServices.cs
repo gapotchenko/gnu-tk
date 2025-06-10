@@ -19,8 +19,11 @@ static class CliServices
 {
     public static void InitializeConsole()
     {
-        // Upgrade to Unicode on operating systems that come with it being tuned off.
-        ConsoleEx.EnableUnicode();
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            // Prefer Unicode if possible.
+            ConsoleEx.EnableUnicode();
+        }
     }
 
     /// <summary>
@@ -54,7 +57,7 @@ static class CliServices
                 arguments as ICollection<string> ?? [.. arguments],
                 help: false);
         }
-        catch
+        catch (DocoptInputErrorException)
         {
             parsedArgs = null;
         }
@@ -62,9 +65,9 @@ static class CliServices
         if (parsedArgs is null)
             return null;
 
-        // Translate the result to a canonical representation.
         return (IReadOnlyDictionary<string, object>)TranslateValue(parsedArgs);
 
+        // Translates a value to the canonical immutable representation.
         [return: NotNullIfNotNull(nameof(value))]
         static object? TranslateValue(object? value)
         {
@@ -76,7 +79,7 @@ static class CliServices
                     if (TranslateValue(i.Value.Value) is not null and var v)
                         dictionary[i.Key] = v;
                 }
-                return dictionary;
+                return dictionary.AsReadOnly();
             }
             else if (value is ArrayList arrayList)
             {
@@ -91,5 +94,12 @@ static class CliServices
                 return value;
             }
         }
+    }
+
+    [Conditional("DEBUG")]
+    public static void DumpArguments(IReadOnlyDictionary<string, object> arguments)
+    {
+        foreach (var i in arguments)
+            Console.WriteLine("{0} = {1}", i.Key, i.Value);
     }
 }

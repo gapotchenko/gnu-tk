@@ -6,8 +6,8 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX;
-using Gapotchenko.FX.AppModel;
-using Gapotchenko.FX.Console;
+using Gapotchenko.GnuTK.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Gapotchenko.GnuTK;
 
@@ -18,6 +18,7 @@ static class Program
     {
         try
         {
+            CliServices.InitializeConsole();
             return Run(args);
         }
         catch (ProgramExitException e)
@@ -26,34 +27,20 @@ static class Program
         }
         catch (Exception e)
         {
-            bool useColor = ConsoleTraits.IsColorEnabled;
-            if (useColor)
-                Console.ForegroundColor = ConsoleColor.Red;
-            var writer = Console.Error;
-            writer.Write("Error");
-
-            int? errorCode = (e as GnuTKClassifiedException)?.ErrorCode;
-            writer.Write($": GNUTK{errorCode:D4}: ");
-
-            writer.Write(e.Message);
-            if (useColor)
-                Console.ResetColor();
-            writer.WriteLine();
+            UIShell.ShowError(e);
             return 1;
         }
     }
 
-    static int Run(string[] args)
+    static int Run(IReadOnlyList<string> args)
     {
-        CliServices.InitializeConsole();
-
         string usage =
             """
             Usage:
               gnu-tk [-t <name>] -c <command>
               gnu-tk [-t <name>] -l [--] <command>...
               gnu-tk [-t <name>] -f <file>
-              gnu-tk toolkit (list | check [-t <name>]) [-q]
+              gnu-tk (list | check [-t <name>]) [-q]
               gnu-tk (-h | --help) [-q]
               gnu-tk --version
 
@@ -64,30 +51,24 @@ static class Program
               -l --command-line    Execute a command line using a GNU toolkit.
               -f --file            Execute a file using a GNU toolkit.
               -t --toolkit=<name>  Use the specified GNU toolkit [default: auto].
-              -q --quiet           Do not print any informational or diagnostic messages.
+              -q --quiet           Do not print any auxiliary messages.
             
             Commands:
-              toolkit list         List available GNU toolkits.
-              toolkit check        Check a GNU toolkit.
+              list                 List available GNU toolkits.
+              check                Check a GNU toolkit.
             """;
 
         var arguments =
             CliServices.TryParseArguments(CanonicalizeArgs(args), usage) ??
-            throw new GnuTKClassifiedException("Invalid program arguments.") { ErrorCode = 1 };
+            throw new GnuTKDiagnosticException("Invalid program arguments.") { ErrorCode = DiagnosticErrorCodes.InvalidProgramArguments };
 
-        if ((bool)arguments[ProgramOptions.Help])
-        {
-            if (!(bool)arguments[ProgramOptions.Quiet])
-            {
-                ShowLogo();
-                Console.WriteLine();
-            }
-            Console.WriteLine(usage);
-            return 1;
-        }
-
-        return Run(arguments);
+        if (UIShell.Run(arguments, usage, out int exitCode))
+            return exitCode;
+        else
+            return RunCore(arguments);
     }
+
+    #region Canonicalization of program arguments
 
     /// <summary>
     /// Inteprets naturally occuring program arguments and
@@ -102,43 +83,43 @@ static class Program
         bool windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         var newArgs = new List<string>(n + 1);
 
-        var state = ArgsState.Begin;
+        var state = ArgsCanonicalizationState.Begin;
         for (int i = 0; i < n; ++i)
         {
             string arg = args[i];
 
             switch (state)
             {
-                case ArgsState.Begin:
+                case ArgsCanonicalizationState.Begin:
                     switch (arg)
                     {
                         case "-?":
                         case "/?" when windows:
                             arg = ProgramOptions.Help;
-                            state = ArgsState.End;
+                            state = ArgsCanonicalizationState.End;
                             break;
 
                         case ProgramOptions.ExecuteCommandLine or "-l":
-                            state = ArgsState.StartPositional;
+                            state = ArgsCanonicalizationState.StartPositional;
                             break;
 
                         case ProgramOptions.ExecuteCommand or "-c":
                         case ProgramOptions.ExecuteFile or "-f":
-                            state = ArgsState.End;
+                            state = ArgsCanonicalizationState.End;
                             break;
                     }
                     break;
 
-                case ArgsState.StartPositional:
+                case ArgsCanonicalizationState.StartPositional:
                     if (arg != "--")
                     {
                         // Ensures that this and the next arguments will not be parsed as named parameters.
                         newArgs.Add("--");
                     }
-                    state = ArgsState.End;
+                    state = ArgsCanonicalizationState.End;
                     break;
 
-                case ArgsState.End:
+                case ArgsCanonicalizationState.End:
                     break;
             }
 
@@ -148,53 +129,49 @@ static class Program
         return newArgs;
     }
 
-    enum ArgsState
+    enum ArgsCanonicalizationState
     {
         Begin,
         StartPositional,
         End
     }
 
-    static void ShowLogo()
+    #endregion
+
+    [MethodImpl(MethodImplOptions.NoInlining)] // avoid premature initialization of types
+    static int RunCore(IReadOnlyDictionary<string, object> arguments)
     {
-        var appInfo = AppInformation.Current;
-
-        Console.Write(appInfo.ProductName);
-        Console.Write(" ");
-        Console.WriteLine(GetAppVersion(appInfo));
-
-        if (appInfo.Copyright is not null and var copyright)
-            Console.WriteLine(CliServices.AdaptConsoleText(copyright));
-
-        Console.WriteLine();
-        Console.WriteLine("Provides seamless access to GNU toolkits on non-GNU operating systems.");
-    }
-
-    static int Run(IReadOnlyDictionary<string, object> arguments)
-    {
-        if ((bool)arguments[ProgramOptions.Version])
+        var engine = new Engine()
         {
-            ShowVersion();
+            ToolkitName =
+                NormalizeToolkitName((string)arguments[ProgramOptions.Toolkit])
+                ?? NormalizeToolkitName(Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT")),
+            ToolkitPaths = GetToolkitPaths(),
+            Quiet = (bool)arguments[ProgramOptions.Quiet]
+        };
+
+        if ((bool)arguments[ProgramOptions.List])
+        {
+            engine.ListToolkits();
             return 0;
         }
 
-        foreach (var i in arguments)
-            Console.WriteLine("{0} = {1}", i.Key, i.Value);
+        CliServices.DumpArguments(arguments);
 
-        return 0;
+        return 1;
     }
 
-    static void ShowVersion()
-    {
-        Console.WriteLine(GetAppVersion(AppInformation.Current));
-    }
+    static string? NormalizeToolkitName(string? name) =>
+        Empty.Nullify(
+            Empty.Nullify(name),
+            "auto",
+            StringComparison.OrdinalIgnoreCase);
 
-    static string GetAppVersion(IAppInformation appInfo)
+    static IReadOnlyList<string> GetToolkitPaths()
     {
-        string version = appInfo.InformationalVersion;
-        // Remove version metadata.
-        if (version.LastIndexOf('+') is not -1 and var j)
-            version = version[..j];
-        return version;
+        return
+            Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT_PATH")
+            ?.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            ?? [];
     }
 }
