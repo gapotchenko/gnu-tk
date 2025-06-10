@@ -67,7 +67,7 @@ public sealed class Engine
                 Console.Write("Description".PadRight(descriptionColumnWidth));
                 Console.WriteLine("Location");
 
-                Console.WriteLine("-----------------------------------------------------------------------------");
+                Console.WriteLine("------------------------------------------------------------------------------");
 
                 hasToolkits = true;
             }
@@ -98,8 +98,8 @@ public sealed class Engine
         {
             Console.WriteLine(
                 """
-                    - GNU-TK is not aware of any GNU toolkits that can be used on the current
-                      operating system
+                  - GNU-TK is not aware of any GNU toolkits that can be used on the current
+                    operating system
                 """);
         }
         else
@@ -110,8 +110,8 @@ public sealed class Engine
             {
                 Console.WriteLine(
                     """
-                        - To add an available GNU toolkit, you can install it:
-                          https://gapt.ch/help/gnu-tk/install-toolkits
+                      - To add a GNU toolkit to the list, you can install it:
+                        https://gapt.ch/help/gnu-tk/install-toolkits
                     """);
             }
 
@@ -120,8 +120,8 @@ public sealed class Engine
                 char ps = Path.PathSeparator;
                 Console.WriteLine(
                     $"""
-                        - You can use 'GNU_TK_TOOLKIT_PATH' environment variable to specify the
-                          directory paths of portable GNU toolkits (separated by '{ps}' character)
+                      - You can use 'GNU_TK_TOOLKIT_PATH' environment variable to specify the
+                        directory paths of portable GNU toolkits, separated by a '{ps}' character
                     """);
             }
 
@@ -132,15 +132,15 @@ public sealed class Engine
                 string supportedToolkits = string.Join(", ", deployableFamilies.Select(x => x.Name).Order());
                 Console.WriteLine(
                     $"""
-                        - GNU toolkits supported on {os}: {supportedToolkits}
+                      - GNU toolkits supported on {os}: {supportedToolkits}
                     """);
             }
             else
             {
                 Console.WriteLine(
                     """
-                        - GNU-TK is not aware of any GNU toolkits that can be used on the current
-                          operating system except the built-in one(s)
+                      - GNU-TK is not aware of any GNU toolkits that can be used on the current
+                        operating system except the built-in one(s)
                     """);
             }
         }
