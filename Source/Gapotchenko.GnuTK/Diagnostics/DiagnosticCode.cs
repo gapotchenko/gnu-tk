@@ -8,10 +8,10 @@
 namespace Gapotchenko.GnuTK.Diagnostics;
 
 /// <summary>
-/// Defines the codes of diagnostic errors.
+/// Defines the diagnostic codes for GNU-TK.
 /// </summary>
-static class DiagnosticErrorCodes
+public enum DiagnosticCode
 {
-    public const int InvalidProgramArguments = 1;
-    public const int NoSuitableToolkitIsFound = 2;
+    InvalidProgramArguments = 1,
+    NoSuitableToolkitIsFound = 2
 }

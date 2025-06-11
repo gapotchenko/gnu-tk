@@ -37,9 +37,27 @@ public sealed class Engine
     /// </summary>
     public bool Quiet { get; init; }
 
-    IToolkit GetToolkit() =>
-        ToolkitServices.TrySelectToolkit(EnumerateToolkits(), ToolkitName)
-        ?? throw new GnuTKDiagnosticException("No suitable GNU toolkit is found.") { ErrorCode = DiagnosticErrorCodes.NoSuitableToolkitIsFound };
+    /// <summary>
+    /// Executes the specified command.
+    /// </summary>
+    /// <param name="command">The command to execute.</param>
+    /// <param name="arguments">The command arguments.</param>
+    /// <returns>The exit code.</returns>
+    public int ExecuteCommand(string command, IEnumerable<string> arguments)
+    {
+        var toolkit = GetToolkit();
+        return toolkit.ExecuteCommand(command, arguments);
+    }
+
+    IToolkit GetToolkit()
+    {
+        string? name = ToolkitName;
+        return
+            ToolkitServices.TrySelectToolkit(EnumerateToolkits(), name)
+            ?? throw new DiagnosticException(
+                GetErrorMessage_NoSuitableToolkitIsFound(name),
+                DiagnosticCode.NoSuitableToolkitIsFound);
+    }
 
     /// <summary>
     /// Lists all available toolkits.
@@ -54,7 +72,7 @@ public sealed class Engine
         foreach (var toolkit in EnumerateToolkits())
         {
             const int delimeterWidth = 2;
-            const int toolkitColumnWidth = 14 + delimeterWidth;
+            const int nameColumnWidth = 14 + delimeterWidth;
             const int descriptionColumnWidth = 19 + delimeterWidth;
 
             if (!hasToolkits)
@@ -71,7 +89,7 @@ public sealed class Engine
                     Console.WriteLine();
                 }
 
-                Console.Write("Toolkit".PadRight(toolkitColumnWidth));
+                Console.Write("Name".PadRight(nameColumnWidth));
                 Console.Write("Description".PadRight(descriptionColumnWidth));
                 Console.WriteLine("Location");
 
@@ -80,7 +98,7 @@ public sealed class Engine
                 hasToolkits = true;
             }
 
-            Console.Write(toolkit.Name.PadRight(toolkitColumnWidth));
+            Console.Write(toolkit.Name.PadRight(nameColumnWidth));
             Console.Write(toolkit.Description.PadRight(descriptionColumnWidth));
             Console.Write(toolkit.InstallationPath);
             Console.WriteLine();
@@ -91,6 +109,8 @@ public sealed class Engine
 
         if (quiet)
             return;
+
+        // Be kind and helpful by providing automatically generated tips.
 
         Console.WriteLine();
 
@@ -133,10 +153,10 @@ public sealed class Engine
                     """);
             }
 
-            if ((traits & ToolkitFamilyTraits.DeployableMask) != 0)
+            if ((traits & ToolkitFamilyTraits.DeploymentMask) != 0)
             {
-                string os = HostServices.OSName;
-                var deployableFamilies = families.Where(x => (x.Traits & ToolkitFamilyTraits.DeployableMask) != 0);
+                string os = HostEnvironment.OSName;
+                var deployableFamilies = families.Where(x => (x.Traits & ToolkitFamilyTraits.DeploymentMask) != 0);
                 string supportedToolkits = string.Join(", ", deployableFamilies.Select(x => x.Name).Order());
                 Console.WriteLine(
                     $"""
@@ -158,7 +178,7 @@ public sealed class Engine
     /// Checks the toolkit.
     /// </summary>
     /// <returns>
-    /// <see langword="true"/> if the toolkit check passes;
+    /// <see langword="true"/> if the toolkit passes all checks;
     /// otherwise, <see langword="false"/>.
     /// </returns>
     public bool CheckToolkit()
@@ -166,13 +186,14 @@ public sealed class Engine
         bool quiet = Quiet;
 
         var toolkits = EnumerateToolkits().Memoize();
+        string? name = ToolkitName;
         var toolkit = ToolkitServices.TrySelectToolkit(toolkits, ToolkitName);
 
         if (toolkit is null)
         {
             if (toolkits.Any())
             {
-                Console.WriteLine("No suitable GNU toolkit is found.");
+                Console.WriteLine(GetErrorMessage_NoSuitableToolkitIsFound(name));
 
                 if (!quiet)
                 {
@@ -206,7 +227,7 @@ public sealed class Engine
             Console.WriteLine();
         }
 
-        Console.WriteLine("Toolkit: {0}", toolkit.Name);
+        Console.WriteLine("Name: {0}", toolkit.Name);
         Console.WriteLine("Description: {0}", toolkit.Description);
         Console.WriteLine("Location: {0}", toolkit.InstallationPath);
 
@@ -234,8 +255,8 @@ public sealed class Engine
             Console.WriteLine(
                 """
                   - To list all available toolkits, use 'gnu-tk list' command
-                  - To change the selected toolkit, use '--toolkit' command-line option or its
-                    shorthand '-t'
+                  - To change the selected toolkit, specify '--toolkit' command-line option or
+                    its shorthand '-t'
                   - Alternatively, you can set 'GNU_TK_TOOLKIT' environment variable to the
                     name of a GNU toolkit to use by default
                 """);
@@ -243,6 +264,11 @@ public sealed class Engine
 
         return true;
     }
+
+    static string GetErrorMessage_NoSuitableToolkitIsFound(string? name) =>
+        name is null
+            ? "No suitable GNU toolkit is found."
+            : string.Format("No suitable GNU toolkit is found by name '{0}'.", name);
 
     IEnumerable<IToolkit> EnumerateToolkits() => ToolkitServices.EnumerateToolkits(ToolkitPaths);
 }

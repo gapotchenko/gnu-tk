@@ -9,7 +9,8 @@ using Gapotchenko.Shields.Cygwin.Deployment;
 
 namespace Gapotchenko.GnuTK.Toolkits.Cygwin;
 
-sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setupInstance) : IToolkit
+sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setupInstance) :
+    IToolkit
 {
     public string Name => "cygwin";
 
@@ -18,4 +19,6 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
     public string? InstallationPath => setupInstance.InstallationPath;
 
     public IToolkitFamily Family => family;
+
+    public int ExecuteCommand(string command, IEnumerable<string> arguments) => throw new NotImplementedException();
 }

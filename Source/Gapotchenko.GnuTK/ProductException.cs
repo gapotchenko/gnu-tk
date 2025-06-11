@@ -10,30 +10,30 @@ namespace Gapotchenko.GnuTK;
 /// <summary>
 /// Represents an error that can occur in GNU-TK.
 /// </summary>
-class GnuTKException : Exception
+class ProductException : Exception
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="GnuTKException"/> class.
+    /// Initializes a new instance of the <see cref="ProductException"/> class.
     /// </summary>
-    public GnuTKException()
+    public ProductException()
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GnuTKException"/> class with a specified error message.
+    /// Initializes a new instance of the <see cref="ProductException"/> class with a specified error message.
     /// </summary>
     /// <inheritdoc/>
-    public GnuTKException(string? message) :
+    public ProductException(string? message) :
         base(message)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GnuTKException"/> class with a specified error message
+    /// Initializes a new instance of the <see cref="ProductException"/> class with a specified error message
     /// and a reference to the inner exception that is the cause of this exception.
     /// </summary>
     /// <inheritdoc/>
-    public GnuTKException(string? message, Exception? innerException) :
+    public ProductException(string? message, Exception? innerException) :
         base(message, innerException)
     {
     }

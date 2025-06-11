@@ -37,7 +37,7 @@ static class Program
         string usage =
             """
             Usage:
-              gnu-tk [-t <name>] -c <command>
+              gnu-tk [-t <name>] -c [--] <command> [<argument>...]
               gnu-tk [-t <name>] -l [--] <command>...
               gnu-tk [-t <name>] -f <file>
               gnu-tk (list | check [-t <name>]) [-q]
@@ -60,7 +60,7 @@ static class Program
 
         var arguments =
             CliServices.TryParseArguments(CanonicalizeArgs(args), usage) ??
-            throw new GnuTKDiagnosticException("Invalid program arguments.") { ErrorCode = DiagnosticErrorCodes.InvalidProgramArguments };
+            throw new DiagnosticException("Invalid program arguments.", DiagnosticCode.InvalidProgramArguments);
 
         if (UIShell.Run(arguments, usage, out int exitCode))
             return exitCode;
@@ -99,11 +99,11 @@ static class Program
                             state = ArgsCanonicalizationState.End;
                             break;
 
+                        case ProgramOptions.ExecuteCommand or "-c":
                         case ProgramOptions.ExecuteCommandLine or "-l":
                             state = ArgsCanonicalizationState.StartPositional;
                             break;
 
-                        case ProgramOptions.ExecuteCommand or "-c":
                         case ProgramOptions.ExecuteFile or "-f":
                             state = ArgsCanonicalizationState.End;
                             break;
@@ -141,6 +141,8 @@ static class Program
     [MethodImpl(MethodImplOptions.NoInlining)] // avoid premature initialization of types
     static int RunCore(IReadOnlyDictionary<string, object> arguments)
     {
+        // Initialize the engine.
+
         var engine = new Engine()
         {
             ToolkitName =
@@ -149,6 +151,27 @@ static class Program
             ToolkitPaths = GetToolkitPaths(),
             Quiet = (bool)arguments[ProgramOptions.Quiet]
         };
+
+        static string? NormalizeToolkitName(string? name) =>
+            string.IsNullOrEmpty(name) ||
+            name.Equals("auto", StringComparison.OrdinalIgnoreCase)
+                ? null
+                : name;
+
+        static IReadOnlyList<string> GetToolkitPaths() =>
+            Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT_PATH")
+            ?.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            ?? [];
+
+        // Handle the program options.
+        // Most frequently used options are handled first.
+
+        if ((bool)arguments[ProgramOptions.ExecuteCommand])
+        {
+            string command = ((IReadOnlyList<string>)arguments[ProgramOptions.Commands])[0];
+            var commandArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
+            return engine.ExecuteCommand(command, commandArguments);
+        }
 
         if ((bool)arguments[ProgramOptions.List])
         {
@@ -160,21 +183,6 @@ static class Program
             return engine.CheckToolkit() ? 0 : 1;
 
         CliServices.DumpArguments(arguments);
-
         return 1;
-    }
-
-    static string? NormalizeToolkitName(string? name) =>
-        Empty.Nullify(
-            Empty.Nullify(name),
-            "auto",
-            StringComparison.OrdinalIgnoreCase);
-
-    static IReadOnlyList<string> GetToolkitPaths()
-    {
-        return
-            Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT_PATH")
-            ?.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            ?? [];
     }
 }

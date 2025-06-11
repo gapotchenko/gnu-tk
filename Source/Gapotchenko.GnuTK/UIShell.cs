@@ -22,7 +22,7 @@ static class UIShell
                 ShowLogo();
                 Console.WriteLine();
             }
-            Console.WriteLine(usage);
+            Console.WriteLine(usage.Replace(" [--] ", " "));
             exitCode = 1;
             return true;
         }
@@ -62,7 +62,7 @@ static class UIShell
     static ReadOnlySpan<char> GetAppVersion(IAppInformation appInfo)
     {
         var version = appInfo.InformationalVersion.AsSpan();
-        // Remove version metadata.
+        // Remove version's metadata.
         if (version.LastIndexOf('+') is not -1 and var j)
             version = version[..j];
         return version;
@@ -76,7 +76,7 @@ static class UIShell
         var writer = Console.Error;
         writer.Write("Error");
 
-        int? errorCode = (exception as GnuTKDiagnosticException)?.ErrorCode;
+        int? errorCode = (int?)(exception as DiagnosticException)?.Code;
         writer.Write(Invariant($": GNUTK{errorCode:D4}: "));
 
         writer.Write(exception.Message);

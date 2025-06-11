@@ -5,6 +5,7 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
+using Gapotchenko.FX.IO;
 using Gapotchenko.GnuTK.Toolkits.Cygwin;
 using Gapotchenko.GnuTK.Toolkits.MSys2;
 using Gapotchenko.GnuTK.Toolkits.Native;
@@ -52,8 +53,11 @@ static class ToolkitServices
         var installedToolkits = families.SelectMany(family => family.EnumerateInstalledToolkits());
 
         return
-            portableToolkits  // portable toolkits have priority, return them first
-            .Concat(installedToolkits);
+            // Portable toolkits have priority, return them first.
+            portableToolkits
+            .Concat(installedToolkits)
+            // Without duplicates.
+            .DistinctBy(toolkit => toolkit.InstallationPath, FileSystem.PathComparer);
     }
 
     /// <summary>
@@ -65,21 +69,32 @@ static class ToolkitServices
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
+            // Thoughts on priority:
+            //   1. MSYS2 comes with most of the packages by default, easy mental model (install and forget)
+            //   2. Cygwin provides better execution performance when compared to WSL,
+            //      but mental model is on a heavy side (too customizable to the point of frustration)
+            //   3. WSL is ubiquitous and configurable, but it is prone to path mapping issues
             return [MSys2ToolkitFamily.Instance, CygwinToolkitFamily.Instance];
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
+            // That was an easy one :)
             return [NativeToolkitFamily.Instance];
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            // While GNU is not Unix, macOS is a close enough alternative.
-            return [NativeToolkitFamily.Instance];
+            return [
+                // https://formulae.brew.sh/formula/coreutils
+                // https://uutils.github.io/coreutils/
+                // https://www.topbug.net/blog/2013/04/14/install-and-use-gnu-command-line-tools-in-mac-os-x/
+                //CoreUtilsToolkitFamily.Instance,
+                // While GNU is not Unix, macOS is a close enough Unix-based native alternative.
+                NativeToolkitFamily.Instance];
         }
         else if (Environment.OSVersion.Platform == PlatformID.Unix)
         {
             // Generic fallback.
-            // While GNU is not Unix, Unix is a close enough alternative.
+            // While GNU is not Unix, Unix is a close enough native alternative.
             return [NativeToolkitFamily.Instance];
         }
         else

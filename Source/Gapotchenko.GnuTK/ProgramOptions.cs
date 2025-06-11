@@ -19,6 +19,7 @@ static class ProgramOptions
     public const string ExecuteCommand = "--command";
     public const string ExecuteCommandLine = "--command-line";
     public const string Commands = "<command>";
+    public const string Arguments = "<argument>";
 
     public const string ExecuteFile = "--file";
     public const string File = "<file>";

@@ -24,12 +24,20 @@ enum ToolkitFamilyTraits
     Installable = 1 << 0,
 
     /// <summary>
-    /// Indicates that a toolkit supports portable deployment.
+    /// Indicates that a toolkit family supports portable deployment.
     /// </summary>
     Portable = 1 << 1,
 
     /// <summary>
-    /// The mask of traits related to deployment.
+    /// Indicates that a toolkit family provides a strict GNU semantics.
     /// </summary>
-    DeployableMask = Installable | Portable
+    /// <remarks>
+    /// The trait allows to differentiate between GNU and GNU-like toolkit families.
+    /// </remarks>
+    Strict = 1 << 2,
+
+    /// <summary>
+    /// The mask of deployment traits.
+    /// </summary>
+    DeploymentMask = Installable | Portable
 }

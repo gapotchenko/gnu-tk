@@ -19,4 +19,6 @@ sealed class NativeToolkit(NativeToolkitFamily family) : IToolkit
     public string? InstallationPath => "/";
 
     public IToolkitFamily Family => family;
+
+    public int ExecuteCommand(string command, IEnumerable<string> arguments) => throw new NotImplementedException();
 }

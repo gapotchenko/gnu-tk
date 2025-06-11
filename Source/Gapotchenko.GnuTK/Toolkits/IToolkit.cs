@@ -40,4 +40,12 @@ interface IToolkit
     /// Gets the toolkit family.
     /// </summary>
     IToolkitFamily Family { get; }
+
+    /// <summary>
+    /// Executes the specified command.
+    /// </summary>
+    /// <param name="command">The command to execute.</param>
+    /// <param name="arguments">The command arguments.</param>
+    /// <returns>The exit code.</returns>
+    int ExecuteCommand(string command, IEnumerable<string> arguments);
 }

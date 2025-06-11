@@ -8,9 +8,9 @@
 namespace Gapotchenko.GnuTK.Hosting;
 
 /// <summary>
-/// Provides services for a host operating system.
+/// Provides services for the host environment.
 /// </summary>
-static class HostServices
+static class HostEnvironment
 {
     /// <summary>
     /// Gets a name of the current operating system.
