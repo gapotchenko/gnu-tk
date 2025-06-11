@@ -47,5 +47,5 @@ interface IToolkit
     /// <param name="command">The command to execute.</param>
     /// <param name="arguments">The command arguments.</param>
     /// <returns>The exit code.</returns>
-    int ExecuteCommand(string command, IEnumerable<string> arguments);
+    int ExecuteCommand(string command, IReadOnlyList<string> arguments);
 }

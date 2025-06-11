@@ -43,10 +43,24 @@ public sealed class Engine
     /// <param name="command">The command to execute.</param>
     /// <param name="arguments">The command arguments.</param>
     /// <returns>The exit code.</returns>
-    public int ExecuteCommand(string command, IEnumerable<string> arguments)
+    public int ExecuteCommand(string command, IReadOnlyList<string> arguments)
     {
         var toolkit = GetToolkit();
         return toolkit.ExecuteCommand(command, arguments);
+    }
+
+    /// <summary>
+    /// Executes the specified command line.
+    /// </summary>
+    /// <param name="arguments">The arguments of a command line to execute.</param>
+    /// <returns>The exit code.</returns>
+    public int ExecuteCommandLine(IReadOnlyList<string> arguments)
+    {
+        var toolkit = GetToolkit();
+
+        // TODO
+
+        throw new NotImplementedException();
     }
 
     IToolkit GetToolkit()

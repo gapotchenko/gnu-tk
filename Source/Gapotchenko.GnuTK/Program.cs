@@ -38,7 +38,7 @@ static class Program
             """
             Usage:
               gnu-tk [-t <name>] -c [--] <command> [<argument>...]
-              gnu-tk [-t <name>] -l [--] <command>...
+              gnu-tk [-t <name>] -l [--] <argument>...
               gnu-tk [-t <name>] -f <file>
               gnu-tk (list | check [-t <name>]) [-q]
               gnu-tk (-h | --help) [-q]
@@ -168,7 +168,7 @@ static class Program
 
         if ((bool)arguments[ProgramOptions.ExecuteCommand])
         {
-            string command = ((IReadOnlyList<string>)arguments[ProgramOptions.Commands])[0];
+            string command = (string)arguments[ProgramOptions.Command];
             var commandArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
             return engine.ExecuteCommand(command, commandArguments);
         }
