@@ -21,4 +21,6 @@ sealed class NativeToolkit(NativeToolkitFamily family) : IToolkit
     public IToolkitFamily Family => family;
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments) => throw new NotImplementedException();
+
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments) => throw new NotImplementedException();
 }

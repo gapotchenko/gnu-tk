@@ -28,4 +28,11 @@ static class ProgramOptions
 
     public const string List = "list";
     public const string Check = "check";
+
+    public static class Shorthands
+    {
+        public const string ExecuteCommand = "-c";
+        public const string ExecuteCommandLine = "-l";
+        public const string ExecuteFile = "-f";
+    }
 }

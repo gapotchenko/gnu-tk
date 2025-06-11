@@ -50,17 +50,15 @@ public sealed class Engine
     }
 
     /// <summary>
-    /// Executes the specified command line.
+    /// Executes the specified file.
     /// </summary>
-    /// <param name="arguments">The arguments of a command line to execute.</param>
+    /// <param name="path">The path of file to execute.</param>
+    /// <param name="arguments">The arguments.</param>
     /// <returns>The exit code.</returns>
-    public int ExecuteCommandLine(IReadOnlyList<string> arguments)
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments)
     {
         var toolkit = GetToolkit();
-
-        // TODO
-
-        throw new NotImplementedException();
+        return toolkit.ExecuteFile(path, arguments);
     }
 
     IToolkit GetToolkit()

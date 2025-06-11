@@ -39,7 +39,7 @@ static class Program
             Usage:
               gnu-tk [-t <name>] -c [--] <command> [<argument>...]
               gnu-tk [-t <name>] -l [--] <argument>...
-              gnu-tk [-t <name>] -f <file>
+              gnu-tk [-t <name>] -f [--] <file> [<argument>...]
               gnu-tk (list | check [-t <name>]) [-q]
               gnu-tk (-h | --help) [-q]
               gnu-tk --version
@@ -99,13 +99,10 @@ static class Program
                             state = ArgsCanonicalizationState.End;
                             break;
 
-                        case ProgramOptions.ExecuteCommand or "-c":
-                        case ProgramOptions.ExecuteCommandLine or "-l":
+                        case ProgramOptions.ExecuteCommand or ProgramOptions.Shorthands.ExecuteCommand:
+                        case ProgramOptions.ExecuteCommandLine or ProgramOptions.Shorthands.ExecuteCommandLine:
+                        case ProgramOptions.ExecuteFile or ProgramOptions.Shorthands.ExecuteFile:
                             state = ArgsCanonicalizationState.StartPositional;
-                            break;
-
-                        case ProgramOptions.ExecuteFile or "-f":
-                            state = ArgsCanonicalizationState.End;
                             break;
                     }
                     break;
@@ -171,6 +168,47 @@ static class Program
             string command = (string)arguments[ProgramOptions.Command];
             var commandArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
             return engine.ExecuteCommand(command, commandArguments);
+        }
+
+        if ((bool)arguments[ProgramOptions.ExecuteFile])
+        {
+            string filePath = (string)arguments[ProgramOptions.File];
+            var fileArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
+            return engine.ExecuteFile(filePath, fileArguments);
+        }
+
+        if ((bool)arguments[ProgramOptions.ExecuteCommandLine])
+        {
+            var commandLine = Environment.CommandLine.AsSpan();
+
+            // A bit of magic.
+            // In Windows OS, the native representation of a command line is a string.
+            // Take a benefit from that fact by directly extracting a command to execute from the string.
+
+            // Find the start of a specified command line.
+            const string key1 = $" {ProgramOptions.Shorthands.ExecuteCommandLine} ";
+            int j = commandLine.IndexOf(key1, StringComparison.Ordinal);
+            if (j != -1)
+            {
+                j += key1.Length;
+            }
+            else
+            {
+                const string key2 = $" {ProgramOptions.ExecuteCommandLine} ";
+                j = commandLine.IndexOf(key2, StringComparison.Ordinal);
+                if (j != -1)
+                    j += key2.Length;
+            }
+            if (j == -1)
+                throw new ProductException("Cannot find a command line start position.");
+            var command = commandLine[j..];
+
+            // Remove an optional delimiter for positional arguments.
+            const string positionalDelimeter = "-- ";
+            if (command.StartsWith(positionalDelimeter, StringComparison.Ordinal))
+                command = command[positionalDelimeter.Length..];
+
+            return engine.ExecuteCommand(command.ToString(), []);
         }
 
         if ((bool)arguments[ProgramOptions.List])

@@ -10,8 +10,7 @@ using Gapotchenko.Shields.Cygwin.Deployment;
 
 namespace Gapotchenko.GnuTK.Toolkits.Cygwin;
 
-sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setupInstance) :
-    IToolkit
+sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setupInstance) : IToolkit
 {
     public string Name => "cygwin";
 
@@ -21,16 +20,18 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
 
     public IToolkitFamily Family => family;
 
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments)
+    {
+        return ExecuteCommand("ash \"$0\" \"$@\"", [path, .. arguments]);
+    }
+
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments)
     {
-        string shellPath = setupInstance.ResolvePath(Path.Join("bin", "sh.exe"));
-        if (!File.Exists(shellPath))
-            throw new ProductException("Cannot find a Cygwin shell.");
+        string shellPath = GetShellPath();
 
         var psi = new ProcessStartInfo
         {
-            FileName = shellPath,
-            WindowStyle = ProcessWindowStyle.Hidden
+            FileName = shellPath
         };
 
         var args = psi.ArgumentList;
@@ -43,12 +44,24 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         else
             args.AddRange(arguments);
 
+        return ExecuteProcess(psi);
+    }
+
+    string GetShellPath()
+    {
+        string shellPath = setupInstance.ResolvePath(Path.Join("bin", "sh.exe"));
+        if (!File.Exists(shellPath))
+            throw new ProductException("Cannot find a Cygwin shell.");
+        return shellPath;
+    }
+
+    static int ExecuteProcess(ProcessStartInfo psi)
+    {
+        psi.WindowStyle = ProcessWindowStyle.Hidden;
         using var process =
             Process.Start(psi) ??
-            throw new InvalidOperationException("Cygwin shell process cannot be started.");
-
+            throw new InvalidOperationException("Process cannot be started.");
         process.WaitForExit();
-
         return process.ExitCode;
     }
 }

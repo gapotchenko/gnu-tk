@@ -48,4 +48,12 @@ interface IToolkit
     /// <param name="arguments">The command arguments.</param>
     /// <returns>The exit code.</returns>
     int ExecuteCommand(string command, IReadOnlyList<string> arguments);
+
+    /// <summary>
+    /// Executes the specified file.
+    /// </summary>
+    /// <param name="command">The path of a file to execute.</param>
+    /// <param name="arguments">The arguments.</param>
+    /// <returns>The exit code.</returns>
+    int ExecuteFile(string path, IReadOnlyList<string> arguments);
 }
