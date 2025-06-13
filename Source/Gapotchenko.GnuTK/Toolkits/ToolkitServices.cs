@@ -45,7 +45,7 @@ static class ToolkitServices
     /// <returns>A sequence of discovered toolkits.</returns>
     public static IEnumerable<IToolkit> EnumerateToolkits(IEnumerable<string> paths)
     {
-        var families = ToolkitFamilies;
+        var families = SupportedToolkitFamilies;
 
         // Portable toolkits are prioritized according to the paths order.
         var portableToolkits = paths.SelectMany(path => families.SelectMany(family => family.EnumerateToolkitsFromDirectory(path)));
@@ -57,7 +57,7 @@ static class ToolkitServices
             // Portable toolkits have priority, return them first.
             portableToolkits
             .Concat(installedToolkits)
-            // Without duplicates.
+            // Avoid duplicates.
             .DistinctBy(
                 toolkit => (toolkit.Name, toolkit.InstallationPath),
                 ValueTupleEqualityComparer.Create(StringComparer.Ordinal, FileSystem.PathComparer));
@@ -66,9 +66,9 @@ static class ToolkitServices
     /// <summary>
     /// Gets toolkit families supported on the current operating system.
     /// </summary>
-    public static IReadOnlyList<IToolkitFamily> ToolkitFamilies { get; } = GetToolkitFamilies();
+    public static IReadOnlyList<IToolkitFamily> SupportedToolkitFamilies { get; } = GetSupportedToolkitFamilies();
 
-    static IReadOnlyList<IToolkitFamily> GetToolkitFamilies()
+    static IReadOnlyList<IToolkitFamily> GetSupportedToolkitFamilies()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
