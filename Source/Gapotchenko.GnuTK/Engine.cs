@@ -58,6 +58,8 @@ public sealed class Engine
     public int ExecuteFile(string path, IReadOnlyList<string> arguments)
     {
         var toolkit = GetToolkit();
+        if (path == "-")
+            path = "/dev/stdin";
         return toolkit.ExecuteFile(path, arguments);
     }
 
@@ -81,10 +83,10 @@ public sealed class Engine
 
         bool hasToolkits = false;
 
-        foreach (var toolkit in EnumerateToolkits())
+        foreach (var toolkit in EnumerateToolkits().OrderBy(x => x.Name))
         {
             const int delimeterWidth = 2;
-            const int nameColumnWidth = 14 + delimeterWidth;
+            const int nameColumnWidth = 17 + delimeterWidth;
             const int descriptionColumnWidth = 19 + delimeterWidth;
 
             if (!hasToolkits)

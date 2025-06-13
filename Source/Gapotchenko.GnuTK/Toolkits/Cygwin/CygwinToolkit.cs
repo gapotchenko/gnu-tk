@@ -22,7 +22,7 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
 
     public int ExecuteFile(string path, IReadOnlyList<string> arguments)
     {
-        return ExecuteCommand("ash \"$0\" \"$@\"", [path, .. arguments]);
+        return ExecuteCommand("sh \"$0\" \"$@\"", [path, .. arguments]);
     }
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments)
@@ -35,7 +35,7 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         };
 
         var args = psi.ArgumentList;
-        args.Add("-login");
+        args.Add("-l");
         args.Add("-c");
         args.Add("cd \"$0\" && BASH_ARGV0=$1 && shift;" + command);
         args.Add(Directory.GetCurrentDirectory());

@@ -6,6 +6,7 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.IO;
+using Gapotchenko.FX.Tuples;
 using Gapotchenko.GnuTK.Toolkits.Cygwin;
 using Gapotchenko.GnuTK.Toolkits.MSys2;
 using Gapotchenko.GnuTK.Toolkits.Native;
@@ -57,7 +58,9 @@ static class ToolkitServices
             portableToolkits
             .Concat(installedToolkits)
             // Without duplicates.
-            .DistinctBy(toolkit => toolkit.InstallationPath, FileSystem.PathComparer);
+            .DistinctBy(
+                toolkit => (toolkit.Name, toolkit.InstallationPath),
+                ValueTupleEqualityComparer.Create(StringComparer.Ordinal, FileSystem.PathComparer));
     }
 
     /// <summary>

@@ -21,8 +21,9 @@
     <PackageReference Include="Gapotchenko.FX" Version="2025.1.19-beta" />
     <PackageReference Include="Gapotchenko.FX.AppModel.Information" Version="2025.1.19-beta" />
     <PackageReference Include="Gapotchenko.FX.Console" Version="2025.1.19-beta" />
+    <PackageReference Include="Gapotchenko.FX.Tuples" Version="2025.1.19-beta" />
     <PackageReference Include="Gapotchenko.Shields.Cygwin.Deployment" Version="2025.1.2" />
-    <PackageReference Include="Gapotchenko.Shields.MSys2.Deployment" Version="2025.1.2" />
+    <PackageReference Include="Gapotchenko.Shields.MSys2.Deployment" Version="2025.1.5" />
   </ItemGroup>
 
 </Project>
