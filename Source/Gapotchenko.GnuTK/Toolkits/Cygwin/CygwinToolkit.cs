@@ -60,7 +60,7 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         psi.WindowStyle = ProcessWindowStyle.Hidden;
         using var process =
             Process.Start(psi) ??
-            throw new InvalidOperationException("Process cannot be started.");
+            throw new ProductException("Cygwin shell process cannot be started.");
         process.WaitForExit();
         return process.ExitCode;
     }

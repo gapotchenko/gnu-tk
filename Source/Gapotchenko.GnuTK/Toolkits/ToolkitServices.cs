@@ -6,6 +6,7 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.IO;
+using Gapotchenko.FX.Linq;
 using Gapotchenko.FX.Tuples;
 using Gapotchenko.GnuTK.Toolkits.Cygwin;
 using Gapotchenko.GnuTK.Toolkits.MSys2;
@@ -30,13 +31,17 @@ static class ToolkitServices
     /// The selected toolkit
     /// or <see langword="null"/> if it cannot be selected.
     /// </returns>
-    public static IToolkit? TrySelectToolkit(IEnumerable<IToolkit> toolkits, string? name) =>
-        name is null
-            ? toolkits.FirstOrDefault()
-            : toolkits.FirstOrDefault(
-                toolkit =>
-                    toolkit.Name.Equals(name, StringComparison.OrdinalIgnoreCase) ||
-                    toolkit.Family.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+    public static IToolkit? TrySelectToolkit(IEnumerable<IToolkit> toolkits, string? name)
+    {
+        if (name is null)
+            return toolkits.FirstOrDefault();
+
+        const StringComparison sc = StringComparison.OrdinalIgnoreCase;
+        toolkits = toolkits.Memoize();
+        return
+            toolkits.FirstOrDefault(toolkit => toolkit.Name.Equals(name, sc)) ??
+            toolkits.FirstOrDefault(toolkit => toolkit.Family.Name.Equals(name, sc));
+    }
 
     /// <summary>
     /// Enumerates portable and installed toolkits.

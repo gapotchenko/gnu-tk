@@ -71,8 +71,8 @@ static class Program
     #region Canonicalization of program arguments
 
     /// <summary>
-    /// Inteprets naturally occuring program arguments and
-    /// rewrites them in canononical form suitable for the formal parsing.
+    /// Interprets naturally occurring program arguments and
+    /// rewrites them in canonical form suitable for the formal parsing.
     /// </summary>
     static IReadOnlyList<string> CanonicalizeArgs(IReadOnlyList<string> args)
     {
@@ -204,9 +204,9 @@ static class Program
             var command = commandLine[j..];
 
             // Remove an optional delimiter for positional arguments.
-            const string positionalDelimeter = "-- ";
-            if (command.StartsWith(positionalDelimeter, StringComparison.Ordinal))
-                command = command[positionalDelimeter.Length..];
+            const string positionalDelimiter = "-- ";
+            if (command.StartsWith(positionalDelimiter, StringComparison.Ordinal))
+                command = command[positionalDelimiter.Length..];
 
             return engine.ExecuteCommand(command.ToString(), []);
         }

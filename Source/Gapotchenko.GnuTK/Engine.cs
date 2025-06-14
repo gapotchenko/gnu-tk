@@ -33,7 +33,7 @@ public sealed class Engine
     public IReadOnlyList<string> ToolkitPaths { get; init; } = [];
 
     /// <summary>
-    /// Gets or initializes a value indicating whether to suppress any auxilary messages.
+    /// Gets or initializes a value indicating whether to suppress any auxiliary messages.
     /// </summary>
     public bool Quiet { get; init; }
 
@@ -85,9 +85,9 @@ public sealed class Engine
 
         foreach (var toolkit in EnumerateToolkits().OrderBy(x => x.Name))
         {
-            const int delimeterWidth = 2;
-            const int nameColumnWidth = 17 + delimeterWidth;
-            const int descriptionColumnWidth = 19 + delimeterWidth;
+            const int delimiterWidth = 2;
+            const int nameColumnWidth = 17 + delimiterWidth;
+            const int descriptionColumnWidth = 19 + delimiterWidth;
 
             if (!hasToolkits)
             {
@@ -152,7 +152,7 @@ public sealed class Engine
             {
                 Console.WriteLine(
                     """
-                      - To add a GNU toolkit to the list, you can install it:
+                      - To add a GNU toolkit to the list, you can install it on your system:
                         https://gapt.ch/help/gnu-tk/install-toolkits
                     """);
             }

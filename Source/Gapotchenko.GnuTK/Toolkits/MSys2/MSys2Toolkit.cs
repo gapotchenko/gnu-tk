@@ -64,7 +64,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment environme
         psi.WindowStyle = ProcessWindowStyle.Hidden;
         using var process =
             Process.Start(psi) ??
-            throw new InvalidOperationException("Process cannot be started.");
+            throw new ProductException("MSYS2 shell process cannot be started.");
         process.WaitForExit();
         return process.ExitCode;
     }
