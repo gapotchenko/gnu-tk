@@ -11,6 +11,7 @@ using Gapotchenko.FX.Tuples;
 using Gapotchenko.GnuTK.Toolkits.Cygwin;
 using Gapotchenko.GnuTK.Toolkits.MSys2;
 using Gapotchenko.GnuTK.Toolkits.Native;
+using Gapotchenko.GnuTK.Toolkits.Wsl;
 
 namespace Gapotchenko.GnuTK.Toolkits;
 
@@ -82,7 +83,7 @@ static class ToolkitServices
             //   2. Cygwin provides better execution performance when compared to WSL,
             //      but mental model is on a heavy side (too customizable to the point of frustration)
             //   3. WSL is ubiquitous and configurable, but it is prone to path mapping issues
-            return [MSys2ToolkitFamily.Instance, CygwinToolkitFamily.Instance];
+            return [MSys2ToolkitFamily.Instance, CygwinToolkitFamily.Instance, WslToolkitFamily.Instance];
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
