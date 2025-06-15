@@ -182,7 +182,7 @@ public sealed class Engine
                 Console.WriteLine(
                     """
                       - GNU-TK is not aware of any GNU toolkits that can be used on this operating
-                        system except the default one(s)
+                        system alongside the default one(s)
                     """);
             }
         }
