@@ -18,6 +18,8 @@ enum ToolkitFamilyTraits
     /// </summary>
     None = 0,
 
+    #region Deployment
+
     /// <summary>
     /// Indicates that a toolkit can be deployed by installing it on a computer system.
     /// </summary>
@@ -29,15 +31,17 @@ enum ToolkitFamilyTraits
     Portable = 1 << 1,
 
     /// <summary>
-    /// Indicates that a toolkit family provides a strict GNU semantics.
+    /// The mask of deployment traits.
+    /// </summary>
+    DeploymentMask = Installable | Portable,
+
+    #endregion
+
+    /// <summary>
+    /// Indicates that a toolkit family provides an alike but not exactly strict GNU semantics.
     /// </summary>
     /// <remarks>
     /// The trait allows to differentiate between GNU and GNU-like toolkit families.
     /// </remarks>
-    Strict = 1 << 2,
-
-    /// <summary>
-    /// The mask of deployment traits.
-    /// </summary>
-    DeploymentMask = Installable | Portable
+    Alike = 1 << 2
 }

@@ -17,7 +17,10 @@ sealed class NativeToolkitFamily : IToolkitFamily
 
     public string Name => "Native";
 
-    public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.None;
+    public ToolkitFamilyTraits Traits =>
+        RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+            ? ToolkitFamilyTraits.None
+            : ToolkitFamilyTraits.Alike;
 
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() => m_CachedInstalledToolkits ??= [new NativeToolkit(this)];
 

@@ -7,6 +7,7 @@
 
 using Gapotchenko.FX.Collections.Generic;
 using Gapotchenko.FX.IO;
+using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.Shields.Microsoft.Wsl.Deployment;
 
 namespace Gapotchenko.GnuTK.Toolkits.Wsl;
@@ -39,7 +40,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         args.Add(command);
         args.AddRange(arguments);
 
-        return ExecuteProcess(psi);
+        return ToolkitKit.ExecuteProcess(psi);
     }
 
     public int ExecuteFile(string path, IReadOnlyList<string> arguments)
@@ -51,20 +52,11 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
     string GetShellPath()
     {
-        string shellPath = setupInstance.ResolvePath(Path.Join("wsl.exe"));
+        string fileName = "wsl.exe";
+        string shellPath = setupInstance.ResolvePath(Path.Join(fileName));
         if (!File.Exists(shellPath))
-            throw new ProductException("Cannot find wsl.exe module.");
+            throw new ProductException(DiagnosticMessages.ModuleNotFound(fileName));
         return shellPath;
-    }
-
-    static int ExecuteProcess(ProcessStartInfo psi)
-    {
-        psi.WindowStyle = ProcessWindowStyle.Hidden;
-        using var process =
-            Process.Start(psi) ??
-            throw new ProductException("WSL process cannot be started.");
-        process.WaitForExit();
-        return process.ExitCode;
     }
 
     static string NormalizePath(string path)

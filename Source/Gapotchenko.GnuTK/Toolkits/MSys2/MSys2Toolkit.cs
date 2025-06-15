@@ -6,6 +6,7 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.Collections.Generic;
+using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.Shields.MSys2.Deployment;
 
 namespace Gapotchenko.GnuTK.Toolkits.MSys2;
@@ -48,24 +49,14 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment environme
         else
             args.AddRange(arguments);
 
-        return ExecuteProcess(psi);
+        return ToolkitKit.ExecuteProcess(psi);
     }
 
     string GetShellPath()
     {
         string shellPath = environment.SetupInstance.ResolvePath(Path.Join("usr", "bin", "sh.exe"));
         if (!File.Exists(shellPath))
-            throw new ProductException("Cannot find a MSYS2 shell.");
+            throw new ProductException(DiagnosticMessages.ModuleNotFound(shellPath));
         return shellPath;
-    }
-
-    static int ExecuteProcess(ProcessStartInfo psi)
-    {
-        psi.WindowStyle = ProcessWindowStyle.Hidden;
-        using var process =
-            Process.Start(psi) ??
-            throw new ProductException("MSYS2 shell process cannot be started.");
-        process.WaitForExit();
-        return process.ExitCode;
     }
 }

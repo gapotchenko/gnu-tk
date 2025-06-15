@@ -6,6 +6,7 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.Collections.Generic;
+using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.Shields.Cygwin.Deployment;
 
 namespace Gapotchenko.GnuTK.Toolkits.Cygwin;
@@ -44,24 +45,14 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         else
             args.AddRange(arguments);
 
-        return ExecuteProcess(psi);
+        return ToolkitKit.ExecuteProcess(psi);
     }
 
     string GetShellPath()
     {
         string shellPath = setupInstance.ResolvePath(Path.Join("bin", "sh.exe"));
         if (!File.Exists(shellPath))
-            throw new ProductException("Cannot find a Cygwin shell.");
+            throw new ProductException(DiagnosticMessages.ModuleNotFound(shellPath));
         return shellPath;
-    }
-
-    static int ExecuteProcess(ProcessStartInfo psi)
-    {
-        psi.WindowStyle = ProcessWindowStyle.Hidden;
-        using var process =
-            Process.Start(psi) ??
-            throw new ProductException("Cygwin shell process cannot be started.");
-        process.WaitForExit();
-        return process.ExitCode;
     }
 }

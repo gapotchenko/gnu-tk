@@ -68,7 +68,7 @@ static class Program
             return RunCore(arguments);
     }
 
-    #region Canonicalization of program arguments
+    #region Program arguments canonicalization
 
     /// <summary>
     /// Interprets naturally occurring program arguments and
@@ -138,40 +138,13 @@ static class Program
     [MethodImpl(MethodImplOptions.NoInlining)] // avoid premature initialization of types
     static int RunCore(IReadOnlyDictionary<string, object> arguments)
     {
-        // Initialize the engine.
-
-        var engine = new Engine()
-        {
-            ToolkitNames =
-                TryParseToolkitNames((string)arguments[ProgramOptions.Toolkit]) ??
-                TryParseToolkitNames(Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT")),
-            ToolkitPaths = GetToolkitPaths(),
-            Quiet = (bool)arguments[ProgramOptions.Quiet]
-        };
-
-        static IReadOnlyList<string>? TryParseToolkitNames(string? name)
-        {
-            if (string.IsNullOrEmpty(name) ||
-                name.Equals("auto", StringComparison.OrdinalIgnoreCase))
-            {
-                return null;
-            }
-            else
-            {
-                return name.Split(
-                    [',', ';'],
-                    StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-            }
-        }
-
-        static IReadOnlyList<string> GetToolkitPaths() =>
-            Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT_PATH")
-            ?.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            ?? [];
+        // Initialize a GNU-TK engine.
+        var engine = InitializeEngine(arguments);
 
         // Handle the program options.
         // Most frequently used options are handled first.
 
+        // '-c' command-line option.
         if ((bool)arguments[ProgramOptions.ExecuteCommand])
         {
             string command = (string)arguments[ProgramOptions.Command];
@@ -179,20 +152,14 @@ static class Program
             return engine.ExecuteCommand(command, commandArguments);
         }
 
-        if ((bool)arguments[ProgramOptions.ExecuteFile])
-        {
-            string filePath = (string)arguments[ProgramOptions.File];
-            var fileArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
-            return engine.ExecuteFile(filePath, fileArguments);
-        }
-
+        // '-l' command-line option.
         if ((bool)arguments[ProgramOptions.ExecuteCommandLine])
         {
             var commandLine = Environment.CommandLine.AsSpan();
 
             // A bit of magic.
             // In Windows OS, the native representation of a command line is a string.
-            // Take a benefit from that fact by directly extracting a command to execute from the string.
+            // Take a benefit of that fact by extracting the command-line information directly.
 
             // Find the start of a specified command line.
             const string key1 = $" {ProgramOptions.Shorthands.ExecuteCommandLine} ";
@@ -220,16 +187,68 @@ static class Program
             return engine.ExecuteCommand(command.ToString(), []);
         }
 
+        // '-f' command-line option.
+        if ((bool)arguments[ProgramOptions.ExecuteFile])
+        {
+            string filePath = (string)arguments[ProgramOptions.File];
+            var fileArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
+            return engine.ExecuteFile(filePath, fileArguments);
+        }
+
+        // 'check' command.
+        if ((bool)arguments[ProgramOptions.Check])
+            return engine.CheckToolkit() ? 0 : 1;
+
+        // 'list' command.
         if ((bool)arguments[ProgramOptions.List])
         {
             engine.ListToolkits();
             return 0;
         }
 
-        if ((bool)arguments[ProgramOptions.Check])
-            return engine.CheckToolkit() ? 0 : 1;
-
         CliServices.DumpArguments(arguments);
         return 1;
+    }
+
+    /// <summary>
+    /// Creates and initializes a GNU-TK engine.
+    /// </summary>
+    static Engine InitializeEngine(IReadOnlyDictionary<string, object> arguments)
+    {
+        return new Engine()
+        {
+            ToolkitNames = GetToolkitNames(arguments),
+            ToolkitPaths = GetToolkitPaths(),
+            Quiet = (bool)arguments[ProgramOptions.Quiet]
+        };
+
+        static IReadOnlyList<string>? GetToolkitNames(IReadOnlyDictionary<string, object> arguments)
+        {
+            return
+                (TryParseNames((string)arguments[ProgramOptions.Toolkit]) ??
+                TryParseNames(Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT")))
+                ?.Distinct(StringComparer.OrdinalIgnoreCase)
+                ?.ToArray();
+
+            static IReadOnlyList<string>? TryParseNames(string? names)
+            {
+                if (string.IsNullOrEmpty(names) ||
+                    names.Equals("auto", StringComparison.OrdinalIgnoreCase))
+                {
+                    return null;
+                }
+                else
+                {
+                    return names.Split(
+                        [',', ';'],
+                        StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                }
+            }
+        }
+
+        static IReadOnlyList<string> GetToolkitPaths() =>
+            Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT_PATH")
+            ?.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) ??
+            [];
     }
 }

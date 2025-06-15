@@ -13,5 +13,5 @@ namespace Gapotchenko.GnuTK.Diagnostics;
 public enum DiagnosticCode
 {
     InvalidProgramArguments = 1,
-    NoSuitableToolkitIsFound = 2
+    SuitableToolkitNotFound = 2
 }
