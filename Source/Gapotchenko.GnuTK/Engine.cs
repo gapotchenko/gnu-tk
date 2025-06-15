@@ -19,21 +19,21 @@ namespace Gapotchenko.GnuTK;
 public sealed class Engine
 {
     /// <summary>
-    /// Gets or initializes a name of a toolkit to use.
+    /// Gets or initializes the names of toolkits to use.
     /// </summary>
     /// <value>
-    /// The name of a toolkit to use,
+    /// The names of toolkits to use,
     /// or <see langword="null"/> to select the toolkit automatically.
     /// </value>
-    public string? ToolkitName { get; init; }
+    public IReadOnlyList<string>? ToolkitNames { get; init; }
 
     /// <summary>
-    /// Gets or initializes a list of portables toolkit paths.
+    /// Gets or initializes a list of portable toolkit paths.
     /// </summary>
     public IReadOnlyList<string> ToolkitPaths { get; init; } = [];
 
     /// <summary>
-    /// Gets or initializes a value indicating whether to suppress any auxiliary messages.
+    /// Gets or initializes a value indicating whether to suppress auxiliary messages.
     /// </summary>
     public bool Quiet { get; init; }
 
@@ -65,11 +65,11 @@ public sealed class Engine
 
     IToolkit GetToolkit()
     {
-        string? name = ToolkitName;
+        var names = ToolkitNames;
         return
-            ToolkitServices.TryFindToolkit(EnumerateToolkits(), name)
-            ?? throw new DiagnosticException(
-                GetErrorMessage_NoSuitableToolkitIsFound(name),
+            ToolkitServices.TrySelectToolkit(EnumerateToolkits(), names) ??
+            throw new DiagnosticException(
+                GetErrorMessage_NoSuitableToolkitIsFound(names),
                 DiagnosticCode.NoSuitableToolkitIsFound);
     }
 
@@ -200,14 +200,14 @@ public sealed class Engine
         bool quiet = Quiet;
 
         var toolkits = EnumerateToolkits().Memoize();
-        string? name = ToolkitName;
-        var toolkit = ToolkitServices.TryFindToolkit(toolkits, ToolkitName);
+        var names = ToolkitNames;
+        var toolkit = ToolkitServices.TrySelectToolkit(toolkits, names);
 
         if (toolkit is null)
         {
             if (toolkits.Any())
             {
-                Console.WriteLine(GetErrorMessage_NoSuitableToolkitIsFound(name));
+                Console.WriteLine(GetErrorMessage_NoSuitableToolkitIsFound(names));
 
                 if (!quiet)
                 {
@@ -279,10 +279,15 @@ public sealed class Engine
         return true;
     }
 
-    static string GetErrorMessage_NoSuitableToolkitIsFound(string? name) =>
-        name is null
-            ? "No suitable GNU toolkit is found."
-            : string.Format("No suitable GNU toolkit is found by name '{0}'.", name);
+    static string GetErrorMessage_NoSuitableToolkitIsFound(IReadOnlyList<string>? names) =>
+        names switch
+        {
+            null => "No suitable GNU toolkit is found.",
+            [var name] => string.Format("No suitable GNU toolkit is found by name '{0}'.", name),
+            _ => string.Format(
+                "No suitable GNU toolkit is found using names {0}.",
+                string.Join(", ", names.Select(x => $"'{x}'")))
+        };
 
     IEnumerable<IToolkit> EnumerateToolkits() => ToolkitServices.EnumerateToolkits(ToolkitPaths);
 }

@@ -142,18 +142,27 @@ static class Program
 
         var engine = new Engine()
         {
-            ToolkitName =
-                NormalizeToolkitName((string)arguments[ProgramOptions.Toolkit])
-                ?? NormalizeToolkitName(Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT")),
+            ToolkitNames =
+                TryParseToolkitNames((string)arguments[ProgramOptions.Toolkit]) ??
+                TryParseToolkitNames(Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT")),
             ToolkitPaths = GetToolkitPaths(),
             Quiet = (bool)arguments[ProgramOptions.Quiet]
         };
 
-        static string? NormalizeToolkitName(string? name) =>
-            string.IsNullOrEmpty(name) ||
-            name.Equals("auto", StringComparison.OrdinalIgnoreCase)
-                ? null
-                : name;
+        static IReadOnlyList<string>? TryParseToolkitNames(string? name)
+        {
+            if (string.IsNullOrEmpty(name) ||
+                name.Equals("auto", StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+            else
+            {
+                return name.Split(
+                    [',', ';'],
+                    StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            }
+        }
 
         static IReadOnlyList<string> GetToolkitPaths() =>
             Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT_PATH")
