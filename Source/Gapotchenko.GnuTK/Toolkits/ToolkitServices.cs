@@ -21,7 +21,7 @@ namespace Gapotchenko.GnuTK.Toolkits;
 static class ToolkitServices
 {
     /// <summary>
-    /// Selects the toolkit by the specified name.
+    /// Tries to find a toolkit by the specified name.
     /// </summary>
     /// <param name="toolkits">The sequence of toolkits to select from.</param>
     /// <param name="name">
@@ -29,10 +29,10 @@ static class ToolkitServices
     /// or <see langword="null"/> to select a toolkit automatically.
     /// </param>
     /// <returns>
-    /// The selected toolkit
-    /// or <see langword="null"/> if it cannot be selected.
+    /// The found toolkit
+    /// or <see langword="null"/> if it is not found.
     /// </returns>
-    public static IToolkit? TrySelectToolkit(IEnumerable<IToolkit> toolkits, string? name)
+    public static IToolkit? TryFindToolkit(IEnumerable<IToolkit> toolkits, string? name)
     {
         if (name is null)
             return toolkits.FirstOrDefault();
@@ -40,8 +40,8 @@ static class ToolkitServices
         const StringComparison sc = StringComparison.OrdinalIgnoreCase;
         toolkits = toolkits.Memoize();
         return
-            toolkits.FirstOrDefault(toolkit => toolkit.Name.Equals(name, sc)) ??
-            toolkits.FirstOrDefault(toolkit => toolkit.Family.Name.Equals(name, sc));
+            toolkits.FirstOrDefault(toolkit => toolkit.Name.Equals(name, sc)) ?? // try to find by a precise toolkit name
+            toolkits.FirstOrDefault(toolkit => toolkit.Family.Name.Equals(name, sc)); // otherwise, fallback to a toolkit family name
     }
 
     /// <summary>
@@ -81,8 +81,8 @@ static class ToolkitServices
             // Thoughts on priority:
             //   1. MSYS2 comes with most of the packages by default, easy mental model (install and forget)
             //   2. Cygwin provides better execution performance when compared to WSL,
-            //      but mental model is on a heavy side (too customizable to the point of frustration)
-            //   3. WSL is ubiquitous and configurable, but it is prone to path mapping issues
+            //      but mental model is on a heavy side (too customizable to the point of a possible frustration)
+            //   3. WSL is ubiquitous and configurable, but it is prone to drive mapping issues (as of v2.5.7.0)
             return [MSys2ToolkitFamily.Instance, CygwinToolkitFamily.Instance, WslToolkitFamily.Instance];
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))

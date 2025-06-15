@@ -10,6 +10,7 @@ using Gapotchenko.Shields.Microsoft.Wsl.Deployment;
 
 namespace Gapotchenko.GnuTK.Toolkits.Wsl;
 
+[SupportedOSPlatform("windows")]
 sealed class WslToolkitFamily : IToolkitFamily
 {
     public static IToolkitFamily Instance { get; } = new WslToolkitFamily();

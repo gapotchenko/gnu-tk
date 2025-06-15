@@ -67,7 +67,7 @@ public sealed class Engine
     {
         string? name = ToolkitName;
         return
-            ToolkitServices.TrySelectToolkit(EnumerateToolkits(), name)
+            ToolkitServices.TryFindToolkit(EnumerateToolkits(), name)
             ?? throw new DiagnosticException(
                 GetErrorMessage_NoSuitableToolkitIsFound(name),
                 DiagnosticCode.NoSuitableToolkitIsFound);
@@ -201,7 +201,7 @@ public sealed class Engine
 
         var toolkits = EnumerateToolkits().Memoize();
         string? name = ToolkitName;
-        var toolkit = ToolkitServices.TrySelectToolkit(toolkits, ToolkitName);
+        var toolkit = ToolkitServices.TryFindToolkit(toolkits, ToolkitName);
 
         if (toolkit is null)
         {

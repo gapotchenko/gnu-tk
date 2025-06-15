@@ -5,10 +5,13 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
+using Gapotchenko.FX.Collections.Generic;
+using Gapotchenko.FX.IO;
 using Gapotchenko.Shields.Microsoft.Wsl.Deployment;
 
 namespace Gapotchenko.GnuTK.Toolkits.Wsl;
 
+[SupportedOSPlatform("windows")]
 sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance) : IToolkit
 {
     public string Name => "wsl";
@@ -19,7 +22,57 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
     public IToolkitFamily Family => family;
 
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments) => throw new NotImplementedException();
+    public int ExecuteCommand(string command, IReadOnlyList<string> arguments)
+    {
+        string shellPath = GetShellPath();
 
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments) => throw new NotImplementedException();
+        var psi = new ProcessStartInfo
+        {
+            FileName = shellPath,
+            WorkingDirectory = NormalizePath(Directory.GetCurrentDirectory())
+        };
+
+        var args = psi.ArgumentList;
+        args.Add("--exec");
+        args.Add("sh");
+        args.Add("-c");
+        args.Add(command);
+        args.AddRange(arguments);
+
+        return ExecuteProcess(psi);
+    }
+
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments)
+    {
+        return ExecuteCommand(
+            "sh \"`wslpath \"$0\"`\" \"$@\"",
+            [NormalizePath(path), .. arguments]);
+    }
+
+    string GetShellPath()
+    {
+        string shellPath = setupInstance.ResolvePath(Path.Join("wsl.exe"));
+        if (!File.Exists(shellPath))
+            throw new ProductException("Cannot find wsl.exe module.");
+        return shellPath;
+    }
+
+    static int ExecuteProcess(ProcessStartInfo psi)
+    {
+        psi.WindowStyle = ProcessWindowStyle.Hidden;
+        using var process =
+            Process.Start(psi) ??
+            throw new ProductException("WSL process cannot be started.");
+        process.WaitForExit();
+        return process.ExitCode;
+    }
+
+    static string NormalizePath(string path)
+    {
+        // WSL cannot map paths of substituted drives (as of v2.5.7.0).
+        if (PathUtil.IsSubstitutedPath(path))
+            return FileSystem.GetRealPath(path);
+        else
+            return path;
+    }
 }
