@@ -94,7 +94,7 @@ public sealed class Engine
         {
             const int delimiterWidth = 2;
             const int nameColumnWidth = 17 + delimiterWidth;
-            const int descriptionColumnWidth = 24 + delimiterWidth;
+            const int descriptionColumnWidth = 25 + delimiterWidth;
 
             if (!hasToolkits)
             {
@@ -223,9 +223,13 @@ public sealed class Engine
 
         if (toolkit is null)
         {
-            if (toolkits.Any())
+            if (toolkits.Any() ||
+                Strict && EnumerateToolkits(ToolkitServices.SupportedToolkitFamilies).Any())
             {
-                Console.WriteLine(DiagnosticMessages.SuitableToolkitNotFound(names));
+                if (Strict)
+                    Console.WriteLine(DiagnosticMessages.SuitableStrictToolkitNotFound(names));
+                else
+                    Console.WriteLine(DiagnosticMessages.SuitableToolkitNotFound(names));
 
                 if (!quiet)
                 {
@@ -235,10 +239,7 @@ public sealed class Engine
             }
             else
             {
-                if (Strict)
-                    Console.WriteLine("No available toolkits with strict GNU semantics are found.");
-                else
-                    Console.WriteLine("No available GNU toolkits are found.");
+                Console.WriteLine("No available GNU toolkits are found.");
 
                 if (!quiet)
                 {
@@ -308,9 +309,9 @@ public sealed class Engine
         return true;
     }
 
-    IEnumerable<IToolkit> EnumerateToolkits() => ToolkitServices.EnumerateToolkits(
-        EnumerateToolkitFamilies(),
-        ToolkitPaths);
+    IEnumerable<IToolkit> EnumerateToolkits() => EnumerateToolkits(EnumerateToolkitFamilies());
+
+    IEnumerable<IToolkit> EnumerateToolkits(IEnumerable<IToolkitFamily> families) => ToolkitServices.EnumerateToolkits(families, ToolkitPaths);
 
     IEnumerable<IToolkitFamily> EnumerateToolkitFamilies()
     {

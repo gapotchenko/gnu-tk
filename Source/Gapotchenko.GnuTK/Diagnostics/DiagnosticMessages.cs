@@ -16,6 +16,13 @@ static class DiagnosticMessages
                 DiagnosticResources.SuitableToolkitXNotFound,
                 LinguisticServices.CombineWithOr(names.Select(LinguisticServices.SingleQuote)));
 
+    public static string SuitableStrictToolkitNotFound(IReadOnlyList<string>? names) =>
+        names is null
+            ? DiagnosticResources.SuitableStrictToolkitNotFound
+            : string.Format(
+                DiagnosticResources.SuitableStrictToolkitXNotFound,
+                LinguisticServices.CombineWithOr(names.Select(LinguisticServices.SingleQuote)));
+
     public static string ModuleNotFound(string? name) => string.Format(DiagnosticResources.ModuleXNotFound, name);
 
     public static string CannotStartProcess(string? name) => string.Format(DiagnosticResources.CannotStartProcessX, name);

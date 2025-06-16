@@ -126,7 +126,13 @@
   <data name="SuitableToolkitNotFound" xml:space="preserve">
     <value>No suitable GNU toolkit is found.</value>
   </data>
+  <data name="SuitableStrictToolkitNotFound" xml:space="preserve">
+    <value>No suitable toolkit with strict GNU semantics is found.</value>
+  </data>
   <data name="SuitableToolkitXNotFound" xml:space="preserve">
     <value>No suitable GNU toolkit named {0} is found.</value>
+  </data>
+  <data name="SuitableStrictToolkitXNotFound" xml:space="preserve">
+    <value>No suitable toolkit with strict GNU semantics named {0} is found.</value>
   </data>
 </root>

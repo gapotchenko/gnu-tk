@@ -79,6 +79,24 @@ namespace Gapotchenko.GnuTK.Diagnostics {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No suitable toolkit with strict GNU semantics is found..
+        /// </summary>
+        internal static string SuitableStrictToolkitNotFound {
+            get {
+                return ResourceManager.GetString("SuitableStrictToolkitNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No suitable toolkit with strict GNU semantics named {0} is found..
+        /// </summary>
+        internal static string SuitableStrictToolkitXNotFound {
+            get {
+                return ResourceManager.GetString("SuitableStrictToolkitXNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No suitable GNU toolkit is found..
         /// </summary>
         internal static string SuitableToolkitNotFound {

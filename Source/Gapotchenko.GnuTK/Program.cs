@@ -45,15 +45,15 @@ static class Program
               gnu-tk --version
 
             Options:
+              -h --help            Show this help.
+              --version            Show version.            
               -c --command         Execute a command using a GNU toolkit.
               -l --command-line    Execute a command line using a GNU toolkit.
               -f --file            Execute a file using a GNU toolkit.
               -t --toolkit=<name>  Use the specified GNU toolkit [default: auto].
               -s --strict          Use a toolkit with strict GNU semantics.
               -q --quiet           Do not print any auxiliary messages.
-              --version            Show version.            
-              -h --help            Show this help.
-                                    
+                                                
             Commands:
               list                 List available GNU toolkits.
               check                Check a GNU toolkit.
