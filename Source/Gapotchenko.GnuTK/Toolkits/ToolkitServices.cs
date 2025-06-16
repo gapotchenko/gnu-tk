@@ -59,11 +59,12 @@ static class ToolkitServices
     /// <summary>
     /// Enumerates portable and installed toolkits.
     /// </summary>
+    /// <param name="families">The sequence of toolkit families to take into consideration.</param>
     /// <param name="paths">The paths to portable toolkits.</param>
     /// <returns>A sequence of discovered toolkits.</returns>
-    public static IEnumerable<IToolkit> EnumerateToolkits(IEnumerable<string> paths)
+    public static IEnumerable<IToolkit> EnumerateToolkits(IEnumerable<IToolkitFamily> families, IEnumerable<string> paths)
     {
-        var families = SupportedToolkitFamilies;
+        families = families.Memoize();
 
         // Portable toolkits are prioritized according to the paths order.
         var portableToolkits = paths.SelectMany(path => families.SelectMany(family => family.EnumerateToolkitsFromDirectory(path)));

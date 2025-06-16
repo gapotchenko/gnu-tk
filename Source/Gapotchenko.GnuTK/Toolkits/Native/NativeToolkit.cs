@@ -16,8 +16,8 @@ sealed class NativeToolkit(NativeToolkitFamily family) : IToolkit
 
     public string Description =>
        family.Traits.HasFlag(ToolkitFamilyTraits.Alike)
-            ? "A native GNU-like system"
-            : "A native GNU system";
+            ? "A native GNU-like system."
+            : "A native GNU system.";
 
     public string? InstallationPath => "/";
 

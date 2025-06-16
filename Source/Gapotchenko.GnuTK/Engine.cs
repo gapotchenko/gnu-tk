@@ -87,7 +87,7 @@ public sealed class Engine
         {
             const int delimiterWidth = 2;
             const int nameColumnWidth = 17 + delimiterWidth;
-            const int descriptionColumnWidth = 23 + delimiterWidth;
+            const int descriptionColumnWidth = 24 + delimiterWidth;
 
             if (!hasToolkits)
             {
@@ -286,5 +286,7 @@ public sealed class Engine
         return true;
     }
 
-    IEnumerable<IToolkit> EnumerateToolkits() => ToolkitServices.EnumerateToolkits(ToolkitPaths);
+    IEnumerable<IToolkit> EnumerateToolkits() => ToolkitServices.EnumerateToolkits(
+        ToolkitServices.SupportedToolkitFamilies,
+        ToolkitPaths);
 }
