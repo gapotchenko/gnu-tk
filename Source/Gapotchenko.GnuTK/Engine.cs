@@ -33,7 +33,14 @@ public sealed class Engine
     public IReadOnlyList<string> ToolkitPaths { get; init; } = [];
 
     /// <summary>
-    /// Gets or initializes a value indicating whether to suppress auxiliary messages.
+    /// Gets or initializes a value indicating whether to
+    /// use a toolkit with strict GNU semantics.
+    /// </summary>
+    public bool Strict { get; init; }
+
+    /// <summary>
+    /// Gets or initializes a value indicating whether to
+    /// suppress auxiliary messages.
     /// </summary>
     public bool Quiet { get; init; }
 
@@ -135,14 +142,25 @@ public sealed class Engine
             Console.ResetColor();
         Console.WriteLine();
 
-        var families = ToolkitServices.SupportedToolkitFamilies;
-        if (families is [])
+        var families = EnumerateToolkitFamilies().Memoize();
+        if (!families.Any())
         {
-            Console.WriteLine(
-                """
-                  - GNU-TK is not aware of any GNU toolkits that can be used on this operating
-                    system
-                """);
+            if (Strict && ToolkitServices.SupportedToolkitFamilies.Any())
+            {
+                Console.WriteLine(
+                    """
+                      - GNU-TK is not aware of any toolkits with strict GNU semantics that can be
+                        used on this operating system
+                    """);
+            }
+            else
+            {
+                Console.WriteLine(
+                    """
+                      - GNU-TK is not aware of any GNU toolkits that can be used on this operating
+                        system
+                    """);
+            }
         }
         else
         {
@@ -217,7 +235,10 @@ public sealed class Engine
             }
             else
             {
-                Console.WriteLine("No available GNU toolkits are found.");
+                if (Strict)
+                    Console.WriteLine("No available toolkits with strict GNU semantics are found.");
+                else
+                    Console.WriteLine("No available GNU toolkits are found.");
 
                 if (!quiet)
                 {
@@ -244,6 +265,7 @@ public sealed class Engine
         Console.WriteLine("Name: {0}", toolkit.Name);
         Console.WriteLine("Description: {0}", toolkit.Description);
         Console.WriteLine("Location: {0}", toolkit.InstallationPath);
+        Console.WriteLine("Semantics: {0}", toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.Alike) ? "GNU-like" : "GNU");
 
         if (!quiet)
             Console.WriteLine();
@@ -287,6 +309,14 @@ public sealed class Engine
     }
 
     IEnumerable<IToolkit> EnumerateToolkits() => ToolkitServices.EnumerateToolkits(
-        ToolkitServices.SupportedToolkitFamilies,
+        EnumerateToolkitFamilies(),
         ToolkitPaths);
+
+    IEnumerable<IToolkitFamily> EnumerateToolkitFamilies()
+    {
+        var families = ToolkitServices.SupportedToolkitFamilies.AsEnumerable();
+        if (Strict)
+            families = families.Where(family => !family.Traits.HasFlag(ToolkitFamilyTraits.Alike));
+        return families;
+    }
 }

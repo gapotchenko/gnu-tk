@@ -37,22 +37,23 @@ static class Program
         string usage =
             """
             Usage:
-              gnu-tk [-t <name>] -c [--] <command> [<argument>...]
-              gnu-tk [-t <name>] -l [--] <argument>...
-              gnu-tk [-t <name>] -f [--] <file> [<argument>...]
-              gnu-tk (list | check [-t <name>]) [-q]
+              gnu-tk [-t <name>] [-s] -c [--] <command> [<argument>...]
+              gnu-tk [-t <name>] [-s] -l [--] <argument>...
+              gnu-tk [-t <name>] [-s] -f [--] <file> [<argument>...]
+              gnu-tk (list | check [-t <name>]) [-s] [-q]
               gnu-tk (-h | --help) [-q]
               gnu-tk --version
 
             Options:
-              -h --help            Show this help.
-              --version            Show version.            
               -c --command         Execute a command using a GNU toolkit.
               -l --command-line    Execute a command line using a GNU toolkit.
               -f --file            Execute a file using a GNU toolkit.
               -t --toolkit=<name>  Use the specified GNU toolkit [default: auto].
+              -s --strict          Use a toolkit with strict GNU semantics.
               -q --quiet           Do not print any auxiliary messages.
-            
+              --version            Show version.            
+              -h --help            Show this help.
+                                    
             Commands:
               list                 List available GNU toolkits.
               check                Check a GNU toolkit.
@@ -219,6 +220,7 @@ static class Program
         {
             ToolkitNames = GetToolkitNames(arguments),
             ToolkitPaths = GetToolkitPaths(),
+            Strict = GetStrict(arguments),
             Quiet = (bool)arguments[ProgramOptions.Quiet]
         };
 
@@ -250,5 +252,18 @@ static class Program
             Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT_PATH")
             ?.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) ??
             [];
+
+        static bool GetStrict(IReadOnlyDictionary<string, object> arguments) =>
+            Empty.Nullify((bool)arguments[ProgramOptions.Strict], false) ??
+            TryParseBool(Environment.GetEnvironmentVariable("GNU_TK_STRICT")) ??
+            false;
+
+        static bool? TryParseBool(string? value) =>
+            value switch
+            {
+                "0" => false,
+                "1" => true,
+                _ => null
+            };
     }
 }

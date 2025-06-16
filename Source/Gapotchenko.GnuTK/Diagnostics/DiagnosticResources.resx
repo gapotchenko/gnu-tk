@@ -117,4 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CannotStartProcessX" xml:space="preserve">
+    <value>'{0}' process cannot be started.</value>
+  </data>
+  <data name="ModuleXNotFound" xml:space="preserve">
+    <value>Cannot find '{0}' module.</value>
+  </data>
+  <data name="SuitableToolkitNotFound" xml:space="preserve">
+    <value>No suitable GNU toolkit is found.</value>
+  </data>
+  <data name="SuitableToolkitXNotFound" xml:space="preserve">
+    <value>No suitable GNU toolkit named {0} is found.</value>
+  </data>
 </root>

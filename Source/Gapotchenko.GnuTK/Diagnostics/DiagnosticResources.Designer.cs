@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Gapotchenko.GnuTK.Properties {
+namespace Gapotchenko.GnuTK.Diagnostics {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Gapotchenko.GnuTK.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class DiagnosticResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal DiagnosticResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Gapotchenko.GnuTK.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Gapotchenko.GnuTK.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Gapotchenko.GnuTK.Diagnostics.DiagnosticResources", typeof(DiagnosticResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,42 @@ namespace Gapotchenko.GnuTK.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; process cannot be started..
+        /// </summary>
+        internal static string CannotStartProcessX {
+            get {
+                return ResourceManager.GetString("CannotStartProcessX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find &apos;{0}&apos; module..
+        /// </summary>
+        internal static string ModuleXNotFound {
+            get {
+                return ResourceManager.GetString("ModuleXNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No suitable GNU toolkit is found..
+        /// </summary>
+        internal static string SuitableToolkitNotFound {
+            get {
+                return ResourceManager.GetString("SuitableToolkitNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No suitable GNU toolkit named {0} is found..
+        /// </summary>
+        internal static string SuitableToolkitXNotFound {
+            get {
+                return ResourceManager.GetString("SuitableToolkitXNotFound", resourceCulture);
             }
         }
     }

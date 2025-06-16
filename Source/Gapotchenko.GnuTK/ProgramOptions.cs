@@ -25,6 +25,7 @@ static class ProgramOptions
     public const string File = "<file>";
 
     public const string Toolkit = "--toolkit";
+    public const string Strict = "--strict";
 
     public const string List = "list";
     public const string Check = "check";
