@@ -6,7 +6,9 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX;
+using Gapotchenko.FX.Console;
 using Gapotchenko.GnuTK.Diagnostics;
+using Gapotchenko.GnuTK.UI;
 using System.Runtime.CompilerServices;
 
 namespace Gapotchenko.GnuTK;
@@ -41,11 +43,10 @@ static class Program
               gnu-tk [-t <name>] [-s] -l [--] <argument>...
               gnu-tk [-t <name>] [-s] -f [--] <file> [<argument>...]
               gnu-tk (list | check [-t <name>]) [-s] [-q]
-              gnu-tk (-h | --help) [-q]
-              gnu-tk --version
+              gnu-tk (--help | --version) [-q]
 
             Options:
-              -h --help            Show this help.
+              --help               Show this help.
               --version            Show version.            
               -c --command         Execute a command using a GNU toolkit.
               -l --command-line    Execute a command line using a GNU toolkit.
@@ -81,7 +82,6 @@ static class Program
         if (n == 0)
             return [ProgramOptions.Help];
 
-        bool windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         var newArgs = new List<string>(n + 1);
 
         var state = ArgsCanonicalizationState.Begin;
@@ -94,8 +94,7 @@ static class Program
                 case ArgsCanonicalizationState.Begin:
                     switch (arg)
                     {
-                        case "-?":
-                        case "/?" when windows:
+                        case "-?" or "/?" when RuntimeInformation.IsOSPlatform(OSPlatform.Windows):
                             arg = ProgramOptions.Help;
                             state = ArgsCanonicalizationState.End;
                             break;
@@ -220,7 +219,7 @@ static class Program
         {
             ToolkitNames = GetToolkitNames(arguments),
             ToolkitPaths = GetToolkitPaths(),
-            Strict = GetStrict(arguments),
+            Strict = (bool)arguments[ProgramOptions.Strict],
             Quiet = (bool)arguments[ProgramOptions.Quiet]
         };
 
@@ -252,18 +251,5 @@ static class Program
             Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT_PATH")
             ?.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) ??
             [];
-
-        static bool GetStrict(IReadOnlyDictionary<string, object> arguments) =>
-            Empty.Nullify((bool)arguments[ProgramOptions.Strict], false) ??
-            TryParseBool(Environment.GetEnvironmentVariable("GNU_TK_STRICT")) ??
-            false;
-
-        static bool? TryParseBool(string? value) =>
-            value switch
-            {
-                "0" => false,
-                "1" => true,
-                _ => null
-            };
     }
 }

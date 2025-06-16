@@ -9,7 +9,7 @@ using Gapotchenko.FX.AppModel;
 using Gapotchenko.FX.Console;
 using Gapotchenko.GnuTK.Diagnostics;
 
-namespace Gapotchenko.GnuTK;
+namespace Gapotchenko.GnuTK.UI;
 
 static class UIShell
 {
@@ -28,7 +28,7 @@ static class UIShell
         }
         else if ((bool)arguments[ProgramOptions.Version])
         {
-            ShowVersion();
+            ShowVersion((bool)arguments[ProgramOptions.Quiet]);
             exitCode = 0;
             return true;
         }
@@ -54,9 +54,19 @@ static class UIShell
         Console.WriteLine("Provides seamless access to GNU toolkits on non-GNU operating systems.");
     }
 
-    static void ShowVersion()
+    static void ShowVersion(bool quiet)
     {
-        Console.Out.WriteLine(GetAppVersion(AppInformation.Current));
+        var appInfo = AppInformation.Current;
+
+        if (!quiet)
+        {
+            Console.Write(appInfo.ProductName);
+            Console.Write(' ');
+            Console.Write("version");
+            Console.Write(' ');
+        }
+
+        Console.Out.WriteLine(GetAppVersion(appInfo));
     }
 
     static ReadOnlySpan<char> GetAppVersion(IAppInformation appInfo)
@@ -70,18 +80,16 @@ static class UIShell
 
     public static void ShowError(Exception exception)
     {
-        bool useColor = ConsoleTraits.IsColorEnabled;
-        if (useColor)
-            Console.ForegroundColor = ConsoleColor.Red;
         var writer = Console.Error;
-        writer.Write("Error");
+        using (UIStyles.Scope.Error(writer))
+        {
+            writer.Write("Error");
 
-        int? errorCode = (int?)(exception as DiagnosticException)?.Code;
-        writer.Write(Invariant($": GNUTK{errorCode:D4}: "));
+            int? errorCode = (int?)(exception as DiagnosticException)?.Code;
+            writer.Write(Invariant($": GNUTK{errorCode:D4}: "));
 
-        writer.Write(exception.Message);
-        if (useColor)
-            Console.ResetColor();
+            writer.Write(exception.Message);
+        }
         writer.WriteLine();
     }
 }

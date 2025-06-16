@@ -10,6 +10,7 @@ using Gapotchenko.FX.Linq;
 using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Hosting;
 using Gapotchenko.GnuTK.Toolkits;
+using Gapotchenko.GnuTK.UI;
 
 namespace Gapotchenko.GnuTK;
 
@@ -86,7 +87,6 @@ public sealed class Engine
     public void ListToolkits()
     {
         bool quiet = Quiet;
-        bool useColor = !quiet && ConsoleTraits.IsColorEnabled;
 
         bool hasToolkits = false;
 
@@ -100,11 +100,8 @@ public sealed class Engine
             {
                 if (!quiet)
                 {
-                    if (useColor)
-                        Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write("Available GNU Toolkits");
-                    if (useColor)
-                        Console.ResetColor();
+                    using (UIStyles.Scope.Title(Console.Out))
+                        Console.Write("Available GNU Toolkits");
                     Console.WriteLine();
 
                     Console.WriteLine();
@@ -135,11 +132,8 @@ public sealed class Engine
 
         Console.WriteLine();
 
-        if (useColor)
-            Console.ForegroundColor = ConsoleColor.White;
-        Console.Write("Tips:");
-        if (useColor)
-            Console.ResetColor();
+        using (UIStyles.Scope.Title(Console.Out))
+            Console.Write("Tips:");
         Console.WriteLine();
 
         var families = EnumerateToolkitFamilies().Memoize();
@@ -226,10 +220,14 @@ public sealed class Engine
             if (toolkits.Any() ||
                 Strict && EnumerateToolkits(ToolkitServices.SupportedToolkitFamilies).Any())
             {
-                if (Strict)
-                    Console.WriteLine(DiagnosticMessages.SuitableStrictToolkitNotFound(names));
-                else
-                    Console.WriteLine(DiagnosticMessages.SuitableToolkitNotFound(names));
+                using (UIStyles.Scope.Error(Console.Out))
+                {
+                    if (Strict)
+                        Console.Write(DiagnosticMessages.SuitableStrictToolkitNotFound(names));
+                    else
+                        Console.Write(DiagnosticMessages.SuitableToolkitNotFound(names));
+                }
+                Console.WriteLine();
 
                 if (!quiet)
                 {
@@ -239,7 +237,9 @@ public sealed class Engine
             }
             else
             {
-                Console.WriteLine("No available GNU toolkits are found.");
+                using (UIStyles.Scope.Error(Console.Out))
+                    Console.Write("No available GNU toolkits are found.");
+                Console.WriteLine();
 
                 if (!quiet)
                 {
@@ -250,15 +250,10 @@ public sealed class Engine
             return false;
         }
 
-        bool useColor = !quiet && ConsoleTraits.IsColorEnabled;
-
         if (!quiet)
         {
-            if (useColor)
-                Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("GNU Toolkit Check");
-            if (useColor)
-                Console.ResetColor();
+            using (UIStyles.Scope.Title(Console.Out))
+                Console.Write("GNU Toolkit Check");
             Console.WriteLine();
             Console.WriteLine();
         }
@@ -271,22 +266,16 @@ public sealed class Engine
         if (!quiet)
             Console.WriteLine();
         Console.Write("Check status: ");
-        if (useColor)
-            Console.ForegroundColor = ConsoleColor.Green;
-        Console.Write("PASS");
-        if (useColor)
-            Console.ResetColor();
+        using (UIStyles.Scope.Success(Console.Out))
+            Console.Write("PASS");
         Console.WriteLine();
 
         if (!quiet)
         {
             Console.WriteLine();
 
-            if (useColor)
-                Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("Tips:");
-            if (useColor)
-                Console.ResetColor();
+            using (UIStyles.Scope.Title(Console.Out))
+                Console.Write("Tips:");
             Console.WriteLine();
 
             Console.WriteLine(
