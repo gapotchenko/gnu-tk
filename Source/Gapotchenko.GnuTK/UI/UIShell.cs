@@ -5,8 +5,8 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
+using Gapotchenko.FX;
 using Gapotchenko.FX.AppModel;
-using Gapotchenko.FX.Console;
 using Gapotchenko.GnuTK.Diagnostics;
 
 namespace Gapotchenko.GnuTK.UI;
@@ -88,7 +88,19 @@ static class UIShell
             int? errorCode = (int?)(exception as DiagnosticException)?.Code;
             writer.Write(Invariant($": GNUTK{errorCode:D4}: "));
 
-            writer.Write(exception.Message);
+            if (exception is InternalException or not ProductException)
+                writer.Write("Internal error: ");
+
+            bool hasParent = false;
+            foreach (var i in exception.SelfAndInnerExceptions())
+            {
+                if (hasParent)
+                    writer.Write(" --> ");
+                else
+                    hasParent = true;
+
+                writer.Write(i.Message);
+            }
         }
         writer.WriteLine();
     }

@@ -6,8 +6,9 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX;
-using Gapotchenko.FX.Console;
+using Gapotchenko.FX.Diagnostics;
 using Gapotchenko.GnuTK.Diagnostics;
+using Gapotchenko.GnuTK.IO;
 using Gapotchenko.GnuTK.UI;
 using System.Runtime.CompilerServices;
 
@@ -141,73 +142,10 @@ static class Program
         // Initialize a GNU-TK engine.
         var engine = InitializeEngine(arguments);
 
-        // Handle the program options.
-        // Most frequently used options are handled first.
+        if (RunEngine(engine, arguments, out int exitCode))
+            return exitCode;
 
-        // '-c' command-line option.
-        if ((bool)arguments[ProgramOptions.ExecuteCommand])
-        {
-            string command = (string)arguments[ProgramOptions.Command];
-            var commandArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
-            return engine.ExecuteCommand(command, commandArguments);
-        }
-
-        // '-l' command-line option.
-        if ((bool)arguments[ProgramOptions.ExecuteCommandLine])
-        {
-            var commandLine = Environment.CommandLine.AsSpan();
-
-            // A bit of magic.
-            // In Windows OS, the native representation of a command line is a string.
-            // Take a benefit of that fact by extracting the command-line information directly.
-
-            // Find the start of a specified command line.
-            const string key1 = $" {ProgramOptions.Shorthands.ExecuteCommandLine} ";
-            int j = commandLine.IndexOf(key1, StringComparison.Ordinal);
-            if (j != -1)
-            {
-                j += key1.Length;
-            }
-            else
-            {
-                const string key2 = $" {ProgramOptions.ExecuteCommandLine} ";
-                j = commandLine.IndexOf(key2, StringComparison.Ordinal);
-                if (j != -1)
-                    j += key2.Length;
-            }
-            if (j == -1)
-                throw new ProductException("Cannot find a command line start position.");
-            var command = commandLine[j..];
-
-            // Remove an optional delimiter for positional arguments.
-            const string positionalDelimiter = "-- ";
-            if (command.StartsWith(positionalDelimiter, StringComparison.Ordinal))
-                command = command[positionalDelimiter.Length..];
-
-            return engine.ExecuteCommand(command.ToString(), []);
-        }
-
-        // '-f' command-line option.
-        if ((bool)arguments[ProgramOptions.ExecuteFile])
-        {
-            string filePath = (string)arguments[ProgramOptions.File];
-            var fileArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
-            return engine.ExecuteFile(filePath, fileArguments);
-        }
-
-        // 'check' command.
-        if ((bool)arguments[ProgramOptions.Check])
-            return engine.CheckToolkit() ? 0 : 1;
-
-        // 'list' command.
-        if ((bool)arguments[ProgramOptions.List])
-        {
-            engine.ListToolkits();
-            return 0;
-        }
-
-        CliServices.DumpArguments(arguments);
-        return 1;
+        throw new InternalException("Unhandled command-line arguments.");
     }
 
     /// <summary>
@@ -251,5 +189,120 @@ static class Program
             Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT_PATH")
             ?.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) ??
             [];
+    }
+
+    static bool RunEngine(Engine engine, IReadOnlyDictionary<string, object> arguments, out int exitCode)
+    {
+        // Most frequently used options are handled first.
+
+        // '-c' command-line option.
+        if ((bool)arguments[ProgramOptions.ExecuteCommand])
+        {
+            string command = (string)arguments[ProgramOptions.Command];
+            var commandArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
+            exitCode = engine.ExecuteCommand(command, commandArguments);
+            return true;
+        }
+
+        // '-l' command-line option.
+        if ((bool)arguments[ProgramOptions.ExecuteCommandLine])
+        {
+            // In Windows OS, the native representation of a command line is a string.
+            // Take a benefit of that fact by extracting command information directly.
+            // Otherwise, it would be necessary to reconstruct it and this could lead to imprecisions.
+            var command = ExtractCommand(Environment.CommandLine);
+            exitCode = engine.ExecuteCommand(command.ToString(), []);
+            return true;
+        }
+
+        // '-f' command-line option.
+        if ((bool)arguments[ProgramOptions.ExecuteFile])
+        {
+            string filePath = (string)arguments[ProgramOptions.File];
+            var fileArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
+            exitCode = engine.ExecuteFile(filePath, fileArguments);
+            return true;
+        }
+
+        // 'check' command.
+        if ((bool)arguments[ProgramOptions.Check])
+        {
+            exitCode = engine.CheckToolkit() ? 0 : 1;
+            return true;
+        }
+
+        // 'list' command.
+        if ((bool)arguments[ProgramOptions.List])
+        {
+            engine.ListToolkits();
+            exitCode = 0;
+            return true;
+        }
+
+        exitCode = default;
+        return false;
+    }
+
+    /// <summary>
+    /// Extracts a command from a command line.
+    /// </summary>
+    static ReadOnlySpan<char> ExtractCommand(string commandLine)
+    {
+        var reader = new PositionTrackingTextReader(new StringReader(commandLine));
+        using var enumerator = CommandLine.Split(reader).GetEnumerator();
+
+        var state = CommandExtractionState.SkipArgument; // skip the name of executable
+        int j = -1;
+
+        // Interpret command-line arguments using a state machine.
+        while (enumerator.MoveNext())
+        {
+            switch (state)
+            {
+                case CommandExtractionState.InterpretOption:
+                    switch (enumerator.Current)
+                    {
+                        case ProgramOptions.Strict or ProgramOptions.Shorthands.Strict:
+                            break;
+
+                        case ProgramOptions.Toolkit or ProgramOptions.Shorthands.Toolkit:
+                            state = CommandExtractionState.SkipArgument;
+                            break;
+
+                        case ProgramOptions.ExecuteCommand or ProgramOptions.Shorthands.ExecuteCommand:
+                            return enumerator.Current;
+
+                        case ProgramOptions.ExecuteCommandLine or ProgramOptions.Shorthands.ExecuteCommandLine:
+                            j = (int)reader.Position;
+                            state = CommandExtractionState.CaptureCommandLine;
+                            break;
+
+                        case var option:
+                            throw new InternalException(string.Format("Cannot interpret command-line option '{0}'.", option));
+                    }
+                    break;
+
+                case CommandExtractionState.SkipArgument:
+                    // Start interpreting command-line arguments.
+                    state = CommandExtractionState.InterpretOption;
+                    break;
+
+                case CommandExtractionState.CaptureCommandLine:
+                    Debug.Assert(j != -1);
+                    // Remove an optional delimiter of positional arguments.
+                    if (enumerator.Current == "--")
+                        j = (int)reader.Position;
+                    return commandLine.AsSpan(j);
+            }
+        }
+
+        throw new InternalException("Cannot extract a command from the command line.");
+    }
+
+    enum CommandExtractionState
+    {
+        InterpretOption,
+        SkipArgument,
+        CaptureCommandLine
     }
 }

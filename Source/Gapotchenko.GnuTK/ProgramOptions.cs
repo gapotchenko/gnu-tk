@@ -35,5 +35,8 @@ static class ProgramOptions
         public const string ExecuteCommand = "-c";
         public const string ExecuteCommandLine = "-l";
         public const string ExecuteFile = "-f";
+
+        public const string Toolkit = "-t";
+        public const string Strict = "-s";
     }
 }
