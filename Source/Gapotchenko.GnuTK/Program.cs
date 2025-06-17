@@ -7,8 +7,8 @@
 
 using Gapotchenko.FX;
 using Gapotchenko.FX.Diagnostics;
+using Gapotchenko.FX.IO;
 using Gapotchenko.GnuTK.Diagnostics;
-using Gapotchenko.GnuTK.IO;
 using Gapotchenko.GnuTK.UI;
 using System.Runtime.CompilerServices;
 
@@ -209,7 +209,7 @@ static class Program
         {
             // In Windows OS, the native representation of a command line is a string.
             // Take a benefit of that fact by extracting command information directly.
-            // Otherwise, it would be necessary to reconstruct it and this could lead to imprecisions.
+            // Otherwise, it would be necessary to reconstruct it and this can lead to imprecisions.
             var command = ExtractCommand(Environment.CommandLine);
             exitCode = engine.ExecuteCommand(command.ToString(), []);
             return true;
@@ -244,7 +244,7 @@ static class Program
     }
 
     /// <summary>
-    /// Extracts a command from a command line.
+    /// Extracts a command from the specified command line.
     /// </summary>
     static ReadOnlySpan<char> ExtractCommand(string commandLine)
     {
@@ -269,9 +269,6 @@ static class Program
                             state = CommandExtractionState.SkipArgument;
                             break;
 
-                        case ProgramOptions.ExecuteCommand or ProgramOptions.Shorthands.ExecuteCommand:
-                            return enumerator.Current;
-
                         case ProgramOptions.ExecuteCommandLine or ProgramOptions.Shorthands.ExecuteCommandLine:
                             j = (int)reader.Position;
                             state = CommandExtractionState.CaptureCommandLine;
@@ -289,7 +286,7 @@ static class Program
 
                 case CommandExtractionState.CaptureCommandLine:
                     Debug.Assert(j != -1);
-                    // Remove an optional delimiter of positional arguments.
+                    // Skip an optional delimiter of positional arguments.
                     if (enumerator.Current == "--")
                         j = (int)reader.Position;
                     return commandLine.AsSpan(j);
