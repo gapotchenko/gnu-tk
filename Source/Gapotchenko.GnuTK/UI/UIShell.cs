@@ -23,25 +23,24 @@ static class UIShell
                 Console.WriteLine();
             }
             Console.WriteLine(usage.Replace(" [--] ", " "));
-            exitCode = 1;
+            exitCode = Environment.GetCommandLineArgs() is [] ? 1 : 0;
             return true;
         }
-        else if ((bool)arguments[ProgramOptions.Version])
+
+        if ((bool)arguments[ProgramOptions.Version])
         {
             ShowVersion((bool)arguments[ProgramOptions.Quiet]);
             exitCode = 0;
             return true;
         }
-        else
-        {
-            exitCode = default;
-            return false;
-        }
+
+        exitCode = default;
+        return false;
     }
 
     static void ShowLogo()
     {
-        var appInfo = AppInformation.Current;
+        var appInfo = GetAppInfo();
 
         Console.Write(appInfo.ProductName);
         Console.Write(' ');
@@ -56,7 +55,7 @@ static class UIShell
 
     static void ShowVersion(bool quiet)
     {
-        var appInfo = AppInformation.Current;
+        var appInfo = GetAppInfo();
 
         if (!quiet)
         {
@@ -77,6 +76,8 @@ static class UIShell
             version = version[..j];
         return version;
     }
+
+    static IAppInformation GetAppInfo() => AppInformation.Current;
 
     public static void ShowError(Exception exception)
     {
