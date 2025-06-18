@@ -12,5 +12,8 @@ namespace Gapotchenko.GnuTK.Toolkits;
 /// </summary>
 interface IToolkitEnvironment : IToolkit
 {
+    /// <summary>
+    /// Gets the toolkit environment.
+    /// </summary>
     IReadOnlyDictionary<string, string?>? Environment { get; }
 }

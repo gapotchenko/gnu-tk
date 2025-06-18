@@ -17,7 +17,7 @@ sealed class MultiplexToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<
     IToolkitEnvironment
 {
     public string Name => string.Join(
-        '+',
+        ',',
         GetUnderlyingToolkits().Select(toolkit => toolkit.Name));
 
     public string Description => string.Format(
@@ -45,16 +45,17 @@ sealed class MultiplexToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<
     }
 
     IReadOnlyDictionary<string, string?>? GetCombinedEnvironment(IReadOnlyDictionary<string, string?>? environment) =>
-        ToolkitKit.CombineEnvironments(
-            m_ToolkitEnvironments
-            .Select(x => x.Environment)
-            .Aggregate(ToolkitKit.CombineEnvironments),
-            environment);
+        m_ToolkitEnvironments
+        .Select(x => x.Environment)
+        .Reverse()
+        .Append(environment)
+        .Aggregate(ToolkitKit.CombineEnvironments);
 
     public IReadOnlyDictionary<string, string?>? Environment =>
         GetUnderlyingToolkits()
         .OfType<IToolkitEnvironment>()
         .Select(x => x.Environment)
+        .Reverse()
         .Aggregate(ToolkitKit.CombineEnvironments);
 
     public IToolkitFamily Family => this;
