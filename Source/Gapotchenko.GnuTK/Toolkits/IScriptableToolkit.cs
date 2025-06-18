@@ -10,7 +10,7 @@ namespace Gapotchenko.GnuTK.Toolkits;
 /// <summary>
 /// Represents a GNU toolkit that can execute scripts.
 /// </summary>
-interface IExecutingToolkit : IToolkit
+interface IScriptableToolkit : IToolkit
 {
     /// <summary>
     /// Executes the specified command.

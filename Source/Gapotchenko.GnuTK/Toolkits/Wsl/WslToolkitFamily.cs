@@ -21,7 +21,7 @@ sealed class WslToolkitFamily : IToolkitFamily
 
     public string Name => "WSL";
 
-    public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable;
+    public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Isolated;
 
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>
         WslDeployment.EnumerateSetupInstances(ValueInterval.FromInclusive(new Version(2, 0)))

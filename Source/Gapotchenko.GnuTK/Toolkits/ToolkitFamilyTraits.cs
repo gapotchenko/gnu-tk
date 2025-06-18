@@ -43,5 +43,10 @@ enum ToolkitFamilyTraits
     /// <remarks>
     /// The trait allows to differentiate between GNU and GNU-like toolkit families.
     /// </remarks>
-    Alike = 1 << 2
+    Alike = 1 << 2,
+
+    /// <summary>
+    /// Indicates that a toolkit works in a virtual machine or container.
+    /// </summary>
+    Isolated = 1 << 3
 }

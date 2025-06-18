@@ -21,7 +21,7 @@ namespace Gapotchenko.GnuTK.Toolkits;
 static class ToolkitServices
 {
     /// <summary>
-    /// Selects the specified toolkits according to the the specified names.
+    /// Selects toolkits according to the the specified names.
     /// </summary>
     /// <param name="toolkits">The sequence of toolkits to select from.</param>
     /// <param name="names">
@@ -31,26 +31,42 @@ static class ToolkitServices
     /// <returns>The selected toolkits.</returns>
     public static IEnumerable<IToolkit> SelectToolkits(IEnumerable<IToolkit> toolkits, IEnumerable<string>? names)
     {
+        // Step 1. If no specific names are specified, return all toolkits
         if (names is null)
             return toolkits;
 
         toolkits = toolkits.Memoize();
-        IOrderedEnumerable<IToolkit>? selectedToolkits = null;
-        const StringComparison sc = StringComparison.OrdinalIgnoreCase;
 
+        // Step 2. Select toolkits by names
+        List<IToolkit>? selectedToolkits = null;
+        const StringComparison sc = StringComparison.OrdinalIgnoreCase;
         foreach (string name in names)
         {
             if (name.Equals("auto", sc))
                 return selectedToolkits?.Union(toolkits) ?? toolkits;
 
-            selectedToolkits = selectedToolkits is null
-                ? toolkits.OrderByDescending(GetOrderingKey)
-                : selectedToolkits.ThenByDescending(GetOrderingKey);
+            var selectedToolkit =
+                toolkits.FirstOrDefault(toolkit => toolkit.Name.Equals(name, sc)) ?? // find by a precise toolkit name
+                toolkits.FirstOrDefault(toolkit => toolkit.Family.Name.Equals(name, sc)); // otherwise, fallback to a toolkit family name
 
-            bool GetOrderingKey(IToolkit toolkit) => toolkit.Name.Equals(name, sc);
+            if (selectedToolkit is not null)
+                (selectedToolkits ??= []).Add(selectedToolkit);
         }
 
-        return selectedToolkits ?? toolkits;
+        // Step 3. To use a toolkit environment, at least one non-isolated scriptable toolkit is needed
+        if (selectedToolkits != null && // if selected toolkits
+            !selectedToolkits.OfType<IScriptableToolkit>().Any() && // have no scriptable toolkits
+            selectedToolkits.OfType<IToolkitEnvironment>().Any()) // but have a toolkit environment
+        {
+            var scriptableToolkit = toolkits
+                .OfType<IScriptableToolkit>()
+                .FirstOrDefault(toolkit => (toolkit.Family.Traits & ToolkitFamilyTraits.Isolated) == 0);
+
+            if (scriptableToolkit != null)
+                selectedToolkits.Add(scriptableToolkit);
+        }
+
+        return selectedToolkits ?? Enumerable.Empty<IToolkit>();
     }
 
     /// <summary>

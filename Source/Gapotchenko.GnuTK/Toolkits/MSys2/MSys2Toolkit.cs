@@ -11,7 +11,7 @@ using Gapotchenko.Shields.MSys2.Deployment;
 
 namespace Gapotchenko.GnuTK.Toolkits.MSys2;
 
-sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment environment) : IExecutingToolkit
+sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment environment) : IScriptableToolkit
 {
     public string Name => field ??= $"{family.Name}-{environment.Name}".ToLowerInvariant();
 

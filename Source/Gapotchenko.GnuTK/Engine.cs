@@ -70,7 +70,7 @@ public sealed class Engine
         return toolkit.ExecuteFile(path, arguments);
     }
 
-    IExecutingToolkit GetToolkit()
+    IScriptableToolkit GetToolkit()
     {
         var names = ToolkitNames;
         return
@@ -297,9 +297,9 @@ public sealed class Engine
         return true;
     }
 
-    static IExecutingToolkit? TryGetToolkit(IEnumerable<IToolkit> toolkits, IEnumerable<string>? names) =>
+    static IScriptableToolkit? TryGetToolkit(IEnumerable<IToolkit> toolkits, IEnumerable<string>? names) =>
         ToolkitServices.SelectToolkits(toolkits, names)
-        .OfType<IExecutingToolkit>()
+        .OfType<IScriptableToolkit>()
         .FirstOrDefault();
 
     IEnumerable<IToolkit> EnumerateToolkits() => EnumerateToolkits(EnumerateToolkitFamilies());

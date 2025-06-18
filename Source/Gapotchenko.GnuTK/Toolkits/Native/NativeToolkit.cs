@@ -10,7 +10,7 @@ using Gapotchenko.GnuTK.Diagnostics;
 
 namespace Gapotchenko.GnuTK.Toolkits.Native;
 
-sealed class NativeToolkit(NativeToolkitFamily family) : IExecutingToolkit
+sealed class NativeToolkit(NativeToolkitFamily family) : IScriptableToolkit
 {
     public string Name => "native";
 
