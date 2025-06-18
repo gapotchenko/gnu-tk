@@ -9,7 +9,6 @@ using DocoptNet;
 using Gapotchenko.FX.Console;
 using Gapotchenko.FX.Text;
 using System.Collections;
-using System.Text;
 
 namespace Gapotchenko.GnuTK;
 

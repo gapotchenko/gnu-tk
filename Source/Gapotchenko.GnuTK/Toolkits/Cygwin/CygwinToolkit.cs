@@ -6,12 +6,13 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.Collections.Generic;
+using Gapotchenko.FX.IO;
 using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.Shields.Cygwin.Deployment;
 
 namespace Gapotchenko.GnuTK.Toolkits.Cygwin;
 
-sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setupInstance) : IScriptableToolkit
+sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setupInstance) : IScriptableToolkit, IToolkitEnvironment
 {
     public string Name => "cygwin";
 
@@ -21,12 +22,12 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
 
     public IToolkitFamily Family => family;
 
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments)
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
     {
-        return ExecuteCommand("sh \"$0\" \"$@\"", [path, .. arguments]);
+        return ExecuteCommand("sh \"$0\" \"$@\"", [path, .. arguments], environment);
     }
 
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments)
+    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
     {
         string shellPath = GetShellPath();
 
@@ -34,6 +35,9 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         {
             FileName = shellPath
         };
+
+        if (environment != null)
+            ToolkitKit.CombineEnvironmentWith(psi.Environment, environment);
 
         var args = psi.ArgumentList;
         args.Add("-l");
@@ -54,5 +58,18 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         if (!File.Exists(shellPath))
             throw new ProductException(DiagnosticMessages.ModuleNotFound(shellPath));
         return shellPath;
+    }
+
+    public IReadOnlyDictionary<string, string?> Environment => field ??= GetEnvironmentCore();
+
+    IReadOnlyDictionary<string, string?> GetEnvironmentCore()
+    {
+        var environment = ToolkitKit.CreateEnvironment();
+
+        string binPath = setupInstance.ResolvePath("bin");
+        if (Directory.Exists(binPath))
+            environment["PATH"] = binPath;
+
+        return environment;
     }
 }

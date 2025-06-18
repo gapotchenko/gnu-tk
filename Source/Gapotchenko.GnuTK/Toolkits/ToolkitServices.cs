@@ -10,6 +10,7 @@ using Gapotchenko.FX.Linq;
 using Gapotchenko.FX.Tuples;
 using Gapotchenko.GnuTK.Toolkits.Cygwin;
 using Gapotchenko.GnuTK.Toolkits.MSys2;
+using Gapotchenko.GnuTK.Toolkits.Multiplex;
 using Gapotchenko.GnuTK.Toolkits.Native;
 using Gapotchenko.GnuTK.Toolkits.Wsl;
 
@@ -20,6 +21,41 @@ namespace Gapotchenko.GnuTK.Toolkits;
 /// </summary>
 static class ToolkitServices
 {
+    /// <summary>
+    /// Tries to get a scriptable toolkit.
+    /// </summary>
+    /// <param name="toolkits">The sequence of toolkits to get a scriptable toolkit from.</param>
+    /// <returns>
+    /// The scriptable toolkit
+    /// or <see langword="null"/> if it cannot be obtained.
+    /// </returns>
+    public static IScriptableToolkit? TryGetScriptableToolkit(IEnumerable<IToolkit> toolkits)
+    {
+        IScriptableToolkit? scriptableToolkit = null;
+        List<IToolkitEnvironment>? toolkitEnvironments = null;
+
+        foreach (var toolkit in toolkits)
+        {
+            if (toolkit is IScriptableToolkit scriptableToolkitCandidate &&
+                (toolkitEnvironments == null || !scriptableToolkitCandidate.Family.Traits.HasFlag(ToolkitFamilyTraits.Isolated)))
+            {
+                scriptableToolkit = scriptableToolkitCandidate;
+                break;
+            }
+
+            if (toolkit is IToolkitEnvironment toolkitEnvironment &&
+                !toolkitEnvironment.Family.Traits.HasFlag(ToolkitFamilyTraits.Isolated))
+            {
+                (toolkitEnvironments ??= []).Add(toolkitEnvironment);
+            }
+        }
+
+        if (scriptableToolkit is null || toolkitEnvironments is null)
+            return scriptableToolkit;
+
+        return new MultiplexToolkit(scriptableToolkit, toolkitEnvironments);
+    }
+
     /// <summary>
     /// Selects toolkits according to the the specified names.
     /// </summary>

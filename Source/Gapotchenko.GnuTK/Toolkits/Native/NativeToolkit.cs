@@ -23,7 +23,7 @@ sealed class NativeToolkit(NativeToolkitFamily family) : IScriptableToolkit
 
     public IToolkitFamily Family => family;
 
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments)
+    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
     {
         string envPath = GetEnvPath();
 
@@ -31,6 +31,9 @@ sealed class NativeToolkit(NativeToolkitFamily family) : IScriptableToolkit
         {
             FileName = envPath
         };
+
+        if (environment != null)
+            ToolkitKit.CombineEnvironmentWith(psi.Environment, environment);
 
         var args = psi.ArgumentList;
         args.Add("sh");
@@ -41,7 +44,7 @@ sealed class NativeToolkit(NativeToolkitFamily family) : IScriptableToolkit
         return ToolkitKit.ExecuteProcess(psi);
     }
 
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments)
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
     {
         string envPath = GetEnvPath();
 
@@ -49,6 +52,9 @@ sealed class NativeToolkit(NativeToolkitFamily family) : IScriptableToolkit
         {
             FileName = envPath
         };
+
+        if (environment != null)
+            ToolkitKit.CombineEnvironmentWith(psi.Environment, environment);
 
         var args = psi.ArgumentList;
         args.Add("sh");

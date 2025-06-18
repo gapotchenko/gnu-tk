@@ -53,7 +53,7 @@ public sealed class Engine
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments)
     {
         var toolkit = GetToolkit();
-        return toolkit.ExecuteCommand(command, arguments);
+        return toolkit.ExecuteCommand(command, arguments, null);
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public sealed class Engine
         var toolkit = GetToolkit();
         if (path == "-")
             path = "/dev/stdin";
-        return toolkit.ExecuteFile(path, arguments);
+        return toolkit.ExecuteFile(path, arguments, null);
     }
 
     IScriptableToolkit GetToolkit()
@@ -298,9 +298,7 @@ public sealed class Engine
     }
 
     static IScriptableToolkit? TryGetToolkit(IEnumerable<IToolkit> toolkits, IEnumerable<string>? names) =>
-        ToolkitServices.SelectToolkits(toolkits, names)
-        .OfType<IScriptableToolkit>()
-        .FirstOrDefault();
+        ToolkitServices.TryGetScriptableToolkit(ToolkitServices.SelectToolkits(toolkits, names));
 
     IEnumerable<IToolkit> EnumerateToolkits() => EnumerateToolkits(EnumerateToolkitFamilies());
 
