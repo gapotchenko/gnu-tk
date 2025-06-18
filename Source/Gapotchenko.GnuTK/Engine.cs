@@ -70,11 +70,11 @@ public sealed class Engine
         return toolkit.ExecuteFile(path, arguments);
     }
 
-    IToolkit GetToolkit()
+    IExecutingToolkit GetToolkit()
     {
         var names = ToolkitNames;
         return
-            ToolkitServices.TrySelectToolkit(EnumerateToolkits(), names) ??
+            TryGetToolkit(EnumerateToolkits(), names) ??
             throw new DiagnosticException(
                 DiagnosticMessages.SuitableToolkitNotFound(names),
                 DiagnosticCode.SuitableToolkitNotFound);
@@ -212,7 +212,7 @@ public sealed class Engine
 
         var toolkits = EnumerateToolkits().Memoize();
         var names = ToolkitNames;
-        var toolkit = ToolkitServices.TrySelectToolkit(toolkits, names);
+        var toolkit = TryGetToolkit(toolkits, names);
 
         if (toolkit is null)
         {
@@ -296,6 +296,11 @@ public sealed class Engine
 
         return true;
     }
+
+    static IExecutingToolkit? TryGetToolkit(IEnumerable<IToolkit> toolkits, IEnumerable<string>? names) =>
+        ToolkitServices.SelectToolkits(toolkits, names)
+        .OfType<IExecutingToolkit>()
+        .FirstOrDefault();
 
     IEnumerable<IToolkit> EnumerateToolkits() => EnumerateToolkits(EnumerateToolkitFamilies());
 

@@ -11,7 +11,7 @@ using Gapotchenko.Shields.Cygwin.Deployment;
 
 namespace Gapotchenko.GnuTK.Toolkits.Cygwin;
 
-sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setupInstance) : IToolkit
+sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setupInstance) : IExecutingToolkit
 {
     public string Name => "cygwin";
 

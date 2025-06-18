@@ -13,7 +13,7 @@ using Gapotchenko.Shields.Microsoft.Wsl.Deployment;
 namespace Gapotchenko.GnuTK.Toolkits.Wsl;
 
 [SupportedOSPlatform("windows")]
-sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance) : IToolkit
+sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance) : IExecutingToolkit
 {
     public string Name => "wsl";
 

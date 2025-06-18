@@ -21,39 +21,36 @@ namespace Gapotchenko.GnuTK.Toolkits;
 static class ToolkitServices
 {
     /// <summary>
-    /// Tries to select a toolkit by the specified names.
+    /// Selects the specified toolkits according to the the specified names.
     /// </summary>
     /// <param name="toolkits">The sequence of toolkits to select from.</param>
     /// <param name="names">
     /// The names of selectable toolkits,
     /// or <see langword="null"/> to select a toolkit automatically.
     /// </param>
-    /// <returns>
-    /// The selected toolkit
-    /// or <see langword="null"/> if it cannot be selected.
-    /// </returns>
-    public static IToolkit? TrySelectToolkit(IEnumerable<IToolkit> toolkits, IEnumerable<string>? names)
+    /// <returns>The selected toolkits.</returns>
+    public static IEnumerable<IToolkit> SelectToolkits(IEnumerable<IToolkit> toolkits, IEnumerable<string>? names)
     {
         if (names is null)
-            return toolkits.FirstOrDefault();
+            return toolkits;
 
-        const StringComparison sc = StringComparison.OrdinalIgnoreCase;
         toolkits = toolkits.Memoize();
+        IOrderedEnumerable<IToolkit>? selectedToolkits = null;
+        const StringComparison sc = StringComparison.OrdinalIgnoreCase;
 
         foreach (string name in names)
         {
             if (name.Equals("auto", sc))
-                return toolkits.FirstOrDefault();
+                return selectedToolkits?.Union(toolkits) ?? toolkits;
 
-            var selectedToolkit =
-                toolkits.FirstOrDefault(toolkit => toolkit.Name.Equals(name, sc)) ?? // find by a precise toolkit name
-                toolkits.FirstOrDefault(toolkit => toolkit.Family.Name.Equals(name, sc)); // otherwise, fallback to a toolkit family name
+            selectedToolkits = selectedToolkits is null
+                ? toolkits.OrderByDescending(GetOrderingKey)
+                : selectedToolkits.ThenByDescending(GetOrderingKey);
 
-            if (selectedToolkit != null)
-                return selectedToolkit;
+            bool GetOrderingKey(IToolkit toolkit) => toolkit.Name.Equals(name, sc);
         }
 
-        return null;
+        return selectedToolkits ?? toolkits;
     }
 
     /// <summary>
