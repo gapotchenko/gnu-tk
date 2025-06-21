@@ -14,7 +14,8 @@ static class UIStyles
     public readonly struct Scope : IDisposable
     {
         public static Scope Title(TextWriter textWriter) =>
-            RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ||
+            RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
                 ? new(textWriter, bold: true)
                 : new(textWriter, foregroundColor: ConsoleColor.White);
 

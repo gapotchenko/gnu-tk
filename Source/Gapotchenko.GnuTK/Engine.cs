@@ -267,7 +267,7 @@ public sealed class Engine
         Console.Write("Check status: ");
         using (UIStyles.Scope.Success(Console.Out))
         {
-            if (!quiet && RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            if (!quiet && (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux)))
                 Console.Write("✔ ");
             Console.Write("PASS");
         }
