@@ -9,6 +9,13 @@ using Gapotchenko.Shields.MSys2.Deployment;
 
 namespace Gapotchenko.GnuTK.Toolkits.MSys2;
 
+/// <summary>
+/// Describes a family of GNU toolkits provided by MSYS2
+/// software distribution and building platform for Microsoft Windows.
+/// </summary>
+/// <remarks>
+/// More information: <seealso href="https://www.msys2.org/"/>
+/// </remarks>
 sealed class MSys2ToolkitFamily : IToolkitFamily
 {
     public static IToolkitFamily Instance { get; } = new MSys2ToolkitFamily();

@@ -5,28 +5,42 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
-namespace Gapotchenko.GnuTK.Toolkits.Multiplex;
+namespace Gapotchenko.GnuTK.Toolkits;
 
 /// <summary>
 /// Represents a GNU toolkit consisting of multiple underlying toolkits.
 /// </summary>
 sealed class MultiplexToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<IToolkitEnvironment> toolkitEnvironments) :
-    IToolkit,
-    IToolkitFamily,
     IScriptableToolkit,
     IToolkitEnvironment
 {
-    public string Name => string.Join(
-        ',',
-        GetUnderlyingToolkits().Select(toolkit => toolkit.Name));
+    public string Name
+    {
+        get =>
+            field ??=
+            string.Join(
+                ',',
+                GetUnderlyingToolkits().Select(toolkit => toolkit.Name));
+        init;
+    }
 
-    public string Description => string.Format(
-        "Union of {0} toolkits.",
-        LinguisticServices.CombineWithAnd(
-            GetUnderlyingToolkits()
-            .Select(toolkit => LinguisticServices.SingleQuote(toolkit.Description.TrimEnd('.')))));
+    public string Description
+    {
+        get =>
+            field ??=
+            string.Format(
+                "Union of {0} toolkits.",
+                LinguisticServices.CombineWithAnd(
+                    GetUnderlyingToolkits()
+                    .Select(toolkit => LinguisticServices.SingleQuote(toolkit.Description.TrimEnd('.')))));
+        init;
+    }
 
-    public string? InstallationPath => scriptableToolkit.InstallationPath;
+    public string? InstallationPath
+    {
+        get => field ?? scriptableToolkit.InstallationPath;
+        init;
+    }
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
     {
@@ -58,23 +72,25 @@ sealed class MultiplexToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<
         .Reverse()
         .Aggregate(ToolkitKit.CombineEnvironments);
 
-    public IToolkitFamily Family => this;
+    public IToolkitFamily Family
+    {
+        get =>
+            field ??=
+            new MultiplexFamily(
+                GetUnderlyingToolkits()
+                .Select(toolkit => toolkit.Family.Traits)
+                .Aggregate((a, b) => a | b) &
+                ~ToolkitFamilyTraits.DeploymentMask);
+        init;
+    }
 
-    #region IToolkitFamily
-
-    string IToolkitFamily.Name => "Multiplex";
-
-    ToolkitFamilyTraits IToolkitFamily.Traits =>
-        GetUnderlyingToolkits()
-        .Select(toolkit => toolkit.Family.Traits)
-        .Aggregate((a, b) => a | b) &
-        ~ToolkitFamilyTraits.DeploymentMask;
-
-    IEnumerable<IToolkit> IToolkitFamily.EnumerateInstalledToolkits() => [];
-
-    IEnumerable<IToolkit> IToolkitFamily.EnumerateToolkitsFromDirectory(string path) => [];
-
-    #endregion
+    sealed class MultiplexFamily(ToolkitFamilyTraits traits) : IToolkitFamily
+    {
+        public string Name => "Multiplex";
+        public ToolkitFamilyTraits Traits => traits;
+        public IEnumerable<IToolkit> EnumerateInstalledToolkits() => [];
+        public IEnumerable<IToolkit> EnumerateToolkitsFromDirectory(string path) => [];
+    }
 
     IEnumerable<IToolkit> GetUnderlyingToolkits() => [.. m_ToolkitEnvironments, scriptableToolkit];
 

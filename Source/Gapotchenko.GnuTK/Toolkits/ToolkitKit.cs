@@ -10,12 +10,12 @@ using Gapotchenko.GnuTK.Diagnostics;
 
 namespace Gapotchenko.GnuTK.Toolkits;
 
+/// <summary>
+/// The kit for implementing toolkits' support.
+/// </summary>
 static class ToolkitKit
 {
-    public static Dictionary<string, string?> CreateEnvironment()
-    {
-        return new Dictionary<string, string?>(FileSystem.PathComparer);
-    }
+    public static Dictionary<string, string?> CreateEnvironment() => new(FileSystem.PathComparer);
 
     [return: NotNullIfNotNull(nameof(a))]
     [return: NotNullIfNotNull(nameof(b))]

@@ -10,6 +10,9 @@ using Gapotchenko.Shields.Microsoft.Wsl.Deployment;
 
 namespace Gapotchenko.GnuTK.Toolkits.Wsl;
 
+/// <summary>
+/// Describes a family of GNU toolkits provided by Windows Subsystem for Linux.
+/// </summary>
 [SupportedOSPlatform("windows")]
 sealed class WslToolkitFamily : IToolkitFamily
 {

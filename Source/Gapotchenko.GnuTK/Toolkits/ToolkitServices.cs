@@ -9,8 +9,8 @@ using Gapotchenko.FX.IO;
 using Gapotchenko.FX.Linq;
 using Gapotchenko.FX.Tuples;
 using Gapotchenko.GnuTK.Toolkits.Cygwin;
+using Gapotchenko.GnuTK.Toolkits.Homebrew;
 using Gapotchenko.GnuTK.Toolkits.MSys2;
-using Gapotchenko.GnuTK.Toolkits.Multiplex;
 using Gapotchenko.GnuTK.Toolkits.Native;
 using Gapotchenko.GnuTK.Toolkits.Wsl;
 
@@ -151,16 +151,15 @@ static class ToolkitServices
         {
             // That was an easy one :)
             return [NativeToolkitFamily.Instance];
+
+            // Homebrew package manager can be installed on Linux,
+            // but there is no need to handle it specifically because it
+            // immersively integrates with the system.
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            return [
-                // https://formulae.brew.sh/formula/coreutils
-                // https://uutils.github.io/coreutils/
-                // https://www.topbug.net/blog/2013/04/14/install-and-use-gnu-command-line-tools-in-mac-os-x/
-                //CoreUtilsToolkitFamily.Instance,
-                // While GNU is not Unix, macOS is a close enough Unix-based native alternative.
-                NativeToolkitFamily.Instance];
+            // While GNU is not Unix, macOS is a close enough Unix-based native alternative.
+            return [HomebrewToolkitFamily.Instance, NativeToolkitFamily.Instance];
         }
         else if (Environment.OSVersion.Platform == PlatformID.Unix)
         {

@@ -9,6 +9,13 @@ using Gapotchenko.Shields.Cygwin.Deployment;
 
 namespace Gapotchenko.GnuTK.Toolkits.Cygwin;
 
+/// <summary>
+/// Describes a family of GNU toolkits provided by Cygwin
+/// Unix-like environment and command-line interface for Microsoft Windows.
+/// </summary>
+/// <remarks>
+/// More information: <seealso href="https://cygwin.com/"/>
+/// </remarks>
 sealed class CygwinToolkitFamily : IToolkitFamily
 {
     public static IToolkitFamily Instance { get; } = new CygwinToolkitFamily();

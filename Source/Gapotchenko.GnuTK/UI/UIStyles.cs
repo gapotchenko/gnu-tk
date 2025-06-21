@@ -15,7 +15,7 @@ static class UIStyles
     {
         public static Scope Title(TextWriter textWriter) =>
             RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
-                ? new(textWriter, foregroundColor: ConsoleColor.Gray, bold: true)
+                ? new(textWriter, bold: true)
                 : new(textWriter, foregroundColor: ConsoleColor.White);
 
         public static Scope Success(TextWriter textWriter) => new(textWriter, foregroundColor: ConsoleColor.Green);
