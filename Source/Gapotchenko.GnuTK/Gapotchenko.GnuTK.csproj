@@ -43,11 +43,11 @@
 
   <ItemGroup>
     <PackageReference Include="docopt.net" Version="0.8.1" />
-    <PackageReference Include="Gapotchenko.FX" Version="2025.1.21-beta" />
-    <PackageReference Include="Gapotchenko.FX.AppModel.Information" Version="2025.1.21-beta" />
-    <PackageReference Include="Gapotchenko.FX.Console" Version="2025.1.21-beta" />
-    <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.21-beta" />
-    <PackageReference Include="Gapotchenko.FX.Tuples" Version="2025.1.21-beta" />
+    <PackageReference Include="Gapotchenko.FX" Version="2025.1.22-beta" />
+    <PackageReference Include="Gapotchenko.FX.AppModel.Information" Version="2025.1.22-beta" />
+    <PackageReference Include="Gapotchenko.FX.Console" Version="2025.1.22-beta" />
+    <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.22-beta" />
+    <PackageReference Include="Gapotchenko.FX.Tuples" Version="2025.1.22-beta" />
     <PackageReference Include="Gapotchenko.Shields.Cygwin.Deployment" Version="2025.1.2" />
     <PackageReference Include="Gapotchenko.Shields.Microsoft.Wsl.Deployment" Version="2025.1.1" />
     <PackageReference Include="Gapotchenko.Shields.MSys2.Deployment" Version="2025.1.7" />
