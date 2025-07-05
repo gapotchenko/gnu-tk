@@ -1,0 +1,21 @@
+<Solution>
+  <Folder Name="/01. Components/" />
+  <Folder Name="/02. Modules/">
+    <Project Path="Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj" />
+  </Folder>
+  <Folder Name="/03. Misc/" />
+  <Folder Name="/03. Misc/Documentation/">
+    <File Path="../README.md" />
+  </Folder>
+  <Folder Name="/03. Misc/Documentation/Diagnostics/">
+    <File Path="../Documentation/Diagnostics/Errors.txt" />
+  </Folder>
+  <Folder Name="/03. Misc/Mastering/">
+    <File Path="Mastering/Analysis.props" />
+    <File Path="Mastering/Language.props" />
+    <File Path="Mastering/NuGet.props" />
+    <File Path="Mastering/Product.props" />
+    <File Path="Mastering/Targeting.props" />
+    <File Path="Mastering/Version.props" />
+  </Folder>
+</Solution>
