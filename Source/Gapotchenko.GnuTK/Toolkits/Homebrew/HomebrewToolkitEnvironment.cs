@@ -43,7 +43,10 @@ class HomebrewToolkitEnvironment(
         if (packagePath is null)
             return null;
 
+        // ------------------------------------------------------------------
+
         string? path = null;
+
         string gnuBinPath = Path.Combine(packagePath, "libexec", "gnubin");
         if (Directory.Exists(gnuBinPath))
         {
@@ -54,10 +57,16 @@ class HomebrewToolkitEnvironment(
         {
             string binPath = Path.Combine(packagePath, "bin");
             if (Directory.Exists(binPath))
+            {
+                // Sample packages: binutils.
                 path = binPath;
+            }
         }
 
+        // ------------------------------------------------------------------
+
         string? cppFlags = null;
+
         string includePath = Path.Combine(packagePath, "include");
         if (Directory.Exists(includePath))
         {
@@ -68,7 +77,10 @@ class HomebrewToolkitEnvironment(
             }
         }
 
+        // ------------------------------------------------------------------
+
         string? ldFlags = null;
+
         string libPath = Path.Combine(packagePath, "lib");
         if (Directory.Exists(libPath))
         {
@@ -78,6 +90,8 @@ class HomebrewToolkitEnvironment(
                 ldFlags = $"-L{libPath}";
             }
         }
+
+        // ------------------------------------------------------------------
 
         var environment = EnvironmentServices.CreateEnvironment();
         if (path is not null)

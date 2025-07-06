@@ -79,7 +79,7 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
     {
         get =>
             field ??=
-            new MultiplexFamily(
+            new MetaFamily(
                 GetUnderlyingToolkits()
                 .Select(toolkit => toolkit.Family.Traits)
                 .Aggregate((a, b) => a | b) &
@@ -87,9 +87,9 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
         init;
     }
 
-    sealed class MultiplexFamily(ToolkitFamilyTraits traits) : IToolkitFamily
+    sealed class MetaFamily(ToolkitFamilyTraits traits) : IToolkitFamily
     {
-        public string Name => "Multiplex";
+        public string Name => "Meta";
         public ToolkitFamilyTraits Traits => traits;
         public IEnumerable<IToolkit> EnumerateInstalledToolkits() => [];
         public IEnumerable<IToolkit> EnumerateToolkitsFromDirectory(string path) => [];

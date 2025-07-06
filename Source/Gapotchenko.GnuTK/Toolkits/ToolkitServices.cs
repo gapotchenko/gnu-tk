@@ -122,11 +122,9 @@ static class ToolkitServices
         var installedToolkits = families.SelectMany(family => family.EnumerateInstalledToolkits());
 
         return
-            // Portable toolkits have priority, return them first.
-            portableToolkits
-            .Concat(installedToolkits)
-            // Avoid duplicates.
-            .DistinctBy(
+            portableToolkits // portable toolkits have priority
+            .Concat(installedToolkits) // installed toolkits come next            
+            .DistinctBy( // avoid duplicates
                 toolkit => (toolkit.Name, toolkit.InstallationPath),
                 ValueTupleEqualityComparer.Create(StringComparer.Ordinal, FileSystem.PathComparer));
     }
@@ -143,8 +141,8 @@ static class ToolkitServices
             // Thoughts on priority:
             //   1. MSYS2 comes with most of the packages by default, easy mental model (install and forget)
             //   2. Cygwin provides better execution performance when compared to WSL,
-            //      but mental model is on a heavy side (too customizable to the point of a possible frustration)
-            //   3. WSL is ubiquitous and configurable, but it is prone to path mapping issues (as of v2.5.7.0)
+            //      but mental model is on a heavier side (too customizable to the point of a possible frustration)
+            //   3. WSL is ubiquitous and configurable, but it is prone to path mapping issues (for "subst" drives as of v2.5.7.0)
             return [MSys2ToolkitFamily.Instance, CygwinToolkitFamily.Instance, WslToolkitFamily.Instance];
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
@@ -154,11 +152,11 @@ static class ToolkitServices
 
             // Homebrew package manager can be installed on Linux,
             // but there is no need to handle it specifically because it
-            // immersively integrates with the system.
+            // immersively integrates with the system by itself.
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            // While GNU is not Unix, macOS is a close enough Unix-based native alternative.
+            // While GNU is not Unix, macOS is a close enough Unix-based alternative.
             return [HomebrewToolkitFamily.Instance, SystemToolkitFamily.Instance];
         }
         else if (Environment.OSVersion.Platform == PlatformID.Unix)

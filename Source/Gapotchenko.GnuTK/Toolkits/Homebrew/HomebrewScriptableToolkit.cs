@@ -41,7 +41,7 @@ sealed class HomebrewScriptableToolkit(
         };
 
         var processEnvironment = psi.Environment;
-        SetShellEnvironment(processEnvironment, options);
+        ConfigureShellEnvironment(processEnvironment, options);
         EnvironmentServices.CombineEnvironmentWith(processEnvironment, environment);
 
         psi.ArgumentList.AddRange(arguments);
@@ -49,21 +49,20 @@ sealed class HomebrewScriptableToolkit(
         return ToolkitKit.ExecuteProcess(psi);
     }
 
-    void SetShellEnvironment(
+    void ConfigureShellEnvironment(
         IDictionary<string, string?> environment,
         ToolkitExecutionOptions options)
     {
-        if (SystemToolkitFamily.Instance.Traits.HasFlag(ToolkitFamilyTraits.Alike))
+        if ((options & ToolkitExecutionOptions.Strict) != 0 &&
+            SystemToolkitFamily.Instance.Traits.HasFlag(ToolkitFamilyTraits.Alike))
         {
-            if ((options & ToolkitExecutionOptions.Strict) != 0)
+            if (environment.TryGetValue("PATH", out string? path) && path != null)
             {
-                if (environment.TryGetValue("PATH", out string? path) && path != null)
-                {
-                    // Remove tools provided by a GNU-like operating system from PATH.
-                    environment["PATH"] = EnvironmentServices.JoinPath(
-                        EnvironmentServices.SplitPath(path)
-                        .Except(["/bin", "/usr/bin"], FileSystem.PathComparer));
-                }
+                // Remove tools provided by a GNU-like operating system from PATH
+                // because they are not guaranteed to have a strict GNU semantics.
+                environment["PATH"] = EnvironmentServices.JoinPath(
+                    EnvironmentServices.SplitPath(path)
+                    .Except(["/bin", "/usr/bin"], FileSystem.PathComparer));
             }
         }
 
