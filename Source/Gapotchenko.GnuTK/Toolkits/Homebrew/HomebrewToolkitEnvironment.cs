@@ -18,21 +18,76 @@ class HomebrewToolkitEnvironment(
 {
     public string Name => "brew";
 
-    public string Description => "Homebrew package manager.";
+    public string Description => "Homebrew packages.";
 
-    public string? InstallationPath => packageManagement.Manager.Setup.InstallationPath;
+    public string? InstallationPath => PackageManagement.Manager.Setup.InstallationPath;
+
+    public IToolkitFamily Family => family;
 
     public IReadOnlyDictionary<string, string?>? Environment => field ??= GetEnvironmentCore();
 
     IReadOnlyDictionary<string, string?> GetEnvironmentCore()
     {
-        var env = ToolkitKit.CreateEnvironment();
-
-        return env;
+        var environment = ToolkitKit.CreateEnvironment();
+        foreach (var package in m_Packages)
+            ToolkitKit.CombineEnvironmentWith(environment, GetPackageEnvironment(package));
+        return environment;
     }
-
-    public IToolkitFamily Family => family;
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     readonly IEnumerable<BrewPackage> m_Packages = packages.Memoize();
+
+    IReadOnlyDictionary<string, string?>? GetPackageEnvironment(BrewPackage package)
+    {
+        string? packagePath = PackageManagement.TryGetPackagePath(package);
+        if (packagePath is null)
+            return null;
+
+        string? path = null;
+        string gnuBinPath = Path.Combine(packagePath, "libexec", "gnubin");
+        if (Directory.Exists(gnuBinPath))
+        {
+            // Sample packages: coreutils, gnu-sed.
+            path = gnuBinPath;
+        }
+        else
+        {
+            string binPath = Path.Combine(packagePath, "bin");
+            if (Directory.Exists(binPath))
+                path = binPath;
+        }
+
+        string? cppFlags = null;
+        string includePath = Path.Combine(packagePath, "include");
+        if (Directory.Exists(includePath))
+        {
+            if (Directory.EnumerateFiles(includePath, "*.h").Any())
+            {
+                // Sample packages: binutils.
+                cppFlags = $"-I{includePath}";
+            }
+        }
+
+        string? ldFlags = null;
+        string libPath = Path.Combine(packagePath, "lib");
+        if (Directory.Exists(libPath))
+        {
+            if (Directory.EnumerateFiles(libPath, "*.a").Any())
+            {
+                // Sample packages: binutils.
+                ldFlags = $"-L{libPath}";
+            }
+        }
+
+        var environment = ToolkitKit.CreateEnvironment();
+        if (path is not null)
+            environment["PATH"] = path;
+        if (cppFlags is not null)
+            environment["CPPFLAGS"] = cppFlags;
+        if (ldFlags is not null)
+            environment["LDFLAGS"] = ldFlags;
+        return environment;
+    }
+
+    protected IBrewPackageManagement PackageManagement => packageManagement;
 }

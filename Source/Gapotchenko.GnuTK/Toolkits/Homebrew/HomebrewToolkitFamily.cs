@@ -47,7 +47,7 @@ sealed class HomebrewToolkitFamily : IToolkitFamily
             yield return new HomebrewScriptableToolkit(
                 this,
                 formulae,
-                gnuPackages.Concat(shellPackages.Skip(1)),
+                gnuPackages.Concat(shellPackages),
                 shellPackages.First());
         }
         else

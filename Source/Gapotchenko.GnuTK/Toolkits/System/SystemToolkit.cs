@@ -25,26 +25,15 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
     {
-        string envPath = GetEnvPath();
-
-        var psi = new ProcessStartInfo
-        {
-            FileName = envPath
-        };
-
-        if (environment != null)
-            ToolkitKit.CombineEnvironmentWith(psi.Environment, environment);
-
-        var args = psi.ArgumentList;
-        args.Add("sh");
-        args.Add("-c");
-        args.Add(command);
-        args.AddRange(arguments);
-
-        return ToolkitKit.ExecuteProcess(psi);
+        return ExecuteShell(["-c", command, .. arguments], environment);
     }
 
     public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
+    {
+        return ExecuteShell([path, .. arguments], environment);
+    }
+
+    static int ExecuteShell(IEnumerable<string> arguments, IReadOnlyDictionary<string, string?>? environment)
     {
         string envPath = GetEnvPath();
 
@@ -58,7 +47,6 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
 
         var args = psi.ArgumentList;
         args.Add("sh");
-        args.Add(path);
         args.AddRange(arguments);
 
         return ToolkitKit.ExecuteProcess(psi);
