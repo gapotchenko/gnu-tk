@@ -14,7 +14,7 @@ namespace Gapotchenko.GnuTK.Toolkits.MSys2;
 /// software distribution and building platform for Microsoft Windows.
 /// </summary>
 /// <remarks>
-/// More information: <seealso href="https://www.msys2.org/"/>
+/// More information: <see href="https://www.msys2.org/"/>
 /// </remarks>
 sealed class MSys2ToolkitFamily : IToolkitFamily
 {

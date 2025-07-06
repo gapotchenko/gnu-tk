@@ -163,7 +163,7 @@ public sealed class Engine
             {
                 Console.WriteLine(
                     """
-                      - To add a GNU toolkit to the list, you can install it on your system:
+                      - You can install a GNU toolkit to add it to the list:
                         https://gapt.ch/help/gnu-tk/install-toolkits
                     """);
             }

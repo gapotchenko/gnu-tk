@@ -11,7 +11,7 @@ using Gapotchenko.FX.Tuples;
 using Gapotchenko.GnuTK.Toolkits.Cygwin;
 using Gapotchenko.GnuTK.Toolkits.Homebrew;
 using Gapotchenko.GnuTK.Toolkits.MSys2;
-using Gapotchenko.GnuTK.Toolkits.Native;
+using Gapotchenko.GnuTK.Toolkits.System;
 using Gapotchenko.GnuTK.Toolkits.Wsl;
 
 namespace Gapotchenko.GnuTK.Toolkits;
@@ -150,7 +150,7 @@ static class ToolkitServices
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             // That was an easy one :)
-            return [NativeToolkitFamily.Instance];
+            return [SystemToolkitFamily.Instance];
 
             // Homebrew package manager can be installed on Linux,
             // but there is no need to handle it specifically because it
@@ -159,13 +159,13 @@ static class ToolkitServices
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             // While GNU is not Unix, macOS is a close enough Unix-based native alternative.
-            return [HomebrewToolkitFamily.Instance, NativeToolkitFamily.Instance];
+            return [HomebrewToolkitFamily.Instance, SystemToolkitFamily.Instance];
         }
         else if (Environment.OSVersion.Platform == PlatformID.Unix)
         {
             // Generic fallback.
             // While GNU is not Unix, Unix is a close enough native alternative.
-            return [NativeToolkitFamily.Instance];
+            return [SystemToolkitFamily.Instance];
         }
         else
         {

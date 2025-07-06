@@ -5,24 +5,24 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
-namespace Gapotchenko.GnuTK.Toolkits.Native;
+namespace Gapotchenko.GnuTK.Toolkits.System;
 
-sealed class NativeToolkitFamily : IToolkitFamily
+sealed class SystemToolkitFamily : IToolkitFamily
 {
-    public static IToolkitFamily Instance { get; } = new NativeToolkitFamily();
+    public static IToolkitFamily Instance { get; } = new SystemToolkitFamily();
 
-    NativeToolkitFamily()
+    SystemToolkitFamily()
     {
     }
 
-    public string Name => "Native";
+    public string Name => "System";
 
     public ToolkitFamilyTraits Traits =>
         RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
             ? ToolkitFamilyTraits.None
             : ToolkitFamilyTraits.Alike;
 
-    public IEnumerable<IToolkit> EnumerateInstalledToolkits() => m_CachedInstalledToolkits ??= [new NativeToolkit(this)];
+    public IEnumerable<IToolkit> EnumerateInstalledToolkits() => m_CachedInstalledToolkits ??= [new SystemToolkit(this)];
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     IReadOnlyList<IToolkit>? m_CachedInstalledToolkits;

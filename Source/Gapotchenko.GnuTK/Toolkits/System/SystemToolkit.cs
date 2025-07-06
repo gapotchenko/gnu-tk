@@ -8,16 +8,16 @@
 using Gapotchenko.FX.Collections.Generic;
 using Gapotchenko.GnuTK.Diagnostics;
 
-namespace Gapotchenko.GnuTK.Toolkits.Native;
+namespace Gapotchenko.GnuTK.Toolkits.System;
 
-sealed class NativeToolkit(NativeToolkitFamily family) : IScriptableToolkit
+sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
 {
-    public string Name => "native";
+    public string Name => "system";
 
     public string Description =>
        family.Traits.HasFlag(ToolkitFamilyTraits.Alike)
-            ? "A native GNU-like system."
-            : "A native GNU system.";
+            ? "Local GNU-like system."
+            : "Local GNU system.";
 
     public string? InstallationPath => "/";
 

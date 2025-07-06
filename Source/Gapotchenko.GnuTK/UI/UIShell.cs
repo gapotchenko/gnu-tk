@@ -61,8 +61,6 @@ static class UIShell
         {
             Console.Write(appInfo.ProductName);
             Console.Write(' ');
-            Console.Write("version");
-            Console.Write(' ');
         }
 
         Console.Out.WriteLine(GetAppVersion(appInfo));
