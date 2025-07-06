@@ -76,6 +76,7 @@ static class Program
     /// <summary>
     /// Interprets naturally occurring program arguments and
     /// rewrites them in canonical form suitable for the formal parsing.
+    /// Additionally, validates arguments order.
     /// </summary>
     static IReadOnlyList<string> CanonicalizeArgs(IReadOnlyList<string> args)
     {
@@ -85,30 +86,50 @@ static class Program
 
         var newArgs = new List<string>(n + 1);
 
-        var state = ArgsCanonicalizationState.Begin;
+        var state = ArgsCanonicalizationState.Option;
         for (int i = 0; i < n; ++i)
         {
             string arg = args[i];
 
             switch (state)
             {
-                case ArgsCanonicalizationState.Begin:
+                case ArgsCanonicalizationState.Option:
                     switch (arg)
                     {
-                        case "-?" or "/?" when RuntimeInformation.IsOSPlatform(OSPlatform.Windows):
-                            arg = ProgramOptions.Help;
-                            state = ArgsCanonicalizationState.End;
-                            break;
-
                         case ProgramOptions.ExecuteCommand or ProgramOptions.Shorthands.ExecuteCommand:
                         case ProgramOptions.ExecuteCommandLine or ProgramOptions.Shorthands.ExecuteCommandLine:
                         case ProgramOptions.ExecuteFile or ProgramOptions.Shorthands.ExecuteFile:
-                            state = ArgsCanonicalizationState.StartPositional;
+                            state = ArgsCanonicalizationState.Positional;
                             break;
+
+                        case ProgramOptions.Toolkit or ProgramOptions.Shorthands.Toolkit:
+                            state = ArgsCanonicalizationState.Argument;
+                            break;
+
+                        case "-?" or "/?" when RuntimeInformation.IsOSPlatform(OSPlatform.Windows):
+                            // A long-standing tradition on Windows.
+                            arg = ProgramOptions.Help;
+                            break;
+
+                        case ProgramOptions.Help:
+                        case ProgramOptions.Version:
+                        case ProgramOptions.List:
+                        case ProgramOptions.Check:
+                        case ProgramOptions.Strict or ProgramOptions.Shorthands.Strict:
+                        case ProgramOptions.Quiet or ProgramOptions.Shorthands.Quiet:
+                            break;
+
+                        default:
+                            // Invalid arguments.
+                            return [];
                     }
                     break;
 
-                case ArgsCanonicalizationState.StartPositional:
+                case ArgsCanonicalizationState.Argument:
+                    state = ArgsCanonicalizationState.Option;
+                    break;
+
+                case ArgsCanonicalizationState.Positional:
                     if (arg != "--")
                     {
                         // Ensures that this and the next arguments will not be parsed as named parameters.
@@ -129,8 +150,9 @@ static class Program
 
     enum ArgsCanonicalizationState
     {
-        Begin,
-        StartPositional,
+        Option,
+        Argument,
+        Positional,
         End
     }
 
@@ -251,7 +273,7 @@ static class Program
         var reader = new PositionTrackingTextReader(new StringReader(commandLine));
         using var enumerator = CommandLine.Split(reader).GetEnumerator();
 
-        var state = CommandExtractionState.SkipArgument; // skip the name of executable
+        var state = CommandExtractionState.Argument; // skip the name of executable
         int j = -1;
 
         // Interpret command-line arguments using a state machine.
@@ -259,14 +281,14 @@ static class Program
         {
             switch (state)
             {
-                case CommandExtractionState.InterpretOption:
+                case CommandExtractionState.Option:
                     switch (enumerator.Current)
                     {
                         case ProgramOptions.Strict or ProgramOptions.Shorthands.Strict:
                             break;
 
                         case ProgramOptions.Toolkit or ProgramOptions.Shorthands.Toolkit:
-                            state = CommandExtractionState.SkipArgument;
+                            state = CommandExtractionState.Argument;
                             break;
 
                         case ProgramOptions.ExecuteCommandLine or ProgramOptions.Shorthands.ExecuteCommandLine:
@@ -279,9 +301,9 @@ static class Program
                     }
                     break;
 
-                case CommandExtractionState.SkipArgument:
+                case CommandExtractionState.Argument:
                     // Start interpreting command-line arguments.
-                    state = CommandExtractionState.InterpretOption;
+                    state = CommandExtractionState.Option;
                     break;
 
                 case CommandExtractionState.CaptureCommandLine:
@@ -298,8 +320,8 @@ static class Program
 
     enum CommandExtractionState
     {
-        InterpretOption,
-        SkipArgument,
+        Option,
+        Argument,
         CaptureCommandLine
     }
 }

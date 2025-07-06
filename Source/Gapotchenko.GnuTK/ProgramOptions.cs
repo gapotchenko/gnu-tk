@@ -38,5 +38,6 @@ static class ProgramOptions
 
         public const string Toolkit = "-t";
         public const string Strict = "-s";
+        public const string Quiet = "-q";
     }
 }
