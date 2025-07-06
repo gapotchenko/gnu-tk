@@ -14,7 +14,7 @@ namespace Gapotchenko.GnuTK;
 /// </summary>
 static class EnvironmentServices
 {
-    public static Dictionary<string, string?> CreateEnvironment() => new(FileSystem.PathComparer);
+    public static Dictionary<string, string?> CreateEnvironment() => new(KeyComparer);
 
     [return: NotNullIfNotNull(nameof(a))]
     [return: NotNullIfNotNull(nameof(b))]
@@ -28,7 +28,7 @@ static class EnvironmentServices
             return a;
 
         var environment = CreateEnvironment();
-        foreach (string key in a.Keys.Concat(b.Keys).Distinct(FileSystem.PathComparer))
+        foreach (string key in a.Keys.Union(b.Keys, KeyComparer))
             environment[key] = CombineValues(a, b, key);
 
         return environment;
@@ -41,7 +41,7 @@ static class EnvironmentServices
         if (other is null)
             return;
 
-        foreach (string key in environment.Keys.ToList().Concat(other.Keys).Distinct(FileSystem.PathComparer))
+        foreach (string key in environment.Keys.ToList().Union(other.Keys, KeyComparer))
             environment[key] = CombineValues(environment, other, key);
     }
 
@@ -109,4 +109,9 @@ static class EnvironmentServices
 
     public static string JoinPath(params IEnumerable<string> paths) =>
         string.Join(Path.PathSeparator, paths);
+
+    public static StringComparer KeyComparer { get; } =
+        RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+            ? StringComparer.OrdinalIgnoreCase
+            : StringComparer.Ordinal;
 }
