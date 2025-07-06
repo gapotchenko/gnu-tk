@@ -9,6 +9,7 @@ using Gapotchenko.FX.Collections.Generic;
 using Gapotchenko.FX.IO;
 using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.Shields.Microsoft.Wsl.Deployment;
+using System.Text;
 
 namespace Gapotchenko.GnuTK.Toolkits.Wsl;
 
@@ -34,34 +35,45 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        string shellPath = GetShellPath();
+        string processPath = GetWslPath();
 
         var psi = new ProcessStartInfo
         {
-            FileName = shellPath,
+            FileName = processPath,
             WorkingDirectory = NormalizePath(Directory.GetCurrentDirectory())
         };
 
-        if (environment != null)
-            EnvironmentServices.CombineEnvironmentWith(psi.Environment, environment);
+        var processEnvironment = psi.Environment;
+        EnvironmentServices.CombineEnvironmentWith(processEnvironment, environment);
 
-        var args = psi.ArgumentList;
-        args.Add("--exec");
-        args.Add("sh");
-        args.Add("-c");
-        args.Add(command);
-        args.AddRange(arguments);
+        var processArguments = psi.ArgumentList;
+        processArguments.Add("--exec");
+        processArguments.Add("sh");
+        processArguments.Add("-c");
+
+        if (processEnvironment.ContainsKey("POSIXLY_CORRECT"))
+        {
+            var commandBuilder = new StringBuilder();
+            commandBuilder.Append("export POSIXLY_CORRECT=;").Append(command);
+            processArguments.Add(commandBuilder.ToString());
+        }
+        else
+        {
+            processArguments.Add(command);
+        }
+
+        processArguments.AddRange(arguments);
 
         return ToolkitKit.ExecuteProcess(psi);
     }
 
-    string GetShellPath()
+    string GetWslPath()
     {
         string fileName = "wsl.exe";
-        string shellPath = setupInstance.ResolvePath(Path.Join(fileName));
-        if (!File.Exists(shellPath))
+        string wslPath = setupInstance.ResolvePath(Path.Join(fileName));
+        if (!File.Exists(wslPath))
             throw new ProductException(DiagnosticMessages.ModuleNotFound(fileName));
-        return shellPath;
+        return wslPath;
     }
 
     static string NormalizePath(string path)

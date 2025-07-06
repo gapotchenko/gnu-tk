@@ -40,9 +40,9 @@ static class Program
         string usage =
             """
             Usage:
-              gnu-tk [-t <name>] [-s] -c [--] <command> [<argument>...]
-              gnu-tk [-t <name>] [-s] -l [--] <argument>...
-              gnu-tk [-t <name>] [-s] -f [--] <file> [<argument>...]
+              gnu-tk [-t <name>] [-s] [-p] -c [--] <command> [<argument>...]
+              gnu-tk [-t <name>] [-s] [-p] -l [--] <argument>...
+              gnu-tk [-t <name>] [-s] [-p] -f [--] <file> [<argument>...]
               gnu-tk (list | check [-t <name>]) [-s] [-q]
               gnu-tk (--help | --version) [-q]
 
@@ -54,6 +54,7 @@ static class Program
               -f --file            Execute a file using a GNU toolkit.
               -t --toolkit=<name>  Use the specified GNU toolkit [default: auto].
               -s --strict          Use a toolkit with strict GNU semantics.
+              -p --posix           Enables POSIX-compliant behavior.
               -q --quiet           Do not print any auxiliary messages.
                                                 
             Commands:
@@ -112,11 +113,13 @@ static class Program
                             break;
 
                         case ProgramOptions.Help:
+                        case ProgramOptions.Quiet or ProgramOptions.Shorthands.Quiet:
                         case ProgramOptions.Version:
                         case ProgramOptions.List:
                         case ProgramOptions.Check:
                         case ProgramOptions.Strict or ProgramOptions.Shorthands.Strict:
-                        case ProgramOptions.Quiet or ProgramOptions.Shorthands.Quiet:
+                        case ProgramOptions.Posix or ProgramOptions.Shorthands.Posix:
+                        case "-sp": // strict + posix
                             break;
 
                         default:
@@ -180,6 +183,7 @@ static class Program
             ToolkitNames = GetToolkitNames(arguments),
             ToolkitPaths = GetToolkitPaths(),
             Strict = (bool)arguments[ProgramOptions.Strict],
+            Posix = (bool)arguments[ProgramOptions.Posix],
             Quiet = (bool)arguments[ProgramOptions.Quiet]
         };
 
@@ -285,6 +289,8 @@ static class Program
                     switch (enumerator.Current)
                     {
                         case ProgramOptions.Strict or ProgramOptions.Shorthands.Strict:
+                        case ProgramOptions.Posix or ProgramOptions.Shorthands.Posix:
+                        case "-sp": // strict + posix
                             break;
 
                         case ProgramOptions.Toolkit or ProgramOptions.Shorthands.Toolkit:

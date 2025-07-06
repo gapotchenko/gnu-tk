@@ -9,6 +9,7 @@ using Gapotchenko.FX.Collections.Generic;
 using Gapotchenko.FX.IO;
 using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.Shields.Cygwin.Deployment;
+using System.Text;
 
 namespace Gapotchenko.GnuTK.Toolkits.Cygwin;
 
@@ -29,25 +30,36 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        string shellPath = GetShellPath();
+        string processPath = GetShellPath();
 
         var psi = new ProcessStartInfo
         {
-            FileName = shellPath
+            FileName = processPath
         };
 
-        if (environment != null)
-            EnvironmentServices.CombineEnvironmentWith(psi.Environment, environment);
+        var processEnvironment = psi.Environment;
+        EnvironmentServices.CombineEnvironmentWith(processEnvironment, environment);
 
-        var args = psi.ArgumentList;
-        args.Add("-l");
-        args.Add("-c");
-        args.Add("cd \"$0\" && BASH_ARGV0=$1 && shift;" + command);
-        args.Add(Directory.GetCurrentDirectory());
+        var processArguments = psi.ArgumentList;
+        processArguments.Add("-l");
+        processArguments.Add("-c");
+
+        var commandBuilder = new StringBuilder();
+        commandBuilder.Append("cd \"$0\" && BASH_ARGV0=$1");
+        if (!processEnvironment.ContainsKey("POSIXLY_CORRECT"))
+        {
+            // 'sh.exe' forcibly sets POSIXLY_CORRECT environment variable.
+            // Unset it if not instructed by a user.
+            commandBuilder.Append(" && unset POSIXLY_CORRECT");
+        }
+        commandBuilder.Append(" && shift;").Append(command);
+        processArguments.Add(commandBuilder.ToString());
+
+        processArguments.Add(Directory.GetCurrentDirectory());
         if (arguments is [])
-            args.Add(shellPath);
+            processArguments.Add(processPath);
         else
-            args.AddRange(arguments);
+            processArguments.AddRange(arguments);
 
         return ToolkitKit.ExecuteProcess(psi);
     }

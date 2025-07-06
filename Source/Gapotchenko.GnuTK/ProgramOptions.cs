@@ -26,18 +26,21 @@ static class ProgramOptions
 
     public const string Toolkit = "--toolkit";
     public const string Strict = "--strict";
+    public const string Posix = "--posix";
 
     public const string List = "list";
     public const string Check = "check";
 
     public static class Shorthands
     {
+        public const string Quiet = "-q";
+
         public const string ExecuteCommand = "-c";
         public const string ExecuteCommandLine = "-l";
         public const string ExecuteFile = "-f";
 
         public const string Toolkit = "-t";
         public const string Strict = "-s";
-        public const string Quiet = "-q";
+        public const string Posix = "-p";
     }
 }

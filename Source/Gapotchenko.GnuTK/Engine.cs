@@ -40,6 +40,12 @@ public sealed class Engine
 
     /// <summary>
     /// Gets or initializes a value indicating whether to
+    /// enable POSIX-compliant behavior.
+    /// </summary>
+    public bool Posix { get; init; }
+
+    /// <summary>
+    /// Gets or initializes a value indicating whether to
     /// suppress auxiliary messages.
     /// </summary>
     public bool Quiet { get; init; }
@@ -53,7 +59,11 @@ public sealed class Engine
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments)
     {
         var toolkit = GetToolkit();
-        return toolkit.ExecuteCommand(command, arguments, null, GetToolkitExecutionOptions());
+        return toolkit.ExecuteCommand(
+            command,
+            arguments,
+            GetToolkitExecutionEnvironment(),
+            GetToolkitExecutionOptions());
     }
 
     /// <summary>
@@ -67,7 +77,11 @@ public sealed class Engine
         var toolkit = GetToolkit();
         if (path == "-")
             path = "/dev/stdin";
-        return toolkit.ExecuteFile(path, arguments, null, GetToolkitExecutionOptions());
+        return toolkit.ExecuteFile(
+            path,
+            arguments,
+            GetToolkitExecutionEnvironment(),
+            GetToolkitExecutionOptions());
     }
 
     IScriptableToolkit GetToolkit()
@@ -78,6 +92,20 @@ public sealed class Engine
             throw new DiagnosticException(
                 DiagnosticMessages.SuitableToolkitNotFound(names),
                 DiagnosticCode.SuitableToolkitNotFound);
+    }
+
+    IReadOnlyDictionary<string, string?>? GetToolkitExecutionEnvironment()
+    {
+        if (Posix)
+        {
+            var environment = EnvironmentServices.CreateEnvironment();
+            environment["POSIXLY_CORRECT"] = string.Empty;
+            return environment;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     ToolkitExecutionOptions GetToolkitExecutionOptions()
