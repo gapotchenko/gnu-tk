@@ -14,7 +14,7 @@ namespace Gapotchenko.GnuTK;
 /// </summary>
 static class EnvironmentServices
 {
-    public static Dictionary<string, string?> CreateEnvironment() => new(KeyComparer);
+    public static Dictionary<string, string?> CreateEnvironment() => new(VariableNameComparer);
 
     [return: NotNullIfNotNull(nameof(a))]
     [return: NotNullIfNotNull(nameof(b))]
@@ -28,8 +28,8 @@ static class EnvironmentServices
             return a;
 
         var environment = CreateEnvironment();
-        foreach (string key in a.Keys.Union(b.Keys, KeyComparer))
-            environment[key] = CombineValues(a, b, key);
+        foreach (string name in a.Keys.Union(b.Keys, VariableNameComparer))
+            environment[name] = CombineValues(a, b, name);
 
         return environment;
     }
@@ -41,17 +41,17 @@ static class EnvironmentServices
         if (other is null)
             return;
 
-        foreach (string key in environment.Keys.ToList().Union(other.Keys, KeyComparer))
-            environment[key] = CombineValues(environment, other, key);
+        foreach (string name in environment.Keys.ToList().Union(other.Keys, VariableNameComparer))
+            environment[name] = CombineValues(environment, other, name);
     }
 
     static string? CombineValues(
         IReadOnlyDictionary<string, string?> a,
         IReadOnlyDictionary<string, string?> b,
-        string key) =>
-        (a.TryGetValue(key, out string? valueA), b.TryGetValue(key, out string? valueB)) switch
+        string name) =>
+        (a.TryGetValue(name, out string? valueA), b.TryGetValue(name, out string? valueB)) switch
         {
-            (true, true) => CombineValues(valueA, valueB, key),
+            (true, true) => CombineValues(valueA, valueB, name),
             (true, false) => valueA,
             (false, true) => valueB,
             _ => throw new InvalidOperationException()
@@ -60,26 +60,26 @@ static class EnvironmentServices
     static string? CombineValues(
         IDictionary<string, string?> a,
         IReadOnlyDictionary<string, string?> b,
-        string key) =>
-        (a.TryGetValue(key, out string? valueA), b.TryGetValue(key, out string? valueB)) switch
+        string name) =>
+        (a.TryGetValue(name, out string? valueA), b.TryGetValue(name, out string? valueB)) switch
         {
-            (true, true) => CombineValues(valueA, valueB, key),
+            (true, true) => CombineValues(valueA, valueB, name),
             (true, false) => valueA,
             (false, true) => valueB,
             _ => throw new InvalidOperationException()
         };
 
-    static string? CombineValues(string? a, string? b, string key)
+    static string? CombineValues(string? a, string? b, string name)
     {
         return
-            key switch
+            name switch
             {
-                "PATH" => CombineDelimitedValues(a, b, Path.PathSeparator, FileSystem.PathComparer),
+                "PATH" => CombineSeparatedValues(a, b, Path.PathSeparator, FileSystem.PathComparer),
                 "CFLAGS" or "CPPFLAGS" or "LDFLAGS" => ConcatValues(a, b, ' '),
                 _ => b
             };
 
-        static string? CombineDelimitedValues(string? a, string? b, char delimiter, StringComparer comparer)
+        static string? CombineSeparatedValues(string? a, string? b, char separator, StringComparer comparer)
         {
             if (a is null)
                 return b;
@@ -87,9 +87,9 @@ static class EnvironmentServices
                 return null;
 
             return string.Join(
-                delimiter,
-                b.Split(delimiter, StringSplitOptions.RemoveEmptyEntries)
-                    .Concat(a.Split(delimiter, StringSplitOptions.RemoveEmptyEntries))
+                separator,
+                b.Split(separator, StringSplitOptions.RemoveEmptyEntries)
+                    .Concat(a.Split(separator, StringSplitOptions.RemoveEmptyEntries))
                     .Distinct(comparer));
         }
 
@@ -110,7 +110,7 @@ static class EnvironmentServices
     public static string JoinPath(params IEnumerable<string> paths) =>
         string.Join(Path.PathSeparator, paths);
 
-    public static StringComparer KeyComparer { get; } =
+    public static StringComparer VariableNameComparer { get; } =
         RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             ? StringComparer.OrdinalIgnoreCase
             : StringComparer.Ordinal;

@@ -78,10 +78,15 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
     static string NormalizePath(string path)
     {
-        // WSL cannot map paths of substituted drives (as of v2.5.7.0).
+        // WSL cannot map paths on substituted drives (as of v2.5.7.0).
         if (PathUtil.IsSubstitutedPath(path))
+        {
+            // Workaround that by explicitly mapping such a path on our side.
             return FileSystem.GetRealPath(path);
+        }
         else
+        {
             return path;
+        }
     }
 }

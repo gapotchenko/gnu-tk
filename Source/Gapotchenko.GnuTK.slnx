@@ -11,11 +11,11 @@
     <File Path="../Documentation/Diagnostics/Errors.txt" />
   </Folder>
   <Folder Name="/03. Misc/Mastering/">
-    <File Path="Mastering/Analysis.props" />
-    <File Path="Mastering/Language.props" />
-    <File Path="Mastering/NuGet.props" />
-    <File Path="Mastering/Product.props" />
-    <File Path="Mastering/Targeting.props" />
-    <File Path="Mastering/Version.props" />
+    <File Path="Mastering/.NET/Analysis.props" />
+    <File Path="Mastering/.NET/Language.props" />
+    <File Path="Mastering/.NET/NuGet.props" />
+    <File Path="Mastering/.NET/Product.props" />
+    <File Path="Mastering/.NET/Targeting.props" />
+    <File Path="Mastering/.NET/Version.props" />
   </Folder>
 </Solution>
