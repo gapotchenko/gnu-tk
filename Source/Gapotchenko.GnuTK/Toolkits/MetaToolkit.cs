@@ -10,7 +10,7 @@ namespace Gapotchenko.GnuTK.Toolkits;
 /// <summary>
 /// Represents a GNU toolkit consisting of multiple underlying toolkits.
 /// </summary>
-sealed class MultiplexToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<IToolkitEnvironment> toolkitEnvironments) :
+sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<IToolkitEnvironment> toolkitEnvironments) :
     IScriptableToolkit,
     IToolkitEnvironment
 {
@@ -19,7 +19,7 @@ sealed class MultiplexToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<
         get =>
             field ??=
             string.Join(
-                ',',
+                '+',
                 GetUnderlyingToolkits().Select(toolkit => toolkit.Name));
         init;
     }
@@ -29,8 +29,9 @@ sealed class MultiplexToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<
         get =>
             field ??=
             string.Format(
-                "Union of {0} toolkits.",
-                LinguisticServices.CombineWithAnd(
+                "{0} meta toolkit.",
+                string.Join(
+                    " + ",
                     GetUnderlyingToolkits()
                     .Select(toolkit => LinguisticServices.SingleQuote(toolkit.Description.TrimEnd('.')))));
         init;
@@ -42,20 +43,22 @@ sealed class MultiplexToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<
         init;
     }
 
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
+    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
         return scriptableToolkit.ExecuteCommand(
             command,
             arguments,
-            GetCombinedEnvironment(environment));
+            GetCombinedEnvironment(environment),
+            options);
     }
 
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
         return scriptableToolkit.ExecuteFile(
             path,
             arguments,
-            GetCombinedEnvironment(environment));
+            GetCombinedEnvironment(environment),
+            options);
     }
 
     IReadOnlyDictionary<string, string?>? GetCombinedEnvironment(IReadOnlyDictionary<string, string?>? environment) =>
@@ -63,14 +66,14 @@ sealed class MultiplexToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<
         .Select(x => x.Environment)
         .Reverse()
         .Append(environment)
-        .Aggregate(ToolkitKit.CombineEnvironments);
+        .Aggregate(EnvironmentServices.CombineEnvironments);
 
     public IReadOnlyDictionary<string, string?>? Environment =>
         GetUnderlyingToolkits()
         .OfType<IToolkitEnvironment>()
         .Select(x => x.Environment)
         .Reverse()
-        .Aggregate(ToolkitKit.CombineEnvironments);
+        .Aggregate(EnvironmentServices.CombineEnvironments);
 
     public IToolkitFamily Family
     {

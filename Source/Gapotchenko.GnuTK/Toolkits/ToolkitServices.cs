@@ -53,7 +53,7 @@ static class ToolkitServices
         if (scriptableToolkit is null || toolkitEnvironments is null)
             return scriptableToolkit;
 
-        return new MultiplexToolkit(scriptableToolkit, toolkitEnvironments);
+        return new MetaToolkit(scriptableToolkit, toolkitEnvironments);
     }
 
     /// <summary>

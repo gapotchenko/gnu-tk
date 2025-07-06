@@ -24,12 +24,12 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
 
     public IToolkitFamily Family => family;
 
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        return ExecuteCommand("sh \"$0\" \"$@\"", [path, .. arguments], environment);
+        return ExecuteCommand("sh \"$0\" \"$@\"", [path, .. arguments], environment, options);
     }
 
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
+    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
         string shellPath = GetShellPath();
 
@@ -39,7 +39,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         };
 
         var env = psi.Environment;
-        ToolkitKit.CombineEnvironmentWith(env, environment);
+        EnvironmentServices.CombineEnvironmentWith(env, environment);
         SetEnvironment(env);
 
         var args = psi.ArgumentList;
@@ -67,7 +67,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
 
     IReadOnlyDictionary<string, string?> GetEnvironmentCore()
     {
-        var environment = ToolkitKit.CreateEnvironment();
+        var environment = EnvironmentServices.CreateEnvironment();
         SetEnvironment(environment);
 
         string binPath = msys2environment.SetupInstance.ResolvePath(Path.Join("usr", "bin"));

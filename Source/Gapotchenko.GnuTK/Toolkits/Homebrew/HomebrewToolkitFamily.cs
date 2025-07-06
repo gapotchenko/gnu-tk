@@ -57,7 +57,7 @@ sealed class HomebrewToolkitFamily : IToolkitFamily
     }
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    static readonly string[] m_ShellPackageNames = ["bash"];
+    static readonly string[] m_ShellPackageNames = ["bash", "zsh"];
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     static readonly string[] m_GnuPackageNames =

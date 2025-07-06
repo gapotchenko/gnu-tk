@@ -23,15 +23,16 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
     public IToolkitFamily Family => family;
 
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
         return ExecuteCommand(
             "sh \"`wslpath \"$0\"`\" \"$@\"",
             [NormalizePath(path), .. arguments],
-            environment);
+            environment,
+            options);
     }
 
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
+    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
         string shellPath = GetShellPath();
 
@@ -42,7 +43,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         };
 
         if (environment != null)
-            ToolkitKit.CombineEnvironmentWith(psi.Environment, environment);
+            EnvironmentServices.CombineEnvironmentWith(psi.Environment, environment);
 
         var args = psi.ArgumentList;
         args.Add("--exec");

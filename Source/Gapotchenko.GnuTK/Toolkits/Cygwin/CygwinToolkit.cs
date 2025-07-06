@@ -22,12 +22,12 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
 
     public IToolkitFamily Family => family;
 
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        return ExecuteCommand("sh \"$0\" \"$@\"", [path, .. arguments], environment);
+        return ExecuteCommand("sh \"$0\" \"$@\"", [path, .. arguments], environment, options);
     }
 
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
+    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
         string shellPath = GetShellPath();
 
@@ -37,7 +37,7 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         };
 
         if (environment != null)
-            ToolkitKit.CombineEnvironmentWith(psi.Environment, environment);
+            EnvironmentServices.CombineEnvironmentWith(psi.Environment, environment);
 
         var args = psi.ArgumentList;
         args.Add("-l");
@@ -64,7 +64,7 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
 
     IReadOnlyDictionary<string, string?> GetEnvironmentCore()
     {
-        var environment = ToolkitKit.CreateEnvironment();
+        var environment = EnvironmentServices.CreateEnvironment();
 
         string binPath = setupInstance.ResolvePath("bin");
         if (Directory.Exists(binPath))

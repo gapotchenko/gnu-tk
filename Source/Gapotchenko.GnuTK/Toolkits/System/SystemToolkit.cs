@@ -23,17 +23,17 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
 
     public IToolkitFamily Family => family;
 
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
+    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        return ExecuteShell(["-c", command, .. arguments], environment);
+        return ExecuteShell(["-c", command, .. arguments], environment, options);
     }
 
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment)
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        return ExecuteShell([path, .. arguments], environment);
+        return ExecuteShell([path, .. arguments], environment, options);
     }
 
-    static int ExecuteShell(IEnumerable<string> arguments, IReadOnlyDictionary<string, string?>? environment)
+    static int ExecuteShell(IEnumerable<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
         string envPath = GetEnvPath();
 
@@ -43,7 +43,7 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
         };
 
         if (environment != null)
-            ToolkitKit.CombineEnvironmentWith(psi.Environment, environment);
+            EnvironmentServices.CombineEnvironmentWith(psi.Environment, environment);
 
         var args = psi.ArgumentList;
         args.Add("sh");

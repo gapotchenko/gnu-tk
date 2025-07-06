@@ -38,7 +38,7 @@ enum ToolkitFamilyTraits
     #endregion
 
     /// <summary>
-    /// Indicates that a toolkit family provides an alike but not exactly strict GNU semantics.
+    /// Indicates that a toolkit family provides an alike but not the exact GNU semantics.
     /// </summary>
     /// <remarks>
     /// The trait allows to differentiate between GNU and GNU-like toolkit families.

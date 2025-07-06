@@ -53,7 +53,7 @@ public sealed class Engine
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments)
     {
         var toolkit = GetToolkit();
-        return toolkit.ExecuteCommand(command, arguments, null);
+        return toolkit.ExecuteCommand(command, arguments, null, GetToolkitExecutionOptions());
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public sealed class Engine
         var toolkit = GetToolkit();
         if (path == "-")
             path = "/dev/stdin";
-        return toolkit.ExecuteFile(path, arguments, null);
+        return toolkit.ExecuteFile(path, arguments, null, GetToolkitExecutionOptions());
     }
 
     IScriptableToolkit GetToolkit()
@@ -78,6 +78,14 @@ public sealed class Engine
             throw new DiagnosticException(
                 DiagnosticMessages.SuitableToolkitNotFound(names),
                 DiagnosticCode.SuitableToolkitNotFound);
+    }
+
+    ToolkitExecutionOptions GetToolkitExecutionOptions()
+    {
+        var options = ToolkitExecutionOptions.None;
+        if (Strict)
+            options |= ToolkitExecutionOptions.Strict;
+        return options;
     }
 
     /// <summary>

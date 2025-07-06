@@ -17,14 +17,24 @@ interface IScriptableToolkit : IToolkit
     /// </summary>
     /// <param name="command">The command to execute.</param>
     /// <param name="arguments">The command arguments.</param>
+    /// <param name="options">The options.</param>
     /// <returns>The exit code.</returns>
-    int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment);
+    int ExecuteCommand(
+        string command,
+        IReadOnlyList<string> arguments,
+        IReadOnlyDictionary<string, string?>? environment,
+        ToolkitExecutionOptions options);
 
     /// <summary>
     /// Executes the specified file.
     /// </summary>
     /// <param name="command">The path of a file to execute.</param>
     /// <param name="arguments">The arguments.</param>
+    /// <param name="options">The options.</param>
     /// <returns>The exit code.</returns>
-    int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment);
+    int ExecuteFile(
+        string path,
+        IReadOnlyList<string> arguments,
+        IReadOnlyDictionary<string, string?>? environment,
+        ToolkitExecutionOptions options);
 }
