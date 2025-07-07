@@ -104,6 +104,28 @@ static class EnvironmentServices
         }
     }
 
+    public static void PrependPath(
+        IDictionary<string, string?> environment,
+        params IEnumerable<string?> paths)
+    {
+        environment["PATH"] = JoinPath(
+            paths.Where(x => !string.IsNullOrEmpty(x))
+            .Concat(SplitPath(environment.GetValueOrDefault("PATH") ?? string.Empty))
+            .Distinct(FileSystem.PathComparer)!);
+    }
+
+    public static void RemovePath(
+        IDictionary<string, string?> environment,
+        params IEnumerable<string?> paths)
+    {
+        if (environment.TryGetValue("PATH", out string? path) && !string.IsNullOrEmpty(path))
+        {
+            environment["PATH"] = JoinPath(
+                SplitPath(path)
+                .Except(paths, FileSystem.PathComparer)!);
+        }
+    }
+
     public static IEnumerable<string> SplitPath(string value) =>
         value.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries);
 

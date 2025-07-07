@@ -45,6 +45,7 @@
     <PackageReference Include="docopt.net" Version="0.8.1" />
     <PackageReference Include="Gapotchenko.FX" Version="2025.1.22-beta" />
     <PackageReference Include="Gapotchenko.FX.AppModel.Information" Version="2025.1.22-beta" />
+    <PackageReference Include="Gapotchenko.FX.Collections" Version="2025.1.22-beta" />
     <PackageReference Include="Gapotchenko.FX.Console" Version="2025.1.22-beta" />
     <PackageReference Include="Gapotchenko.FX.Data.Archives.Zip" Version="2025.1.22-beta" />
     <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.22-beta" />

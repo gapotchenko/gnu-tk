@@ -2,5 +2,6 @@ shorthands
 cygwin
 msys
 ucrt
-posix
 immersively
+posixly
+posix

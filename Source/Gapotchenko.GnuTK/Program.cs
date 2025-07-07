@@ -119,7 +119,7 @@ static class Program
                         case ProgramOptions.Check:
                         case ProgramOptions.Strict or ProgramOptions.Shorthands.Strict:
                         case ProgramOptions.Posix or ProgramOptions.Shorthands.Posix:
-                        case "-sp": // strict + posix
+                        case "-sp" or "-ps": // strict + posix
                             break;
 
                         default:
@@ -290,7 +290,7 @@ static class Program
                     {
                         case ProgramOptions.Strict or ProgramOptions.Shorthands.Strict:
                         case ProgramOptions.Posix or ProgramOptions.Shorthands.Posix:
-                        case "-sp": // strict + posix
+                        case "-sp" or "-ps": // strict + posix
                             break;
 
                         case ProgramOptions.Toolkit or ProgramOptions.Shorthands.Toolkit:

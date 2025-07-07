@@ -56,14 +56,9 @@ sealed class HomebrewScriptableToolkit(
         if ((options & ToolkitExecutionOptions.Strict) != 0 &&
             SystemToolkitFamily.Instance.Traits.HasFlag(ToolkitFamilyTraits.Alike))
         {
-            if (environment.TryGetValue("PATH", out string? path) && path != null)
-            {
-                // Remove tools provided by a GNU-like operating system from PATH
-                // because they are not guaranteed to have a strict GNU semantics.
-                environment["PATH"] = EnvironmentServices.JoinPath(
-                    EnvironmentServices.SplitPath(path)
-                    .Except(["/bin", "/usr/bin"], FileSystem.PathComparer));
-            }
+            // Remove lookup paths for tools provided by a GNU-like operating system
+            // because they are not guaranteed to have strict GNU semantics.
+            EnvironmentServices.RemovePath(environment, "/bin", "/usr/bin");
         }
 
         EnvironmentServices.CombineEnvironmentWith(environment, Environment);

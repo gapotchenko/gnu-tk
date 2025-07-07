@@ -40,13 +40,21 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         var processEnvironment = psi.Environment;
         EnvironmentServices.CombineEnvironmentWith(processEnvironment, environment);
 
+        bool posixlyCorrect = processEnvironment.ContainsKey("POSIXLY_CORRECT");
+        if (posixlyCorrect)
+        {
+            // POSIX-compliant behavior requires us to add a lookup path for the shell directory.
+            // Otherwise, the files in the shell directory will not be found by the shell.
+            EnvironmentServices.PrependPath(processEnvironment, Path.GetDirectoryName(processPath));
+        }
+
         var processArguments = psi.ArgumentList;
         processArguments.Add("-l");
         processArguments.Add("-c");
 
         var commandBuilder = new StringBuilder();
         commandBuilder.Append("cd \"$0\" && BASH_ARGV0=$1");
-        if (!processEnvironment.ContainsKey("POSIXLY_CORRECT"))
+        if (!posixlyCorrect)
         {
             // 'sh.exe' forcibly sets POSIXLY_CORRECT environment variable.
             // Unset it if not instructed by a user.
