@@ -51,10 +51,13 @@ _publish-aot:
 [windows]
 _publish-aot:
     dotnet publish -c Release -p:PublishAot=true -r win-x64 -f net9.0
-    dotnet publish -c Release -p:PublishAot=true -r win-x86 -f net9.0
     dotnet publish -c Release -p:PublishAot=true -r win-arm64 -f net9.0
 
 [macos]
 _publish-aot:
     dotnet publish -c Release -p:PublishAot=true -r osx-arm64 -f net9.0
     dotnet publish -c Release -p:PublishAot=true -r osx-x64 -f net9.0
+
+# Build platform-dependent release artifacts
+[private]
+build-platform: _publish-aot
