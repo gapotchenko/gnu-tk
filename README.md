@@ -1,6 +1,6 @@
 # GNU-TK
 
-GNU-TK is a tiny project that provides a seamless scriptable access to GNU tools on non-Unix operating systems.
+GNU-TK is a tiny project that provides seamless scriptable access to GNU tools on non-Unix operating systems.
 
 ## Overview
 
@@ -101,7 +101,7 @@ Tips:
   - GNU toolkits supported on Windows: Cygwin, MSYS2, WSL
 ```
 
-To simplify usage, GNU-TK automatically selects the most suitable GNU toolkit based on several common-sense factors.
+To simplify usage, GNU-TK automatically selects the most suitable GNU toolkit based on common-sense factors.
 You can verify the GNU toolkit selection and availability using `gnu-tk check` command:
 
 ```
