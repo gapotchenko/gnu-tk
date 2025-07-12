@@ -28,7 +28,7 @@ gnu-tk -l cp --help
 
 The command above invokes `cp` GNU utility with `--help` command-line option.
 
-You can pass a command to execute as a single command-line option:
+You can also pass a command to execute as a single command-line option:
 
 ```sh
 gnu-tk -c "cp --help"
@@ -67,7 +67,7 @@ dotnet tool install -g Gapotchenko.GnuTK
 
 ### GNU Toolkits
 
-Aside from GNU-TK itself, you also need a GNU toolkit installed in the system:
+Aside from GNU-TK itself, you also need a GNU toolkit installed on your system:
 
 - **Windows:** [MSYS2](https://www.msys2.org/) (recommended), [Cygwin](https://cygwin.com/) or [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
 - **macOS:** [Homebrew](https://brew.sh/) package manager with installed [`bash`](https://formulae.brew.sh/formula/bash) and [`coreutils`](https://formulae.brew.sh/formula/coreutils) packages as the bare minimum
@@ -101,7 +101,7 @@ Tips:
   - GNU toolkits supported on Windows: Cygwin, MSYS2, WSL
 ```
 
-To simplify usage, GNU-TK automatically selects the most suitable GNU toolkit based on several factors.
+To simplify usage, GNU-TK automatically selects the most suitable GNU toolkit based on several common-sense factors.
 You can verify the GNU toolkit selection and availability using `gnu-tk check` command:
 
 ```
@@ -122,7 +122,7 @@ Tips:
 ```
 
 You can affect GNU toolkit selection during command invocation.
-For example, you can pass `-s` (or `--strict`) command-line option to `gnu-tk`, indicating the a toolkit with strict GNU semantics is required:
+For example, you can pass `-s` (or `--strict`) command-line option to `gnu-tk`, indicating that a toolkit with strict GNU semantics is required:
 
 ```
 gnu-tk -s -l sed --help
