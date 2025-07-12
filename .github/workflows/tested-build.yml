@@ -32,5 +32,5 @@ jobs:
         name: gnu-tk-executable-${{ matrix.os }}
         path: |
           Source/Gapotchenko.GnuTK/bin/Release/**/publish/
-          !Source/Gapotchenko.GnuTK/bin/Release/**/publish/*.pdb
+          !Source/Gapotchenko.GnuTK/bin/Release/**/publish/*.{pdb,dbg,dSYM}
         if-no-files-found: error
