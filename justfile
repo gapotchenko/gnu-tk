@@ -52,3 +52,4 @@ _publish-aot:
 [macos]
 _publish-aot:
     dotnet publish -c Release -p:PublishAot=true -r osx-arm64 -f net9.0
+    dotnet publish -c Release -p:PublishAot=true -r osx-x64 -f net9.0
