@@ -44,6 +44,11 @@ publish:
 # Make a release by testing and producing publishable project artifacts
 release: test publish
 
-[private]
-publish-aot:
+[windows]
+[linux]
+_publish-aot:
     dotnet publish -c Release -p:PublishAot=true -f net9.0
+
+[macos]
+_publish-aot:
+    dotnet publish -c Release -p:PublishAot=true -r osx-arm64 -f net9.0

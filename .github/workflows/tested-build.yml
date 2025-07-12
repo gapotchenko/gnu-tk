@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]    
+        os: [ubuntu-latest, windows-latest, windows-11-arm, macOS-latest]    
 
     steps:
     - uses: actions/checkout@v4
@@ -26,4 +26,4 @@ jobs:
     - name: Test
       run: just test
     - name: Publish AOT
-      run: just publish-aot
+      run: just _publish-aot
