@@ -43,3 +43,7 @@ publish:
 
 # Make a release by testing and producing publishable project artifacts
 release: test publish
+
+[private]
+publish-aot:
+    dotnet publish -c Release -p:PublishAot=true -f net9.0

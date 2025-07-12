@@ -17,6 +17,7 @@
   <PropertyGroup>
     <Deterministic>true</Deterministic>
     <NeutralLanguage>en-US</NeutralLanguage>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' != 'Debug' ">
