@@ -29,8 +29,10 @@ jobs:
       run: just _publish-aot
     - uses: actions/upload-artifact@v4
       with:
-        name: gnu-tk-executable-${{ matrix.os }}
+        name: platform-executables-${{ matrix.os }}
         path: |
-          Source/Gapotchenko.GnuTK/bin/Release/**/publish/
-          !Source/Gapotchenko.GnuTK/bin/Release/**/publish/*.{pdb,dbg,dSYM}
+          Source/**/bin/Release/**/publish/
+          !Source/**/bin/Release/**/publish/*.pdb
+          !Source/**/bin/Release/**/publish/*.dbg
+          !Source/**/bin/Release/**/publish/*.dSYM
         if-no-files-found: error
