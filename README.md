@@ -28,6 +28,18 @@ gnu-tk -l cp --help
 
 The command above invokes `cp` GNU utility with `--help` command-line option.
 
+You can pass a command to execute as a single command-line option:
+
+```sh
+gnu-tk -c "cp --help"
+```
+
+Or as a script file:
+
+```sh
+gnu-tk -f <script-file>
+```
+
 ## Installation
 
 To install GNU-TK, you can use one of the supported package managers.
@@ -90,7 +102,7 @@ Tips:
 ```
 
 To simplify usage, GNU-TK automatically selects the most suitable GNU toolkit based on several factors.
-You can check the GNU toolkit selection and availability using `gnu-tk check` command:
+You can verify the GNU toolkit selection and availability using `gnu-tk check` command:
 
 ```
 GNU Toolkit Check
