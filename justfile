@@ -45,9 +45,14 @@ publish:
 release: test publish
 
 [linux]
-[windows]
 _publish-aot:
     dotnet publish -c Release -p:PublishAot=true -f net9.0
+
+[windows]
+_publish-aot:
+    dotnet publish -c Release -p:PublishAot=true -r win-x64 -f net9.0
+    dotnet publish -c Release -p:PublishAot=true -r win-x86 -f net9.0
+    dotnet publish -c Release -p:PublishAot=true -r win-arm64 -f net9.0
 
 [macos]
 _publish-aot:
