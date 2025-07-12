@@ -1,6 +1,3 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: Tested Build
 
 on:
@@ -12,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]    
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
     - uses: actions/checkout@v4
@@ -32,7 +29,7 @@ jobs:
         name: gnu-tk-artifacts-${{ matrix.os }}
         path: |
           Source/**/bin/Release/**/publish/
-          !Source/**/bin/Release/**/publish/*.pdb
-          !Source/**/bin/Release/**/publish/*.dbg
-          !Source/**/bin/Release/**/publish/*.dSYM
+          !Source/**/*.pdb
+          !Source/**/*.dbg
+          !Source/**/*.dSYM
         if-no-files-found: error
