@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-platform:
+  build-platform-artifacts:
 
     runs-on: ${{ matrix.os }}
     strategy:
@@ -27,3 +27,9 @@ jobs:
       run: just test
     - name: Publish AOT
       run: just _publish-aot
+    - uses: actions/upload-artifact@v4
+      with:
+        name: gnu-tk-executable
+        path: |
+          Source/Gapotchenko.GnuTK/bin/Release/**/publish/
+          !Source/Gapotchenko.GnuTK/bin/Release/**/publish/*.pdb
