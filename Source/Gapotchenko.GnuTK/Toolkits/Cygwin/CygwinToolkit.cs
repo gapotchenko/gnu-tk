@@ -44,7 +44,7 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         if (posixlyCorrect)
         {
             // POSIX-compliant behavior requires us to add a lookup path for the shell directory.
-            // Otherwise, the files in the shell directory will not be found by the shell.
+            // Otherwise, the files in the shell directory cannot be found by the shell.
             EnvironmentServices.PrependPath(processEnvironment, Path.GetDirectoryName(processPath));
         }
 

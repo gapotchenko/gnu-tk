@@ -143,6 +143,7 @@ static class ToolkitServices
             //   2. Cygwin provides better execution performance when compared to WSL,
             //      but mental model is on a heavier side (too customizable to the point of a possible frustration)
             //   3. WSL is ubiquitous and configurable, but it is prone to path mapping issues (for "subst" drives as of v2.5.7.0)
+            //      and to delays caused by starting WSL VM up on demand.
             return [MSys2ToolkitFamily.Instance, CygwinToolkitFamily.Instance, WslToolkitFamily.Instance];
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
@@ -151,8 +152,8 @@ static class ToolkitServices
             return [SystemToolkitFamily.Instance];
 
             // Homebrew package manager can be installed on Linux,
-            // but there is no need to handle it specifically because it
-            // immersively integrates with the system by itself.
+            // but there is no need to handle it specifically here
+            // because it immersively integrates with a system by itself.
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
