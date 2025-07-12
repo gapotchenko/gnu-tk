@@ -1,21 +1,22 @@
 # GNU-TK
 
-GNU-TK is a tiny project that provides a seamless scriptable access to GNU tools on non-Unix operating systems.
+GNU-TK is a tiny project that provides a seamless access to GNU tools on non-Unix operating systems.
 
 ## Overview
 
 [GNU](https://www.gnu.org/software/) is a software system that has been developed by many people working together for the sake of freedom of all software users to control their computing.
 
-The GNU system provides a plethora of tools, including core command-line utilities like `bash`, `cp`, `sed`, and many others.
-These utilities form the userland basis of Unix operating systems like Linux.
-For example, GNU [core utilities](https://www.gnu.org/software/coreutils/) are indispensable when you need to automate a cross-platform project by creating reproducible build scripts.
-GNU tools can also be used for multitudes of other purposes.
+The GNU system offers a wide range of tools, including essential command-line utilities such as `bash`, `cp`, `sed`, and many others.
+These utilities form the foundation of the userland in Unix-like operating systems like Linux.
+For instance, GNU [core utilities](https://www.gnu.org/software/coreutils/) are crucial for automating cross-platform projects by enabling the creation of reproducible build scripts.
+Beyond that, GNU tools support a wide variety of other use cases.
 
-The recurring problem with GNU tools is that they are not very accessible on non-Unix operating systems.
-For example, on Windows, you can use packages like [MSYS2](https://www.msys2.org/), [Cygwin](https://cygwin.com/) or [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux"), but you will be facing another set of challenges: properly locating the toolkit installation path, modifying environment variables, configuring shells with toolkit-specific parameters, passing control to the toolkit and back.
-This all makes the usage of GNU tools far from easy and reproducible.
+A recurring issue with GNU tools, however, is their limited accessibility on non-Unix operating systems.
+For example, on Windows, you can use toolkits such as [MSYS2](https://www.msys2.org/), [Cygwin](https://cygwin.com/) or [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux").
+Yet, these introduce their own challenges: correctly identifying the toolkit installation path, modifying environment variables, configuring shells with toolkit-specific parameters, and, finally, managing the handoff of control to and from the toolkit.
+All of this makes using GNU tools far from easy and reproducible.
 
-GNU-TK project solves those problems by providing a small `gnu-tk` command-line utility that serves as an automatic gateway to a GNU toolkit installed in the system.
+GNU-TK project solves all those problems by providing a small `gnu-tk` command-line utility that serves as an automatic gateway to a GNU toolkit installed in the system.
 `gnu-tk` has a concise and stable command-line interface making it suitable for effortless cross-platform scripting.
 
 ## Usage
@@ -47,7 +48,7 @@ Alternatively, you can install GNU-TK on a per-project basis if you need to use 
 ### NuGet Package Manager
 
 NuGet is a part of [.NET](a).
-Use the following command to install GNU-TK globally as a global .NET tool:
+Use the following command to install GNU-TK as a global .NET tool:
 
 ```
 dotnet tool install -g Gapotchenko.GnuTK
@@ -55,7 +56,7 @@ dotnet tool install -g Gapotchenko.GnuTK
 
 ### GNU Toolkits
 
-Aside from GNU-TK itself, you will also need a GNU toolkit installed in the system:
+Aside from GNU-TK itself, you also need a GNU toolkit installed in the system:
 
 - **Windows:** [MSYS2](https://www.msys2.org/) (recommended), [Cygwin](https://cygwin.com/) or [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
 - **macOS:** [Homebrew](https://brew.sh/) package manager with installed [`bash`](https://formulae.brew.sh/formula/bash) and [`coreutils`](https://formulae.brew.sh/formula/coreutils) packages as the bare minimum
@@ -89,7 +90,7 @@ Tips:
   - GNU toolkits supported on Windows: Cygwin, MSYS2, WSL
 ```
 
-To simplify the usage, GNU-TK automatically selects the "best" GNU toolkit installed in the system using a number of factors.
+To simplify usage, GNU-TK automatically selects the most suitable GNU toolkit based on several factors.
 You can check the GNU toolkit selection and availability using `gnu-tk check` command:
 
 ```
