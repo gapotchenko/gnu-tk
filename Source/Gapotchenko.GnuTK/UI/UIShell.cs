@@ -50,7 +50,7 @@ static class UIShell
             Console.WriteLine(CliServices.AdaptConsoleText(copyright));
 
         Console.WriteLine();
-        Console.WriteLine("Provides seamless access to GNU toolkits on non-GNU operating systems.");
+        Console.WriteLine("Provides seamless access to GNU tools on non-GNU operating systems.");
     }
 
     static void ShowVersion(bool quiet)
