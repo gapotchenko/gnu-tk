@@ -12,22 +12,44 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - uses: ./.github/actions/setup-prerequisites
+      - name: Setup prerequisites
+        uses: ./.github/actions/setup-prerequisites
 
-    - name: Test
-      run: just test
+      - name: Test
+        run: just test
 
-    - name: Build platform-dependent artifacts
-      run: just build-platform
+      - name: Build platform-dependent artifacts
+        run: just build-platform
 
-    - uses: actions/upload-artifact@v4
-      with:
-        name: gnu-tk-artifacts-${{ matrix.os }}
-        path: |
-          Source/**/bin/Release/**/publish/
-          !Source/**/*.pdb
-          !Source/**/*.dbg
-          !Source/**/*.dSYM
-        if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gnu-tk-artifacts-${{ matrix.os }}
+          path: |
+            Source/**/bin/Release/**/publish/
+            !Source/**/*.pdb
+            !Source/**/*.dbg
+            !Source/**/*.dSYM
+          if-no-files-found: error
+
+  publish:
+
+    needs: build-platform
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup prerequisites
+        uses: ./.github/actions/setup-prerequisites
+
+      - name: Publish artifacts
+        run: just publish
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gnu-tk-artifacts
+          path: |
+            Source/**/bin/Release/nuget/*.nupkg
+          if-no-files-found: error
