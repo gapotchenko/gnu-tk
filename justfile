@@ -59,5 +59,4 @@ _publish-aot:
     dotnet publish -c Release -p:PublishAot=true -r osx-x64 -f net9.0
 
 # Build platform-dependent release artifacts
-[private]
 build-platform: _publish-aot

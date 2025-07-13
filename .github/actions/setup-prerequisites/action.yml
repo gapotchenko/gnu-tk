@@ -1,0 +1,15 @@
+name: 'Setup Prerequisites'
+description: 'Sets up the required software components'
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+        dotnet-quality: preview
+
+    - name: Setup just
+      uses: extractions/setup-just@v3
