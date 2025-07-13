@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-platform:
+  platform-build:
 
     name: Platform Build
     runs-on: ${{ matrix.os }}
@@ -22,11 +22,11 @@ jobs:
         run: just test
 
       - name: Build platform-dependent artifacts
-        run: just build-platform
+        run: just platform-build
 
       - uses: actions/upload-artifact@v4
         with:
-          name: gnu-tk-artifacts-${{ matrix.os }}
+          name: gnu-tk-platform-artifacts-${{ matrix.os }}
           path: |
             Source/**/bin/Release/**/publish/
             !Source/**/*.pdb
@@ -37,7 +37,7 @@ jobs:
   publish:
 
     name: Publish
-    needs: build-platform
+    needs: platform-build
     runs-on: ubuntu-latest
 
     steps:
@@ -51,7 +51,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: gnu-tk-artifacts
+          name: gnu-tk-publish-artifacts
           path: |
             Source/**/bin/Release/nuget/*.nupkg
           if-no-files-found: error
