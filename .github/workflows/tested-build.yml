@@ -6,6 +6,7 @@ on:
 jobs:
   build-platform:
 
+    name: Platform Build
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -35,6 +36,7 @@ jobs:
 
   publish:
 
+    name: Publish
     needs: build-platform
     runs-on: ubuntu-latest
 

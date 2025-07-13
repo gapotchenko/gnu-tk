@@ -4,7 +4,7 @@
   <PropertyGroup>
     <PackageTags>gnu toolkit</PackageTags>
     <Authors>$(Company)</Authors>
-    <PackageLicenseExpression>GPL-3.0</PackageLicenseExpression>
+    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <IsPackable>false</IsPackable>
     <IsPackable Condition=" '$(MasteringProjectKind)' == 'module' ">true</IsPackable>
