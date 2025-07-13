@@ -1,0 +1,29 @@
+{
+  "name": "@gapotchenko/gnu-tk",
+  "version": "1.0.0",
+  "author": "Gapotchenko",
+  "license": "GPL-3.0-only",
+  "description": "A mutli-platform command-line utility that provides seamless access to GNU toolkits on non-GNU operating systems.",
+  "keywords": [
+    "gnu",
+    "toolkit"
+  ],
+  "homepage": "https://github.com/gapotchenko/gnu-tk#readme",
+  "bugs": {
+    "url": "https://github.com/gapotchenko/gnu-tk/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gapotchenko/gnu-tk.git"
+  },
+  "main": "index.js",
+  "bin": {
+    "gnu-tk": "index.js"
+  },
+  "directories": {
+    "bin": "bin"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

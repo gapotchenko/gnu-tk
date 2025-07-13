@@ -1,0 +1,10 @@
+set windows-shell := ["gnu-tk", "-c"]
+
+# Show the help for this justfile
+@help:
+    just --list
+
+pack:
+    rm -rf bin && mkdir bin
+    cd gnu-tk && npm version 2.0.0
+    npm pack ./gnu-tk --pack-destination bin
