@@ -3,8 +3,6 @@ description: 'Sets up the required software components'
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v4
-
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v4
       with:
