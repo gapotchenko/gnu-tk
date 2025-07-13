@@ -26,7 +26,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: gnu-tk-artifacts-platform-${{ matrix.os }}
+          name: gnu-tk-artifacts-${{ matrix.os }}
           path: |
             Source/**/bin/Release/**/publish/
             !Source/**/*.pdb
