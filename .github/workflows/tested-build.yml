@@ -26,7 +26,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: gnu-tk-platform-artifacts-${{ matrix.os }}
+          name: gnu-tk-artifacts-platform-${{ matrix.os }}
           path: |
             Source/**/bin/Release/**/publish/
             !Source/**/*.pdb
@@ -49,9 +49,13 @@ jobs:
       - name: Publish artifacts
         run: just publish
 
+      - uses: actions/download-artifact@v4
+        with:
+          path: Source
+
       - uses: actions/upload-artifact@v4
         with:
-          name: gnu-tk-publish-artifacts
+          name: gnu-tk-artifacts-publish
           path: |
             Source/**/bin/Release/nuget/*.nupkg
           if-no-files-found: error
