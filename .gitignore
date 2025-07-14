@@ -23,5 +23,9 @@ CodeCoverage/
 .idea
 launchSettings.json
 
+# Node.js
+node_modules
+package-lock.json
+
 # Project
 /Source/Packaging/NPM/gnu-tk/platforms

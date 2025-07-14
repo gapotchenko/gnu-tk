@@ -6,12 +6,14 @@ set windows-shell := ["gnu-tk", "-c"]
 
 pack:
     cd scripts && chmod +x *.sh && ./prepare-platforms.sh
-    rm -rf bin && mkdir bin
+    rm -rf bin obj && mkdir bin obj
+    cp gnu-tk/package.json obj/package.json
     @cd gnu-tk && npm version 0.0.0-reset > /dev/null
     cd gnu-tk && npm version `xq ../../../Mastering/.NET/Version.props -x //Project/PropertyGroup/Version`
+    cd gnu-tk && npm pkg delete devDependencies scripts.format
     npm pack ./gnu-tk --pack-destination bin
-    @cd gnu-tk && npm version 0.0.0 > /dev/null
+    mv -f obj/package.json gnu-tk/package.json
 
 clean:
-    rm -rf bin
+    rm -rf bin obj
     cd scripts && ./clean-platforms.sh
