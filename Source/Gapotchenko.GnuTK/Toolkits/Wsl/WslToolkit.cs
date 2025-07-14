@@ -72,7 +72,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         string fileName = "wsl.exe";
         string wslPath = setupInstance.ResolvePath(Path.Join(fileName));
         if (!File.Exists(wslPath))
-            throw new ProductException(DiagnosticMessages.ModuleNotFound(fileName));
+            throw new ProgramException(DiagnosticMessages.ModuleNotFound(fileName));
         return wslPath;
     }
 
@@ -81,7 +81,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         // WSL cannot map paths on substituted drives (as of v2.5.7.0).
         if (PathUtil.IsSubstitutedPath(path))
         {
-            // Workaround that by explicitly mapping such a path on our side.
+            // Workaround that by explicitly mapping such a path to the real path.
             return FileSystem.GetRealPath(path);
         }
         else

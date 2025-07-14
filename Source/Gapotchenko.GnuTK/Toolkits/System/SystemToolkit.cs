@@ -56,7 +56,7 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
     {
         string envPath = "/usr/bin/env";
         if (!File.Exists(envPath))
-            throw new ProductException(DiagnosticMessages.ModuleNotFound(envPath));
+            throw new ProgramException(DiagnosticMessages.ModuleNotFound(envPath));
         return envPath;
     }
 }

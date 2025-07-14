@@ -83,7 +83,7 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
     {
         string shellPath = setupInstance.ResolvePath(Path.Join("bin", "sh.exe"));
         if (!File.Exists(shellPath))
-            throw new ProductException(DiagnosticMessages.ModuleNotFound(shellPath));
+            throw new ProgramException(DiagnosticMessages.ModuleNotFound(shellPath));
         return shellPath;
     }
 

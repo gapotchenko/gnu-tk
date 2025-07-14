@@ -70,7 +70,7 @@ dotnet tool install -g Gapotchenko.GnuTK
 Aside from GNU-TK itself, you also need an actual GNU toolkit installed on your system:
 
 - **Windows:** [MSYS2](https://www.msys2.org/) (recommended), [Cygwin](https://cygwin.com/) or [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
-- **macOS:** [Homebrew](https://brew.sh/) package manager with installed [`bash`](https://formulae.brew.sh/formula/bash) and [`coreutils`](https://formulae.brew.sh/formula/coreutils) packages as the bare minimum
+- **macOS:** [Homebrew](https://brew.sh/) package manager with installed GNU packages; [`bash`](https://formulae.brew.sh/formula/bash) and [`coreutils`](https://formulae.brew.sh/formula/coreutils) are a recommended minimum
 - **Linux:** already comes with a pre-installed GNU toolkit
 
 ## How it Works

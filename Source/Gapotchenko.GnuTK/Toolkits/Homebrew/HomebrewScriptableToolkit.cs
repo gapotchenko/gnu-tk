@@ -69,7 +69,7 @@ sealed class HomebrewScriptableToolkit(
         string packagePath = PackageManagement.GetPackagePath(shellPackage);
         string shellPath = Path.Combine(packagePath, "bin", shellPackage.Name);
         if (!File.Exists(shellPath))
-            throw new ProductException(DiagnosticMessages.ModuleNotFound(shellPath));
+            throw new ProgramException(DiagnosticMessages.ModuleNotFound(shellPath));
         return shellPath;
     }
 }

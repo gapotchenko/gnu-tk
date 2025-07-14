@@ -115,10 +115,10 @@ static class ToolkitServices
     {
         families = families.Memoize();
 
-        // Portable toolkits are prioritized according to the paths order.
+        // Portable toolkits are prioritized according to the paths' order.
         var portableToolkits = paths.SelectMany(path => families.SelectMany(family => family.EnumerateToolkitsFromDirectory(path)));
 
-        // Installed toolkits are prioritized according to the families order.
+        // Installed toolkits are prioritized according to the families' order.
         var installedToolkits = families.SelectMany(family => family.EnumerateInstalledToolkits());
 
         return
@@ -138,12 +138,12 @@ static class ToolkitServices
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            // Thoughts on priority:
-            //   1. MSYS2 comes with most of the packages by default, easy mental model (install and forget)
+            // Priority considerations:
+            //   1. MSYS2 comes with a saner set of packages by default, easy mental model (install and forget)
             //   2. Cygwin provides better execution performance when compared to WSL,
             //      but mental model is on a heavier side (too customizable to the point of a possible frustration)
-            //   3. WSL is ubiquitous and configurable, but it is prone to path mapping issues (for "subst" drives as of v2.5.7.0)
-            //      and to delays caused by starting WSL VM up on demand.
+            //   3. WSL is ubiquitous and configurable, but it is prone to path mapping issues and to delays
+            //      caused by VM spin ups.
             return [MSys2ToolkitFamily.Instance, CygwinToolkitFamily.Instance, WslToolkitFamily.Instance];
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
@@ -151,9 +151,9 @@ static class ToolkitServices
             // That was an easy one :)
             return [SystemToolkitFamily.Instance];
 
-            // Homebrew package manager can be installed on Linux,
-            // but there is no need to handle it specifically here
-            // because it immersively integrates with a system by itself.
+            // Homebrew package manager can be installed on Linux, but there
+            // is no need to handle it specifically here because it
+            // immersively integrates with a host system by itself.
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
@@ -162,12 +162,13 @@ static class ToolkitServices
         }
         else if (Environment.OSVersion.Platform == PlatformID.Unix)
         {
-            // Generic fallback.
+            // Generic fallback on a Unix-based host system.
             // While GNU is not Unix, Unix is a close enough native alternative.
             return [SystemToolkitFamily.Instance];
         }
         else
         {
+            // Unsupported operating system.
             return [];
         }
     }

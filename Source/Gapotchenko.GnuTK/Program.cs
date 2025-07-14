@@ -119,7 +119,7 @@ static class Program
                         case ProgramOptions.Check:
                         case ProgramOptions.Strict or ProgramOptions.Shorthands.Strict:
                         case ProgramOptions.Posix or ProgramOptions.Shorthands.Posix:
-                        case "-sp" or "-ps": // strict + posix
+                        case "-sp": // strict + posix
                             break;
 
                         default:
@@ -221,7 +221,7 @@ static class Program
     {
         // Most frequently used options are handled first.
 
-        // '-c' command-line option.
+        // '-c' command-line option (execute a command).
         if ((bool)arguments[ProgramOptions.ExecuteCommand])
         {
             string command = (string)arguments[ProgramOptions.Command];
@@ -230,18 +230,19 @@ static class Program
             return true;
         }
 
-        // '-l' command-line option.
+        // '-l' command-line option (execute a command line).
         if ((bool)arguments[ProgramOptions.ExecuteCommandLine])
         {
-            // In Windows OS, the native representation of a command line is a string.
-            // Take a benefit of that fact by extracting command information directly.
-            // Otherwise, it would be necessary to reconstruct it and this can lead to imprecisions.
-            var command = ExtractCommand(Environment.CommandLine);
+            // On Windows, a command line is natively represented as a single string.
+            // Take advantage of this by extracting the required information directly
+            // from the string form of the command line. Otherwise, it would need to
+            // be reconstructed, which could introduce inaccuracies.
+            var command = ExtractCommandToExecute(Environment.CommandLine);
             exitCode = engine.ExecuteCommand(command.ToString(), []);
             return true;
         }
 
-        // '-f' command-line option.
+        // '-f' command-line option (execute a file).
         if ((bool)arguments[ProgramOptions.ExecuteFile])
         {
             string filePath = (string)arguments[ProgramOptions.File];
@@ -270,9 +271,9 @@ static class Program
     }
 
     /// <summary>
-    /// Extracts a command from the specified command line.
+    /// Extracts a command to execute from the specified command line string.
     /// </summary>
-    static ReadOnlySpan<char> ExtractCommand(string commandLine)
+    static ReadOnlySpan<char> ExtractCommandToExecute(string commandLine)
     {
         var reader = new PositionTrackingTextReader(new StringReader(commandLine));
         using var enumerator = CommandLine.Split(reader).GetEnumerator();
@@ -290,7 +291,7 @@ static class Program
                     {
                         case ProgramOptions.Strict or ProgramOptions.Shorthands.Strict:
                         case ProgramOptions.Posix or ProgramOptions.Shorthands.Posix:
-                        case "-sp" or "-ps": // strict + posix
+                        case "-sp": // strict + posix
                             break;
 
                         case ProgramOptions.Toolkit or ProgramOptions.Shorthands.Toolkit:

@@ -87,7 +87,7 @@ static class UIShell
             int? errorCode = (int?)(exception as DiagnosticException)?.Code;
             writer.Write(Invariant($": GNUTK{errorCode:D4}: "));
 
-            if (exception is InternalException or not ProductException)
+            if (exception is InternalException or not ProgramException)
                 writer.Write("Internal error: ");
 
             bool hasParent = false;

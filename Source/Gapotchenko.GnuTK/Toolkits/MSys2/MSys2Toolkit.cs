@@ -44,7 +44,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         ConfigureEnvironment(processEnvironment);
 
         // Launch the shell in POSIX mode to discourage usage of non-standard features.
-        // Another reason to run the MSYS2 shell in POSIX mode is to make it inherit
+        // Another reason to run the MSYS2 shell in POSIX mode is to make it to inherit
         // PATH environment variable from the host system. In contrast to Cygwin,
         // MSYS2 login shell does not inherit PATH in non-POSIX mode.
         const bool posixifyShell = true;
@@ -87,7 +87,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
     {
         string shellPath = msys2environment.SetupInstance.ResolvePath(Path.Join("usr", "bin", "sh.exe"));
         if (!File.Exists(shellPath))
-            throw new ProductException(DiagnosticMessages.ModuleNotFound(shellPath));
+            throw new ProgramException(DiagnosticMessages.ModuleNotFound(shellPath));
         return shellPath;
     }
 

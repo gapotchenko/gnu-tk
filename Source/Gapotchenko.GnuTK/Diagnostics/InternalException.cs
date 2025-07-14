@@ -10,7 +10,7 @@ namespace Gapotchenko.GnuTK.Diagnostics;
 /// <summary>
 /// Represents an internal error that can occur in GNU-TK.
 /// </summary>
-sealed class InternalException : ProductException
+sealed class InternalException : ProgramException
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="InternalException"/> class.
