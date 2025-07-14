@@ -1,0 +1,4 @@
+set windows-shell := ["cmd", "/c"]
+
+pack:
+    cd NPM && just pack

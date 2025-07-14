@@ -60,3 +60,7 @@ _publish-aot:
 
 # Build platform-dependent release artifacts
 platform-build: _publish-aot
+
+# Produce platform-dependent publishable artifacts
+platform-publish:
+    cd Packaging && just pack

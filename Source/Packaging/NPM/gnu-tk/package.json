@@ -1,6 +1,6 @@
 {
   "name": "@gapotchenko/gnu-tk",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "author": "Gapotchenko",
   "license": "GPL-3.0-only",
   "description": "A mutli-platform command-line utility that provides seamless access to GNU toolkits on non-GNU operating systems.",

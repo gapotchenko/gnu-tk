@@ -6,5 +6,7 @@ set windows-shell := ["gnu-tk", "-c"]
 
 pack:
     rm -rf bin && mkdir bin
-    cd gnu-tk && npm version 2.0.0
+    @cd gnu-tk && npm version 0.0.0-reset > /dev/null
+    cd gnu-tk && npm version `xq ../../../Mastering/.NET/Version.props -x //Project/PropertyGroup/Version`
     npm pack ./gnu-tk --pack-destination bin
+    @cd gnu-tk && npm version 0.0.0 > /dev/null
