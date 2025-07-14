@@ -2,3 +2,6 @@ set windows-shell := ["cmd", "/c"]
 
 pack:
     cd NPM && just pack
+
+clean:
+    cd NPM && just clean

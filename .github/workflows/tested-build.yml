@@ -46,7 +46,7 @@ jobs:
       - name: Setup prerequisites
         uses: ./.github/actions/setup-prerequisites
 
-      - run: sudo apt install -y xq
+      - run: sudo apt-get install -y xq
 
       - name: Publish artifacts
         run: just publish
@@ -55,9 +55,6 @@ jobs:
         with:
           path: Source
           merge-multiple: true
-
-      - name: Debug
-        run: just debug-fs
 
       - name: Publish platform-dependent artifacts
         run: just platform-publish

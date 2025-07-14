@@ -1,4 +1,4 @@
 set -eu
 cd ../gnu-tk
 
-#rm -rf platforms
+rm -rf platforms

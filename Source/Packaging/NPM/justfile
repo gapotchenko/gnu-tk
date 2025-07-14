@@ -11,4 +11,7 @@ pack:
     cd gnu-tk && npm version `xq ../../../Mastering/.NET/Version.props -x //Project/PropertyGroup/Version`
     npm pack ./gnu-tk --pack-destination bin
     @cd gnu-tk && npm version 0.0.0 > /dev/null
-    @cd scripts && ./cleanup-platforms.sh
+
+clean:
+    rm -rf bin
+    cd scripts && ./clean-platforms.sh

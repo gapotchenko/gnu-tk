@@ -26,10 +26,11 @@ build:
 rebuild:
     dotnet build --no-incremental -c Release
 
-# Clean all build artifacts
+# Clean all artifacts
 clean:
     dotnet clean -c Debug
     dotnet clean -c Release
+    cd Packaging && just clean
 
 # Run all tests
 test:
@@ -43,6 +44,9 @@ publish:
 
 # Make a release by testing and producing publishable project artifacts
 release: test publish
+
+# Build platform-dependent release artifacts
+platform-build: _publish-aot
 
 [linux]
 _publish-aot:
@@ -58,13 +62,6 @@ _publish-aot:
     dotnet publish -c Release -p:PublishAot=true -r osx-arm64 -f net9.0
     dotnet publish -c Release -p:PublishAot=true -r osx-x64 -f net9.0
 
-# Build platform-dependent release artifacts
-platform-build: _publish-aot
-
 # Produce platform-dependent publishable artifacts
 platform-publish:
     cd Packaging && just pack
-
-[private]
-debug-fs:
-    find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
