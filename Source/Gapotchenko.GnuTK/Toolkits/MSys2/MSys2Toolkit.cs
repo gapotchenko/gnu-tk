@@ -43,8 +43,14 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         EnvironmentServices.CombineEnvironmentWith(processEnvironment, environment);
         SetEnvironment(processEnvironment);
 
+        // Launch the shell in POSIX mode to discourage usage of non-standard features.
+        // Another reason to run the MSYS2 shell in POSIX mode is to make it inherit
+        // PATH environment variable from the host system. In contrast to Cygwin,
+        // MSYS2 does not inherit PATH in non-POSIX mode.
+        const bool posixifyShell = true;
+
         bool posixlyCorrect = processEnvironment.ContainsKey("POSIXLY_CORRECT");
-        if (posixlyCorrect)
+        if (posixifyShell || posixlyCorrect)
         {
             // POSIX-compliant behavior requires us to add a lookup path for the shell directory.
             // Otherwise, the files in the shell directory cannot be found by the shell.
@@ -52,6 +58,8 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         }
 
         var processArguments = psi.ArgumentList;
+        if (posixifyShell && !posixlyCorrect)
+            processArguments.Add("-posix");
         processArguments.Add("-l");
         processArguments.Add("-c");
 

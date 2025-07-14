@@ -40,8 +40,11 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         var processEnvironment = psi.Environment;
         EnvironmentServices.CombineEnvironmentWith(processEnvironment, environment);
 
+        // Launch the shell in POSIX mode to discourage usage of non-standard features.
+        const bool posixifyShell = true;
+
         bool posixlyCorrect = processEnvironment.ContainsKey("POSIXLY_CORRECT");
-        if (posixlyCorrect)
+        if (posixifyShell || posixlyCorrect)
         {
             // POSIX-compliant behavior requires us to add a lookup path for the shell directory.
             // Otherwise, the files in the shell directory cannot be found by the shell.
@@ -49,6 +52,8 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         }
 
         var processArguments = psi.ArgumentList;
+        if (posixifyShell && !posixlyCorrect)
+            processArguments.Add("-posix");
         processArguments.Add("-l");
         processArguments.Add("-c");
 
