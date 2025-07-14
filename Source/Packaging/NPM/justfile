@@ -6,6 +6,7 @@ set windows-shell := ["gnu-tk", "-c"]
 
 pack:
     cd scripts && chmod +x *.sh && ./prepare-platforms.sh
+    cp -l ../../../README.md gnu-tk/README.md
     rm -rf bin obj && mkdir bin obj
     cp gnu-tk/package.json obj/package.json
     @cd gnu-tk && npm version 0.0.0-reset > /dev/null
@@ -16,4 +17,5 @@ pack:
 
 clean:
     rm -rf bin obj
+    rm -f gnu-tk/README.md
     cd scripts && ./clean-platforms.sh
