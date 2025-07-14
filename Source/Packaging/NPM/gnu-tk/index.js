@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // Gapotchenko.GnuTK
 //
 // Copyright © Gapotchenko and Contributors
