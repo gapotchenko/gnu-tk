@@ -5,9 +5,7 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
-"use strict";
-
-const os = require("os");
+import os from "node:os";
 
 // Gets a .NET runtime identifier.
 function getNETRid() {
@@ -46,4 +44,4 @@ function getNETRid() {
   );
 }
 
-module.exports = { NET: { getRid: getNETRid } };
+export default { NET: { getRid: getNETRid } };

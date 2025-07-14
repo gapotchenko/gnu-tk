@@ -5,12 +5,10 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
-"use strict";
-
-const platform = require("./platform");
-const path = require("path");
-const fs = require("fs");
-const childProcess = require("child_process");
+import platform from "./platform.js";
+import path from "node:path";
+import fs from "node:fs";
+import { spawn } from "node:child_process";
 
 try {
   run(process.argv.slice(2));
@@ -27,7 +25,7 @@ function run(args) {
     throw new Error(`Platform '${rid}' is not supported.`);
   }
 
-  const processHandle = childProcess.spawn(processPath, args, {
+  const processHandle = spawn(processPath, args, {
     stdio: "inherit",
   });
 
@@ -37,7 +35,7 @@ function run(args) {
 
 function getProcessPath(rid) {
   let processPath = path.resolve(
-    path.join(__dirname, "platforms", rid, "gnu-tk"),
+    path.join(import.meta.dirname, "platforms", rid, "gnu-tk"),
   );
   if (rid.startsWith("win-")) processPath += ".exe";
   return processPath;

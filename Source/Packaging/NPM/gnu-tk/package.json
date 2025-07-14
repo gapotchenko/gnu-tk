@@ -16,7 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/gapotchenko/gnu-tk.git"
   },
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
   "bin": {
     "gnu-tk": "index.js"
