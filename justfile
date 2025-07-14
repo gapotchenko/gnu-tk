@@ -64,3 +64,7 @@ platform-build: _publish-aot
 # Produce platform-dependent publishable artifacts
 platform-publish:
     cd Packaging && just pack
+
+[private]
+debug-fs:
+    find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"

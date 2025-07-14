@@ -55,6 +55,9 @@ jobs:
         with:
           path: Source
 
+      - name: Debug
+        run: just debug-fs
+
       - name: Publish platform-dependent artifacts
         run: just platform-publish
 
