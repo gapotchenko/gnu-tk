@@ -3,6 +3,8 @@ description: 'Sets up the security environment'
 runs:
   using: "composite"
   steps:
+    - uses: actions/checkout@v4
+
     - name: Install .NET assembly signing keys
       env:
         GP_OSS_ASSEMBLY_SNK: ${{ secrets.GP_OSS_ASSEMBLY_SNK }}
