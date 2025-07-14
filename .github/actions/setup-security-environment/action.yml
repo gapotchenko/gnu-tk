@@ -1,0 +1,16 @@
+name: 'Setup Security Environment'
+description: 'Sets up the security environment'
+runs:
+  using: "composite"
+  steps:
+    - name: Install .NET assembly signing keys
+      env:
+        GP_OSS_ASSEMBLY_SNK: ${{ secrets.GP_OSS_ASSEMBLY_SNK }}
+      run: |
+        echo $GP_OSS_ASSEMBLY_SNK | base64 --decode > gp-oss-assembly.snk
+
+    - name: Create .env file
+      run: |
+        cat <<EOF >.env
+        AssemblyOriginatorKeyFile=`pwd`/gp-oss-assembly.snk
+        EOF

@@ -18,6 +18,9 @@ jobs:
       - name: Setup prerequisites
         uses: ./.github/actions/setup-prerequisites
 
+      - name: Setup security environment
+        uses: ./.github/actions/setup-security-environment
+
       - name: Test
         run: just test
 
@@ -45,6 +48,9 @@ jobs:
 
       - name: Setup prerequisites
         uses: ./.github/actions/setup-prerequisites
+
+      - name: Setup security environment
+        uses: ./.github/actions/setup-security-environment
 
       - run: sudo apt-get install -y xq
 
