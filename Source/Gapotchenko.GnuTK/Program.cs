@@ -62,14 +62,22 @@ static class Program
               check                Check a GNU toolkit.
             """;
 
+        string? commandLine = args is [] ? null : Environment.CommandLine;
+        args = CanonicalizeArgs(args, ref commandLine);
+
         var arguments =
-            CliServices.TryParseArguments(CanonicalizeArgs(args), usage) ??
+            CliServices.TryParseArguments(args, usage) ??
             throw new DiagnosticException("Invalid program arguments.", DiagnosticCode.InvalidProgramArguments);
 
         if (UIShell.Run(arguments, usage, out int exitCode))
+        {
             return exitCode;
+        }
         else
-            return RunCore(arguments);
+        {
+            Debug.Assert(commandLine != null);
+            return RunCore(arguments, commandLine);
+        }
     }
 
     #region Program arguments canonicalization
@@ -77,14 +85,27 @@ static class Program
     /// <summary>
     /// Interprets naturally occurring program arguments and
     /// rewrites them in canonical form suitable for the formal parsing.
-    /// Additionally, validates arguments order.
+    /// Performs additional arguments validation.
     /// </summary>
-    static IReadOnlyList<string> CanonicalizeArgs(IReadOnlyList<string> args)
+    static IReadOnlyList<string> CanonicalizeArgs(
+        IReadOnlyList<string> args,
+        [NotNullIfNotNull(nameof(commandLine))] ref string? commandLine)
     {
-        int n = args.Count;
-        if (n == 0)
-            return [ProgramOptions.Help];
+        var expandedArgs =
+            args switch
+            {
+                [] => [ProgramOptions.Help],
+                _ => ExpandShebangArgs(args),
+            };
 
+        if (expandedArgs != args)
+        {
+            args = expandedArgs;
+            if (commandLine != null)
+                commandLine = CommandLine.Build(args.Prepend(CommandLine.Split(commandLine).First()));
+        }
+
+        int n = args.Count;
         var newArgs = new List<string>(n + 1);
 
         var state = ArgsCanonicalizationState.Option;
@@ -151,6 +172,19 @@ static class Program
         return newArgs;
     }
 
+    static IReadOnlyList<string> ExpandShebangArgs(IReadOnlyList<string> args)
+    {
+        if (args is [])
+            return args;
+
+        string arg0 = args[0];
+        if (!(arg0.StartsWith('-') && arg0.Contains(' ')))
+            return args;
+
+        // Linearize shebang arguments.
+        return [.. CommandLine.Split(arg0).Concat(args.Skip(1))];
+    }
+
     enum ArgsCanonicalizationState
     {
         Option,
@@ -162,12 +196,12 @@ static class Program
     #endregion
 
     [MethodImpl(MethodImplOptions.NoInlining)] // avoid premature initialization of types
-    static int RunCore(IReadOnlyDictionary<string, object> arguments)
+    static int RunCore(IReadOnlyDictionary<string, object> arguments, string commandLine)
     {
         // Initialize a GNU-TK engine.
         var engine = InitializeEngine(arguments);
 
-        if (RunEngine(engine, arguments, out int exitCode))
+        if (RunEngine(engine, arguments, commandLine, out int exitCode))
             return exitCode;
 
         throw new InternalException("Unhandled command-line arguments.");
@@ -217,7 +251,7 @@ static class Program
             [];
     }
 
-    static bool RunEngine(Engine engine, IReadOnlyDictionary<string, object> arguments, out int exitCode)
+    static bool RunEngine(Engine engine, IReadOnlyDictionary<string, object> arguments, string commandLine, out int exitCode)
     {
         // Most frequently used options are handled first.
 
@@ -237,7 +271,7 @@ static class Program
             // Take advantage of this by extracting the required information directly
             // from the string form of the command line. Otherwise, it would need to
             // be reconstructed, which could introduce inaccuracies.
-            var command = ExtractCommandToExecute(Environment.CommandLine);
+            var command = ExtractCommandToExecute(commandLine);
             exitCode = engine.ExecuteCommand(command.ToString(), []);
             return true;
         }
