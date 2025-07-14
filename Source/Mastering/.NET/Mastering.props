@@ -17,7 +17,6 @@
   <PropertyGroup>
     <Deterministic>true</Deterministic>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <TrimmerSingleWarn>false</TrimmerSingleWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' != 'Debug' ">
@@ -32,5 +31,6 @@
   <Import Project="Targeting.props" />
   <Import Project="NuGet.props" />
   <Import Project="AssemblySignature.props" />
+  <Import Project="AOT.props" />
 
 </Project>

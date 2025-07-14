@@ -1,0 +1,24 @@
+set -eu
+cd ../gnu-tk
+
+rm -rf platforms && mkdir platforms
+
+basePath=../../../Gapotchenko.GnuTK/bin/Release/net9.0
+
+mkdir platforms/win-x64
+cp -l "$basePath/win-x64/publish/Gapotchenko.GnuTK.exe" platforms/win-x64/gnu-tk.exe
+
+mkdir platforms/win-arm64
+cp -l "$basePath/win-arm64/publish/Gapotchenko.GnuTK.exe" platforms/win-arm64/gnu-tk.exe
+
+mkdir platforms/linux-x64
+cp -l "$basePath/linux-x64/publish/Gapotchenko.GnuTK" platforms/linux-x64/gnu-tk
+chmod +x platforms/linux-x64/gnu-tk
+
+mkdir platforms/osx-x64
+cp -l "$basePath/osx-x64/publish/Gapotchenko.GnuTK" platforms/osx-x64/gnu-tk
+chmod +x platforms/osx-x64/gnu-tk
+
+mkdir platforms/osx-arm64
+cp -l "$basePath/osx-arm64/publish/Gapotchenko.GnuTK" platforms/osx-arm64/gnu-tk
+chmod +x platforms/osx-arm64/gnu-tk

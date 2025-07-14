@@ -1,0 +1,8 @@
+<Project>
+
+  <PropertyGroup>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+</Project>
