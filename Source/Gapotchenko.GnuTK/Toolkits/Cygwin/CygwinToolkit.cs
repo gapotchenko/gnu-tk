@@ -13,7 +13,9 @@ using System.Text;
 
 namespace Gapotchenko.GnuTK.Toolkits.Cygwin;
 
-sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setupInstance) : IScriptableToolkit, IToolkitEnvironment
+sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setupInstance) :
+    IScriptableToolkit,
+    IToolkitEnvironment
 {
     public string Name => "cygwin";
 

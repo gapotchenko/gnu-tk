@@ -41,12 +41,12 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
 
         var processEnvironment = psi.Environment;
         EnvironmentServices.CombineEnvironmentWith(processEnvironment, environment);
-        SetEnvironment(processEnvironment);
+        ConfigureEnvironment(processEnvironment);
 
         // Launch the shell in POSIX mode to discourage usage of non-standard features.
         // Another reason to run the MSYS2 shell in POSIX mode is to make it inherit
         // PATH environment variable from the host system. In contrast to Cygwin,
-        // MSYS2 does not inherit PATH in non-POSIX mode.
+        // MSYS2 login shell does not inherit PATH in non-POSIX mode.
         const bool posixifyShell = true;
 
         bool posixlyCorrect = processEnvironment.ContainsKey("POSIXLY_CORRECT");
@@ -96,7 +96,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
     IReadOnlyDictionary<string, string?> GetEnvironmentCore()
     {
         var environment = EnvironmentServices.CreateEnvironment();
-        SetEnvironment(environment);
+        ConfigureEnvironment(environment);
 
         string binPath = msys2environment.SetupInstance.ResolvePath(Path.Join("usr", "bin"));
         if (Directory.Exists(binPath))
@@ -105,7 +105,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         return environment;
     }
 
-    void SetEnvironment(IDictionary<string, string?> environment)
+    void ConfigureEnvironment(IDictionary<string, string?> environment)
     {
         environment["MSYSCON"] = "";
         environment["MSYSTEM"] = msys2environment.Name;
