@@ -46,7 +46,7 @@ jobs:
       - name: Setup prerequisites
         uses: ./.github/actions/setup-prerequisites
 
-      - run: apt-get install xq
+      - run: sudo apt install -y xq
 
       - name: Publish artifacts
         run: just publish
