@@ -5,10 +5,10 @@ set windows-shell := ["gnu-tk", "-c"]
     just --list
 
 pack:
-    cd build && ./prepare-platforms.sh
+    cd scripts && ./prepare-platforms.sh
     rm -rf bin && mkdir bin
     @cd gnu-tk && npm version 0.0.0-reset > /dev/null
     cd gnu-tk && npm version `xq ../../../Mastering/.NET/Version.props -x //Project/PropertyGroup/Version`
     npm pack ./gnu-tk --pack-destination bin
     @cd gnu-tk && npm version 0.0.0 > /dev/null
-    @cd build && ./cleanup-platforms.sh
+    @cd scripts && ./cleanup-platforms.sh
