@@ -72,4 +72,6 @@ sealed class HomebrewScriptableToolkit(
             throw new ProgramException(DiagnosticMessages.ModuleNotFound(shellPath));
         return shellPath;
     }
+
+    public string TranslateFilePath(string path) => path;
 }

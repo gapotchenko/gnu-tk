@@ -99,4 +99,6 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
 
         return environment;
     }
+
+    public string TranslateFilePath(string path) => CygwinFileSystem.TranslateFilePath(path, "/cygdrive");
 }

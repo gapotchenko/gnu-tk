@@ -26,7 +26,7 @@ sealed class MSys2ToolkitFamily : IToolkitFamily
 
     public string Name => "MSYS2";
 
-    public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable;
+    public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable | ToolkitFamilyTraits.FilePathTranslation;
 
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>
         MSys2Deployment.EnumerateSetupInstances()

@@ -48,5 +48,10 @@ enum ToolkitFamilyTraits
     /// <summary>
     /// Indicates that a toolkit works in a virtual machine or container.
     /// </summary>
-    Isolated = 1 << 3
+    Isolated = 1 << 3,
+
+    /// <summary>
+    /// Indicates that a toolkit requires file paths to be translated.
+    /// </summary>
+    FilePathTranslation = 1 << 4
 }

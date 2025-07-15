@@ -276,7 +276,7 @@ static class Program
             // from the string form of the command line. Otherwise, it would need to
             // be reconstructed, which could introduce inaccuracies.
             var command = ExtractCommandToExecute(commandLine);
-            exitCode = engine.ExecuteCommand(command.ToString(), []);
+            exitCode = engine.ExecuteCommandLine(command.ToString());
             return true;
         }
 

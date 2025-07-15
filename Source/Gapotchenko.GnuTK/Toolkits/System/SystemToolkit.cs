@@ -59,4 +59,6 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
             throw new ProgramException(DiagnosticMessages.ModuleNotFound(envPath));
         return envPath;
     }
+
+    public string TranslateFilePath(string path) => path;
 }

@@ -6,7 +6,8 @@
 
 Release date: not released yet
 
-- Expand naturally occuring shebang arguments
+- Expansion of naturally occuring shebang arguments
+- Automatic translation of file paths
 
 ### GNU-TK 2025.1
 

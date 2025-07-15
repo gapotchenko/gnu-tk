@@ -8,6 +8,7 @@
 using Gapotchenko.FX.Collections.Generic;
 using Gapotchenko.FX.IO;
 using Gapotchenko.GnuTK.Diagnostics;
+using Gapotchenko.GnuTK.Toolkits.Cygwin;
 using Gapotchenko.Shields.MSys2.Deployment;
 using System.Text;
 
@@ -110,4 +111,6 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         environment["MSYSCON"] = "";
         environment["MSYSTEM"] = msys2environment.Name;
     }
+
+    public string TranslateFilePath(string path) => CygwinFileSystem.TranslateFilePath(path, null);
 }

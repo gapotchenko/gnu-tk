@@ -89,4 +89,49 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
             return path;
         }
     }
+
+    public string TranslateFilePath(string path)
+    {
+        string processPath = GetWslPath();
+
+        var psi = new ProcessStartInfo
+        {
+            FileName = processPath,
+            WorkingDirectory = NormalizePath(Directory.GetCurrentDirectory()),
+            WindowStyle = ProcessWindowStyle.Hidden,
+            RedirectStandardOutput = true
+        };
+
+        var processArguments = psi.ArgumentList;
+        processArguments.Add("--exec");
+        processArguments.Add("wslpath");
+        processArguments.Add(NormalizePath(path));
+
+        var output = new StringBuilder();
+
+        using var process =
+            Process.Start(psi) ??
+            throw new ProgramException(DiagnosticMessages.CannotStartProcess(psi.FileName));
+
+        process.OutputDataReceived += Process_OutputDataReceived;
+
+        process.BeginOutputReadLine();
+
+        void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (e.Data is var data and not (null or []))
+            {
+                if (output.Length != 0)
+                    output.AppendLine();
+                output.Append(data);
+            }
+        }
+
+        process.WaitForExit();
+
+        if (process.ExitCode != 0)
+            return path;
+
+        return output.ToString();
+    }
 }

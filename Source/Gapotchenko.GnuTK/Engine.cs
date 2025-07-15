@@ -5,11 +5,13 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
+using Gapotchenko.FX.Diagnostics;
 using Gapotchenko.FX.Linq;
 using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Hosting;
 using Gapotchenko.GnuTK.Toolkits;
 using Gapotchenko.GnuTK.UI;
+using static Gapotchenko.FX.IO.Vfs.Kits.VfsValidationKit;
 
 namespace Gapotchenko.GnuTK;
 
@@ -51,6 +53,24 @@ public sealed class Engine
     public bool Quiet { get; init; }
 
     /// <summary>
+    /// Executes the specified command line.
+    /// </summary>
+    /// <param name="command">The command line to execute.</param>
+    /// <returns>The exit code.</returns>
+    public int ExecuteCommandLine(string commandLine)
+    {
+        var toolkit = GetToolkit();
+
+        string command;
+        if (toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.FilePathTranslation))
+            command = CommandLine.Build(TranslateFilePaths(toolkit, CommandLine.Split(commandLine)));
+        else
+            command = commandLine;
+
+        return ExecuteCommandCore(toolkit, command, []);
+    }
+
+    /// <summary>
     /// Executes the specified command.
     /// </summary>
     /// <param name="command">The command to execute.</param>
@@ -59,11 +79,43 @@ public sealed class Engine
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments)
     {
         var toolkit = GetToolkit();
+
+        IReadOnlyList<string> preparedArguments;
+        if (toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.FilePathTranslation))
+            preparedArguments = [.. TranslateFilePaths(toolkit, arguments)];
+        else
+            preparedArguments = arguments;
+
+        return ExecuteCommandCore(toolkit, command, preparedArguments);
+    }
+
+    int ExecuteCommandCore(IScriptableToolkit toolkit, string command, IReadOnlyList<string> arguments)
+    {
         return toolkit.ExecuteCommand(
             command,
             arguments,
             GetToolkitExecutionEnvironment(),
             GetToolkitExecutionOptions());
+    }
+
+    static IEnumerable<string> TranslateFilePaths(IScriptableToolkit toolkit, IEnumerable<string> values)
+    {
+        return values.Select(value => IsTranslatableFilePath(value) ? toolkit.TranslateFilePath(value) : value);
+    }
+
+    static bool IsTranslatableFilePath(string path)
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            if (path.Length >= 2 && path[1] == ':' && char.IsAsciiLetter(path[0]))
+                return true;
+            else
+                return false;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /// <summary>

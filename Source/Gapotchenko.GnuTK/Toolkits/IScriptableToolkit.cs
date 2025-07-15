@@ -37,4 +37,11 @@ interface IScriptableToolkit : IToolkit
         IReadOnlyList<string> arguments,
         IReadOnlyDictionary<string, string?>? environment,
         ToolkitExecutionOptions options);
+
+    /// <summary>
+    /// Translates the specified file path to the toolkit's format.
+    /// </summary>
+    /// <param name="paths">The file path to translate.</param>
+    /// <returns>A translated file path in toolkit's format.</returns>
+    string TranslateFilePath(string path);
 }
