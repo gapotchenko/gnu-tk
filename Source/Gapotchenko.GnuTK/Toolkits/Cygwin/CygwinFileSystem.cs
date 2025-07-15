@@ -15,11 +15,14 @@ static class CygwinFileSystem
     {
         if (path.Length >= 2 && path[1] == ':' && char.IsAsciiLetter(path[0]))
         {
-            // C:/Folder/File.txt => /c/Folder/File.txt
+            // C:/Folder/File.txt => {prefix}/c/Folder/File.txt
 
             var builder = new StringBuilder(prefix);
+
+            // The drive letter.
             builder.Append('/').Append(char.ToLowerInvariant(path[0]));
 
+            // The drive path.
             var s = path[2..].Replace('\\', '/').AsSpan().TrimStart('/');
             if (!s.IsEmpty)
                 builder.Append('/').Append(s);

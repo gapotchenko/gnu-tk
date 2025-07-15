@@ -14,6 +14,12 @@ using System.Text;
 
 namespace Gapotchenko.GnuTK.Toolkits.MSys2;
 
+/// <summary>
+/// Implements MSYS2 toolkit support.
+/// </summary>
+/// <remarks>
+/// MSYS2 toolkit is built upon Cygwin.
+/// </remarks>
 sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2environment) :
     IScriptableToolkit,
     IToolkitEnvironment
@@ -45,7 +51,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         ConfigureEnvironment(processEnvironment);
 
         // Launch the shell in POSIX mode to discourage usage of non-standard features.
-        // Another reason to run the MSYS2 shell in POSIX mode is to make it to inherit
+        // Another reason to run the MSYS2 shell in POSIX mode is to make it inherit
         // PATH environment variable from the host system. In contrast to Cygwin,
         // MSYS2 login shell does not inherit PATH in non-POSIX mode.
         const bool posixifyShell = true;
