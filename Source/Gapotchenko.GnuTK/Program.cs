@@ -63,49 +63,66 @@ static class Program
             """;
 
         string? commandLine = args is [] ? null : Environment.CommandLine;
-        args = CanonicalizeArgs(args, ref commandLine);
+        var expandedArgs = ExpandArgs(args);
+        if (commandLine != null && expandedArgs != args)
+            commandLine = CommandLine.Build(expandedArgs.Prepend(CommandLine.Split(commandLine).First()));
 
-        var arguments =
-            CliServices.TryParseArguments(args, usage) ??
+        var parsedArguments =
+            CliServices.TryParseArguments(CanonicalizeArgs(expandedArgs), usage) ??
             throw new DiagnosticException("Invalid program arguments.", DiagnosticCode.InvalidProgramArguments);
 
-        if (UIShell.Run(arguments, usage, out int exitCode))
+        if (UIShell.Run(args, parsedArguments, usage, out int exitCode))
         {
             return exitCode;
         }
         else
         {
             Debug.Assert(commandLine != null);
-            return RunCore(arguments, commandLine);
+            return RunCore(parsedArguments, commandLine);
         }
     }
 
-    #region Program arguments canonicalization
+    #region Program arguments expansion & canonicalization
 
     /// <summary>
-    /// Interprets naturally occurring program arguments and
-    /// rewrites them in canonical form suitable for the formal parsing.
-    /// Performs additional arguments validation.
+    /// Expands naturally occurring program arguments and
+    /// rewrites them in expanded form suitable for the formal parsing.
     /// </summary>
-    static IReadOnlyList<string> CanonicalizeArgs(
-        IReadOnlyList<string> args,
-        [NotNullIfNotNull(nameof(commandLine))] ref string? commandLine)
+    static IReadOnlyList<string> ExpandArgs(IReadOnlyList<string> args)
     {
-        var expandedArgs =
+        return
             args switch
             {
                 [] => [ProgramOptions.Help],
                 _ => ExpandShebangArgs(args),
             };
 
-        if (expandedArgs != args)
+        /// Expands shebang arguments from <c>"-a -b" c</c> form to <c>-a -b c</c>.
+        static IReadOnlyList<string> ExpandShebangArgs(IReadOnlyList<string> args)
         {
-            args = expandedArgs;
-            if (commandLine != null)
-                commandLine = CommandLine.Build(args.Prepend(CommandLine.Split(commandLine).First()));
-        }
+            if (args.Count != 2)
+                return args;
 
+            string arg0 = args[0];
+            if (!(arg0.StartsWith('-') && arg0.Contains(' ')))
+                return args;
+
+            // Linearize shebang arguments.
+            return [.. CommandLine.Split(arg0).Concat(args.Skip(1))];
+        }
+    }
+
+    /// <summary>
+    /// Interprets naturally occurring program arguments and
+    /// rewrites them in canonical form suitable for the formal parsing.
+    /// Performs additional arguments validation.
+    /// </summary>
+    static IReadOnlyList<string> CanonicalizeArgs(IReadOnlyList<string> args)
+    {
         int n = args.Count;
+        if (n == 0)
+            return args;
+
         var newArgs = new List<string>(n + 1);
 
         var state = ArgsCanonicalizationState.Option;
@@ -170,19 +187,6 @@ static class Program
         }
 
         return newArgs;
-    }
-
-    static IReadOnlyList<string> ExpandShebangArgs(IReadOnlyList<string> args)
-    {
-        if (args is [])
-            return args;
-
-        string arg0 = args[0];
-        if (!(arg0.StartsWith('-') && arg0.Contains(' ')))
-            return args;
-
-        // Linearize shebang arguments.
-        return [.. CommandLine.Split(arg0).Concat(args.Skip(1))];
     }
 
     enum ArgsCanonicalizationState
