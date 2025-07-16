@@ -15,7 +15,7 @@ For example, on Windows, you can use toolkits such as [MSYS2](https://www.msys2.
 Yet, these introduce their own challenges: correctly identifying the toolkit installation path, modifying environment variables, configuring shells with toolkit-specific parameters, and, finally, managing the handoff of control to and from the toolkit.
 All of this makes using GNU tools far from easy and reproducible.
 
-GNU-TK project solves those problems by providing a small `gnu-tk` command-line utility that serves as an automatic gateway to a GNU toolkit installed in the system.
+GNU-TK project solves those problems by providing a small `gnu-tk` command-line utility that serves as an automatic gateway to a GNU toolkit installed on the system.
 `gnu-tk` has a concise and stable command-line interface making it suitable for effortless cross-platform scripting.
 
 ## Usage
