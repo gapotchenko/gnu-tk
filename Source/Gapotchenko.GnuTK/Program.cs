@@ -9,6 +9,7 @@ using Gapotchenko.FX;
 using Gapotchenko.FX.Diagnostics;
 using Gapotchenko.FX.IO;
 using Gapotchenko.GnuTK.Diagnostics;
+using Gapotchenko.GnuTK.Toolkits;
 using Gapotchenko.GnuTK.UI;
 using System.Runtime.CompilerServices;
 
@@ -40,10 +41,10 @@ static class Program
         string usage =
             """
             Usage:
-              gnu-tk [-t <name>] [-s] [-p] -c [--] <command> [<argument>...]
-              gnu-tk [-t <name>] [-s] [-p] -l [--] <argument>...
-              gnu-tk [-t <name>] [-s] [-p] -f [--] <file> [<argument>...]
-              gnu-tk (list | check [-t <name>]) [-s] [-q]
+              gnu-tk [-t <name>] [-s] [-i] [-p] -c [--] <command> [<argument>...]
+              gnu-tk [-t <name>] [-s] [-i] [-p] -l [--] <argument>...
+              gnu-tk [-t <name>] [-s] [-i] [-p] -f [--] <file> [<argument>...]
+              gnu-tk (list | check [-t <name>]) [-s] [-i] [-q]
               gnu-tk (--help | --version) [-q]
 
             Options:
@@ -54,6 +55,7 @@ static class Program
               -f --file            Execute a file using a GNU toolkit.
               -t --toolkit=<name>  Use the specified GNU toolkit [default: auto].
               -s --strict          Use a toolkit with strict GNU semantics.
+              -i --integrated      Use a toolkit that operates within the host environment.
               -p --posix           Enables POSIX-compliant behavior.
               -q --quiet           Do not print any auxiliary messages.
                                                 
@@ -156,8 +158,12 @@ static class Program
                         case ProgramOptions.List:
                         case ProgramOptions.Check:
                         case ProgramOptions.Strict or ProgramOptions.Shorthands.Strict:
+                        case ProgramOptions.Integrated or ProgramOptions.Shorthands.Integrated:
                         case ProgramOptions.Posix or ProgramOptions.Shorthands.Posix:
                         case "-sp": // strict + posix
+                        case "-si": // strict + integrated
+                        case "-sip": // strict + integrated + posix
+                        case "-ip": // integrated + posix
                             break;
 
                         default:
@@ -220,6 +226,7 @@ static class Program
         {
             ToolkitNames = GetToolkitNames(arguments),
             ToolkitPaths = GetToolkitPaths(),
+            ToolkitIsolationLevels = GetToolkitIsolationLevels(arguments),
             Strict = (bool)arguments[ProgramOptions.Strict],
             Posix = (bool)arguments[ProgramOptions.Posix],
             Quiet = (bool)arguments[ProgramOptions.Quiet]
@@ -253,6 +260,14 @@ static class Program
             Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT_PATH")
             ?.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) ??
             [];
+
+        static IReadOnlyList<ToolkitIsolation>? GetToolkitIsolationLevels(IReadOnlyDictionary<string, object> arguments)
+        {
+            if ((bool)arguments[ProgramOptions.Integrated])
+                return [ToolkitIsolation.None];
+            else
+                return null;
+        }
     }
 
     static bool RunEngine(Engine engine, IReadOnlyDictionary<string, object> arguments, string commandLine, out int exitCode)
@@ -328,8 +343,12 @@ static class Program
                     switch (enumerator.Current)
                     {
                         case ProgramOptions.Strict or ProgramOptions.Shorthands.Strict:
+                        case ProgramOptions.Integrated or ProgramOptions.Shorthands.Integrated:
                         case ProgramOptions.Posix or ProgramOptions.Shorthands.Posix:
                         case "-sp": // strict + posix
+                        case "-si": // strict + integrated
+                        case "-sip": // strict + integrated + posix
+                        case "-ip": // integrated + posix
                             break;
 
                         case ProgramOptions.Toolkit or ProgramOptions.Shorthands.Toolkit:

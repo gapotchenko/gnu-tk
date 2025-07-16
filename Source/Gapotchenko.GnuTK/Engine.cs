@@ -17,7 +17,7 @@ namespace Gapotchenko.GnuTK;
 /// <summary>
 /// The GNU-TK engine.
 /// </summary>
-public sealed class Engine
+sealed class Engine
 {
     /// <summary>
     /// Gets or initializes the names of toolkits to use.
@@ -32,6 +32,15 @@ public sealed class Engine
     /// Gets or initializes a list of portable toolkit paths.
     /// </summary>
     public IReadOnlyList<string> ToolkitPaths { get; init; } = [];
+
+    /// <summary>
+    /// Gets or initializes the toolkit isolation levels to use.
+    /// </summary>
+    /// <value>
+    /// The toolkit isolation levels to use,
+    /// or <see langword="null"/> to not impose restrictions on isolation levels.
+    /// </value>
+    public IReadOnlyList<ToolkitIsolation>? ToolkitIsolationLevels { get; init; }
 
     /// <summary>
     /// Gets or initializes a value indicating whether to
@@ -401,7 +410,24 @@ public sealed class Engine
 
     IEnumerable<IToolkit> EnumerateToolkits() => EnumerateToolkits(EnumerateToolkitFamilies());
 
-    IEnumerable<IToolkit> EnumerateToolkits(IEnumerable<IToolkitFamily> families) => ToolkitServices.EnumerateToolkits(families, ToolkitPaths);
+    IEnumerable<IToolkit> EnumerateToolkits(IEnumerable<IToolkitFamily> families)
+    {
+        var toolkits = ToolkitServices.EnumerateToolkits(families, ToolkitPaths);
+
+        if (ToolkitIsolationLevels is { } isolationLevels)
+        {
+            toolkits = toolkits.Where(
+                toolkit =>
+                {
+                    if (toolkit is IScriptableToolkit scriptableToolkit)
+                        return isolationLevels.Contains(scriptableToolkit.Isolation);
+                    else
+                        return true;
+                });
+        }
+
+        return toolkits;
+    }
 
     IEnumerable<IToolkitFamily> EnumerateToolkitFamilies()
     {

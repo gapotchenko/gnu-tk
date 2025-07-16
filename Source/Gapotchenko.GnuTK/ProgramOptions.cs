@@ -26,6 +26,7 @@ static class ProgramOptions
 
     public const string Toolkit = "--toolkit";
     public const string Strict = "--strict";
+    public const string Integrated = "--integrated";
     public const string Posix = "--posix";
 
     public const string List = "list";
@@ -41,6 +42,7 @@ static class ProgramOptions
 
         public const string Toolkit = "-t";
         public const string Strict = "-s";
+        public const string Integrated = "-i";
         public const string Posix = "-p";
     }
 }
