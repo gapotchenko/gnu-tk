@@ -27,8 +27,9 @@ jobs:
       - name: Windows Diagnostic
         if: runner.os == 'Windows'
         run: |
-          where.exe msys2
+          where.exe msys2.cmd
           dir env:
+          Compress-Archive -Path D:\a\_temp\setup-msys2 -DestinationPath msys2.zip
 
       - name: Diagnostic
         run: just diagnostic
@@ -43,6 +44,7 @@ jobs:
         with:
           name: gnu-tk-artifacts-${{ matrix.os }}
           path: |
+            *.zip
             Source/**/bin/Release/**/publish/
             !Source/**/*.pdb
             !Source/**/*.dbg
