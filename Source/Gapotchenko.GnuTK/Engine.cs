@@ -11,7 +11,6 @@ using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Hosting;
 using Gapotchenko.GnuTK.Toolkits;
 using Gapotchenko.GnuTK.UI;
-using static Gapotchenko.FX.IO.Vfs.Kits.VfsValidationKit;
 
 namespace Gapotchenko.GnuTK;
 
@@ -349,6 +348,14 @@ public sealed class Engine
         Console.WriteLine("Description: {0}", toolkit.Description);
         Console.WriteLine("Location: {0}", toolkit.InstallationPath);
         Console.WriteLine("Semantics: {0}", toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.Alike) ? "GNU-like" : "GNU");
+        Console.WriteLine(
+            "Isolation: {0}",
+            toolkit.Isolation switch
+            {
+                ToolkitIsolation.None => "none",
+                ToolkitIsolation.VirtualMachine => "vm",
+                ToolkitIsolation.Container => "container"
+            });
 
         if (!quiet)
             Console.WriteLine();
