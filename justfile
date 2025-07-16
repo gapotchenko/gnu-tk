@@ -50,8 +50,8 @@ platform-build: _publish-aot
 
 [linux]
 _publish-aot:
-    [ "`uname -m`" = "x86_64" ] && dotnet publish -c Release -p:PublishAot=true -r linux-x64 -f net9.0
-    [ "`uname -m`" = "aarch64" ] && dotnet publish -c Release -p:PublishAot=true -r linux-arm64 -f net9.0
+    if [ "`uname -m`" = "x86_64" ]; then dotnet publish -c Release -p:PublishAot=true -r linux-x64 -f net9.0; fi
+    if [ "`uname -m`" = "aarch64" ]; then dotnet publish -c Release -p:PublishAot=true -r linux-arm64 -f net9.0; fi
 
 [windows]
 _publish-aot:
