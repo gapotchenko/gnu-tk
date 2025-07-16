@@ -38,7 +38,7 @@ test:
 
 # Run diagnostic
 diagnostic:
-    dotnet run --project Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj -c Release -f net9.0 --no-launch-profile -v q -- list
+    dotnet run --project Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj -c Release -f net9.0 --no-launch-profile -v q -- list -q
 
 # Produce publishable artifacts
 publish:
