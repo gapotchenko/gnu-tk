@@ -2,6 +2,12 @@
 
 ## 2025
 
+### GNU-TK 2025.3
+
+Release date: not released yet
+
+- Minimize command line reconstruction which may introduce inaccuracies
+
 ### GNU-TK 2025.2
 
 Release date: July 16, 2025

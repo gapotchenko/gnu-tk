@@ -71,9 +71,29 @@ sealed class Engine
 
         string command;
         if (toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.FilePathTranslation))
-            command = CommandLine.Build(TranslateFilePaths(toolkit, CommandLine.Split(commandLine)));
+        {
+            IReadOnlyList<string> parts = [.. CommandLine.Split(commandLine)];
+            IReadOnlyList<string> newParts = [.. TranslateFilePaths(toolkit, parts)];
+            if (newParts.SequenceEqual(parts, StringComparer.Ordinal))
+            {
+                // Minimize command line reconstruction which may introduce inaccuracies.
+
+                // An example of reconstruction inaccuracy is command-line arguments containing '*' characters.
+                // From the standpoint of escaping, such arguments should be quotedm
+                // but this would change the Unix semantics of a '*' character which signifies a file mask.
+                // File masks are expanded by command shell unless a string containing them is quoted.
+
+                command = commandLine;
+            }
+            else
+            {
+                command = CommandLine.Build(newParts);
+            }
+        }
         else
+        {
             command = commandLine;
+        }
 
         return ExecuteCommandCore(toolkit, command, []);
     }
