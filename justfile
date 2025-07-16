@@ -13,8 +13,7 @@ develop:
     @for /F "delims=" %%i in ('"dir /b | findstr ".*\.sln""') do @(start "" "%%i")
 
 # Start IDE using the project environment
-[linux]
-[macos]
+[unix]
 develop:
     open *.sln?
 
