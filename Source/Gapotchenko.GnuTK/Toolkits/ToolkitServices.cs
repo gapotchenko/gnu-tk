@@ -122,7 +122,7 @@ static class ToolkitServices
         return
             portableToolkits // portable toolkits have priority
             .Concat(installedToolkits) // installed toolkits come next            
-            .DistinctBy( // avoid duplicates
+            .DistinctBy( // with no duplicates
                 toolkit => (toolkit.Name, toolkit.InstallationPath),
                 ValueTupleEqualityComparer.Create(StringComparer.Ordinal, FileSystem.PathComparer));
     }
@@ -140,8 +140,8 @@ static class ToolkitServices
             //   1. MSYS2 comes with a saner set of packages by default, easy mental model (install and forget)
             //   2. Cygwin provides better execution performance when compared to WSL,
             //      but mental model is on a heavier side (too customizable to the point of a possible frustration)
-            //   3. WSL is ubiquitous and configurable, but it is prone to path mapping issues and to delays
-            //      caused by VM spin ups.
+            //   3. WSL is ubiquitous and configurable, but prone to path mapping issues and delays caused
+            //      by VM spin ups
             return [MSys2ToolkitFamily.Instance, CygwinToolkitFamily.Instance, WslToolkitFamily.Instance];
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
