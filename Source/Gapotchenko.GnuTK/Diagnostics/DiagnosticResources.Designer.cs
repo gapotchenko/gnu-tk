@@ -70,6 +70,15 @@ namespace Gapotchenko.GnuTK.Diagnostics {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Program arguments &apos;{0}&apos; and &apos;{1}&apos; cannot be specified simultaneously..
+        /// </summary>
+        internal static string ConflictingProgramArgumentsXY {
+            get {
+                return ResourceManager.GetString("ConflictingProgramArgumentsXY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot find &apos;{0}&apos; module..
         /// </summary>
         internal static string ModuleXNotFound {

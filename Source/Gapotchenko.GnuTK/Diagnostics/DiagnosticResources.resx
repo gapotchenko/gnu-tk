@@ -135,4 +135,7 @@
   <data name="SuitableStrictToolkitXNotFound" xml:space="preserve">
     <value>No suitable toolkit with strict GNU semantics named {0} is found.</value>
   </data>
+  <data name="ConflictingProgramArgumentsXY" xml:space="preserve">
+    <value>Program arguments '{0}' and '{1}' cannot be specified simultaneously.</value>
+  </data>
 </root>

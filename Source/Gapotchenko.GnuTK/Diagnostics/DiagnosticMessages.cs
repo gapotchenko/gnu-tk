@@ -26,4 +26,6 @@ static class DiagnosticMessages
     public static string ModuleNotFound(string? name) => string.Format(DiagnosticResources.ModuleXNotFound, name);
 
     public static string CannotStartProcess(string? name) => string.Format(DiagnosticResources.CannotStartProcessX, name);
+
+    public static string ConflictingProgramArguments(string? a, string? b) => string.Format(DiagnosticResources.ConflictingProgramArgumentsXY, a, b);
 }

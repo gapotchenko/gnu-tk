@@ -73,6 +73,8 @@ static class Program
             CliServices.TryParseArguments(CanonicalizeArgs(expandedArgs), usage) ??
             throw new DiagnosticException("Invalid program arguments.", DiagnosticCode.InvalidProgramArguments);
 
+        ValidateArguments(parsedArguments);
+
         if (UIShell.Run(args, parsedArguments, usage, out int exitCode))
         {
             return exitCode;
@@ -211,6 +213,31 @@ static class Program
     }
 
     #endregion
+
+    static void ValidateArguments(IReadOnlyDictionary<string, object> arguments)
+    {
+#if TODO
+        EnsureNotSimultaneous(ProgramOptions.List, ProgramOptions.ExecuteCommand);
+
+        void EnsureNotSimultaneous(string a, string b)
+        {
+            if (IsArgumentDefined(a) && IsArgumentDefined(b))
+                throw new DiagnosticException(DiagnosticMessages.ConflictingProgramArguments(a, b), DiagnosticCode.ConflictingProgramArguments);
+        }
+
+        bool IsArgumentDefined(string name)
+        {
+            return
+                arguments[name] switch
+                {
+                    bool b => b,
+                    IReadOnlyList<string> list => list is not [],
+                    _ => throw new NotSupportedException()
+                };
+        }
+#endif
+    }
+
 
     [MethodImpl(MethodImplOptions.NoInlining)] // avoid premature initialization of types
     static int RunCore(IReadOnlyDictionary<string, object> arguments, string commandLine)
