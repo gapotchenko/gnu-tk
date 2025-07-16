@@ -384,7 +384,7 @@ sealed class Engine
             toolkit.Isolation switch
             {
                 ToolkitIsolation.None => "none",
-                ToolkitIsolation.VirtualMachine => "vm",
+                ToolkitIsolation.VirtualMachine => "VM",
                 ToolkitIsolation.Container => "container"
             });
 
