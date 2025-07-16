@@ -122,7 +122,7 @@ static class ToolkitServices
         return
             portableToolkits // portable toolkits have priority
             .Concat(installedToolkits) // installed toolkits come next            
-            .DistinctBy( // avoid duplicates
+            .DistinctBy( // with no duplicates
                 toolkit => (toolkit.Name, toolkit.InstallationPath),
                 ValueTupleEqualityComparer.Create(StringComparer.Ordinal, FileSystem.PathComparer));
     }
