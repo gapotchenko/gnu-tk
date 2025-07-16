@@ -6,7 +6,9 @@
 
 Release date: not released yet
 
-- Minimize command line reconstruction which may introduce inaccuracies
+- Minimize command line reconstructions which may introduce inaccuracies
+- More precise MSYS2 toolkit version detection
+- MSYS2 toolkit selection respects the value of `MSYSTEM` environment variable
 
 ### GNU-TK 2025.2
 
@@ -14,7 +16,7 @@ Release date: July 16, 2025
 
 - Expansion of naturally occurring shebang arguments
 - Automatic translation of file path arguments
-- Ability to use only a GNU toolkit operating within the host environment (`-i` command-line option)
+- Ability to only use a GNU toolkit that operates within the host environment (`-i` command-line option)
 
 ### GNU-TK 2025.1
 
