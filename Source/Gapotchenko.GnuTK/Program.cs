@@ -128,6 +128,8 @@ static class Program
         var newArgs = new List<string>(n + 1);
 
         var state = ArgsCanonicalizationState.Option;
+        bool hasCommand = false;
+
         for (int i = 0; i < n; ++i)
         {
             string arg = args[i];
@@ -140,6 +142,8 @@ static class Program
                         case ProgramOptions.ExecuteCommand or ProgramOptions.Shorthands.ExecuteCommand:
                         case ProgramOptions.ExecuteCommandLine or ProgramOptions.Shorthands.ExecuteCommandLine:
                         case ProgramOptions.ExecuteFile or ProgramOptions.Shorthands.ExecuteFile:
+                            if (hasCommand)
+                                return [];
                             state = ArgsCanonicalizationState.Positional;
                             break;
 
@@ -152,11 +156,14 @@ static class Program
                             arg = ProgramOptions.Help;
                             break;
 
+                        case ProgramOptions.List:
+                        case ProgramOptions.Check:
+                            hasCommand = true;
+                            break;
+
                         case ProgramOptions.Help:
                         case ProgramOptions.Quiet or ProgramOptions.Shorthands.Quiet:
                         case ProgramOptions.Version:
-                        case ProgramOptions.List:
-                        case ProgramOptions.Check:
                         case ProgramOptions.Strict or ProgramOptions.Shorthands.Strict:
                         case ProgramOptions.Integrated or ProgramOptions.Shorthands.Integrated:
                         case ProgramOptions.Posix or ProgramOptions.Shorthands.Posix:
