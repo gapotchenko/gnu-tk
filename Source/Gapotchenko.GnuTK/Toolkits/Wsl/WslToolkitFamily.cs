@@ -27,6 +27,7 @@ sealed class WslToolkitFamily : IToolkitFamily
     public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.FilePathTranslation;
 
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>
+        // GNU-TK supports WSL 2+.
         WslDeployment.EnumerateSetupInstances(ValueInterval.FromInclusive(new Version(2, 0)))
         .Select(CreateToolkit);
 
