@@ -73,7 +73,7 @@ sealed class Engine
         if (toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.FilePathTranslation))
         {
             IReadOnlyList<string> parts = [.. CommandLine.Split(commandLine)];
-            IReadOnlyList<string> newParts = [.. TranslateFilePaths(toolkit, parts)];
+            IReadOnlyList<string> newParts = [.. parts.Select(part => TranslateFilePath(toolkit, part))];
             if (newParts.SequenceEqual(parts, StringComparer.Ordinal))
             {
                 // Minimize command line reconstruction which may introduce inaccuracies otherwise.
@@ -110,7 +110,7 @@ sealed class Engine
 
         IReadOnlyList<string> preparedArguments;
         if (toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.FilePathTranslation))
-            preparedArguments = [.. TranslateFilePaths(toolkit, arguments)];
+            preparedArguments = [.. arguments.Select(argument => TranslateFilePath(toolkit, argument))];
         else
             preparedArguments = arguments;
 
@@ -126,23 +126,25 @@ sealed class Engine
             GetToolkitExecutionOptions());
     }
 
-    static IEnumerable<string> TranslateFilePaths(IScriptableToolkit toolkit, IEnumerable<string> values)
+    static string TranslateFilePath(IScriptableToolkit toolkit, string value)
     {
-        return values.Select(value => IsTranslatableFilePath(value) ? toolkit.TranslateFilePath(value) : value);
-    }
+        return IsTranslatableFilePath(value)
+            ? toolkit.TranslateFilePath(value)
+            : value;
 
-    static bool IsTranslatableFilePath(string path)
-    {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        static bool IsTranslatableFilePath(string path)
         {
-            if (path.Length >= 2 && path[1] == ':' && char.IsAsciiLetter(path[0]))
-                return true;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                if (path.Length >= 2 && path[1] == ':' && char.IsAsciiLetter(path[0]))
+                    return true;
+                else
+                    return false;
+            }
             else
+            {
                 return false;
-        }
-        else
-        {
-            return false;
+            }
         }
     }
 
