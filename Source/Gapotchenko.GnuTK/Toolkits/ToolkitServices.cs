@@ -37,7 +37,7 @@ static class ToolkitServices
         foreach (var toolkit in toolkits)
         {
             if (toolkit is IScriptableToolkit scriptableToolkitCandidate &&
-                (toolkitEnvironments == null || scriptableToolkitCandidate.Isolation == ToolkitIsolation.None))
+                (toolkitEnvironments is null || scriptableToolkitCandidate.Isolation is ToolkitIsolation.None))
             {
                 scriptableToolkit = scriptableToolkitCandidate;
                 break;
@@ -72,35 +72,35 @@ static class ToolkitServices
 
         // Step 2. Select toolkits by names
         List<IToolkit>? selectedToolkits = null;
-        var sc = StringComparer.OrdinalIgnoreCase;
+        var tnc = StringComparer.OrdinalIgnoreCase;
         foreach (string name in names)
         {
-            if (sc.Equals(name, "auto"))
+            if (tnc.Equals(name, "auto"))
                 return selectedToolkits?.Union(toolkits) ?? toolkits;
 
             var selectedToolkit =
-                toolkits.FirstOrDefault(toolkit => sc.Equals(toolkit.Name, name)) ?? // find by a precise toolkit name
-                toolkits.FirstOrDefault(toolkit => sc.Equals(toolkit.Family.Name, name)) ?? // otherwise, fallback to a toolkit family name
-                toolkits.FirstOrDefault(toolkit => toolkit.Family.Aliases.Contains(name, sc)); // otherwise, fallback to a toolkit family alias name
+                toolkits.FirstOrDefault(toolkit => tnc.Equals(toolkit.Name, name)) ?? // find by a precise toolkit name
+                toolkits.FirstOrDefault(toolkit => tnc.Equals(toolkit.Family.Name, name)) ?? // otherwise, fallback to a toolkit family name
+                toolkits.FirstOrDefault(toolkit => toolkit.Family.Aliases.Contains(name, tnc)); // otherwise, fallback to a toolkit family alias name
 
             if (selectedToolkit is not null)
                 (selectedToolkits ??= []).Add(selectedToolkit);
         }
 
         // Step 3. To use a toolkit environment, at least one non-isolated scriptable toolkit is needed
-        if (selectedToolkits != null && // if selected toolkits
+        if (selectedToolkits is not null && // if selected toolkits
             !selectedToolkits.OfType<IScriptableToolkit>().Any() && // have no scriptable toolkits
             selectedToolkits.OfType<IToolkitEnvironment>().Any()) // but have a toolkit environment
         {
             var scriptableToolkit = toolkits
                 .OfType<IScriptableToolkit>()
-                .FirstOrDefault(toolkit => toolkit.Isolation == ToolkitIsolation.None);
+                .FirstOrDefault(toolkit => toolkit.Isolation is ToolkitIsolation.None);
 
-            if (scriptableToolkit != null)
+            if (scriptableToolkit is not null)
                 selectedToolkits.Add(scriptableToolkit);
         }
 
-        return selectedToolkits ?? Enumerable.Empty<IToolkit>();
+        return selectedToolkits ?? [];
     }
 
     /// <summary>
