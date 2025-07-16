@@ -37,7 +37,8 @@ static class CliServices
         if (string.IsNullOrEmpty(text))
             return text;
 
-        if (!Console.OutputEncoding.IsUnicodeScheme)
+        // A workaround for the issue that appeared since .NET 10.0 SDK (v10.0.100-preview.6).
+        if (!EncodingPolyfills.get_IsUnicodeScheme(Console.OutputEncoding))
         {
             text = text
                 .Replace("©", "(C)", StringComparison.Ordinal)
