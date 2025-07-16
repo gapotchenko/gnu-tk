@@ -58,7 +58,7 @@ Alternatively, you can install GNU-TK on a per-project basis if you need to use 
 
 ### NuGet Package Manager
 
-NuGet is a part of [.NET](a).
+NuGet is a part of [.NET](https://dotnet.microsoft.com/).
 Use the following command to install GNU-TK as a global .NET tool:
 
 ```
@@ -111,6 +111,7 @@ Name: msys2-ucrt64
 Description: MSYS2 2025-02-21
 Location: C:\msys64
 Semantics: GNU
+Isolation: none
 
 Check status: PASS
 
