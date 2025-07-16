@@ -5,6 +5,7 @@ on:
 
 env:
   DOTNET_NOLOGO: true
+  SuppressNETCoreSdkPreviewMessage: true
 
 jobs:
   platform-build:
