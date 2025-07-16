@@ -76,11 +76,11 @@ sealed class Engine
             IReadOnlyList<string> newParts = [.. TranslateFilePaths(toolkit, parts)];
             if (newParts.SequenceEqual(parts, StringComparer.Ordinal))
             {
-                // Minimize command line reconstruction which may introduce inaccuracies.
+                // Minimize command line reconstruction which may introduce inaccuracies otherwise.
 
                 // An example of reconstruction inaccuracy is command-line arguments containing '*' characters.
-                // From the standpoint of escaping, such arguments should be quotedm
-                // but this would change the Unix semantics of a '*' character which signifies a file mask.
+                // From the standpoint of escaping, such arguments should be quoted,
+                // but this would change the semantics of a '*' character which signifies a file mask in Unix.
                 // File masks are expanded by command shell unless a string containing them is quoted.
 
                 command = commandLine;
