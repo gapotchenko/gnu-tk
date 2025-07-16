@@ -39,6 +39,11 @@ interface IScriptableToolkit : IToolkit
         ToolkitExecutionOptions options);
 
     /// <summary>
+    /// Gets the isolation level.
+    /// </summary>
+    ToolkitIsolation Isolation { get; }
+
+    /// <summary>
     /// Translates the specified file path to the toolkit's format.
     /// </summary>
     /// <param name="paths">The file path to translate.</param>

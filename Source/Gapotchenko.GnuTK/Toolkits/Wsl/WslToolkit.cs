@@ -134,4 +134,6 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
         return output.ToString();
     }
+
+    public ToolkitIsolation Isolation => ToolkitIsolation.VirtualMachine;
 }

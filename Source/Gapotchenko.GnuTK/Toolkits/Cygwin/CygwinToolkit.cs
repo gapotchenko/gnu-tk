@@ -101,4 +101,6 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
     }
 
     public string TranslateFilePath(string path) => CygwinFileSystem.TranslateFilePath(path, "/cygdrive");
+
+    public ToolkitIsolation Isolation => ToolkitIsolation.None;
 }

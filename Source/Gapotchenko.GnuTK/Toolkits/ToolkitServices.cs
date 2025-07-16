@@ -37,17 +37,14 @@ static class ToolkitServices
         foreach (var toolkit in toolkits)
         {
             if (toolkit is IScriptableToolkit scriptableToolkitCandidate &&
-                (toolkitEnvironments == null || !scriptableToolkitCandidate.Family.Traits.HasFlag(ToolkitFamilyTraits.Isolated)))
+                (toolkitEnvironments == null || scriptableToolkitCandidate.Isolation == ToolkitIsolation.None))
             {
                 scriptableToolkit = scriptableToolkitCandidate;
                 break;
             }
 
-            if (toolkit is IToolkitEnvironment toolkitEnvironment &&
-                !toolkitEnvironment.Family.Traits.HasFlag(ToolkitFamilyTraits.Isolated))
-            {
+            if (toolkit is IToolkitEnvironment toolkitEnvironment)
                 (toolkitEnvironments ??= []).Add(toolkitEnvironment);
-            }
         }
 
         if (scriptableToolkit is null || toolkitEnvironments is null)
@@ -96,7 +93,7 @@ static class ToolkitServices
         {
             var scriptableToolkit = toolkits
                 .OfType<IScriptableToolkit>()
-                .FirstOrDefault(toolkit => (toolkit.Family.Traits & ToolkitFamilyTraits.Isolated) == 0);
+                .FirstOrDefault(toolkit => toolkit.Isolation == ToolkitIsolation.None);
 
             if (scriptableToolkit != null)
                 selectedToolkits.Add(scriptableToolkit);

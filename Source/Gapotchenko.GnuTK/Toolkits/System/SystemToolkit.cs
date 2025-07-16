@@ -61,4 +61,6 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
     }
 
     public string TranslateFilePath(string path) => path;
+
+    public ToolkitIsolation Isolation => ToolkitIsolation.None;
 }

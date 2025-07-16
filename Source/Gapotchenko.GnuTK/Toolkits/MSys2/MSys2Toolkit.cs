@@ -119,4 +119,6 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
     }
 
     public string TranslateFilePath(string path) => CygwinFileSystem.TranslateFilePath(path, null);
+
+    public ToolkitIsolation Isolation => ToolkitIsolation.None;
 }

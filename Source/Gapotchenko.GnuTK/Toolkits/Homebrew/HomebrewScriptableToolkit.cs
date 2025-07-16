@@ -74,4 +74,6 @@ sealed class HomebrewScriptableToolkit(
     }
 
     public string TranslateFilePath(string path) => path;
+
+    public ToolkitIsolation Isolation => ToolkitIsolation.None;
 }
