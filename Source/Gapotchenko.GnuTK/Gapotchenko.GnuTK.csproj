@@ -9,7 +9,8 @@
   <PropertyGroup>
     <Description>A mutli-platform command-line utility that provides seamless access to GNU toolkits on non-GNU operating systems.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackAsTool>true</PackAsTool>
+    <!-- Workaround for https://github.com/dotnet/sdk/issues/49799 -->
+    <PackAsTool Condition=" '$(Configuration)' == 'Release' ">true</PackAsTool>
     <ToolCommandName>gnu-tk</ToolCommandName>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
