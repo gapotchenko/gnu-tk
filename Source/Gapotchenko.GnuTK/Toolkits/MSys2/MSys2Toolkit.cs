@@ -112,18 +112,18 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
 
     void ConfigureEnvironment(IDictionary<string, string?> environment)
     {
-        environment["MSYSCON"] = "";
         environment["MSYSTEM"] = msys2environment.Name;
-
-        // Make MSYS2 shell inherit 'PATH' environment variable from the host system.
-        // In contrast to Cygwin, MSYS2 login shell does not inherit 'PATH' in non-POSIX mode.
-        environment["MSYS2_PATH_TYPE"] = "inherit";
+        environment["MSYSCON"] = "";
     }
 
     static void ConfigureShellEnvironment(IDictionary<string, string?> environment)
     {
         // MSYS2 will not do 'cd "${HOME}"' if environment variable 'CHERE_INVOKING' is defined.
         environment["CHERE_INVOKING"] = "1";
+
+        // Make MSYS2 shell inherit 'PATH' environment variable from the host system.
+        // In contrast to Cygwin, MSYS2 login shell does not inherit 'PATH' in non-POSIX mode.
+        environment["MSYS2_PATH_TYPE"] = "inherit";
     }
 
     public string TranslateFilePath(string path) => CygwinFileSystem.TranslateFilePath(path, null);
