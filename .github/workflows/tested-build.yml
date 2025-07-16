@@ -28,7 +28,6 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           where.exe msys2
-          set
           dir env:
 
       - name: Diagnostic
