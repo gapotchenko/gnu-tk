@@ -64,26 +64,24 @@ static class Program
               check                Check a GNU toolkit.
             """;
 
+        // Capture the string representation of a command line.
         string? commandLine = args is [] ? null : Environment.CommandLine;
+
         var expandedArgs = ExpandArgs(args);
-        if (commandLine != null && expandedArgs != args)
-            commandLine = CommandLine.Build(expandedArgs.Prepend(CommandLine.Split(commandLine).First()));
+        if (expandedArgs != args)
+        {
+            // The string command line representation is no longer valid.
+            commandLine = null;
+        }
 
         var parsedArguments =
             CliServices.TryParseArguments(CanonicalizeArgs(expandedArgs), usage) ??
             throw new DiagnosticException("Invalid program arguments.", DiagnosticCode.InvalidProgramArguments);
 
-        ValidateArguments(parsedArguments);
-
         if (UIShell.Run(args, parsedArguments, usage, out int exitCode))
-        {
             return exitCode;
-        }
         else
-        {
-            Debug.Assert(commandLine != null);
             return RunCore(parsedArguments, commandLine);
-        }
     }
 
     #region Program arguments expansion & canonicalization
@@ -214,33 +212,8 @@ static class Program
 
     #endregion
 
-    static void ValidateArguments(IReadOnlyDictionary<string, object> arguments)
-    {
-#if TODO
-        EnsureNotSimultaneous(ProgramOptions.List, ProgramOptions.ExecuteCommand);
-
-        void EnsureNotSimultaneous(string a, string b)
-        {
-            if (IsArgumentDefined(a) && IsArgumentDefined(b))
-                throw new DiagnosticException(DiagnosticMessages.ConflictingProgramArguments(a, b), DiagnosticCode.ConflictingProgramArguments);
-        }
-
-        bool IsArgumentDefined(string name)
-        {
-            return
-                arguments[name] switch
-                {
-                    bool b => b,
-                    IReadOnlyList<string> list => list is not [],
-                    _ => throw new NotSupportedException()
-                };
-        }
-#endif
-    }
-
-
     [MethodImpl(MethodImplOptions.NoInlining)] // avoid premature initialization of types
-    static int RunCore(IReadOnlyDictionary<string, object> arguments, string commandLine)
+    static int RunCore(IReadOnlyDictionary<string, object> arguments, string? commandLine)
     {
         // Initialize a GNU-TK engine.
         var engine = InitializeEngine(arguments);
@@ -304,7 +277,7 @@ static class Program
         }
     }
 
-    static bool RunEngine(Engine engine, IReadOnlyDictionary<string, object> arguments, string commandLine, out int exitCode)
+    static bool RunEngine(Engine engine, IReadOnlyDictionary<string, object> arguments, string? commandLine, out int exitCode)
     {
         // Most frequently used options are handled first.
 
@@ -320,12 +293,8 @@ static class Program
         // '-l' command-line option (execute a command line).
         if ((bool)arguments[ProgramOptions.ExecuteCommandLine])
         {
-            // On Windows, a command line is natively represented as a single string.
-            // Take advantage of this by extracting the required information directly
-            // from the string form of the command line. Otherwise, it would need to
-            // be reconstructed, which could introduce inaccuracies.
-            var command = ExtractCommandToExecute(commandLine);
-            exitCode = engine.ExecuteCommandLine(command.ToString());
+            string command = GetCommandToExecute(arguments, commandLine);
+            exitCode = engine.ExecuteCommandLine(command);
             return true;
         }
 
@@ -355,6 +324,23 @@ static class Program
 
         exitCode = default;
         return false;
+    }
+
+    static string GetCommandToExecute(IReadOnlyDictionary<string, object> arguments, string? commandLine)
+    {
+        if (commandLine != null)
+        {
+            // On Windows, a command line is natively represented as a single string.
+            // Take advantage of this by extracting the required information directly
+            // from the string form of the command line. Otherwise, it would need to
+            // be reconstructed, which could introduce inaccuracies.
+            return ExtractCommandToExecute(commandLine).ToString();
+        }
+        else
+        {
+            // Build a command from the specified command-line arguments.
+            return CommandLine.Build((IEnumerable<string>)arguments[ProgramOptions.Arguments]);
+        }
     }
 
     /// <summary>
