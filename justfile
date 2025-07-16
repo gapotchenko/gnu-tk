@@ -42,9 +42,6 @@ publish:
     dotnet clean -c Release
     dotnet pack -c Release
 
-# Make a release by testing and producing publishable project artifacts
-release: test publish
-
 # Build platform-dependent release artifacts
 platform-build: _publish-aot
 
