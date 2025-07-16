@@ -72,15 +72,16 @@ static class ToolkitServices
 
         // Step 2. Select toolkits by names
         List<IToolkit>? selectedToolkits = null;
-        const StringComparison sc = StringComparison.OrdinalIgnoreCase;
+        var sc = StringComparer.OrdinalIgnoreCase;
         foreach (string name in names)
         {
-            if (name.Equals("auto", sc))
+            if (sc.Equals(name, "auto"))
                 return selectedToolkits?.Union(toolkits) ?? toolkits;
 
             var selectedToolkit =
-                toolkits.FirstOrDefault(toolkit => toolkit.Name.Equals(name, sc)) ?? // find by a precise toolkit name
-                toolkits.FirstOrDefault(toolkit => toolkit.Family.Name.Equals(name, sc)); // otherwise, fallback to a toolkit family name
+                toolkits.FirstOrDefault(toolkit => sc.Equals(toolkit.Name, name)) ?? // find by a precise toolkit name
+                toolkits.FirstOrDefault(toolkit => sc.Equals(toolkit.Family.Name, name)) ?? // otherwise, fallback to a toolkit family name
+                toolkits.FirstOrDefault(toolkit => toolkit.Family.Aliases.Contains(name, sc)); // otherwise, fallback to a toolkit family alias name
 
             if (selectedToolkit is not null)
                 (selectedToolkits ??= []).Add(selectedToolkit);

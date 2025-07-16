@@ -13,7 +13,7 @@ namespace Gapotchenko.GnuTK.Toolkits;
 interface IToolkitFamily
 {
     /// <summary>
-    /// Gets the toolkit family name.
+    /// Gets the name.
     /// </summary>
     /// <remarks>
     /// For example, "MSYS2".
@@ -21,7 +21,12 @@ interface IToolkitFamily
     string Name { get; }
 
     /// <summary>
-    /// Gets the toolkit family traits.
+    /// Gets the name aliases.
+    /// </summary>
+    IReadOnlyList<string> Aliases { get; }
+
+    /// <summary>
+    /// Gets the traits.
     /// </summary>
     ToolkitFamilyTraits Traits { get; }
 

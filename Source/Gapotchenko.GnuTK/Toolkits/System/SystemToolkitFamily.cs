@@ -17,6 +17,8 @@ sealed class SystemToolkitFamily : IToolkitFamily
 
     public string Name => "System";
 
+    public IReadOnlyList<string> Aliases => [];
+
     public ToolkitFamilyTraits Traits =>
         RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
             ? ToolkitFamilyTraits.None
