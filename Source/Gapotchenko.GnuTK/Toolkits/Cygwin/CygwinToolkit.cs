@@ -41,8 +41,10 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
 
         var processEnvironment = psi.Environment;
         EnvironmentServices.CombineEnvironmentWith(processEnvironment, environment);
+        ConfigureShellEnvironment(processEnvironment);
 
         // Launch the shell in POSIX mode to discourage usage of non-standard features.
+        // This also makes a shell start a lot faster.
         const bool posixifyShell = true;
 
         bool posixlyCorrect = processEnvironment.ContainsKey("POSIXLY_CORRECT");
@@ -60,14 +62,13 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         processArguments.Add("-c");
 
         var commandBuilder = new StringBuilder();
-        commandBuilder.Append("cd \"$0\" && BASH_ARGV0=$1");
         if (!posixlyCorrect)
         {
             // 'sh.exe' forcibly sets POSIXLY_CORRECT environment variable.
             // Unset it if not instructed by a user.
-            commandBuilder.Append(" && unset POSIXLY_CORRECT");
+            commandBuilder.Append("unset POSIXLY_CORRECT;");
         }
-        commandBuilder.Append(" && shift;").Append(command);
+        commandBuilder.Append(command);
         processArguments.Add(commandBuilder.ToString());
 
         processArguments.Add(Directory.GetCurrentDirectory());
@@ -98,6 +99,12 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
             environment["PATH"] = binPath;
 
         return environment;
+    }
+
+    static void ConfigureShellEnvironment(IDictionary<string, string?> environment)
+    {
+        // Cygwin will not do 'cd ${HOME}' if environment variable CHERE_INVOKING is defined.
+        environment["CHERE_INVOKING"] = "1";
     }
 
     public string TranslateFilePath(string path) => CygwinFileSystem.TranslateFilePath(path, "/cygdrive");
