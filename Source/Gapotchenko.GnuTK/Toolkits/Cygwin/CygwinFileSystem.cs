@@ -13,6 +13,10 @@ static class CygwinFileSystem
 {
     public static string TranslateFilePath(string path, string? prefix)
     {
+        // TODO
+        // Deduct the prefix from '/etc/fstab' file as described at
+        // https://conemu.github.io/en/CygwinStartDir.html#cygdrive
+
         if (path.Length >= 2 && path[1] == ':' && char.IsAsciiLetter(path[0]))
         {
             // C:/Folder/File.txt => {prefix}/c/Folder/File.txt
