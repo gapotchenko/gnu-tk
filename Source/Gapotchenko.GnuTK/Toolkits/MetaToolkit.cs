@@ -8,7 +8,7 @@
 namespace Gapotchenko.GnuTK.Toolkits;
 
 /// <summary>
-/// Represents a GNU toolkit consisting of multiple underlying toolkits.
+/// Represents an amalgamation of GNU toolkits.
 /// </summary>
 sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<IToolkitEnvironment> toolkitEnvironments) :
     IScriptableToolkit,

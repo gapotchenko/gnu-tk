@@ -88,7 +88,7 @@ static class ToolkitServices
         }
 
         // Step 3. To use a toolkit environment, at least one non-isolated scriptable toolkit is needed
-        if (selectedToolkits is not null && // if selected toolkits
+        if (selectedToolkits is not null && // if the selected toolkits
             !selectedToolkits.OfType<IScriptableToolkit>().Any() && // have no scriptable toolkits
             selectedToolkits.OfType<IToolkitEnvironment>().Any()) // but have a toolkit environment
         {
@@ -161,7 +161,7 @@ static class ToolkitServices
         else if (Environment.OSVersion.Platform == PlatformID.Unix)
         {
             // Generic fallback on a Unix-based host system.
-            // While GNU is not Unix, Unix is a close enough native alternative.
+            // While GNU is not Unix, Unix is a close enough alternative.
             return [SystemToolkitFamily.Instance];
         }
         else
