@@ -36,6 +36,10 @@ test:
     dotnet test -c Debug
     dotnet test -c Release
 
+# Run diagnostic
+diagnostic:
+    dotnet run --project Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj -c Release -f net9.0 --no-launch-profile -v q -- list
+
 # Produce publishable artifacts
 publish:
     dotnet clean -c Release

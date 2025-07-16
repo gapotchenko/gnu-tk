@@ -21,6 +21,9 @@ jobs:
       - if: runner.os == 'Windows'
         uses: msys2/setup-msys2@v2
 
+      - name: Diagnostic
+        run: just diagnostic
+
       - name: Test
         run: just test
 
