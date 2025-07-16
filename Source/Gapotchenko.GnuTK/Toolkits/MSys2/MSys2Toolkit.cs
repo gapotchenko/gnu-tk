@@ -49,11 +49,13 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         var processEnvironment = psi.Environment;
         EnvironmentServices.CombineEnvironmentWith(processEnvironment, environment);
         ConfigureEnvironment(processEnvironment);
+        ConfigureShellEnvironment(processEnvironment);
 
         // Launch the shell in POSIX mode to discourage usage of non-standard features.
         // Another reason to run the MSYS2 shell in POSIX mode is to make it inherit
         // PATH environment variable from the host system. In contrast to Cygwin,
         // MSYS2 login shell does not inherit PATH in non-POSIX mode.
+        // This also makes a shell start a lot faster.
         const bool posixifyShell = true;
 
         bool posixlyCorrect = processEnvironment.ContainsKey("POSIXLY_CORRECT");
@@ -71,14 +73,13 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         processArguments.Add("-c");
 
         var commandBuilder = new StringBuilder();
-        commandBuilder.Append("cd \"$0\" && BASH_ARGV0=$1");
         if (!posixlyCorrect)
         {
             // 'sh.exe' forcibly sets POSIXLY_CORRECT environment variable.
             // Unset it if not instructed by a user.
-            commandBuilder.Append(" && unset POSIXLY_CORRECT");
+            commandBuilder.Append("unset POSIXLY_CORRECT;");
         }
-        commandBuilder.Append(" && shift;").Append(command);
+        commandBuilder.Append(command);
         processArguments.Add(commandBuilder.ToString());
 
         processArguments.Add(Directory.GetCurrentDirectory());
@@ -116,6 +117,12 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
     {
         environment["MSYSCON"] = "";
         environment["MSYSTEM"] = msys2environment.Name;
+    }
+
+    static void ConfigureShellEnvironment(IDictionary<string, string?> environment)
+    {
+        // MSYS2 will not do 'cd ${HOME}' if environment variable CHERE_INVOKING is defined.
+        environment["CHERE_INVOKING"] = "1";
     }
 
     public string TranslateFilePath(string path) => CygwinFileSystem.TranslateFilePath(path, null);
