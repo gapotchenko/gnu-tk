@@ -64,7 +64,7 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         var commandBuilder = new StringBuilder();
         if (!posixlyCorrect)
         {
-            // 'sh.exe' forcibly sets POSIXLY_CORRECT environment variable.
+            // 'sh.exe' forcibly sets 'POSIXLY_CORRECT' environment variable.
             // Unset it if not instructed by a user.
             commandBuilder.Append("unset POSIXLY_CORRECT;");
         }
@@ -103,7 +103,7 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
 
     static void ConfigureShellEnvironment(IDictionary<string, string?> environment)
     {
-        // Cygwin will not do 'cd ${HOME}' if environment variable CHERE_INVOKING is defined.
+        // Cygwin will not do 'cd "${HOME}"' if environment variable 'CHERE_INVOKING' is defined.
         environment["CHERE_INVOKING"] = "1";
     }
 

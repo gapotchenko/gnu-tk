@@ -72,7 +72,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         var commandBuilder = new StringBuilder();
         if (!posixlyCorrect)
         {
-            // 'sh.exe' forcibly sets POSIXLY_CORRECT environment variable.
+            // 'sh.exe' forcibly sets 'POSIXLY_CORRECT' environment variable.
             // Unset it if not instructed by a user.
             commandBuilder.Append("unset POSIXLY_CORRECT;");
         }
@@ -115,14 +115,14 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         environment["MSYSCON"] = "";
         environment["MSYSTEM"] = msys2environment.Name;
 
-        // Makes MSYS2 shell inherit PATH environment variable from the host system.
-        // In contrast to Cygwin, MSYS2 login shell does not inherit PATH in non-POSIX mode.
+        // Make MSYS2 shell inherit 'PATH' environment variable from the host system.
+        // In contrast to Cygwin, MSYS2 login shell does not inherit 'PATH' in non-POSIX mode.
         environment["MSYS2_PATH_TYPE"] = "inherit";
     }
 
     static void ConfigureShellEnvironment(IDictionary<string, string?> environment)
     {
-        // MSYS2 will not do 'cd ${HOME}' if environment variable 'CHERE_INVOKING' is defined.
+        // MSYS2 will not do 'cd "${HOME}"' if environment variable 'CHERE_INVOKING' is defined.
         environment["CHERE_INVOKING"] = "1";
     }
 
