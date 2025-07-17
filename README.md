@@ -178,7 +178,7 @@ Let's explore how to make its script recipes portable using `gnu-tk`.
 
 By default, `just` executes scripts using the command shell of the host operating system.
 This approach works well for trivial cases but falls apart on more complex scenarios.
-Let's examine a sample `justfile` file:
+Let's examine a sample `justfile`:
 
 ```just
 run:
@@ -187,7 +187,7 @@ run:
 ```
 
 If you try to run this script using `just run` command on a Unix system,
-you will get an expected correct result.
+you will get the expected correct result.
 On Windows, you will get an error caused by the unavailability of `cp` command.
 
 One way to solve that is to use `gnu-tk` in place:
@@ -200,7 +200,7 @@ run:
     gnu-tk -l cp --help
 ```
 
-This will give us the desired result.
+This gives us the desired result.
 
 While this approach works, repeatedly invoking `gnu-tk` can become tedious.
 To simplify things, we can configure `gnu-tk` as the default command shell for the `justfile`:
