@@ -10,7 +10,7 @@ The GNU system offers a wide range of tools, including essential command-line ut
 For instance, GNU [core utilities](https://www.gnu.org/software/coreutils/) are crucial for automating cross-platform projects by enabling the creation of reproducible build scripts.
 Beyond that, GNU tools support a wide variety of other use cases.
 
-A recurring issue with GNU tools, however, is their limited accessibility on non-Unix operating systems.
+A **recurring issue with GNU tools**, however, is their limited accessibility on non-Unix operating systems.
 For example, on Windows, you can use toolkits such as [MSYS2](https://www.msys2.org/), [Cygwin](https://cygwin.com/) or [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux").
 Yet, these introduce their own challenges: correctly identifying the toolkit installation path, modifying environment variables, configuring shells with toolkit-specific parameters, and, finally, managing the handoff of control to and from the toolkit.
 All of this makes using GNU tools far from easy and reproducible.
