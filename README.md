@@ -66,6 +66,14 @@ Use the following command to install GNU-TK as a global .NET tool:
 dotnet tool install -g Gapotchenko.GnuTK
 ```
 
+### Requirements
+
+GNU-TK can run on the following platforms:
+
+- Windows 10+, x64 or ARM64 CPU
+- Linux, x64 or ARM64 CPU
+- macOS, x64 or ARM64 CPU
+
 ### GNU Toolkits
 
 Aside from GNU-TK itself, you also need an actual GNU toolkit installed on your system:
