@@ -53,7 +53,7 @@ Use the following command to install GNU-TK globally:
 npm install -g @gapotchenko/gnu-tk
 ```
 
-Alternatively, you can install GNU-TK locally on a per-project basis if you need to use `gnu-tk` in project scripts in a way reproducible by others:
+Alternatively, you can install GNU-TK locally within the Node.js project that uses it:
 `npm install --save-dev @gapotchenko/gnu-tk`.
 
 ### NuGet Package Manager
