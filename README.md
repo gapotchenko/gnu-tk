@@ -43,7 +43,6 @@ gnu-tk -f <script-file>
 ## Installation
 
 To install GNU-TK, you can use one of the supported package managers.
-GNU-TK can be installed on Windows, macOS, and Linux operating systems.
 
 ### NPM Package Manager
 
@@ -66,7 +65,7 @@ Use the following command to install GNU-TK as a global .NET tool:
 dotnet tool install -g Gapotchenko.GnuTK
 ```
 
-### Requirements
+### Supported Platforms
 
 GNU-TK can be readily used on the following platforms:
 
