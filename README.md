@@ -186,7 +186,7 @@ run:
     cp --help
 ```
 
-If you try to run this script using `just run` command on a Unix system,
+If you try to run this script with `just run` command on a Unix system,
 you will get the expected correct result.
 On Windows, you'll encounter an error because the `cp` command is not available on this OS.
 

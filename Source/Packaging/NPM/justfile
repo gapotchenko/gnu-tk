@@ -1,4 +1,4 @@
-set windows-shell := ["gnu-tk", "-c"]
+set windows-shell := ["gnu-tk", "-i", "-c"]
 
 # Show the help for this justfile
 @help:
