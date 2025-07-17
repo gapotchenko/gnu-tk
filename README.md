@@ -165,7 +165,7 @@ Note how the `gnu-tk` tool is used in the script definitions.
 In this mode, you can seamlessly switch between native shell commands and GNU tools as needed.
 
 For this to work, `gnu-tk` must be installed either [globally](#installation),
-or locally within the Node.js project that uses `gnu-tk` in its script definitions:
+or locally within the Node.js project that uses `gnu-tk`:
 
 ```sh
 npm install --save-dev @gapotchenko/gnu-tk
