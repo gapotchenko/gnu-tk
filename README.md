@@ -143,9 +143,7 @@ Without that option, `gnu-tk` works in relaxed mode allowing built-in Unix OS co
 
 ## Examples
 
-### Integration
-
-#### Node.js
+### Node.js
 
 Node.js projects use a `package.json` file to define project configuration.
 One key feature of this file is the ability to specify custom scripts,
@@ -178,7 +176,7 @@ or locally within the Node.js project that uses `gnu-tk`:
 npm install --save-dev @gapotchenko/gnu-tk
 ```
 
-#### Just
+### Just
 
 [`just`](https://github.com/casey/just) is a cross-platform script runner.
 Let's explore how to make its script definitions portable using `gnu-tk`.
