@@ -50,7 +50,7 @@ GNU-TK can be installed on Windows, macOS, and Linux operating systems.
 NPM is a part of [Node.js](https://nodejs.org/).
 Use the following command to install GNU-TK globally:
 
-```
+```sh
 npm install -g @gapotchenko/gnu-tk
 ```
 
@@ -62,7 +62,7 @@ Alternatively, you can install GNU-TK locally on a per-project basis if you need
 NuGet is a part of [.NET](https://dotnet.microsoft.com/).
 Use the following command to install GNU-TK as a global .NET tool:
 
-```
+```sh
 dotnet tool install -g Gapotchenko.GnuTK
 ```
 
@@ -133,3 +133,84 @@ gnu-tk -s -l sed --help
 This can be vital on Unix operating systems like macOS that have built-in versions of Unix utilities.
 By specifying the `-s` command-line option, you explicitly assert that only a GNU version of `sed` utility should be ever used.
 Without that option, `gnu-tk` works in relaxed mode allowing built-in Unix OS commands to work as close-enough substitutes when no corresponding GNU utilities are found.
+
+## Examples
+
+### Integration
+
+#### Node.js
+
+Node.js projects use a `package.json` file to define project configuration.
+One key feature of this file is the ability to specify custom scripts,
+which can be executed using the `npm run <script>` command.
+
+By default, custom scripts defined in `package.json` are executed using the command shell of the host operating system.
+This is sufficient for basic tasks, but more complex scenarios may require commands like `cp`, `mv`, `sed`, and others.
+While some of these commands have OS-specific equivalents, relying on them can reduce the portability of your project across different environments.
+
+In that case, you can use `gnu-tk` to make your project scripts portable across different platforms.
+Let's examine a sample `package.json` file:
+
+```json
+{
+  "scripts": {
+    "rebuild": "npm run clear && npm run build",
+    "build": "docusaurus build && gnu-tk -l rm -rf public && gnu-tk -l mkdir public && gnu-tk -l cp -r build public/content && gnu-tk -l mv public/content/_* public && gnu-tk -l mv public/content/*.txt public && gnu-tk -s -l sed -i public/content/sitemap.xml -f src/patches/sitemap.xml.sed",
+    "clear": "docusaurus clear && gnu-tk -l rm -rf public",
+  },
+}
+```
+
+Note how the `gnu-tk` tool is used in the script definitions.
+In this mode, you can seamlessly switch between native shell commands and GNU tools as needed.
+
+For this to work, `gnu-tk` must be installed either [globally](#installation),
+or locally within the Node.js project that uses `gnu-tk` in its script definitions:
+
+```sh
+npm install --save-dev @gapotchenko/gnu-tk
+```
+
+#### Just
+
+[`just`](https://github.com/casey/just) is a cross-platform script runner.
+Let's explore how to make its script recipes portable using `gnu-tk`.
+
+By default, `just` executes scripts using the command shell of the host operating system.
+This approach works well for trivial cases but falls apart on more complex scenarios.
+Let's examine a sample `justfile` file:
+
+```just
+run:
+    echo Just hello
+    cp --help
+```
+
+If you try to run this script using `just run` command on a Unix system,
+you will get an expected correct result.
+On Windows, you will get an error caused by the unavailability of `cp` command.
+
+One way to solve that is to use `gnu-tk` in place:
+
+```just
+set windows-shell := ["cmd", "/c"]
+
+run:
+    echo Just hello
+    gnu-tk -l cp --help
+```
+
+This will give us the desired result.
+
+While this approach works, repeatedly invoking `gnu-tk` can become tedious.
+To simplify things, we can configure `gnu-tk` as the default command shell for the `justfile`:
+
+```just
+set windows-shell := ["gnu-tk", "-i", "-c"]
+
+run:
+    echo Just hello
+    cp --help
+```
+
+Now, `just run` command will produce the correct results on all supported platforms.
