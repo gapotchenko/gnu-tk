@@ -68,7 +68,7 @@ dotnet tool install -g Gapotchenko.GnuTK
 
 ### Requirements
 
-GNU-TK can run on the following platforms:
+GNU-TK can be readily used on the following platforms:
 
 - Windows 10+, x64 or ARM64 CPU
 - Linux, x64 or ARM64 CPU
