@@ -174,7 +174,7 @@ npm install --save-dev @gapotchenko/gnu-tk
 #### Just
 
 [`just`](https://github.com/casey/just) is a cross-platform script runner.
-Let's explore how to make its script recipes portable using `gnu-tk`.
+Let's explore how to make its script definitions portable using `gnu-tk`.
 
 By default, `just` executes scripts using the command shell of the host operating system.
 This approach works well for trivial cases but falls apart on more complex scenarios.
