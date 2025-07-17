@@ -28,7 +28,7 @@ gnu-tk -l cp --help
 
 The command above invokes `cp` GNU utility with `--help` command-line option.
 
-You can also pass a command to execute as a single command-line option:
+You can also pass a command to execute as a single command-line argument:
 
 ```sh
 gnu-tk -c "cp --help"
