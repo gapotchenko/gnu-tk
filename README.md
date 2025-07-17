@@ -188,9 +188,9 @@ run:
 
 If you try to run this script using `just run` command on a Unix system,
 you will get the expected correct result.
-On Windows, you will get an error caused by the unavailability of `cp` command.
+On Windows, you'll encounter an error because the `cp` command is not available on this OS.
 
-One way to solve that is to use `gnu-tk` in place:
+One way to solve that problem is to use `gnu-tk` in place:
 
 ```just
 set windows-shell := ["cmd", "/c"]
