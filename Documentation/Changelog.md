@@ -2,6 +2,12 @@
 
 ## 2025
 
+### GNU-TK 2025.4
+
+Release date: not released yet
+
+- In progress
+
 ### GNU-TK 2025.3
 
 Release date: July 17, 2025
