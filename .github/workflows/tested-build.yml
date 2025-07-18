@@ -38,6 +38,7 @@ jobs:
         run: |
           GNU_TK_TOOLKIT=msys2 just diagnostic
           GNU_TK_TOOLKIT=cygwin just diagnostic
+          # comment
 
       - name: Test
         run: just test
