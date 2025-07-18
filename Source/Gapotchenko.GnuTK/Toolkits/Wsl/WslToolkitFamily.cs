@@ -13,6 +13,9 @@ namespace Gapotchenko.GnuTK.Toolkits.Wsl;
 /// <summary>
 /// Describes a family of GNU toolkits provided by Windows Subsystem for Linux.
 /// </summary>
+/// <remarks>
+/// More information: <see href="https://learn.microsoft.com/windows/wsl/"/>
+/// </remarks>
 [SupportedOSPlatform("windows")]
 sealed class WslToolkitFamily : IToolkitFamily
 {

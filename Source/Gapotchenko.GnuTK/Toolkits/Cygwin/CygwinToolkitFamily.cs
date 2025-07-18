@@ -14,7 +14,7 @@ namespace Gapotchenko.GnuTK.Toolkits.Cygwin;
 /// Unix-like environment and command-line interface for Microsoft Windows.
 /// </summary>
 /// <remarks>
-/// More information: <seealso href="https://cygwin.com/"/>
+/// More information: <see href="https://cygwin.com/"/>
 /// </remarks>
 sealed class CygwinToolkitFamily : IToolkitFamily
 {
