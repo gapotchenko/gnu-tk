@@ -70,7 +70,7 @@ dotnet tool install -g Gapotchenko.GnuTK
 GNU-TK can be readily used on the following platforms:
 
 - Operating systems: Windows, macOS, Linux
-- CPU architectures: ARM64, x64
+- CPU architectures: x64, ARM64
 
 ### GNU Toolkits
 
