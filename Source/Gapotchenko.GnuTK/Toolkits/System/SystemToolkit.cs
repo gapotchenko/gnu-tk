@@ -25,15 +25,15 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        return ExecuteShell(["-e", "-c", command, .. arguments], environment, options);
+        return ExecuteShell(["-e", "-c", command, .. arguments], environment);
     }
 
     public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        return ExecuteShell([path, .. arguments], environment, options);
+        return ExecuteShell([path, .. arguments], environment);
     }
 
-    static int ExecuteShell(IEnumerable<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
+    static int ExecuteShell(IEnumerable<string> arguments, IReadOnlyDictionary<string, string?>? environment)
     {
         string envPath = GetEnvPath();
 

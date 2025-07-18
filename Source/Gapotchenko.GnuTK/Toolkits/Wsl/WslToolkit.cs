@@ -30,20 +30,18 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
             "sh \"`wslpath \"$0\"`\" \"$@\"",
             [NormalizePath(path), .. arguments],
             environment,
-            options,
             null);
     }
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        return ExecuteCommandCore(command, arguments, environment, options, ["-e"]);
+        return ExecuteCommandCore(command, arguments, environment, ["-e"]);
     }
 
     int ExecuteCommandCore(
         string command,
         IReadOnlyList<string> commandArguments,
         IReadOnlyDictionary<string, string?>? environment,
-        ToolkitExecutionOptions options,
         IEnumerable<string>? extraShellArguments)
     {
         string wslPath = GetWslPath();
@@ -57,25 +55,25 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         var processEnvironment = psi.Environment;
         EnvironmentServices.CombineEnvironmentWith(processEnvironment, environment);
 
-        var shellArguments = psi.ArgumentList;
-        shellArguments.Add("--exec");
-        shellArguments.Add("sh");
+        var wslArguments = psi.ArgumentList;
+        wslArguments.Add("--exec");
+        wslArguments.Add("sh");
         if (extraShellArguments != null)
-            shellArguments.AddRange(extraShellArguments);
-        shellArguments.Add("-c");
+            wslArguments.AddRange(extraShellArguments);
+        wslArguments.Add("-c");
 
         if (processEnvironment.ContainsKey("POSIXLY_CORRECT"))
         {
             var commandBuilder = new StringBuilder();
             commandBuilder.Append("export POSIXLY_CORRECT=;").Append(command);
-            shellArguments.Add(commandBuilder.ToString());
+            wslArguments.Add(commandBuilder.ToString());
         }
         else
         {
-            shellArguments.Add(command);
+            wslArguments.Add(command);
         }
 
-        shellArguments.AddRange(commandArguments);
+        wslArguments.AddRange(commandArguments);
 
         return ToolkitKit.ExecuteProcess(psi);
     }
@@ -105,44 +103,23 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
     public string TranslateFilePath(string path)
     {
-        string processPath = GetWslPath();
+        string wslPath = GetWslPath();
 
         var psi = new ProcessStartInfo
         {
-            FileName = processPath,
-            WorkingDirectory = NormalizePath(Directory.GetCurrentDirectory()),
-            WindowStyle = ProcessWindowStyle.Hidden,
-            RedirectStandardOutput = true
+            FileName = wslPath,
+            WorkingDirectory = NormalizePath(Directory.GetCurrentDirectory())
         };
 
-        var processArguments = psi.ArgumentList;
-        processArguments.Add("--exec");
-        processArguments.Add("wslpath");
-        processArguments.Add(NormalizePath(path));
+        var wslArguments = psi.ArgumentList;
+        wslArguments.Add("--exec");
+        wslArguments.Add("wslpath");
+        wslArguments.Add(NormalizePath(path));
 
-        var output = new StringBuilder();
+        var output = new StringWriter();
 
-        using var process =
-            Process.Start(psi) ??
-            throw new ProgramException(DiagnosticMessages.CannotStartProcess(psi.FileName));
-
-        process.OutputDataReceived += Process_OutputDataReceived;
-
-        process.BeginOutputReadLine();
-
-        void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            if (e.Data is var data and not (null or []))
-            {
-                if (output.Length != 0)
-                    output.AppendLine();
-                output.Append(data);
-            }
-        }
-
-        process.WaitForExit();
-
-        if (process.ExitCode != 0)
+        int exitCode = ToolkitKit.ExecuteProcess(psi, output);
+        if (exitCode != 0)
             return path;
 
         return output.ToString();

@@ -34,20 +34,19 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
 
     public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        return ExecuteCommandCore("sh \"$0\" \"$@\"", [path, .. arguments], environment, options, null);
+        return ExecuteCommandCore("sh \"$0\" \"$@\"", [path, .. arguments], environment, null);
     }
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
         // The 'sh' shell of MSYS2 is 'bash' in disguise.
-        return ExecuteCommandCore(command, arguments, environment, options, ["-e", "-o", "pipefail"]);
+        return ExecuteCommandCore(command, arguments, environment, ["-e", "-o", "pipefail"]);
     }
 
     int ExecuteCommandCore(
         string command,
         IReadOnlyList<string> commandArguments,
         IReadOnlyDictionary<string, string?>? environment,
-        ToolkitExecutionOptions options,
         IEnumerable<string>? extraShellArguments)
     {
         string shellPath = GetShellPath();
