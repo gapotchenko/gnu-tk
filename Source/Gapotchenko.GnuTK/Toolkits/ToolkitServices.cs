@@ -7,7 +7,6 @@
 
 using Gapotchenko.FX.IO;
 using Gapotchenko.FX.Linq;
-using Gapotchenko.FX.Tuples;
 using Gapotchenko.GnuTK.Toolkits.Cygwin;
 using Gapotchenko.GnuTK.Toolkits.Homebrew;
 using Gapotchenko.GnuTK.Toolkits.MSys2;
@@ -147,9 +146,9 @@ static class ToolkitServices
             // That was an easy one :)
             return [SystemToolkitFamily.Instance];
 
-            // Homebrew package manager can be installed on Linux, but there
-            // is no need to handle it specifically here because it
-            // immersively integrates with a host system by itself.
+            // Homebrew package manager can be installed on Linux,
+            // but there is no need to handle it specifically here
+            // because it immersively integrates with a host system by itself.
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
