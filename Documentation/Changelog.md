@@ -4,7 +4,7 @@
 
 ### GNU-TK 2025.4
 
-Release date: not released yet
+Release date: July 18, 2025
 
 - Use `errexit` and `pipefail` shell options when executing commands
 - Utilize MSYS2 toolkits installed by `msys2/setup-msys2` GitHub action
