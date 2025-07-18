@@ -33,7 +33,6 @@ clean:
 
 # Run all tests
 test:
-    dotnet test -c Debug
     dotnet test -c Release
 
 # Run diagnostic
