@@ -213,7 +213,7 @@ run:
 
 This gives us the desired result.
 
-While in-place `gnu-tk` approach works, repeatedly invoking `gnu-tk` can become tedious.
+While the above approach works, repeatedly invoking `gnu-tk` can become tedious.
 To simplify things, we can configure `gnu-tk` as the default command shell for `justfile`:
 
 ```just
