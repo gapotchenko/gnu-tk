@@ -44,7 +44,9 @@ gnu-tk -f <script-file>
 
 To install GNU-TK, you can use one of the supported package managers.
 
-### NPM Package Manager
+### Package Managers
+
+#### NPM
 
 NPM is a part of [Node.js](https://nodejs.org/).
 Use the following command to install GNU-TK globally:
@@ -56,7 +58,7 @@ npm install -g @gapotchenko/gnu-tk
 Alternatively, you can install GNU-TK locally within the Node.js project that uses it:
 `npm install --save-dev @gapotchenko/gnu-tk`.
 
-### NuGet Package Manager
+#### NuGet
 
 NuGet is a part of [.NET](https://dotnet.microsoft.com/).
 Use the following command to install GNU-TK as a global .NET tool:
