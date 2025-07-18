@@ -22,11 +22,13 @@ jobs:
       - name: Setup prerequisites
         uses: ./.github/actions/setup-prerequisites
 
-      - if: runner.os == 'Windows'
+      - name: Setup MSYS2
+        if: runner.os == 'Windows'
         uses: msys2/setup-msys2@v2
 
-      - if: runner.os == 'Windows'
-        uses: cygwin/cygwin-install-action@master
+      - name: Setup Cygwin
+        if: runner.os == 'Windows'
+        uses: cygwin/cygwin-install-action@v6
 
       - name: Diagnostic
         run: just diagnostic
