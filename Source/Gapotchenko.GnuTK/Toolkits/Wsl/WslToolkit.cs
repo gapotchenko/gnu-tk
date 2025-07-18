@@ -26,43 +26,56 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
     public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        return ExecuteCommand(
+        return ExecuteCommandCore(
             "sh \"`wslpath \"$0\"`\" \"$@\"",
             [NormalizePath(path), .. arguments],
             environment,
-            options);
+            options,
+            null);
     }
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        string processPath = GetWslPath();
+        return ExecuteCommandCore(command, arguments, environment, options, ["-e"]);
+    }
+
+    int ExecuteCommandCore(
+        string command,
+        IReadOnlyList<string> commandArguments,
+        IReadOnlyDictionary<string, string?>? environment,
+        ToolkitExecutionOptions options,
+        IEnumerable<string>? extraShellArguments)
+    {
+        string wslPath = GetWslPath();
 
         var psi = new ProcessStartInfo
         {
-            FileName = processPath,
+            FileName = wslPath,
             WorkingDirectory = NormalizePath(Directory.GetCurrentDirectory())
         };
 
         var processEnvironment = psi.Environment;
         EnvironmentServices.CombineEnvironmentWith(processEnvironment, environment);
 
-        var processArguments = psi.ArgumentList;
-        processArguments.Add("--exec");
-        processArguments.Add("sh");
-        processArguments.Add("-c");
+        var shellArguments = psi.ArgumentList;
+        shellArguments.Add("--exec");
+        shellArguments.Add("sh");
+        if (extraShellArguments != null)
+            shellArguments.AddRange(extraShellArguments);
+        shellArguments.Add("-c");
 
         if (processEnvironment.ContainsKey("POSIXLY_CORRECT"))
         {
             var commandBuilder = new StringBuilder();
             commandBuilder.Append("export POSIXLY_CORRECT=;").Append(command);
-            processArguments.Add(commandBuilder.ToString());
+            shellArguments.Add(commandBuilder.ToString());
         }
         else
         {
-            processArguments.Add(command);
+            shellArguments.Add(command);
         }
 
-        processArguments.AddRange(arguments);
+        shellArguments.AddRange(commandArguments);
 
         return ToolkitKit.ExecuteProcess(psi);
     }

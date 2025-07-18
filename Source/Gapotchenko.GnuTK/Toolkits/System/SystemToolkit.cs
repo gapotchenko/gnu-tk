@@ -25,7 +25,7 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        return ExecuteShell(["-c", command, .. arguments], environment, options);
+        return ExecuteShell(["-e", "-c", command, .. arguments], environment, options);
     }
 
     public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)

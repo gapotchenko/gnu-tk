@@ -6,7 +6,7 @@
 
 Release date: not released yet
 
-- In progress
+- Use `errexit` and `pipefail` shell options when executing commands
 
 ### GNU-TK 2025.3
 

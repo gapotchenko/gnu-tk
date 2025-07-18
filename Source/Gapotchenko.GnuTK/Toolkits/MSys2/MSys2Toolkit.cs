@@ -34,16 +34,27 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
 
     public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        return ExecuteCommand("sh \"$0\" \"$@\"", [path, .. arguments], environment, options);
+        return ExecuteCommandCore("sh \"$0\" \"$@\"", [path, .. arguments], environment, options, null);
     }
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        string processPath = GetShellPath();
+        // The 'sh' shell of MSYS2 is 'bash' in disguise.
+        return ExecuteCommandCore(command, arguments, environment, options, ["-e", "-o", "pipefail"]);
+    }
+
+    int ExecuteCommandCore(
+        string command,
+        IReadOnlyList<string> commandArguments,
+        IReadOnlyDictionary<string, string?>? environment,
+        ToolkitExecutionOptions options,
+        IEnumerable<string>? extraShellArguments)
+    {
+        string shellPath = GetShellPath();
 
         var psi = new ProcessStartInfo
         {
-            FileName = processPath
+            FileName = shellPath
         };
 
         var processEnvironment = psi.Environment;
@@ -60,14 +71,16 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         {
             // POSIX-compliant behavior requires us to add a lookup path for the shell directory.
             // Otherwise, the files in the shell directory cannot be found by the shell.
-            EnvironmentServices.PrependPath(processEnvironment, Path.GetDirectoryName(processPath));
+            EnvironmentServices.PrependPath(processEnvironment, Path.GetDirectoryName(shellPath));
         }
 
-        var processArguments = psi.ArgumentList;
+        var shellArguments = psi.ArgumentList;
         if (posixifyShell && !posixlyCorrect)
-            processArguments.Add("-posix");
-        processArguments.Add("-l");
-        processArguments.Add("-c");
+            shellArguments.Add("-posix");
+        shellArguments.Add("-l");
+        if (extraShellArguments != null)
+            shellArguments.AddRange(extraShellArguments);
+        shellArguments.Add("-c");
 
         var commandBuilder = new StringBuilder();
         if (!posixlyCorrect)
@@ -77,17 +90,16 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
             commandBuilder.Append("unset POSIXLY_CORRECT;");
         }
         commandBuilder.Append(command);
-        processArguments.Add(commandBuilder.ToString());
+        shellArguments.Add(commandBuilder.ToString());
 
-        processArguments.Add(Directory.GetCurrentDirectory());
-        if (arguments is [])
-            processArguments.Add(processPath);
+        shellArguments.Add(Directory.GetCurrentDirectory());
+        if (commandArguments is [])
+            shellArguments.Add(shellPath);
         else
-            processArguments.AddRange(arguments);
+            shellArguments.AddRange(commandArguments);
 
         return ToolkitKit.ExecuteProcess(psi);
     }
-
     string GetShellPath()
     {
         string shellPath = msys2environment.SetupInstance.ResolvePath(Path.Join("usr", "bin", "sh.exe"));

@@ -23,7 +23,8 @@ sealed class HomebrewScriptableToolkit(
 {
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        return ExecuteShell(["-c", command, .. arguments], environment, options);
+        // Bash and zsh both support 'pipefail' option.
+        return ExecuteShell(["-e", "-o", "pipefail", "-c", command, .. arguments], environment, options);
     }
 
     public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
