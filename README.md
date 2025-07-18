@@ -77,9 +77,15 @@ dotnet tool install -g Gapotchenko.GnuTK
 
 Aside from GNU-TK itself, you also need an actual GNU toolkit installed on your system:
 
-- **Linux:** already comes with a pre-installed GNU toolkit
-- **macOS:** [Homebrew](https://brew.sh/) package manager with installed GNU packages; [`bash`](https://formulae.brew.sh/formula/bash) and [`coreutils`](https://formulae.brew.sh/formula/coreutils) is a recommended bare minimum
-- **Windows:** [MSYS2](https://www.msys2.org/) (recommended), [Cygwin](https://cygwin.com/) or [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
+- **Linux:**
+  - Comes with a pre-installed GNU toolkit
+- **macOS:**
+  - [Homebrew](https://brew.sh/) package manager with installed GNU packages; [`bash`](https://formulae.brew.sh/formula/bash) and [`coreutils`](https://formulae.brew.sh/formula/coreutils) is a recommended bare minimum
+  - Comes with a pre-installed GNU-like toolkit
+- **Windows:**
+  - [MSYS2](https://www.msys2.org/) (recommended)
+  - [Cygwin](https://cygwin.com/)
+  - [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
 
 ## How it Works
 
@@ -207,7 +213,7 @@ run:
 
 This gives us the desired result.
 
-While in-place `gnu-tk` approach works, repeatedly invoking `gnu-tk` can become tedious.
+While the above approach works, repeatedly invoking `gnu-tk` can become tedious.
 To simplify things, we can configure `gnu-tk` as the default command shell for `justfile`:
 
 ```just
