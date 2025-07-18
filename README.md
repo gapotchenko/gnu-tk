@@ -7,7 +7,7 @@ GNU-TK is a tiny project that provides seamless scriptable access to GNU tools o
 [GNU](https://www.gnu.org/software/) is a software system that has been developed by many people working together for the sake of freedom of all software users to control their computing.
 
 The GNU system offers a wide range of tools, including essential command-line utilities such as `bash`, `cp`, `sed`, and many others.
-For instance, GNU [core utilities](https://www.gnu.org/software/coreutils/) are crucial for automating cross-platform projects by enabling the creation of reproducible build scripts.
+For instance, GNU [core utilities](https://www.gnu.org/software/coreutils/) are crucial for automating cross-platform projects by enabling the creation of reproducible scripts.
 Beyond that, GNU tools support a wide variety of other use cases.
 
 A **recurring issue with GNU tools**, however, is their limited accessibility on non-Unix operating systems.
