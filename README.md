@@ -67,6 +67,8 @@ dotnet tool install -g Gapotchenko.GnuTK
 
 ### Supported Platforms
 
+GNU-TK can be readily used on the following platforms:
+
 - Operating systems: Windows, macOS, Linux
 - CPU architectures: ARM64, x64
 
