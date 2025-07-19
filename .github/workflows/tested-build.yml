@@ -31,7 +31,9 @@ jobs:
         uses: cygwin/cygwin-install-action@v6
 
       - name: Diagnostic
-        run: just toolkit-list
+        run:
+          just toolkit-list
+          just toolkit-check
 
       - name: Diagnostic (Windows)
         if: runner.os == 'Windows'
