@@ -31,12 +31,13 @@ jobs:
         uses: cygwin/cygwin-install-action@v6
 
       - name: Diagnostic
-        run: just diagnostic
+        run: just toolkit-list
 
-      - name: Diagnostic of GNU toolkits on Windows
+      - name: Diagnostic (Windows)
         if: runner.os == 'Windows'
-        shell: bash
-        run: GNU_TK_TOOLKIT=msys2 just diagnostic; GNU_TK_TOOLKIT=cygwin just diagnostic
+        run: |
+          just toolkit-check msys2
+          just toolkit-check cygwin
 
       - name: Test
         run: just test

@@ -1,6 +1,7 @@
 set working-directory := "Source"
 set dotenv-load := true
 set windows-shell := ["cmd", "/c"]
+default-toolkit := "auto"
 
 # Show the help for this justfile
 @help:
@@ -35,10 +36,6 @@ clean:
 test:
     dotnet test -c Release
 
-# Run diagnostic
-diagnostic:
-    dotnet run --project Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj -c Release -f net9.0 --no-launch-profile -v q -- list -q
-
 # Produce publishable artifacts
 publish:
     dotnet clean -c Release
@@ -65,3 +62,11 @@ _publish-aot:
 # Produce platform-dependent publishable artifacts
 platform-publish:
     cd Packaging && just pack
+
+# List GNU toolkits
+toolkit-list:
+    dotnet run --project Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj -c Release -f net9.0 --no-launch-profile -v q -- list -q
+
+# Check GNU toolkit
+toolkit-check toolkit=default-toolkit:
+    dotnet run --project Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj -c Release -f net9.0 --no-launch-profile -v q -- -t {{toolkit}} check -q
