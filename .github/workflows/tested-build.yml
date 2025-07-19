@@ -31,7 +31,7 @@ jobs:
         uses: cygwin/cygwin-install-action@v6
 
       - name: Diagnostic
-        run:
+        run: |
           just toolkit-list
           just toolkit-check
 
