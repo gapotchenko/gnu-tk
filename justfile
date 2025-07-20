@@ -36,7 +36,7 @@ clean:
 
 # Run all tests
 test:
-    dotnet test -c Release -f net10.0
+    dotnet test -c Release
 
 # Produce publishable artifacts
 publish:
