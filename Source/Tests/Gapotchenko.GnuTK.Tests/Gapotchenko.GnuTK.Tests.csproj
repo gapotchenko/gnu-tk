@@ -3,7 +3,7 @@
   <PropertyGroup>
     <!--TargetFrameworks>net9.0</TargetFrameworks-->
   </PropertyGroup>
-  
+
   <ItemGroup>
     <Using Include="Gapotchenko.FX" />
     <Using Include="Gapotchenko.FX.Linq" />

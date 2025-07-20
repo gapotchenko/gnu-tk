@@ -48,18 +48,18 @@ platform-build: _publish-aot
 
 [linux]
 _publish-aot:
-    if [ "`uname -m`" = "x86_64" ]; then dotnet publish -c Release -p:PublishAot=true -r linux-x64 -f {{ dotnet-framework }}; fi
-    if [ "`uname -m`" = "aarch64" ]; then dotnet publish -c Release -p:PublishAot=true -r linux-arm64 -f {{ dotnet-framework }}; fi
+    if [ "`uname -m`" = "x86_64" ]; then cd Gapotchenko.GnuTK && dotnet publish -c Release -p:PublishAot=true -r linux-x64 -f {{ dotnet-framework }}; fi
+    if [ "`uname -m`" = "aarch64" ]; then cd Gapotchenko.GnuTK && dotnet publish -c Release -p:PublishAot=true -r linux-arm64 -f {{ dotnet-framework }}; fi
 
 [windows]
 _publish-aot:
-    dotnet publish -c Release -p:PublishAot=true -r win-x64 -f {{ dotnet-framework }}
-    dotnet publish -c Release -p:PublishAot=true -r win-arm64 -f {{ dotnet-framework }}
+    cd Gapotchenko.GnuTK && dotnet publish -c Release -p:PublishAot=true -r win-x64 -f {{ dotnet-framework }}
+    cd Gapotchenko.GnuTK && dotnet publish -c Release -p:PublishAot=true -r win-arm64 -f {{ dotnet-framework }}
 
 [macos]
 _publish-aot:
-    dotnet publish -c Release -p:PublishAot=true -r osx-arm64 -f {{ dotnet-framework }}
-    dotnet publish -c Release -p:PublishAot=true -r osx-x64 -f {{ dotnet-framework }}
+    cd Gapotchenko.GnuTK && dotnet publish -c Release -p:PublishAot=true -r osx-arm64 -f {{ dotnet-framework }}
+    cd Gapotchenko.GnuTK && dotnet publish -c Release -p:PublishAot=true -r osx-x64 -f {{ dotnet-framework }}
 
 # Produce platform-dependent publishable artifacts
 platform-publish:
