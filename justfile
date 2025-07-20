@@ -1,7 +1,9 @@
 set working-directory := "Source"
 set dotenv-load := true
 set windows-shell := ["cmd", "/c"]
-default-toolkit := "auto"
+
+dotnet-framework := "net9.0"
+default-gnu-toolkit := "auto"
 
 # Show the help for this justfile
 @help:
@@ -34,7 +36,7 @@ clean:
 
 # Run all tests
 test:
-    dotnet test -c Release
+    dotnet test -c Release -f {{ dotnet-framework }}
 
 # Produce publishable artifacts
 publish:
@@ -46,18 +48,18 @@ platform-build: _publish-aot
 
 [linux]
 _publish-aot:
-    if [ "`uname -m`" = "x86_64" ]; then dotnet publish -c Release -p:PublishAot=true -r linux-x64 -f net9.0; fi
-    if [ "`uname -m`" = "aarch64" ]; then dotnet publish -c Release -p:PublishAot=true -r linux-arm64 -f net9.0; fi
+    if [ "`uname -m`" = "x86_64" ]; then dotnet publish -c Release -p:PublishAot=true -r linux-x64 -f {{ dotnet-framework }}; fi
+    if [ "`uname -m`" = "aarch64" ]; then dotnet publish -c Release -p:PublishAot=true -r linux-arm64 -f {{ dotnet-framework }}; fi
 
 [windows]
 _publish-aot:
-    dotnet publish -c Release -p:PublishAot=true -r win-x64 -f net9.0
-    dotnet publish -c Release -p:PublishAot=true -r win-arm64 -f net9.0
+    dotnet publish -c Release -p:PublishAot=true -r win-x64 -f {{ dotnet-framework }}
+    dotnet publish -c Release -p:PublishAot=true -r win-arm64 -f {{ dotnet-framework }}
 
 [macos]
 _publish-aot:
-    dotnet publish -c Release -p:PublishAot=true -r osx-arm64 -f net9.0
-    dotnet publish -c Release -p:PublishAot=true -r osx-x64 -f net9.0
+    dotnet publish -c Release -p:PublishAot=true -r osx-arm64 -f {{ dotnet-framework }}
+    dotnet publish -c Release -p:PublishAot=true -r osx-x64 -f {{ dotnet-framework }}
 
 # Produce platform-dependent publishable artifacts
 platform-publish:
@@ -65,8 +67,8 @@ platform-publish:
 
 # List GNU toolkits
 toolkit-list:
-    dotnet run --project Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj -c Release -f net9.0 --no-launch-profile -v q -- list -q
+    dotnet run --project Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj -c Release -f {{ dotnet-framework }} --no-launch-profile -v q -- list -q
 
 # Check GNU toolkit
-toolkit-check toolkit=default-toolkit:
-    dotnet run --project Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj -c Release -f net9.0 --no-launch-profile -v q -- -t {{toolkit}} check -q
+toolkit-check toolkit=default-gnu-toolkit:
+    dotnet run --project Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj -c Release -f {{ dotnet-framework }} --no-launch-profile -v q -- -t {{ toolkit }} check -q
