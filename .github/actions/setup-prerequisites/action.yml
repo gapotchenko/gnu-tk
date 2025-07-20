@@ -3,7 +3,12 @@ description: 'Sets up the required software components'
 runs:
   using: "composite"
   steps:
-    - name: Setup .NET SDK
+    - name: Setup .NET SDK 9.0
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+
+    - name: Setup .NET SDK 10.0
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 10.0.x
