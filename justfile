@@ -3,7 +3,6 @@ set dotenv-load := true
 set windows-shell := ["cmd", "/c"]
 
 dotnet-framework := "net9.0"
-default-gnu-toolkit := "auto"
 
 # Show the help for this justfile
 @help:
@@ -67,8 +66,8 @@ platform-publish:
 
 # List GNU toolkits
 toolkit-list:
-    dotnet run --project Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj -c Release -f {{ dotnet-framework }} --no-launch-profile -v q -- list -q
+    dotnet run --project Gapotchenko.GnuTK -c Release -f {{ dotnet-framework }} --no-launch-profile -v q -- list -q
 
 # Check GNU toolkit
-toolkit-check toolkit=default-gnu-toolkit:
-    dotnet run --project Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj -c Release -f {{ dotnet-framework }} --no-launch-profile -v q -- -t {{ toolkit }} check -q
+toolkit-check toolkit="auto":
+    dotnet run --project Gapotchenko.GnuTK -c Release -f {{ dotnet-framework }} --no-launch-profile -v q -- -t {{ toolkit }} check -q
