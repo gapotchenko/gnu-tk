@@ -2,6 +2,9 @@
   <Folder Name="/01. Components/" />
   <Folder Name="/02. Modules/">
     <Project Path="Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj" />
+    <Project Path="Tests/Gapotchenko.GnuTK.Tests/Gapotchenko.GnuTK.Tests.csproj" Id="587608f6-7611-4f73-9c44-4c157f1ac93e">
+      <BuildDependency Project="Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj" />
+    </Project>
   </Folder>
   <Folder Name="/03. Misc/" />
   <Folder Name="/03. Misc/Documentation/">
