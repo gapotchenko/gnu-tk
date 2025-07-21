@@ -17,7 +17,21 @@ sealed class SystemToolkitFamily : IToolkitFamily
 
     public string Name => "System";
 
-    public IReadOnlyList<string> Aliases => [];
+    public IReadOnlyList<string> Aliases
+    {
+        get
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) &&
+                !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WSL_DISTRO_NAME")))
+            {
+                return ["wsl"];
+            }
+            else
+            {
+                return [];
+            }
+        }
+    }
 
     public ToolkitFamilyTraits Traits =>
         RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
