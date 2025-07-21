@@ -229,8 +229,23 @@ Setting `windows-shell` to `gnu-tk` for an entire `justfile` can sometimes be to
 In such cases, a more gradual approach using the `[script(COMMAND)]` attribute is recommended ([docs](https://just.systems/man/en/script-recipes.html)):
 
 ```just
-[script("gnu-tk", "-i", "-f")]
+[script("gnu-tk", "-i", "-l", "sh", "-eu")]
 run:
     echo Just hello
     cp --help
+```
+
+If your `justfile` contains multiple scripts, you can set the script interpreter once and reuse it across all scripts:
+
+```just
+set script-interpreter := ["gnu-tk", "-i", "-l", "sh", "-eu"]
+
+[script]
+run:
+    echo Just hello
+    cp --help
+
+[script]
+list:
+    find . -type f -name "*.sh"
 ```

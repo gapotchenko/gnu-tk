@@ -1,6 +1,7 @@
 set working-directory := "Source"
 set dotenv-load := true
 set windows-shell := ["cmd", "/c"]
+set script-interpreter := ["gnu-tk", "-i", "-l", "sh", "-eu"]
 set unstable := true
 
 dotnet-framework := "net9.0"
@@ -20,7 +21,7 @@ develop:
 develop:
     open *.sln?
 
-[script("gnu-tk", "-i", "-f")]
+[script]
 format:
     find . -type f -name "*.sh" -exec shfmt -i 4 -l -w {} \;
 
