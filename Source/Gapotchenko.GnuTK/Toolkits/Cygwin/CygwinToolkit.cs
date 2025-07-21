@@ -80,11 +80,9 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
             // Unset it if not instructed by a user.
             commandBuilder.Append("unset POSIXLY_CORRECT;");
         }
-        commandBuilder.Append("BASH_ARGV0=$1 && shift;");
         commandBuilder.Append(command);
         shellArguments.Add(commandBuilder.ToString());
 
-        shellArguments.Add(Directory.GetCurrentDirectory());
         if (commandArguments is [])
             shellArguments.Add(shellPath);
         else
