@@ -2,7 +2,7 @@
 
 set -eu
 
-chmod -R +x *.sh
+chmod +x **/*.sh
 export PATH=$PATH:`pwd`/tools
 
 gnu-tk.sh --version
