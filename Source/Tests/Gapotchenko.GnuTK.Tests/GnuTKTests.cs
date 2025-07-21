@@ -1,4 +1,11 @@
-﻿namespace Gapotchenko.GnuTK.Tests;
+﻿// Gapotchenko.GnuTK
+//
+// Copyright © Gapotchenko and Contributors
+//
+// File introduced by: Oleksiy Gapotchenko
+// Year of introduction: 2025
+
+namespace Gapotchenko.GnuTK.Tests;
 
 [TestClass]
 public class GnuTKTests
@@ -7,11 +14,10 @@ public class GnuTKTests
     [DynamicData(nameof(GnuTK_TestData_Toolkits))]
     public void GnuTK_Toolkit_Availability(string toolkit)
     {
-        Console.WriteLine("Tool path: {0}", TestServices.ToolPath);
+        Assert.AreEqual(0, ShellServices.ExecuteProcess(TestServices.ToolPath, ["-t", toolkit, "check", "-q"]));
     }
 
     static IEnumerable<ValueTuple<string>> GnuTK_TestData_Toolkits =>
         TestServices.EnumerateToolkits()
-        .Append("auto")
         .Select(x => ValueTuple.Create(x));
 }

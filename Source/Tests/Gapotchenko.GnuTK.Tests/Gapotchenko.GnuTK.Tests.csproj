@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Gapotchenko.FX" Version="2025.1.24-beta" />
+    <PackageReference Include="Gapotchenko.FX.Collections" Version="2025.1.24-beta" />
     <PackageReference Include="Gapotchenko.FX.Linq" Version="2025.1.24-beta" />
     <PackageReference Include="Gapotchenko.Shields.Cygwin.Deployment" Version="2025.1.3-beta" />
     <PackageReference Include="Gapotchenko.Shields.Homebrew.Management" Version="2025.1.2-beta" />
