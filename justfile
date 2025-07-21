@@ -40,7 +40,7 @@ test:
 # Produce publishable artifacts
 publish:
     dotnet clean -c Release
-    dotnet pack -c Release
+    dotnet pack -c Release -p:WA49799=true
 
 # Build platform-dependent release artifacts
 platform-build: _publish-aot

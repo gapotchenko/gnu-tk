@@ -41,6 +41,11 @@ jobs:
           just toolkit-check msys2
           just toolkit-check cygwin
 
+      - name: Diagnostic (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          just toolkit-check brew
+
       - name: Test
         run: just test
 

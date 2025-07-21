@@ -16,7 +16,7 @@ namespace Gapotchenko.GnuTK.Tests;
 static class TestServices
 {
     /// <summary>
-    /// Enumerates installed GNU toolkits to test.
+    /// Enumerates installed GNU toolkits.
     /// </summary>
     public static IEnumerable<string> EnumerateToolkits()
     {
@@ -39,5 +39,33 @@ static class TestServices
         {
             yield return "system";
         }
+    }
+
+    /// <summary>
+    /// Gets a file path of GnuTK tool.
+    /// </summary>
+    public static string ToolPath => field ??= GetToolPathCore();
+
+    static string GetToolPathCore()
+    {
+        string? path = Path.GetDirectoryName(typeof(TestServices).Assembly.Location);
+        if (string.IsNullOrEmpty(path))
+            throw new InvalidOperationException("Cannot determine the assembly directory.");
+
+        string tfm = Path.GetFileName(path);
+        string? configuration = Path.GetFileName(Path.GetDirectoryName(path));
+        if (configuration == null)
+            throw new InvalidOperationException("Cannot determine the assembly configuration.");
+
+        string basePath = Path.GetFullPath(Path.Combine(path, "../../../../.."));
+
+        string toolPath = Path.Combine(basePath, "Gapotchenko.GnuTK", "bin", configuration, tfm, "Gapotchenko.GnuTK");
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            toolPath += ".exe";
+
+        if (!File.Exists(toolPath))
+            throw new FileNotFoundException("Tool path is not found.", toolPath);
+
+        return toolPath;
     }
 }
