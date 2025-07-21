@@ -224,3 +224,13 @@ run:
 ```
 
 Now, `just run` command will produce the correct results on all supported platforms.
+
+Setting `windows-shell` to `gnu-tk` for the entire `justfile` can sometimes be too aggressive.
+In such cases, a more flexible approach using the `[script(COMMAND)]` attribute is recommended:
+
+```just
+[script("gnu-tk", "-i", "-f")]
+run:
+    echo Just hello
+    cp --help
+```
