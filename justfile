@@ -20,7 +20,7 @@ develop:
 develop:
     open *.sln?
 
-[script("gnu-tk", "-f")]
+[script("gnu-tk", "-i", "-f")]
 format:
     find . -type f -name "*.sh" -exec shfmt -i 4 -l -w {} \;
 
