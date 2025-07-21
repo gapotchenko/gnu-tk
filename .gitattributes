@@ -1,4 +1,7 @@
 # https://docs.github.com/en/get-started/git-basics/configuring-git-to-handle-line-endings
 
+# GitHub actions.
+*.yml text eol=lf
+
 # Unix shell scripts
 *.sh text eol=lf
