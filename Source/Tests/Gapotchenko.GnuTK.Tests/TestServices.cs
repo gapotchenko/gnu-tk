@@ -42,7 +42,22 @@ static class TestServices
     }
 
     /// <summary>
-    /// Gets a file path of GnuTK tool.
+    /// Gets the base directory path.
+    /// </summary>
+    public static string BasePath => field ??= GetBasePathCore();
+
+    static string GetBasePathCore()
+    {
+        string? path = Path.GetDirectoryName(typeof(TestServices).Assembly.Location);
+        if (string.IsNullOrEmpty(path))
+            throw new InvalidOperationException("Cannot determine the assembly directory.");
+
+        string basePath = Path.GetFullPath(Path.Combine(path, "../../../../.."));
+        return basePath;
+    }
+
+    /// <summary>
+    /// Gets the file path of GnuTK tool.
     /// </summary>
     public static string ToolPath => field ??= GetToolPathCore();
 
@@ -52,12 +67,12 @@ static class TestServices
         if (string.IsNullOrEmpty(path))
             throw new InvalidOperationException("Cannot determine the assembly directory.");
 
-        string tfm = Path.GetFileName(path);
-        string? configuration = Path.GetFileName(Path.GetDirectoryName(path));
-        if (configuration == null)
-            throw new InvalidOperationException("Cannot determine the assembly configuration.");
-
         string basePath = Path.GetFullPath(Path.Combine(path, "../../../../.."));
+
+        string tfm = Path.GetFileName(path);
+        string? configuration =
+            Path.GetFileName(Path.GetDirectoryName(path)) ??
+            throw new InvalidOperationException("Cannot determine the assembly configuration.");
 
         string toolPath = Path.Combine(basePath, "Gapotchenko.GnuTK", "bin", configuration, tfm, "Gapotchenko.GnuTK");
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))

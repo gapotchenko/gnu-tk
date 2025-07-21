@@ -11,15 +11,21 @@ namespace Gapotchenko.GnuTK.Tests;
 
 static class ShellServices
 {
-    public static int ExecuteProcess(string filePath, IEnumerable<string> arguments)
+    public static int ExecuteProcess(
+        string filePath,
+        IEnumerable<string> arguments,
+        string? workingDirectory = null)
     {
         var psi = new ProcessStartInfo
         {
             FileName = filePath,
-            WindowStyle = ProcessWindowStyle.Hidden
+            CreateNoWindow = true
         };
 
         psi.ArgumentList.AddRange(arguments);
+
+        if (workingDirectory != null)
+            psi.WorkingDirectory = workingDirectory;
 
         using var process =
             Process.Start(psi) ??
