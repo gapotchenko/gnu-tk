@@ -36,12 +36,10 @@ public class GnuTKTests
             0,
             ShellServices.ExecuteProcess(
                 TestServices.ToolPath,
-                ["-t", toolkit, "-f", Path.Combine(workingDirectory, "run-tests.sh")],
+                ["-t", toolkit, "-f", "run-tests.sh"],
                 workingDirectory,
                 environment));
     }
 
-    static IEnumerable<ValueTuple<string>> GnuTK_TestData_Toolkits =>
-        TestServices.EnumerateToolkits()
-        .Select(x => ValueTuple.Create(x));
+    static IEnumerable<string> GnuTK_TestData_Toolkits => TestServices.EnumerateToolkits();
 }
