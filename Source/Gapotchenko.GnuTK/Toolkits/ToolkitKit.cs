@@ -65,6 +65,8 @@ static class ToolkitKit
         if (string.IsNullOrEmpty(value))
             return value;
 
+        // TODO: needs more thorough implementation.
+
         return value.Replace(@"\", @"\\");
     }
 }

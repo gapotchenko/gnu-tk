@@ -107,7 +107,10 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         {
             if (builder.Length != 0)
                 builder.Append(';');
-            builder.Append("export ").Append(name).Append('=').Append(ToolkitKit.EscapeVariableValue(value));
+            if (value is null)
+                builder.Append("unset ").Append(name);
+            else
+                builder.Append("export ").Append(name).Append('=').Append(ToolkitKit.EscapeVariableValue(value));
         }
 
         return builder.ToString();
