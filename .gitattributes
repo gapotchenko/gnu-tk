@@ -1,0 +1,4 @@
+# https://docs.github.com/en/get-started/git-basics/configuring-git-to-handle-line-endings
+
+# Unix shell scripts
+*.sh text eol=lf
