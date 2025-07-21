@@ -62,16 +62,14 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
             wslArguments.AddRange(extraShellArguments);
         wslArguments.Add("-c");
 
-        if (processEnvironment.ContainsKey("POSIXLY_CORRECT"))
-        {
-            var commandBuilder = new StringBuilder();
-            commandBuilder.Append("export POSIXLY_CORRECT=;").Append(command);
-            wslArguments.Add(commandBuilder.ToString());
-        }
-        else
-        {
-            wslArguments.Add(command);
-        }
+        var commandBuilder = new StringBuilder();
+
+        string environmentScript = BuildEnvironmentScript(GetTransferableEnvironment(processEnvironment));
+        if (environmentScript is not [])
+            commandBuilder.Append(environmentScript).Append(';');
+
+        commandBuilder.Append(command);
+        wslArguments.Add(commandBuilder.ToString());
 
         wslArguments.AddRange(commandArguments);
 
@@ -98,6 +96,37 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         else
         {
             return path;
+        }
+    }
+
+    static string BuildEnvironmentScript(IReadOnlyDictionary<string, string?> environment)
+    {
+        var builder = new StringBuilder();
+
+        foreach (var (name, value) in environment)
+        {
+            if (builder.Length != 0)
+                builder.Append(';');
+            builder.Append("export ").Append(name).Append('=').Append(ToolkitKit.EscapeVariableValue(value));
+        }
+
+        return builder.ToString();
+    }
+
+    static IReadOnlyDictionary<string, string?> GetTransferableEnvironment(IDictionary<string, string?> environment)
+    {
+        var newEnvironment = new Dictionary<string, string?>(StringComparer.Ordinal);
+
+        TransferVariable("POSIXLY_CORRECT");
+        TransferVariable("GNU_TK");
+        TransferVariable("GNU_TK_TOOLKIT");
+
+        return newEnvironment;
+
+        void TransferVariable(string name)
+        {
+            if (environment.TryGetValue(name, out string? value))
+                newEnvironment[name] = value;
         }
     }
 

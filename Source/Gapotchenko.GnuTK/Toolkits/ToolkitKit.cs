@@ -58,4 +58,13 @@ static class ToolkitKit
     {
         psi.WindowStyle = ProcessWindowStyle.Hidden;
     }
+
+    [return: NotNullIfNotNull(nameof(value))]
+    public static string? EscapeVariableValue(string? value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return value;
+
+        return value.Replace(@"\", @"\\");
+    }
 }

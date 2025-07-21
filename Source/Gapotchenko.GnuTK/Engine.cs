@@ -176,18 +176,14 @@ sealed class Engine
                 DiagnosticCode.SuitableToolkitNotFound);
     }
 
-    IReadOnlyDictionary<string, string?>? GetToolkitExecutionEnvironment()
+    IReadOnlyDictionary<string, string?> GetToolkitExecutionEnvironment()
     {
+        var environment = EnvironmentServices.CreateEnvironment();
         if (Posix)
-        {
-            var environment = EnvironmentServices.CreateEnvironment();
             environment["POSIXLY_CORRECT"] = string.Empty;
-            return environment;
-        }
-        else
-        {
-            return null;
-        }
+        if (ToolkitNames is { } toolkitNames)
+            environment["GNU_TK_TOOLKIT"] = string.Join(',', toolkitNames);
+        return environment;
     }
 
     ToolkitExecutionOptions GetToolkitExecutionOptions()
