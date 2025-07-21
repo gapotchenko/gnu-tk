@@ -35,6 +35,7 @@ clean:
 
 # Run all tests
 test:
+    dotnet build -c Release
     dotnet test -c Release -f {{ dotnet-framework }}
 
 # Produce publishable artifacts
