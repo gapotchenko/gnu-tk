@@ -1,6 +1,7 @@
 set working-directory := "Source"
 set dotenv-load := true
 set windows-shell := ["cmd", "/c"]
+set unstable := true
 
 dotnet-framework := "net9.0"
 
