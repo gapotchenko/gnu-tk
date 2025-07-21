@@ -234,18 +234,3 @@ run:
     echo Just hello
     cp --help
 ```
-
-If your `justfile` contains multiple scripts, you can set the script interpreter once and reuse it across all scripts:
-
-```just
-set script-interpreter := ["gnu-tk", "-i", "-l", "sh", "-eu"]
-
-[script]
-run:
-    echo Just hello
-    cp --help
-
-[script]
-list:
-    find . -type f -name "*.sh"
-```
