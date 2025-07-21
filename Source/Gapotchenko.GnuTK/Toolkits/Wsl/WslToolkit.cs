@@ -64,7 +64,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
         var commandBuilder = new StringBuilder();
 
-        string environmentScript = BuildEnvironmentScript(GetTransferableEnvironment(processEnvironment));
+        string environmentScript = BuildEnvironmentScript(TranslateEnvironment(processEnvironment));
         if (environmentScript is not [])
             commandBuilder.Append(environmentScript).Append(';');
 
@@ -116,17 +116,17 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         return builder.ToString();
     }
 
-    static IReadOnlyDictionary<string, string?> GetTransferableEnvironment(IDictionary<string, string?> environment)
+    static IReadOnlyDictionary<string, string?> TranslateEnvironment(IDictionary<string, string?> environment)
     {
         var newEnvironment = new Dictionary<string, string?>(StringComparer.Ordinal);
 
-        TransferVariable("POSIXLY_CORRECT");
-        TransferVariable("GNU_TK");
-        TransferVariable("GNU_TK_TOOLKIT");
+        Translate("POSIXLY_CORRECT");
+        Translate("GNU_TK");
+        Translate("GNU_TK_TOOLKIT");
 
         return newEnvironment;
 
-        void TransferVariable(string name)
+        void Translate(string name)
         {
             if (environment.TryGetValue(name, out string? value))
                 newEnvironment[name] = value;
