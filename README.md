@@ -82,9 +82,9 @@ Aside from GNU-TK itself, you also need an actual GNU toolkit installed on your 
     - [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
   - **macOS:**
     - [Homebrew](https://brew.sh/) package manager with installed GNU packages; [`bash`](https://formulae.brew.sh/formula/bash) and [`coreutils`](https://formulae.brew.sh/formula/coreutils) is a recommended bare minimum
-    - Comes with a pre-installed GNU-like toolkit
+    - OS comes with a pre-installed GNU-like toolkit
   - **Linux:**
-    - Comes with a pre-installed GNU toolkit
+    - OS comes with a pre-installed GNU toolkit
 
 ## How it Works
 
