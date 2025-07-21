@@ -64,7 +64,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
         var commandBuilder = new StringBuilder();
 
-        string environmentScript = BuildEnvironmentScript(TranslateEnvironment(processEnvironment));
+        string environmentScript = BuildEnvironmentScript(TranslateEnvironment(processEnvironment.AsReadOnly()));
         if (environmentScript is not [])
             commandBuilder.Append(environmentScript).Append(';');
 
@@ -116,7 +116,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         return builder.ToString();
     }
 
-    static IReadOnlyDictionary<string, string?> TranslateEnvironment(IDictionary<string, string?> environment)
+    static IReadOnlyDictionary<string, string?> TranslateEnvironment(IReadOnlyDictionary<string, string?> environment)
     {
         var newEnvironment = new Dictionary<string, string?>(StringComparer.Ordinal);
 

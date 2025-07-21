@@ -41,24 +41,13 @@ static class EnvironmentServices
         if (other is null)
             return;
 
+        var env = environment.AsReadOnly();
         foreach (string name in environment.Keys.ToList().Union(other.Keys, VariableNameComparer))
-            environment[name] = CombineValues(environment, other, name);
+            environment[name] = CombineValues(env, other, name);
     }
 
     static string? CombineValues(
         IReadOnlyDictionary<string, string?> a,
-        IReadOnlyDictionary<string, string?> b,
-        string name) =>
-        (a.TryGetValue(name, out string? valueA), b.TryGetValue(name, out string? valueB)) switch
-        {
-            (true, true) => CombineValues(valueA, valueB, name),
-            (true, false) => valueA,
-            (false, true) => valueB,
-            _ => throw new InvalidOperationException()
-        };
-
-    static string? CombineValues(
-        IDictionary<string, string?> a,
         IReadOnlyDictionary<string, string?> b,
         string name) =>
         (a.TryGetValue(name, out string? valueA), b.TryGetValue(name, out string? valueB)) switch
