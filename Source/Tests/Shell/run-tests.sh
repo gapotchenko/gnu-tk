@@ -3,7 +3,7 @@
 set -eu
 
 find . -type f -name "*.sh" -exec chmod +x {} \;
-export PATH=$PATH:`pwd`/tools
+export PATH=$PATH:$(pwd)/tools
 
 gnu-tk.sh --version
 gnu-tk.sh check -q

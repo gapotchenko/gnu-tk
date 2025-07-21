@@ -19,6 +19,10 @@ develop:
 develop:
     open *.sln?
 
+[script("gnu-tk", "-f")]
+format:
+    find . -type f -name "*.sh" -exec shfmt -i 4 -l -w {} \;
+
 # Build release artifacts
 build:
     dotnet build -c Release

@@ -3,13 +3,12 @@
 set -eu
 
 echo Test A01
-# Tests command arguments passing.
+# Tests arguments passing for command.
 
 expected="a b c"
-actual=`gnu-tk.sh -c 'echo $0 $*' a b c`
+actual=$(gnu-tk.sh -c 'echo $0 $*' a b c)
 
-if [ "$actual" != "$expected" ]
-then
-  echo "Unexpected: $actual"
-  exit 2
+if [ "$actual" != "$expected" ]; then
+    echo "Unexpected: $actual"
+    exit 2
 fi
