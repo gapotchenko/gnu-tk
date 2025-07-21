@@ -10,3 +10,5 @@ gnu-tk.sh check -q
 
 echo
 echo Running subtests...
+
+cd subtests && ./run.sh && cd ..
