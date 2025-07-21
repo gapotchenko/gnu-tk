@@ -27,7 +27,7 @@ public class GnuTKTests
     {
         string workingDirectory = Path.Combine(TestServices.BasePath, "Tests", "Shell");
 
-        var environment = new Dictionary<string, string?>
+        var environment = new Dictionary<string, string?>(StringComparer.Ordinal)
         {
             ["GNU_TK"] = TestServices.ToolPath
         };

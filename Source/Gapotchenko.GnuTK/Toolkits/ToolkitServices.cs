@@ -141,6 +141,11 @@ static class ToolkitServices
             //      by VM spin ups
             return [MSys2ToolkitFamily.Instance, CygwinToolkitFamily.Instance, WslToolkitFamily.Instance];
         }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            // While GNU is not Unix, macOS is a close enough Unix-based alternative.
+            return [HomebrewToolkitFamily.Instance, SystemToolkitFamily.Instance];
+        }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             // That was an easy one :)
@@ -149,11 +154,6 @@ static class ToolkitServices
             // Homebrew package manager can be installed on Linux,
             // but there is no need to handle it specifically here
             // because it immersively integrates with a host system by itself.
-        }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-        {
-            // While GNU is not Unix, macOS is a close enough Unix-based alternative.
-            return [HomebrewToolkitFamily.Instance, SystemToolkitFamily.Instance];
         }
         else if (Environment.OSVersion.Platform == PlatformID.Unix)
         {
