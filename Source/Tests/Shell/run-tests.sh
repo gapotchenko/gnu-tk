@@ -2,7 +2,7 @@
 
 set -eu
 
-chmod +x **/*.sh
+find . -type f -name "*.sh" -exec chmod +x {} \;
 export PATH=$PATH:`pwd`/tools
 
 gnu-tk.sh --version
