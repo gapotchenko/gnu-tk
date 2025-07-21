@@ -70,23 +70,21 @@ dotnet tool install -g Gapotchenko.GnuTK
 ### Supported Platforms
 
 GNU-TK can be readily used on the following platforms:
-
-- Operating systems: Windows, macOS, Linux
-- CPU architectures: x64, ARM64
+  - Operating systems: Windows, macOS, Linux
+  - CPU architectures: x64, ARM64
 
 ### GNU Toolkits
 
 Aside from GNU-TK itself, you also need an actual GNU toolkit installed on your system:
-
-- **Windows:**
-  - [MSYS2](https://www.msys2.org/) (recommended)
-  - [Cygwin](https://cygwin.com/)
-  - [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
-- **macOS:**
-  - [Homebrew](https://brew.sh/) package manager with installed GNU packages; [`bash`](https://formulae.brew.sh/formula/bash) and [`coreutils`](https://formulae.brew.sh/formula/coreutils) is a recommended bare minimum
-  - Comes with a pre-installed GNU-like toolkit
-- **Linux:**
-  - Comes with a pre-installed GNU toolkit
+  - **Windows:**
+    - [MSYS2](https://www.msys2.org/) (recommended)
+    - [Cygwin](https://cygwin.com/)
+    - [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
+  - **macOS:**
+    - [Homebrew](https://brew.sh/) package manager with installed GNU packages; [`bash`](https://formulae.brew.sh/formula/bash) and [`coreutils`](https://formulae.brew.sh/formula/coreutils) is a recommended bare minimum
+    - Comes with a pre-installed GNU-like toolkit
+  - **Linux:**
+    - Comes with a pre-installed GNU toolkit
 
 ## How it Works
 
