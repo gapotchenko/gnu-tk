@@ -27,12 +27,18 @@ public class GnuTKTests
     {
         string workingDirectory = Path.Combine(TestServices.BasePath, "Tests", "Shell");
 
+        var environment = new Dictionary<string, string?>
+        {
+            ["GNU_TK"] = TestServices.ToolPath
+        };
+
         Assert.AreEqual(
             0,
             ShellServices.ExecuteProcess(
                 TestServices.ToolPath,
                 ["-t", toolkit, "-f", Path.Combine(workingDirectory, "run-tests.sh")],
-                workingDirectory));
+                workingDirectory,
+                environment));
     }
 
     static IEnumerable<ValueTuple<string>> GnuTK_TestData_Toolkits =>

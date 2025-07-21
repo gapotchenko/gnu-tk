@@ -14,7 +14,8 @@ static class ShellServices
     public static int ExecuteProcess(
         string filePath,
         IEnumerable<string> arguments,
-        string? workingDirectory = null)
+        string? workingDirectory = null,
+        IReadOnlyDictionary<string, string?>? environment = null)
     {
         var psi = new ProcessStartInfo
         {
@@ -28,6 +29,13 @@ static class ShellServices
 
         if (workingDirectory != null)
             psi.WorkingDirectory = workingDirectory;
+
+        if (environment != null)
+        {
+            var processEnvironment = psi.Environment;
+            foreach (var (key, value) in environment)
+                processEnvironment[key] = value;
+        }
 
         using var process =
             Process.Start(psi) ??

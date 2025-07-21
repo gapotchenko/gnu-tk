@@ -2,9 +2,9 @@
 
 set -eu
 
-chmod +x tools/*
+chmod +x tools/*.sh
 export PATH=$PATH:`pwd`/tools
 
 echo 123
 
-my-gnu-tk
+gnu-tk.sh --version

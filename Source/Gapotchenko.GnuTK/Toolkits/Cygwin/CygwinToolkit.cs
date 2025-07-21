@@ -114,10 +114,18 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         return environment;
     }
 
-    static void ConfigureShellEnvironment(IDictionary<string, string?> environment)
+    void ConfigureShellEnvironment(IDictionary<string, string?> environment)
     {
         // Cygwin will not do 'cd "${HOME}"' if environment variable 'CHERE_INVOKING' is defined.
         environment["CHERE_INVOKING"] = "1";
+
+        MapPath("GNU_TK");
+
+        void MapPath(string name)
+        {
+            if (environment.TryGetValue(name, out string? value) && !string.IsNullOrEmpty(value))
+                environment[name] = TranslateFilePath(value);
+        }
     }
 
     public string TranslateFilePath(string path) => CygwinFileSystem.TranslateFilePath(path, "/cygdrive");
