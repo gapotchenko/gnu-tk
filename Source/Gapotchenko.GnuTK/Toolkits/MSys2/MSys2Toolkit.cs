@@ -88,6 +88,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
             // Unset it if not instructed by a user.
             commandBuilder.Append("unset POSIXLY_CORRECT;");
         }
+        commandBuilder.Append("BASH_ARGV0=$1 && shift;");
         commandBuilder.Append(command);
         shellArguments.Add(commandBuilder.ToString());
 
