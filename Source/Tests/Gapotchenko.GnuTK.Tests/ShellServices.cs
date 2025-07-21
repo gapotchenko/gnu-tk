@@ -19,7 +19,9 @@ static class ShellServices
         var psi = new ProcessStartInfo
         {
             FileName = filePath,
-            CreateNoWindow = true
+            CreateNoWindow = true,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true
         };
 
         psi.ArgumentList.AddRange(arguments);
@@ -30,7 +32,20 @@ static class ShellServices
         using var process =
             Process.Start(psi) ??
             throw new InvalidOperationException(string.Format("Cannot start process '{0}'.", psi.FileName));
+
+        process.OutputDataReceived += (sender, e) => Process_DataReceived(Console.Out, e);
+        process.ErrorDataReceived += (sender, e) => Process_DataReceived(Console.Error, e);
+
+        process.BeginOutputReadLine();
+        process.BeginErrorReadLine();
+
         process.WaitForExit();
         return process.ExitCode;
+    }
+
+    static void Process_DataReceived(TextWriter textWriter, DataReceivedEventArgs e)
+    {
+        if (e.Data is { } data)
+            textWriter.WriteLine(data);
     }
 }
