@@ -226,7 +226,7 @@ run:
 Now, `just run` command will produce the correct results on all supported platforms.
 
 Setting `windows-shell` to `gnu-tk` for an entire `justfile` can sometimes be too aggressive.
-In such cases, a more gradual approach using the `[script(COMMAND)]` attribute is recommended:
+In such cases, a more gradual approach using the `[script(COMMAND)]` attribute is recommended ([docs](https://just.systems/man/en/script-recipes.html)):
 
 ```just
 [script("gnu-tk", "-i", "-f")]
