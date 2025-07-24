@@ -234,7 +234,7 @@ static class Program
             ToolkitNames = GetToolkitNames(arguments),
             ToolkitPaths = GetToolkitPaths(),
             ToolkitIsolationLevels = GetToolkitIsolationLevels(arguments),
-            Strict = (bool)arguments[ProgramOptions.Strict],
+            Strict = (bool)arguments[ProgramOptions.Strict] || Environment.GetEnvironmentVariable("GNU_TK_STRICT") != null,
             Posix = (bool)arguments[ProgramOptions.Posix],
             Quiet = (bool)arguments[ProgramOptions.Quiet]
         };

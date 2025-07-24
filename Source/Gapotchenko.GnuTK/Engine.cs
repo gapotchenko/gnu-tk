@@ -183,6 +183,8 @@ sealed class Engine
             environment["POSIXLY_CORRECT"] = string.Empty;
         if (ToolkitNames is { } toolkitNames)
             environment["GNU_TK_TOOLKIT"] = string.Join(',', toolkitNames);
+        if (Strict)
+            environment["GNU_TK_STRICT"] = string.Empty;
         return environment;
     }
 
