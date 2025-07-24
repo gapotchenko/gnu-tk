@@ -11,16 +11,19 @@ dotnet-framework := "net9.0"
     just --list
 
 # Start IDE using the project environment
+[group("development")]
 [windows]
 develop:
     #!cmd /c
     @for /F "delims=" %%i in ('"dir /b | findstr ".*\.sln""') do @(start "" "%%i")
 
 # Start IDE using the project environment
+[group("development")]
 [unix]
 develop:
     open *.sln?
 
+[group("development")]
 [script]
 format:
     find . -type f -name "*.sh" -exec shfmt -i 4 -l -w {} \;
@@ -40,6 +43,7 @@ clean:
     cd Packaging && just clean
 
 # Run all tests
+[group("diagnostic")]
 test:
     dotnet build -c Release
     dotnet test -c Release -f {{ dotnet-framework }}
@@ -72,9 +76,11 @@ platform-publish:
     cd Packaging && just pack
 
 # List GNU toolkits
+[group("diagnostic")]
 toolkit-list:
     dotnet run --project Gapotchenko.GnuTK -c Release -f {{ dotnet-framework }} --no-launch-profile -v q -- list -q
 
 # Check GNU toolkit
+[group("diagnostic")]
 toolkit-check toolkit="auto":
     dotnet run --project Gapotchenko.GnuTK -c Release -f {{ dotnet-framework }} --no-launch-profile -v q -- -t {{ toolkit }} check -q
