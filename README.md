@@ -148,6 +148,9 @@ Without that option, `gnu-tk` works in relaxed mode allowing built-in Unix OS co
 
 ## Examples
 
+GNU-TK is a highly adaptable tool that works seamlessly with a variety of technologies.
+In this section, we'll explore some of the most widely used examples.
+
 ### Node.js
 
 Node.js projects use a `package.json` file to define project configuration.
