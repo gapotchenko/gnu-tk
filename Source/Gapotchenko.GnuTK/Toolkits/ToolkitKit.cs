@@ -19,7 +19,7 @@ static class ToolkitKit
         psi.WindowStyle = ProcessWindowStyle.Hidden;
         using var process =
             Process.Start(psi) ??
-            throw new ProgramException(DiagnosticMessages.CannotStartProcess(psi.FileName));
+            throw new InvalidOperationException(DiagnosticMessages.CannotStartProcess(psi.FileName));
         process.WaitForExit();
         return process.ExitCode;
     }
@@ -31,7 +31,7 @@ static class ToolkitKit
 
         using var process =
             Process.Start(psi) ??
-            throw new ProgramException(DiagnosticMessages.CannotStartProcess(psi.FileName));
+            throw new InvalidOperationException(DiagnosticMessages.CannotStartProcess(psi.FileName));
 
         bool hasOutput = false;
 
