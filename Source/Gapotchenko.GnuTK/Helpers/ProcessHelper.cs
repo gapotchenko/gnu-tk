@@ -7,14 +7,11 @@
 
 using Gapotchenko.GnuTK.Diagnostics;
 
-namespace Gapotchenko.GnuTK.Toolkits;
+namespace Gapotchenko.GnuTK.Helpers;
 
-/// <summary>
-/// The kit for implementing toolkits' support.
-/// </summary>
-static class ToolkitKit
+static class ProcessHelper
 {
-    public static int ExecuteProcess(ProcessStartInfo psi)
+    public static int Execute(ProcessStartInfo psi)
     {
         psi.WindowStyle = ProcessWindowStyle.Hidden;
         using var process =
@@ -24,7 +21,7 @@ static class ToolkitKit
         return process.ExitCode;
     }
 
-    public static int ExecuteProcess(ProcessStartInfo psi, TextWriter output)
+    public static int Execute(ProcessStartInfo psi, TextWriter output)
     {
         psi.CreateNoWindow = true;
         psi.RedirectStandardOutput = true;
@@ -52,16 +49,5 @@ static class ToolkitKit
         process.WaitForExit();
 
         return process.ExitCode;
-    }
-
-    [return: NotNullIfNotNull(nameof(value))]
-    public static string? EscapeVariableValue(string? value)
-    {
-        if (string.IsNullOrEmpty(value))
-            return value;
-
-        // TODO: needs more thorough implementation.
-
-        return value.Replace(@"\", @"\\");
     }
 }

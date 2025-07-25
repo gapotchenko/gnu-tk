@@ -8,6 +8,7 @@
 using Gapotchenko.FX.Collections.Generic;
 using Gapotchenko.FX.IO;
 using Gapotchenko.GnuTK.Diagnostics;
+using Gapotchenko.GnuTK.Helpers;
 using Gapotchenko.Shields.Cygwin.Deployment;
 using System.Text;
 
@@ -88,7 +89,7 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         else
             shellArguments.AddRange(commandArguments);
 
-        return ToolkitKit.ExecuteProcess(psi);
+        return ProcessHelper.Execute(psi);
     }
 
     string GetShellPath()

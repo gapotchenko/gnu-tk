@@ -8,6 +8,7 @@
 using Gapotchenko.FX.Collections.Generic;
 using Gapotchenko.FX.IO;
 using Gapotchenko.GnuTK.Diagnostics;
+using Gapotchenko.GnuTK.Helpers;
 using Gapotchenko.Shields.Microsoft.Wsl.Deployment;
 using System.Text;
 
@@ -74,7 +75,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
         wslArguments.AddRange(commandArguments);
 
-        return ToolkitKit.ExecuteProcess(psi);
+        return ProcessHelper.Execute(psi);
     }
 
     string GetWslPath()
@@ -111,7 +112,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
             if (value is null)
                 builder.Append("unset ").Append(name);
             else
-                builder.Append("export ").Append(name).Append('=').Append(ToolkitKit.EscapeVariableValue(value));
+                builder.Append("export ").Append(name).Append('=').Append(ShellHelper.EscapeVariableValue(value));
         }
 
         return builder.ToString();
@@ -154,7 +155,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
         var output = new StringWriter();
 
-        int exitCode = ToolkitKit.ExecuteProcess(psi, output);
+        int exitCode = ProcessHelper.Execute(psi, output);
         if (exitCode != 0)
             return path;
 

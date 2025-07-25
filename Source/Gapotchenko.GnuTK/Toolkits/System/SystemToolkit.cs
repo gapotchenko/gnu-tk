@@ -7,6 +7,7 @@
 
 using Gapotchenko.FX.Collections.Generic;
 using Gapotchenko.GnuTK.Diagnostics;
+using Gapotchenko.GnuTK.Helpers;
 
 namespace Gapotchenko.GnuTK.Toolkits.System;
 
@@ -49,7 +50,7 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
         args.Add("sh");
         args.AddRange(arguments);
 
-        return ToolkitKit.ExecuteProcess(psi);
+        return ProcessHelper.Execute(psi);
     }
 
     static string GetEnvPath()

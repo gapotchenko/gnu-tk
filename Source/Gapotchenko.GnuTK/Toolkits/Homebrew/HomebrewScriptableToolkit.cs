@@ -8,6 +8,7 @@
 using Gapotchenko.FX.Collections.Generic;
 using Gapotchenko.FX.IO;
 using Gapotchenko.GnuTK.Diagnostics;
+using Gapotchenko.GnuTK.Helpers;
 using Gapotchenko.GnuTK.Toolkits.System;
 using Gapotchenko.Shields.Homebrew.Management;
 
@@ -47,7 +48,7 @@ sealed class HomebrewScriptableToolkit(
 
         psi.ArgumentList.AddRange(arguments);
 
-        return ToolkitKit.ExecuteProcess(psi);
+        return ProcessHelper.Execute(psi);
     }
 
     void ConfigureShellEnvironment(

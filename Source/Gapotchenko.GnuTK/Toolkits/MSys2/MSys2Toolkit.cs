@@ -8,6 +8,7 @@
 using Gapotchenko.FX.Collections.Generic;
 using Gapotchenko.FX.IO;
 using Gapotchenko.GnuTK.Diagnostics;
+using Gapotchenko.GnuTK.Helpers;
 using Gapotchenko.GnuTK.Toolkits.Cygwin;
 using Gapotchenko.Shields.MSys2.Deployment;
 using System.Text;
@@ -96,7 +97,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         else
             shellArguments.AddRange(commandArguments);
 
-        return ToolkitKit.ExecuteProcess(psi);
+        return ProcessHelper.Execute(psi);
     }
     string GetShellPath()
     {
