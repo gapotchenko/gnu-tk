@@ -5,6 +5,8 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
+using Gapotchenko.Shields.Microsoft.Wsl.Runtime;
+
 namespace Gapotchenko.GnuTK.Toolkits.System;
 
 sealed class SystemToolkitFamily : IToolkitFamily
@@ -21,15 +23,10 @@ sealed class SystemToolkitFamily : IToolkitFamily
     {
         get
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) &&
-                !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WSL_DISTRO_NAME")))
-            {
-                return ["wsl"];
-            }
+            if (WslRuntime.RunningInstance != null)
+                return ["WSL"];
             else
-            {
                 return [];
-            }
         }
     }
 
