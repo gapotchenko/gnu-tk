@@ -43,7 +43,7 @@ sealed class HomebrewScriptableToolkit(
 
         var processEnvironment = psi.Environment;
         ConfigureShellEnvironment(processEnvironment, options);
-        EnvironmentServices.CombineEnvironmentWith(processEnvironment, environment);
+        ToolkitEnvironment.CombineWith(processEnvironment, environment);
 
         psi.ArgumentList.AddRange(arguments);
 
@@ -59,10 +59,10 @@ sealed class HomebrewScriptableToolkit(
         {
             // Remove lookup paths for tools provided by a GNU-like operating system
             // because they are not guaranteed to have strict GNU semantics.
-            EnvironmentServices.RemovePath(environment, "/bin", "/usr/bin");
+            ToolkitEnvironment.RemovePaths(environment, "/bin", "/usr/bin");
         }
 
-        EnvironmentServices.CombineEnvironmentWith(environment, Environment);
+        ToolkitEnvironment.CombineWith(environment, Environment);
     }
 
     string GetShellPath()

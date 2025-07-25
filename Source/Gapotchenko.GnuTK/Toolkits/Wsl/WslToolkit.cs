@@ -53,7 +53,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         };
 
         var processEnvironment = psi.Environment;
-        EnvironmentServices.CombineEnvironmentWith(processEnvironment, environment);
+        ToolkitEnvironment.CombineWith(processEnvironment, environment);
 
         var wslArguments = psi.ArgumentList;
         wslArguments.Add("--exec");
@@ -121,12 +121,12 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
     {
         var newEnvironment = new Dictionary<string, string?>(StringComparer.Ordinal);
 
-        Translate("POSIXLY_CORRECT");
+        Translate(ToolkitEnvironment.PosixlyCorrect);
         Translate("GNU_TK");
         Translate("GNU_TK_TOOLKIT");
 
-        if (!newEnvironment.ContainsKey("POSIXLY_CORRECT"))
-            newEnvironment.Add("POSIXLY_CORRECT", null);
+        if (!newEnvironment.ContainsKey(ToolkitEnvironment.PosixlyCorrect))
+            newEnvironment.Add(ToolkitEnvironment.PosixlyCorrect, null);
 
         return newEnvironment;
 

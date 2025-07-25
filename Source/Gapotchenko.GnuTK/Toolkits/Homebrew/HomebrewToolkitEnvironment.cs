@@ -28,9 +28,9 @@ class HomebrewToolkitEnvironment(
 
     IReadOnlyDictionary<string, string?> GetEnvironmentCore()
     {
-        var environment = EnvironmentServices.CreateEnvironment();
+        var environment = ToolkitEnvironment.Create();
         foreach (var package in m_Packages)
-            EnvironmentServices.CombineEnvironmentWith(environment, GetPackageEnvironment(package));
+            ToolkitEnvironment.CombineWith(environment, GetPackageEnvironment(package));
         return environment;
     }
 
@@ -93,7 +93,7 @@ class HomebrewToolkitEnvironment(
 
         // ------------------------------------------------------------------
 
-        var environment = EnvironmentServices.CreateEnvironment();
+        var environment = ToolkitEnvironment.Create();
         if (path is not null)
             environment["PATH"] = path;
         if (cppFlags is not null)

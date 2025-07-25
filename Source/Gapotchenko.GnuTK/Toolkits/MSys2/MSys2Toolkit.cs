@@ -57,7 +57,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         };
 
         var processEnvironment = psi.Environment;
-        EnvironmentServices.CombineEnvironmentWith(processEnvironment, environment);
+        ToolkitEnvironment.CombineWith(processEnvironment, environment);
         ConfigureEnvironment(processEnvironment);
         ConfigureShellEnvironment(processEnvironment);
 
@@ -65,12 +65,12 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         // This also makes a shell start a lot faster.
         const bool posixifyShell = true;
 
-        bool posixlyCorrect = processEnvironment.ContainsKey("POSIXLY_CORRECT");
+        bool posixlyCorrect = processEnvironment.ContainsKey(ToolkitEnvironment.PosixlyCorrect);
         if (posixifyShell || posixlyCorrect)
         {
             // POSIX-compliant behavior requires us to add a lookup path for the shell directory.
             // Otherwise, the files in the shell directory cannot be found by the shell.
-            EnvironmentServices.PrependPath(processEnvironment, Path.GetDirectoryName(shellPath));
+            ToolkitEnvironment.PrependPaths(processEnvironment, Path.GetDirectoryName(shellPath));
         }
 
         var shellArguments = psi.ArgumentList;
@@ -110,7 +110,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
 
     IReadOnlyDictionary<string, string?> GetEnvironmentCore()
     {
-        var environment = EnvironmentServices.CreateEnvironment();
+        var environment = ToolkitEnvironment.Create();
         ConfigureEnvironment(environment);
 
         string binPath = msys2environment.SetupInstance.ResolvePath(Path.Join("usr", "bin"));

@@ -66,14 +66,14 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
         .Select(x => x.Environment)
         .Reverse()
         .Append(environment)
-        .Aggregate(EnvironmentServices.CombineEnvironments);
+        .Aggregate(ToolkitEnvironment.Combine);
 
     public IReadOnlyDictionary<string, string?>? Environment =>
         GetUnderlyingToolkits()
         .OfType<IToolkitEnvironment>()
         .Select(x => x.Environment)
         .Reverse()
-        .Aggregate(EnvironmentServices.CombineEnvironments);
+        .Aggregate(ToolkitEnvironment.Combine);
 
     public IToolkitFamily Family
     {

@@ -50,19 +50,19 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
         };
 
         var processEnvironment = psi.Environment;
-        EnvironmentServices.CombineEnvironmentWith(processEnvironment, environment);
+        ToolkitEnvironment.CombineWith(processEnvironment, environment);
         ConfigureShellEnvironment(processEnvironment);
 
         // Launch the shell in POSIX mode to discourage usage of non-standard features.
         // This also makes a shell start a lot faster.
         const bool posixifyShell = true;
 
-        bool posixlyCorrect = processEnvironment.ContainsKey("POSIXLY_CORRECT");
+        bool posixlyCorrect = processEnvironment.ContainsKey(ToolkitEnvironment.PosixlyCorrect);
         if (posixifyShell || posixlyCorrect)
         {
             // POSIX-compliant behavior requires us to add a lookup path for the shell directory.
             // Otherwise, the files in the shell directory cannot be found by the shell.
-            EnvironmentServices.PrependPath(processEnvironment, Path.GetDirectoryName(shellPath));
+            ToolkitEnvironment.PrependPaths(processEnvironment, Path.GetDirectoryName(shellPath));
         }
 
         var shellArguments = psi.ArgumentList;
@@ -103,7 +103,7 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
 
     IReadOnlyDictionary<string, string?> GetEnvironmentCore()
     {
-        var environment = EnvironmentServices.CreateEnvironment();
+        var environment = ToolkitEnvironment.Create();
 
         string binPath = setupInstance.ResolvePath("bin");
         if (Directory.Exists(binPath))

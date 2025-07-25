@@ -7,18 +7,20 @@
 
 using Gapotchenko.FX.IO;
 
-namespace Gapotchenko.GnuTK;
+namespace Gapotchenko.GnuTK.Toolkits;
 
 /// <summary>
-/// Provides operations for process environment manipulation.
+/// Provides operations for toolkit environment manipulation.
 /// </summary>
-static class EnvironmentServices
+static class ToolkitEnvironment
 {
-    public static Dictionary<string, string?> CreateEnvironment() => new(VariableNameComparer);
+    public const string PosixlyCorrect = "POSIXLY_CORRECT";
+
+    public static Dictionary<string, string?> Create() => new(VariableNameComparer);
 
     [return: NotNullIfNotNull(nameof(a))]
     [return: NotNullIfNotNull(nameof(b))]
-    public static IReadOnlyDictionary<string, string?>? CombineEnvironments(
+    public static IReadOnlyDictionary<string, string?>? Combine(
         IReadOnlyDictionary<string, string?>? a,
         IReadOnlyDictionary<string, string?>? b)
     {
@@ -27,14 +29,14 @@ static class EnvironmentServices
         if (b is null)
             return a;
 
-        var environment = CreateEnvironment();
+        var environment = Create();
         foreach (string name in a.Keys.Union(b.Keys, VariableNameComparer))
             environment[name] = CombineValues(a, b, name);
 
         return environment;
     }
 
-    public static void CombineEnvironmentWith(
+    public static void CombineWith(
         IDictionary<string, string?> environment,
         IReadOnlyDictionary<string, string?>? other)
     {
@@ -93,32 +95,32 @@ static class EnvironmentServices
         }
     }
 
-    public static void PrependPath(
+    public static void PrependPaths(
         IDictionary<string, string?> environment,
         params IEnumerable<string?> paths)
     {
-        environment["PATH"] = JoinPath(
+        environment["PATH"] = JoinPaths(
             paths.Where(x => !string.IsNullOrEmpty(x))
             .Concat(SplitPath(environment.GetValueOrDefault("PATH") ?? string.Empty))
             .Distinct(FileSystem.PathComparer)!);
     }
 
-    public static void RemovePath(
+    public static void RemovePaths(
         IDictionary<string, string?> environment,
         params IEnumerable<string?> paths)
     {
         if (environment.TryGetValue("PATH", out string? path) && !string.IsNullOrEmpty(path))
         {
-            environment["PATH"] = JoinPath(
+            environment["PATH"] = JoinPaths(
                 SplitPath(path)
                 .Except(paths, FileSystem.PathComparer)!);
         }
     }
 
-    public static IEnumerable<string> SplitPath(string value) =>
-        value.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries);
+    static IEnumerable<string> SplitPath(string path) =>
+        path.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries);
 
-    public static string JoinPath(params IEnumerable<string> paths) =>
+    static string JoinPaths(params IEnumerable<string> paths) =>
         string.Join(Path.PathSeparator, paths);
 
     public static StringComparer VariableNameComparer { get; } =

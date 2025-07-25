@@ -178,9 +178,9 @@ sealed class Engine
 
     IReadOnlyDictionary<string, string?> GetToolkitExecutionEnvironment()
     {
-        var environment = EnvironmentServices.CreateEnvironment();
+        var environment = ToolkitEnvironment.Create();
         if (Posix)
-            environment["POSIXLY_CORRECT"] = string.Empty;
+            environment[ToolkitEnvironment.PosixlyCorrect] = string.Empty;
         if (ToolkitNames is { } toolkitNames)
             environment["GNU_TK_TOOLKIT"] = string.Join(',', toolkitNames);
         if (Strict)

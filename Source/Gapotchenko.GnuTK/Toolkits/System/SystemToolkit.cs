@@ -43,7 +43,7 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
         };
 
         if (environment != null)
-            EnvironmentServices.CombineEnvironmentWith(psi.Environment, environment);
+            ToolkitEnvironment.CombineWith(psi.Environment, environment);
 
         var args = psi.ArgumentList;
         args.Add("sh");
