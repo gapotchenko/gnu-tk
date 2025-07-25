@@ -58,6 +58,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         var wslArguments = psi.ArgumentList;
         wslArguments.Add("--exec");
         wslArguments.Add("sh");
+        wslArguments.Add("-l");
         if (extraShellArguments != null)
             wslArguments.AddRange(extraShellArguments);
         wslArguments.Add("-c");
@@ -123,6 +124,9 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         Translate("POSIXLY_CORRECT");
         Translate("GNU_TK");
         Translate("GNU_TK_TOOLKIT");
+
+        if (!newEnvironment.ContainsKey("POSIXLY_CORRECT"))
+            newEnvironment.Add("POSIXLY_CORRECT", null);
 
         return newEnvironment;
 
