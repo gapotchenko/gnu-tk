@@ -16,7 +16,7 @@ static class ToolkitKit
 {
     public static int ExecuteProcess(ProcessStartInfo psi)
     {
-        ConfigureProcess(psi);
+        psi.WindowStyle = ProcessWindowStyle.Hidden;
         using var process =
             Process.Start(psi) ??
             throw new ProgramException(DiagnosticMessages.CannotStartProcess(psi.FileName));
@@ -26,7 +26,7 @@ static class ToolkitKit
 
     public static int ExecuteProcess(ProcessStartInfo psi, TextWriter output)
     {
-        ConfigureProcess(psi);
+        psi.CreateNoWindow = true;
         psi.RedirectStandardOutput = true;
 
         using var process =
@@ -52,11 +52,6 @@ static class ToolkitKit
         process.WaitForExit();
 
         return process.ExitCode;
-    }
-
-    static void ConfigureProcess(ProcessStartInfo psi)
-    {
-        psi.WindowStyle = ProcessWindowStyle.Hidden;
     }
 
     [return: NotNullIfNotNull(nameof(value))]
