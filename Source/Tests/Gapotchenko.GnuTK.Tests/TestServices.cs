@@ -7,6 +7,7 @@
 
 using Gapotchenko.FX.Math.Intervals;
 using Gapotchenko.Shields.Cygwin.Deployment;
+using Gapotchenko.Shields.Git.Deployment;
 using Gapotchenko.Shields.Homebrew.Deployment;
 using Gapotchenko.Shields.Microsoft.Wsl.Deployment;
 using Gapotchenko.Shields.MSys2.Deployment;
@@ -26,6 +27,8 @@ static class TestServices
                 yield return "msys2";
             if (CygwinDeployment.EnumerateSetupInstances().Any())
                 yield return "cygwin";
+            if (GitDeployment.EnumerateSetupInstances().Any(instance => File.Exists(instance.ResolvePath(@"usr\bin\sh.exe"))))
+                yield return "git";
             if (WslDeployment.EnumerateSetupInstances(ValueInterval.FromInclusive(new Version(2, 0))).Any())
                 yield return "wsl";
         }

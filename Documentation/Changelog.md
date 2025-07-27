@@ -6,6 +6,7 @@
 
 Release date: not released yet
 
+- Added support for GNU toolkit provided by Git for Windows distribution
 - WSL toolkit commands are executed using a login shell
 - GNU toolkit strictness is activated by `GNU_TK_STRICT` environment variable
 

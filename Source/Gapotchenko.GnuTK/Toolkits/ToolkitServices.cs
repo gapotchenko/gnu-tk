@@ -8,6 +8,7 @@
 using Gapotchenko.FX.IO;
 using Gapotchenko.FX.Linq;
 using Gapotchenko.GnuTK.Toolkits.Cygwin;
+using Gapotchenko.GnuTK.Toolkits.Git;
 using Gapotchenko.GnuTK.Toolkits.Homebrew;
 using Gapotchenko.GnuTK.Toolkits.MSys2;
 using Gapotchenko.GnuTK.Toolkits.System;
@@ -137,9 +138,11 @@ static class ToolkitServices
             //   1. MSYS2 comes with a saner set of packages by default, easy mental model (install and forget)
             //   2. Cygwin provides better execution performance when compared to WSL,
             //      but mental model is on a heavier side (too customizable to the point of a possible frustration)
-            //   3. WSL is ubiquitous and configurable, but prone to path mapping issues and delays caused
+            //   3. Git for Windows is not a GNU toolkit per se, but it comes with a built in Cygwin based one.
+            //      Rigid but ubiquitous, often present in continuous integration systems by default
+            //   4. WSL is ubiquitous and configurable, but prone to path mapping issues and delays caused
             //      by VM spin ups
-            return [MSys2ToolkitFamily.Instance, CygwinToolkitFamily.Instance, WslToolkitFamily.Instance];
+            return [MSys2ToolkitFamily.Instance, CygwinToolkitFamily.Instance, GitToolkitFamily.Instance, WslToolkitFamily.Instance];
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {

@@ -11,6 +11,7 @@
     <PackageReference Include="Gapotchenko.FX.Collections" Version="2025.1.25-beta" />
     <PackageReference Include="Gapotchenko.FX.Linq" Version="2025.1.25-beta" />
     <PackageReference Include="Gapotchenko.Shields.Cygwin.Deployment" Version="2025.1.4-beta" />
+    <PackageReference Include="Gapotchenko.Shields.Git.Deployment" Version="2025.1.1-beta" />
     <PackageReference Include="Gapotchenko.Shields.Homebrew.Management" Version="2025.1.3-beta" />
     <PackageReference Include="Gapotchenko.Shields.Microsoft.Wsl.Deployment" Version="2025.1.3-beta" />
     <PackageReference Include="Gapotchenko.Shields.MSys2.Deployment" Version="2025.3.2-beta" />
