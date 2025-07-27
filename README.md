@@ -79,6 +79,7 @@ Aside from GNU-TK itself, you also need an actual GNU toolkit installed on your 
   - **Windows:**
     - [MSYS2](https://www.msys2.org/) (recommended)
     - [Cygwin](https://cygwin.com/)
+    - [Git](https://git-scm.com/downloads/win) isn't a GNU toolkit itself, but it includes one based on Cygwin
     - [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
   - **macOS:**
     - [Homebrew](https://brew.sh/) package manager with installed GNU packages; [`bash`](https://formulae.brew.sh/formula/bash) and [`coreutils`](https://formulae.brew.sh/formula/coreutils) is a recommended bare minimum
@@ -98,6 +99,7 @@ Available GNU Toolkits
 Name               Description                Location
 ------------------------------------------------------------------------------
 cygwin             Cygwin 3.6.2               C:\cygwin64
+git                Git 2.50.1                 C:\Program Files\Git
 msys2-clang64      MSYS2 2025-02-21           C:\msys64
 msys2-clangarm64   MSYS2 2025-02-21           C:\msys64
 msys2-mingw32      MSYS2 2025-02-21           C:\msys64
@@ -111,7 +113,7 @@ Tips:
     https://gapt.ch/help/gnu-tk/install-toolkits
   - You can use 'GNU_TK_TOOLKIT_PATH' environment variable to specify the
     directory paths of portable GNU toolkits
-  - GNU toolkits supported on Windows: Cygwin, MSYS2, WSL
+  - GNU toolkits supported on Windows: Cygwin, Git, MSYS2, WSL
 ```
 
 To simplify usage, GNU-TK automatically selects the most suitable GNU toolkit based on common-sense factors.
@@ -229,11 +231,54 @@ run:
 Now, `just run` command will produce the correct results on all supported platforms.
 
 Setting `windows-shell` to `gnu-tk` for an entire `justfile` can sometimes be too aggressive.
-In such cases, a more gradual approach using the `[script(COMMAND)]` attribute is recommended ([docs](https://just.systems/man/en/script-recipes.html)):
+In such cases, a more gradual approach using the `[script]` attribute may be preferable ([docs](https://just.systems/man/en/script-recipes.html)):
 
 ```just
-[script("gnu-tk", "-i", "-l", "sh", "-eu")]
+set windows-shell := ["cmd", "/c"]
+set script-interpreter := ["gnu-tk", "-i", "-l", "sh", "-eu"]
+
+[script]
 run:
     echo Just hello
     cp --help
+```
+
+Alternatively, this can be done using the shebang syntax:
+
+```just
+run:
+    #!gnu-tk -i -l sh -eu
+    echo Just hello
+    cp --help
+```
+
+### Shebang
+
+If you want to call GNU tools via `gnu-tk` directly from a script using a [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) line, here are a few patterns to follow.
+
+```sh
+#!gnu-tk -i -f
+
+echo "Hello from GNU shell"
+cp --help
+```
+
+This tells the interpreter to use `gnu-tk` to launch a GNU-compatible shell.
+All commands within the script will run inside that shell with access to GNU tools provided by `gnu-tk`.
+
+__Notes:__
+
+- The shebang (`#!gnu-tk`) must be the first line of the script
+- Ensure the `gnu-tk` command is available in your system's PATH
+- On Windows, shebang lines are typically ignored, but the script can still be executed via `gnu-tk -i -f <script-file>`
+- Some tools support shebang lines even on Windows. For example: `just`
+
+By default, `gnu-tk` uses `sh` shell to execute commands.
+If you prefer a different shell such as `bash`, simply adjust the shebang line accordingly:
+
+```sh
+#!gnu-tk -i -l bash
+
+echo "Hello from GNU Bash"
+cp --help
 ```

@@ -4,9 +4,9 @@
 
 ### GNU-TK 2025.5
 
-Release date: not released yet
+Release date: July 28, 2025
 
-- Added support for GNU toolkit provided by Git for Windows distribution
+- Added support for GNU toolkit provided by Git distributive on Windows
 - WSL toolkit commands are executed using a login shell
 - GNU toolkit strictness is activated by `GNU_TK_STRICT` environment variable
 
@@ -14,7 +14,7 @@ Release date: not released yet
 
 Release date: July 18, 2025
 
-- Use `errexit` and `pipefail` shell options when executing commands
+- Use `errexit` and `pipefail` shell options when executing commands and command lines (but not files)
 - Utilize MSYS2 toolkits installed by `msys2/setup-msys2` GitHub action
 - Fixed handling of command arguments for Cygwin and MSYS2 toolkits
 - Fixed toolkit deduplication
