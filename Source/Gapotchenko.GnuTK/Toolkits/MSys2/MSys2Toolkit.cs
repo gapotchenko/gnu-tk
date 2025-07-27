@@ -99,6 +99,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
 
         return ProcessHelper.Execute(psi);
     }
+
     string GetShellPath()
     {
         string shellPath = msys2environment.SetupInstance.ResolvePath(Path.Join("usr", "bin", "sh.exe"));
