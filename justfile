@@ -1,10 +1,32 @@
+# Gapotchenko.GnuTK
+#
+# Copyright © Gapotchenko and Contributors
+#
+# File introduced by: Oleksiy Gapotchenko
+# Year of introduction: 2025
+
 set working-directory := "Source"
 set dotenv-load := true
-set windows-shell := ["cmd", "/c"]
-set script-interpreter := ["gnu-tk", "-i", "-l", "sh", "-eu"]
 set unstable := true
 
+# ---------------------------------------------------------------------------
+# Shells & Interpreters
+# ---------------------------------------------------------------------------
+
+# GNU-TK is intentionally not used as the Windows shell to avoid creating a
+# chicken-and-egg problem.
+set windows-shell := ["cmd", "/c"]
+set script-interpreter := ["gnu-tk", "-i", "-l", "sh", "-eu"]
+
+# ---------------------------------------------------------------------------
+# Configuration
+# ---------------------------------------------------------------------------
+
 dotnet-framework := "net9.0"
+
+# ---------------------------------------------------------------------------
+# Recipes
+# ---------------------------------------------------------------------------
 
 # Show the help for this justfile
 @help:
@@ -23,9 +45,17 @@ develop:
 develop:
     open *.sln?
 
+# Install prerequisites
 [group("development")]
-[no-cd]
+prerequisites:
+    go install github.com/sibprogrammer/xq@latest
+    npm install -g prettier
+    go install mvdan.cc/sh/v3/cmd/shfmt@latest
+
+# Format source code
+[group("development")]
 [script]
+[working-directory('..')]
 format:
     find Source -type f -name "*.sh" -exec shfmt -i 4 -l -w {} \;
     prettier --write "**/*.{js,jsx,ts,tsx,json,md,mdx,css}"
@@ -46,7 +76,7 @@ clean:
     cd Packaging && just clean
 
 # Run all tests
-[group("diagnostic")]
+[group("diagnostics")]
 test:
     dotnet build -c Release
     dotnet test -c Release -f {{ dotnet-framework }}
@@ -79,11 +109,11 @@ platform-publish:
     cd Packaging && just pack
 
 # List GNU toolkits
-[group("diagnostic")]
+[group("diagnostics")]
 toolkit-list:
     dotnet run --project Gapotchenko.GnuTK -c Release -f {{ dotnet-framework }} --no-launch-profile -v q -- list -q
 
 # Check GNU toolkit
-[group("diagnostic")]
+[group("diagnostics")]
 toolkit-check toolkit="auto":
     dotnet run --project Gapotchenko.GnuTK -c Release -f {{ dotnet-framework }} --no-launch-profile -v q -- -t {{ toolkit }} check -q
