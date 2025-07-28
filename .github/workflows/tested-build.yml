@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 env:
-  DOTNET_NOLOGO: true
   ContinuousIntegrationBuild: true
+  DOTNET_NOLOGO: true
   SuppressNETCoreSdkPreviewMessage: true
 
 jobs:
