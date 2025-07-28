@@ -70,22 +70,24 @@ dotnet tool install -g Gapotchenko.GnuTK
 ### Supported Platforms
 
 GNU-TK can be readily used on the following platforms:
-  - Operating systems: Windows, macOS, Linux
-  - CPU architectures: x64, ARM64
+
+- Operating systems: Windows, macOS, Linux
+- CPU architectures: x64, ARM64
 
 ### GNU Toolkits
 
 Aside from GNU-TK itself, you also need an actual GNU toolkit installed on your system:
-  - **Windows:**
-    - [MSYS2](https://www.msys2.org/) (recommended)
-    - [Cygwin](https://cygwin.com/)
-    - [Git](https://git-scm.com/downloads/win) isn't a GNU toolkit itself, but it includes one based on Cygwin
-    - [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
-  - **macOS:**
-    - [Homebrew](https://brew.sh/) package manager with installed GNU packages; [`bash`](https://formulae.brew.sh/formula/bash) and [`coreutils`](https://formulae.brew.sh/formula/coreutils) is a recommended bare minimum
-    - OS comes with a pre-installed GNU-like toolkit
-  - **Linux:**
-    - OS comes with a pre-installed GNU toolkit
+
+- **Windows:**
+  - [MSYS2](https://www.msys2.org/) (recommended)
+  - [Cygwin](https://cygwin.com/)
+  - [Git](https://git-scm.com/downloads/win) isn't a GNU toolkit itself, but it includes one based on Cygwin
+  - [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
+- **macOS:**
+  - [Homebrew](https://brew.sh/) package manager with installed GNU packages; [`bash`](https://formulae.brew.sh/formula/bash) and [`coreutils`](https://formulae.brew.sh/formula/coreutils) is a recommended bare minimum
+  - OS comes with a pre-installed GNU-like toolkit
+- **Linux:**
+  - OS comes with a pre-installed GNU toolkit
 
 ## How it Works
 
@@ -171,8 +173,8 @@ Let's examine a sample `package.json` file:
   "scripts": {
     "rebuild": "npm run clear && npm run build",
     "build": "docusaurus build && gnu-tk -l rm -rf public && gnu-tk -l mkdir public && gnu-tk -l cp -r build public/content && gnu-tk -l mv public/content/_* public && gnu-tk -l mv public/content/*.txt public && gnu-tk -s -l sed -i public/content/sitemap.xml -f src/patches/sitemap.xml.sed",
-    "clear": "docusaurus clear && gnu-tk -l rm -rf public",
-  },
+    "clear": "docusaurus clear && gnu-tk -l rm -rf public"
+  }
 }
 ```
 
@@ -254,7 +256,7 @@ run:
 
 ### Shebang
 
-If you want to call GNU tools via `gnu-tk` directly from a script using a [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) line, here are a few patterns to follow.
+If you want to call GNU tools via `gnu-tk` directly from a script using a [shebang](<https://en.wikipedia.org/wiki/Shebang_(Unix)>) line, here are a few patterns to follow.
 
 ```sh
 #!gnu-tk -i -f
@@ -266,7 +268,7 @@ cp --help
 This tells the interpreter to use `gnu-tk` to launch a GNU-compatible shell.
 All commands within the script will run inside that shell with access to GNU tools provided by `gnu-tk`.
 
-__Notes:__
+**Notes:**
 
 - The shebang (`#!gnu-tk`) must be the first line of the script
 - Ensure the `gnu-tk` command is available in your system's PATH

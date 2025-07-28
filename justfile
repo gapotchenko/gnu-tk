@@ -24,9 +24,12 @@ develop:
     open *.sln?
 
 [group("development")]
+[no-cd]
 [script]
 format:
-    find . -type f -name "*.sh" -exec shfmt -i 4 -l -w {} \;
+    find Source -type f -name "*.sh" -exec shfmt -i 4 -l -w {} \;
+    prettier --write "**/*.{js,jsx,ts,tsx,json,md,mdx,css}"
+    just --fmt
 
 # Build release artifacts
 build:
