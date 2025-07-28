@@ -5,11 +5,11 @@ on:
 
 env:
   DOTNET_NOLOGO: true
+  ContinuousIntegrationBuild: true
   SuppressNETCoreSdkPreviewMessage: true
 
 jobs:
   platform-build:
-
     name: Platform Build
     runs-on: ${{ matrix.os }}
     strategy:
@@ -64,7 +64,6 @@ jobs:
           if-no-files-found: error
 
   publish:
-
     name: Publish
     needs: platform-build
     runs-on: ubuntu-latest

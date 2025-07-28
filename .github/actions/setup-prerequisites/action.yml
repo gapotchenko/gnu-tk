@@ -1,5 +1,5 @@
-name: 'Setup Prerequisites'
-description: 'Sets up the required software components'
+name: "Setup Prerequisites"
+description: "Sets up required software components"
 runs:
   using: "composite"
   steps:

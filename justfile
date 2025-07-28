@@ -57,7 +57,7 @@ prerequisites:
 [working-directory('..')]
 format:
     find Source -type f -name "*.sh" -exec shfmt -i 4 -l -w {} \;
-    prettier --write "**/*.{js,ts,json,md}"
+    prettier --write "**/*.{js,ts,json,md,yml}"
     just --fmt
 
 # Build release artifacts
