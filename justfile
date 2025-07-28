@@ -6,21 +6,20 @@
 # Year of introduction: 2025
 
 set working-directory := "Source"
-set dotenv-load := true
 set unstable := true
 
 # ---------------------------------------------------------------------------
 # Shells & Interpreters
 # ---------------------------------------------------------------------------
 
-# GNU-TK is intentionally not used as the Windows shell to avoid creating a
-# chicken-and-egg problem.
 set windows-shell := ["cmd", "/c"]
 set script-interpreter := ["gnu-tk", "-i", "-l", "sh", "-eu"]
 
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
+
+set dotenv-load := true
 
 dotnet-framework := "net9.0"
 
@@ -58,7 +57,7 @@ prerequisites:
 [working-directory('..')]
 format:
     find Source -type f -name "*.sh" -exec shfmt -i 4 -l -w {} \;
-    prettier --write "**/*.{js,jsx,ts,tsx,json,md,mdx,css}"
+    prettier --write "**/*.{js,ts,json,md}"
     just --fmt
 
 # Build release artifacts
