@@ -2,7 +2,7 @@
 
 set -eu
 
-cd "$(dirname "$(readlink -fm "$0")")"
+cd "$(dirname "$(readlink -fn "$0")")"
 
 find . -type f -name "*.sh" -exec chmod +x {} \;
 export PATH=$PATH:$(pwd)/tools
