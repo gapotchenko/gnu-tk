@@ -13,29 +13,29 @@ function getNETRid() {
   let arch = os.arch();
 
   switch (platform) {
-    case "linux":
-      switch (arch) {
-        case "x64":
-          return "linux-x64";
-        case "arm64":
-          return "linux-arm64";
-      }
     case "darwin":
       switch (arch) {
-        case "x64":
-          return "osx-x64";
         case "arm64":
           return "osx-arm64";
+        case "x64":
+          return "osx-x64";
+      }
+    case "linux":
+      switch (arch) {
+        case "arm64":
+          return "linux-arm64";
+        case "x64":
+          return "linux-x64";
       }
     case "win32":
       switch (arch) {
+        case "arm64":
+          return "win-arm64";
         case "x32":
         case "ia32":
           return "win-x86";
         case "x64":
           return "win-x64";
-        case "arm64":
-          return "win-arm64";
       }
   }
 
