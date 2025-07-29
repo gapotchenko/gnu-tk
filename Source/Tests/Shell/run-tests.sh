@@ -2,6 +2,8 @@
 
 set -eu
 
+cd "$(dirname "$(readlink -fm "$0")")"
+
 find . -type f -name "*.sh" -exec chmod +x {} \;
 export PATH=$PATH:$(pwd)/tools
 
@@ -11,5 +13,7 @@ gnu-tk.sh check -q
 echo
 echo Running subtests...
 echo
+
+export GNU_TK_TEST_FILE_ASSET="${1-}"
 
 cd subtests && ./run.sh && cd ..

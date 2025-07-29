@@ -25,7 +25,13 @@ public class GnuTKTests
     [DynamicData(nameof(GnuTK_TestData_Toolkits))]
     public void GnuTK_Toolkit_ShellTests(string toolkit)
     {
-        string workingDirectory = Path.Combine(TestServices.BasePath, "Tests", "Shell");
+        string directoryPath = Path.Combine(TestServices.BasePath, "Tests", "Shell");
+
+        // By using a full script path, we also test the file mapping between the host and GNU environments.
+        string scriptPath = Path.Combine(directoryPath, "run-tests.sh");
+
+        // File asset path argument is passed to test the file mapping between the host and GNU environments.
+        string fileAssetPath = Path.Combine(directoryPath, "assets", "file.txt");
 
         var environment = new Dictionary<string, string?>(StringComparer.Ordinal)
         {
@@ -36,9 +42,8 @@ public class GnuTKTests
             0,
             ShellServices.ExecuteProcess(
                 TestServices.ToolPath,
-                ["-t", toolkit, "-f", "run-tests.sh"],
-                workingDirectory,
-                environment));
+                ["-t", toolkit, "-f", scriptPath, fileAssetPath],
+                environment: environment));
     }
 
     static IEnumerable<string> GnuTK_TestData_Toolkits => TestServices.EnumerateToolkits();

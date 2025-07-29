@@ -81,7 +81,7 @@ sealed class Engine
                 // An example of reconstruction inaccuracy is command-line arguments containing '*' characters.
                 // From the standpoint of escaping, such arguments should be quoted,
                 // but this would change the semantics of a '*' character which signifies a file mask in Unix.
-                // File masks are expanded by command shell unless a string containing them is quoted.
+                // File masks are expanded by a command shell unless a string containing them is quoted.
 
                 command = commandLine;
             }
@@ -107,14 +107,7 @@ sealed class Engine
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments)
     {
         var toolkit = GetToolkit();
-
-        IReadOnlyList<string> preparedArguments;
-        if (toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.FilePathTranslation))
-            preparedArguments = [.. arguments.Select(argument => TranslateFilePath(toolkit, argument))];
-        else
-            preparedArguments = arguments;
-
-        return ExecuteCommandCore(toolkit, command, preparedArguments);
+        return ExecuteCommandCore(toolkit, command, PrepareCommandArguments(toolkit, arguments));
     }
 
     int ExecuteCommandCore(IScriptableToolkit toolkit, string command, IReadOnlyList<string> arguments)
@@ -124,6 +117,32 @@ sealed class Engine
             arguments,
             GetToolkitExecutionEnvironment(),
             GetToolkitExecutionOptions());
+    }
+
+    /// <summary>
+    /// Executes the specified file.
+    /// </summary>
+    /// <param name="path">The path of file to execute.</param>
+    /// <param name="arguments">The arguments.</param>
+    /// <returns>The exit code.</returns>
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments)
+    {
+        var toolkit = GetToolkit();
+        if (path == "-")
+            path = "/dev/stdin";
+        return toolkit.ExecuteFile(
+            path,
+            PrepareCommandArguments(toolkit, arguments),
+            GetToolkitExecutionEnvironment(),
+            GetToolkitExecutionOptions());
+    }
+
+    static IReadOnlyList<string> PrepareCommandArguments(IScriptableToolkit toolkit, IReadOnlyList<string> arguments)
+    {
+        if (toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.FilePathTranslation))
+            return [.. arguments.Select(argument => TranslateFilePath(toolkit, argument))];
+        else
+            return arguments;
     }
 
     static string TranslateFilePath(IScriptableToolkit toolkit, string value)
@@ -146,24 +165,6 @@ sealed class Engine
                 return false;
             }
         }
-    }
-
-    /// <summary>
-    /// Executes the specified file.
-    /// </summary>
-    /// <param name="path">The path of file to execute.</param>
-    /// <param name="arguments">The arguments.</param>
-    /// <returns>The exit code.</returns>
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments)
-    {
-        var toolkit = GetToolkit();
-        if (path == "-")
-            path = "/dev/stdin";
-        return toolkit.ExecuteFile(
-            path,
-            arguments,
-            GetToolkitExecutionEnvironment(),
-            GetToolkitExecutionOptions());
     }
 
     IScriptableToolkit GetToolkit()

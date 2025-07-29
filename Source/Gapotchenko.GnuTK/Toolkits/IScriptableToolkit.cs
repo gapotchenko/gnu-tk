@@ -13,6 +13,11 @@ namespace Gapotchenko.GnuTK.Toolkits;
 interface IScriptableToolkit : IToolkit
 {
     /// <summary>
+    /// Gets the isolation level.
+    /// </summary>
+    ToolkitIsolation Isolation { get; }
+
+    /// <summary>
     /// Executes the specified command.
     /// </summary>
     /// <param name="command">The command to execute.</param>
@@ -37,11 +42,6 @@ interface IScriptableToolkit : IToolkit
         IReadOnlyList<string> arguments,
         IReadOnlyDictionary<string, string?>? environment,
         ToolkitExecutionOptions options);
-
-    /// <summary>
-    /// Gets the isolation level.
-    /// </summary>
-    ToolkitIsolation Isolation { get; }
 
     /// <summary>
     /// Translates the specified file path to the toolkit's format.
