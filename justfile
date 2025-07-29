@@ -54,11 +54,14 @@ prerequisites:
 # Format source code
 [group("development")]
 [script]
-[working-directory('..')]
+[working-directory("..")]
 format:
-    find Source -type f -name "*.sh" -exec shfmt -i 4 -l -w {} \;
     prettier --write "**/*.{js,ts,json,md,yml}"
-    just --fmt
+    FIND_IGNORE="-type d ( -name node_modules -o -name bin -o -name obj -o -name .vs -o -name TestResults ) -prune -o"
+    echo Formatting **/*.sh...
+    find Source ${FIND_IGNORE} -type f -name "*.sh" -exec shfmt -i 4 -l -w {} \;
+    echo Formatting **/justfile...
+    find . ${FIND_IGNORE} -type f -name justfile -exec just --unstable --fmt --justfile {} \;
 
 # Build release artifacts
 build:
