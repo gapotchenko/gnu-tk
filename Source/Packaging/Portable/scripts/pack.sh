@@ -1,15 +1,17 @@
 set -eu
 cd ..
 
+# ---------------------------------------------------------------------------
+
 repoPath="../../.."
 basePath="$repoPath/Source/Gapotchenko.GnuTK/bin/Release/net9.0"
 version=$(xq "$repoPath/Source/Mastering/.NET/Version.props" -x //Project/PropertyGroup/Version)
 
-# Windows
+# ---------------------------------------------------------------------------
 
 pack_windows() {
     platform=$1
-    rid=$2
+    rid=${2:-$platform}
     output_file_name="gnu-tk-$version-$platform.zip"
 
     mkdir obj/$platform
@@ -24,5 +26,34 @@ pack_windows() {
     cd ../..
 }
 
+pack_unix() {
+    platform=$1
+    rid=${2:-$platform}
+    output_file_name="gnu-tk-$version-$platform.tar.gz"
+
+    mkdir obj/$platform
+    cp -l "$basePath/$rid/publish/Gapotchenko.GnuTK" "obj/$platform/gnu-tk"
+    chmod +x "obj/$platform/gnu-tk"
+    cp -l "$repoPath/LICENSE" "obj/$platform/"
+    cp -l "$repoPath/README.md" "obj/$platform/"
+    cp -l "$repoPath/Documentation/ABOUT" "obj/$platform/"
+
+    echo "$output_file_name:"
+    cd "obj/$platform"
+    tar czvf "../../bin/$output_file_name" * | sed 's_^_  _'
+    cd ../..
+}
+
+# ---------------------------------------------------------------------------
+
+# Windows
 pack_windows windows-x64 win-x64
 pack_windows windows-arm64 win-arm64
+
+# Linux
+pack_unix linux-x64
+pack_unix linux-arm64
+
+# macOS
+pack_unix macos-x64 osx-x64
+pack_unix macos-arm64 osx-arm64
