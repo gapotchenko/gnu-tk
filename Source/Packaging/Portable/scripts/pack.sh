@@ -40,7 +40,7 @@ pack_unix() {
 
     echo "$output_file_name:"
     cd "obj/$platform"
-    tar czvf "../../bin/$output_file_name" * | sed 's_^_  _'
+    tar czvf "../../bin/$output_file_name" * | sed 's_^_  adding: _'
     cd ../..
 }
 
