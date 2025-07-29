@@ -8,7 +8,7 @@
   </Folder>
   <Folder Name="/03. Misc/" />
   <Folder Name="/03. Misc/Documentation/">
-    <File Path="../Documentation/CHANGELOG_.md" />
+    <File Path="../Documentation/Changelog.md" />
     <File Path="../README.md" />
   </Folder>
   <Folder Name="/03. Misc/Documentation/Diagnostics/">
