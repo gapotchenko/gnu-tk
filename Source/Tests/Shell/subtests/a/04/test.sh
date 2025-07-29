@@ -3,6 +3,7 @@
 set -eu
 
 echo Test A04
+
 # Tests default value of 0th command argument.
 
 actual=$(gnu-tk.sh -c 'echo $0')

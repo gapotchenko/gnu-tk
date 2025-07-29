@@ -3,6 +3,7 @@
 set -eu
 
 echo Test A06
+
 # Tests exit code passing for command line.
 
 run_test() {

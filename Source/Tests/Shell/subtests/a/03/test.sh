@@ -3,6 +3,7 @@
 set -eu
 
 echo Test A03
+
 # Tests arguments passing for script file.
 
 expected="a b c"

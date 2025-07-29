@@ -3,6 +3,7 @@
 set -eu
 
 echo Test A01
+
 # Tests arguments passing for command.
 
 expected="a b c"
