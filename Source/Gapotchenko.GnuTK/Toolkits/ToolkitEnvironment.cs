@@ -14,6 +14,9 @@ namespace Gapotchenko.GnuTK.Toolkits;
 /// </summary>
 static class ToolkitEnvironment
 {
+    /// <summary>
+    /// The name of <c>POSIXLY_CORRECT</c> environment variable.
+    /// </summary>
     public const string PosixlyCorrect = "POSIXLY_CORRECT";
 
     public static Dictionary<string, string?> Create() => new(VariableNameComparer);
