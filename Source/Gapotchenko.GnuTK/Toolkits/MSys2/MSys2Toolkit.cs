@@ -71,7 +71,15 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         {
             // POSIX-compliant behavior requires us to add a lookup path for the shell directory.
             // Otherwise, the files in the shell directory cannot be found by the shell.
-            ToolkitEnvironment.PrependPaths(processEnvironment, Path.GetDirectoryName(shellPath));
+
+            List<string?> paths = [Path.GetDirectoryName(shellPath)];
+
+            // Add MSYS2 environment paths as well.
+            string environmentBinPath = Path.Combine(msys2environment.InstallationPath, "bin");
+            if (Directory.Exists(environmentBinPath))
+                paths.Add(environmentBinPath);
+
+            ToolkitEnvironment.PrependPaths(processEnvironment, paths);
         }
 
         var shellArguments = psi.ArgumentList;

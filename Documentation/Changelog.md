@@ -7,6 +7,7 @@
 Release date: not released yet
 
 - Fixed translation of file path arguments for `-f` (`--file`) option
+- Fixed issue that prevented executable files of an MSYS2 environment to be found
 
 ### GNU-TK 2025.5
 
