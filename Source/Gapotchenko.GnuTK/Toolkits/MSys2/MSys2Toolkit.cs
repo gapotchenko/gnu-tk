@@ -63,7 +63,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
         ConfigureShellEnvironment(processEnvironment);
 
         // Launch the shell in POSIX mode to discourage usage of non-standard features.
-        // This also makes a shell start a lot faster.
+        // This also makes a shell to start a lot faster.
         const bool posixifyShell = true;
 
         bool posixlyCorrect = processEnvironment.ContainsKey(ToolkitEnvironment.PosixlyCorrect);

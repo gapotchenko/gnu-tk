@@ -51,7 +51,7 @@ sealed class GitToolkit(GitToolkitFamily family, IGitSetupInstance setupInstance
         ToolkitEnvironment.CombineWith(processEnvironment, environment);
 
         // Launch the shell in POSIX mode to discourage usage of non-standard features.
-        // This also makes a shell start a lot faster.
+        // This also makes a shell to start a lot faster.
         const bool posixifyShell = true;
 
         bool posixlyCorrect = processEnvironment.ContainsKey(ToolkitEnvironment.PosixlyCorrect);
