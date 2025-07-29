@@ -47,17 +47,7 @@ static class TestServices
     /// <summary>
     /// Gets the base directory path.
     /// </summary>
-    public static string BasePath => field ??= GetBasePathCore();
-
-    static string GetBasePathCore()
-    {
-        string? path = Path.GetDirectoryName(typeof(TestServices).Assembly.Location);
-        if (string.IsNullOrEmpty(path))
-            throw new InvalidOperationException("Cannot determine the assembly directory.");
-
-        string basePath = Path.GetFullPath(Path.Combine(path, "../../../../.."));
-        return basePath;
-    }
+    public static string BasePath => field ??= GetAssemblyAndBaseDirectories().BasePath;
 
     /// <summary>
     /// Gets the file path of GnuTK tool.
@@ -66,11 +56,7 @@ static class TestServices
 
     static string GetToolPathCore()
     {
-        string? path = Path.GetDirectoryName(typeof(TestServices).Assembly.Location);
-        if (string.IsNullOrEmpty(path))
-            throw new InvalidOperationException("Cannot determine the assembly directory.");
-
-        string basePath = Path.GetFullPath(Path.Combine(path, "../../../../.."));
+        var (path, basePath) = GetAssemblyAndBaseDirectories();
 
         string tfm = Path.GetFileName(path);
         string? configuration =
@@ -85,5 +71,16 @@ static class TestServices
             throw new FileNotFoundException("Tool path is not found.", toolPath);
 
         return toolPath;
+    }
+
+    static (string AssemblyDirectoryPath, string BasePath) GetAssemblyAndBaseDirectories()
+    {
+        string? path = Path.GetDirectoryName(typeof(TestServices).Assembly.Location);
+        if (string.IsNullOrEmpty(path))
+            throw new InvalidOperationException("Cannot determine the assembly directory.");
+
+        string basePath = Path.GetFullPath(Path.Combine(path, "../../../../.."));
+
+        return (path, basePath);
     }
 }
