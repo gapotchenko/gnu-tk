@@ -57,11 +57,10 @@ prerequisites:
 [working-directory("..")]
 format:
     prettier --write "**/*.{js,ts,json,md,yml}"
-    FIND_IGNORE="-type d ( -name node_modules -o -name bin -o -name obj -o -name .vs -o -name TestResults ) -prune -o"
-    echo Formatting **/*.sh...
-    find Source ${FIND_IGNORE} -type f -name "*.sh" -exec shfmt -i 4 -l -w {} \;
-    echo Formatting **/justfile...
-    find . ${FIND_IGNORE} -type f -name justfile -exec just --unstable --fmt --justfile {} \;
+    echo "Formatting **/*.sh..."
+    fd -e sh -x shfmt -i 4 -l -w
+    echo "Formatting **/justfile..."
+    fd --glob justfile -x just --unstable --fmt --justfile
 
 # Build release artifacts
 build:
