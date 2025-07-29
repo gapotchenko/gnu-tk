@@ -24,6 +24,8 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
 
     public IToolkitFamily Family => family;
 
+    public ToolkitIsolation Isolation => ToolkitIsolation.None;
+
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
         return ExecuteShell(["-e", "-c", command, .. arguments], environment);
@@ -62,6 +64,4 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
     }
 
     public string TranslateFilePath(string path) => path;
-
-    public ToolkitIsolation Isolation => ToolkitIsolation.None;
 }

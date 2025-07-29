@@ -25,6 +25,18 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
     public IToolkitFamily Family => family;
 
+    public ToolkitIsolation Isolation =>
+        setupInstance.Version.Major switch
+        {
+            >= 2 => ToolkitIsolation.VirtualMachine,
+            _ => ToolkitIsolation.Container
+        };
+
+    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
+    {
+        return ExecuteCommandCore(command, arguments, environment, ["-e"]);
+    }
+
     public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
         return ExecuteCommandCore(
@@ -32,11 +44,6 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
             [NormalizePath(path), .. arguments],
             environment,
             null);
-    }
-
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
-    {
-        return ExecuteCommandCore(command, arguments, environment, ["-e"]);
     }
 
     int ExecuteCommandCore(
@@ -161,11 +168,4 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
         return output.ToString();
     }
-
-    public ToolkitIsolation Isolation =>
-        setupInstance.Version.Major switch
-        {
-            >= 2 => ToolkitIsolation.VirtualMachine,
-            _ => ToolkitIsolation.Container
-        };
 }

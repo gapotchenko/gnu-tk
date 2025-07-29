@@ -25,15 +25,17 @@ sealed class GitToolkit(GitToolkitFamily family, IGitSetupInstance setupInstance
 
     public IToolkitFamily Family => family;
 
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
-    {
-        return ExecuteCommandCore("sh \"$0\" \"$@\"", [path, .. arguments], environment, null);
-    }
+    public ToolkitIsolation Isolation => ToolkitIsolation.None;
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
         // The 'sh' shell of the toolkit is 'bash' in disguise.
         return ExecuteCommandCore(command, arguments, environment, ["-e", "-o", "pipefail"]);
+    }
+
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
+    {
+        return ExecuteCommandCore("sh \"$0\" \"$@\"", [path, .. arguments], environment, null);
     }
 
     int ExecuteCommandCore(
@@ -102,6 +104,4 @@ sealed class GitToolkit(GitToolkitFamily family, IGitSetupInstance setupInstance
     }
 
     public string TranslateFilePath(string path) => CygwinFileSystem.TranslateFilePath(path, null);
-
-    public ToolkitIsolation Isolation => ToolkitIsolation.None;
 }
