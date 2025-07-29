@@ -1,15 +1,16 @@
 set -eu
 cd ..
 
-repoPath=../../..
-basePath=$repoPath/Source/Gapotchenko.GnuTK/bin/Release/net9.0
+repoPath="../../.."
+basePath="$repoPath/Source/Gapotchenko.GnuTK/bin/Release/net9.0"
+version=$(xq "$repoPath/Source/Mastering/.NET/Version.props" -x //Project/PropertyGroup/Version)
 
 # Windows
 
 pack_windows() {
     platform=$1
     rid=$2
-    output_file_name="gnu-tk-portable-$platform.zip"
+    output_file_name="gnu-tk-$version-$platform.zip"
 
     mkdir obj/$platform
     cp -l "$basePath/$rid/publish/Gapotchenko.GnuTK.exe" "obj/$platform/gnu-tk.exe"
