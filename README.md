@@ -153,7 +153,7 @@ Without that option, `gnu-tk` works in relaxed mode allowing built-in Unix OS co
 ## Examples
 
 GNU-TK is a highly adaptable tool that works seamlessly with a variety of technologies.
-In this section, we'll explore some of the most widely used examples.
+In this section, we'll explore a few integration examples.
 
 ### Node.js
 
@@ -191,7 +191,6 @@ npm install --save-dev @gapotchenko/gnu-tk
 ### Just
 
 [`just`](https://github.com/casey/just) is a cross-platform script runner.
-Let's explore how to make its script definitions portable using `gnu-tk`.
 
 By default, `just` executes scripts using the command shell of the host operating system.
 This approach works well for trivial cases but falls apart on more complex scenarios.
