@@ -33,7 +33,7 @@ interface IScriptableToolkit : IToolkit
     /// <summary>
     /// Executes the specified file.
     /// </summary>
-    /// <param name="command">The path of a file to execute.</param>
+    /// <param name="path">The path of a file to execute.</param>
     /// <param name="arguments">The arguments.</param>
     /// <param name="options">The options.</param>
     /// <returns>The exit code.</returns>
@@ -46,7 +46,7 @@ interface IScriptableToolkit : IToolkit
     /// <summary>
     /// Translates the specified file path to the toolkit's format.
     /// </summary>
-    /// <param name="paths">The file path to translate.</param>
+    /// <param name="path">The file path to translate in the host format.</param>
     /// <returns>A translated file path in the toolkit's format.</returns>
     string TranslateFilePath(string path);
 }
