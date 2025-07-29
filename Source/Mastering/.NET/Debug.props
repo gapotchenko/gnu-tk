@@ -7,7 +7,7 @@
   <PropertyGroup Condition=" '$(MasteringProjectKind)' == 'module' ">
     <IncludeSymbols>false</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <EmbedUntrackedSources>false</EmbedUntrackedSources>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(MasteringProjectKind)' == 'module' ">
