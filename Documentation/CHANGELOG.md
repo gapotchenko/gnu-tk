@@ -13,7 +13,7 @@ Release date: not released yet
 
 Release date: July 28, 2025
 
-- Added support for GNU toolkit provided by Git distributive on Windows
+- Added support for GNU toolkit provided by Git for Windows
 - WSL toolkit commands are executed using a login shell
 - GNU toolkit strictness is activated by `GNU_TK_STRICT` environment variable
 
