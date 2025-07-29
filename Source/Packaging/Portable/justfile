@@ -1,0 +1,12 @@
+set windows-shell := ["gnu-tk", "-i", "-c"]
+
+# Show the help for this justfile
+@help:
+    just --list
+
+pack:
+    rm -rf bin obj && mkdir bin obj
+    cd scripts && chmod +x *.sh && ./pack.sh
+
+clean:
+    rm -rf bin obj

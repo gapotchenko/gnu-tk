@@ -105,4 +105,5 @@ jobs:
           path: |
             Source/**/bin/Release/nuget/*.nupkg
             Source/Packaging/**/bin/*.tgz
+            Source/Packaging/**/bin/*.zip
           if-no-files-found: error
