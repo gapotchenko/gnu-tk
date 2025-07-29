@@ -76,7 +76,7 @@ clean:
 
 # Run all tests
 [group("diagnostics")]
-test:
+test: build
     dotnet test -c Release -f {{ dotnet-framework }}
 
 # Produce publishable artifacts
