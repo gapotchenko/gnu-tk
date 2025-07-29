@@ -105,6 +105,7 @@ jobs:
           path: |
             Documentation/CHANGELOG.md
             Source/**/bin/Release/nuget/*.nupkg
-            Source/Packaging/**/bin/*.tgz
             Source/Packaging/**/bin/*.zip
+            Source/Packaging/**/bin/*.tar.gz
+            Source/Packaging/**/bin/*.tgz
           if-no-files-found: error
