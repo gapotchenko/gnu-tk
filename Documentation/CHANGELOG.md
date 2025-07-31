@@ -6,6 +6,7 @@
 
 Release date: not released yet
 
+- Discover MSYS2 setup instances deployed by or for `GHCup` utility
 - Fixed translation of file path arguments for `-f` (`--file`) option
 - Fixed issue that prevented executable files of an MSYS2 environment to be found
 
@@ -15,7 +16,7 @@ Release date: July 28, 2025
 
 - Added support for GNU toolkit provided by Git for Windows
 - WSL toolkit commands are executed using a login shell
-- GNU toolkit strictness is activated by `GNU_TK_STRICT` environment variable
+- GNU toolkit strictness can be activated by `GNU_TK_STRICT` environment variable
 
 ### GNU-TK 2025.4
 
