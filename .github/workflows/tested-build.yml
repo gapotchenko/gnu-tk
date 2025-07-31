@@ -108,4 +108,5 @@ jobs:
             Source/Packaging/**/bin/*.zip
             Source/Packaging/**/bin/*.tar.gz
             Source/Packaging/**/bin/*.tgz
+            Source/Packaging/**/bin/*SUMS
           if-no-files-found: error

@@ -3,7 +3,7 @@ cd ..
 
 # ---------------------------------------------------------------------------
 
-repoPath="../../.."
+repoPath="$(pwd)/../../.."
 basePath="$repoPath/Source/Gapotchenko.GnuTK/bin/Release/net9.0"
 version=$(xq "$repoPath/Source/Mastering/.NET/Version.props" -x //Project/PropertyGroup/Version)
 
@@ -57,3 +57,10 @@ pack_unix linux-arm64
 # macOS
 pack_unix macos-x64 osx-x64
 pack_unix macos-arm64 osx-arm64
+
+# ---------------------------------------------------------------------------
+
+cd bin
+
+echo "Calculating checksums..."
+sha256sum -b * >SHA256SUMS
