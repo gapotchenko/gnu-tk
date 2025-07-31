@@ -6,7 +6,7 @@
 
 Release date: July 31, 2025
 
-- Discover MSYS2 setup instances deployed by or for `GHCup` utility
+- Discover MSYS2 setup instances deployed by (or for) `GHCup` utility
 - Fixed translation of file path arguments for `-f` (`--file`) option
 - Fixed issue that prevented executable files of an MSYS2 environment to be found
 
