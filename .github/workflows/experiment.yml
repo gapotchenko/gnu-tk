@@ -22,7 +22,9 @@ jobs:
       - name: Diagnostic (Windows)
         if: runner.os == 'Windows'
         run: |
-          where.exe msys2bash.cmd
+          gci env:* | sort-object name
+          ls c:
+          where.exe msys2bash
 
       - uses: actions/upload-artifact@v4
         with:
