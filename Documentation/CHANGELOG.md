@@ -4,7 +4,7 @@
 
 ### GNU-TK 2025.6
 
-Release date: not released yet
+Release date: July 31, 2025
 
 - Discover MSYS2 setup instances deployed by or for `GHCup` utility
 - Fixed translation of file path arguments for `-f` (`--file`) option

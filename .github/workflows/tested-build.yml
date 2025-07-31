@@ -22,9 +22,9 @@ jobs:
       - name: Setup prerequisites
         uses: ./.github/actions/setup-prerequisites
 
-      - name: Setup MSYS2
-        if: runner.os == 'Windows'
-        uses: msys2/setup-msys2@v2
+      # - name: Setup MSYS2
+      #  if: runner.os == 'Windows'
+      #  uses: msys2/setup-msys2@v2
 
       - name: Setup Cygwin
         if: runner.os == 'Windows'
