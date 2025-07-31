@@ -42,7 +42,7 @@ Release date: July 16, 2025
 
 - Expansion of naturally occurring shebang arguments
 - Automatic translation of file path arguments
-- Ability to use only a GNU toolkit that operates within the host environment (`-i` command-line option)
+- Ability to use only a GNU toolkit that operates within the host environment (`-i`/`--integrated` command-line option)
 
 ### GNU-TK 2025.1
 
