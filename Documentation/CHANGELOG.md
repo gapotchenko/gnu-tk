@@ -6,14 +6,15 @@
 
 Release date: not released yet
 
-- GNU-TK packages for Windows include the BusyBox GNU toolkit
+- Added support for BusyBox
+- BusyBox is bundled with GNU-TK packages for Windows
 
 ### GNU-TK 2025.6
 
 Release date: July 31, 2025
 
 - Portable GNU-TK installations
-- Discover MSYS2 setup instances deployed by or for `GHCup` utility
+- Discover MSYS2 setup instances deployed by/for `GHCup` utility
 - Fixed translation of file path arguments for `-f` (`--file`) option
 - Fixed issue that prevented executable files of an MSYS2 environment to be found
 

@@ -18,9 +18,9 @@ interface IScriptableToolkit : IToolkit
     ToolkitIsolation Isolation { get; }
 
     /// <summary>
-    /// Executes the specified command.
+    /// Executes the specified shell command.
     /// </summary>
-    /// <param name="command">The command to execute.</param>
+    /// <param name="command">The shell command to execute.</param>
     /// <param name="arguments">The command arguments.</param>
     /// <param name="options">The options.</param>
     /// <returns>The exit code.</returns>
@@ -31,9 +31,9 @@ interface IScriptableToolkit : IToolkit
         ToolkitExecutionOptions options);
 
     /// <summary>
-    /// Executes the specified file.
+    /// Executes the specified shell file.
     /// </summary>
-    /// <param name="path">The path of a file to execute.</param>
+    /// <param name="path">The path of a shell file to execute.</param>
     /// <param name="arguments">The arguments.</param>
     /// <param name="options">The options.</param>
     /// <returns>The exit code.</returns>
