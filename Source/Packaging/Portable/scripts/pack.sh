@@ -63,4 +63,4 @@ pack_unix macos-arm64 osx-arm64
 cd bin
 
 echo "Calculating checksums..."
-sha256sum -b * >SHA256SUMS
+sha256sum -b * | tr '*' ' ' >SHA256SUMS
