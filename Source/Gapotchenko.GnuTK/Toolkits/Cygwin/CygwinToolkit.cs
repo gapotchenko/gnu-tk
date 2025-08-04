@@ -117,7 +117,7 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
 
     void ConfigureShellEnvironment(IDictionary<string, string?> environment)
     {
-        // Cygwin will not do 'cd "${HOME}"' if environment variable 'CHERE_INVOKING' is defined.
+        // Cygwin will not do 'cd "${HOME}"' if 'CHERE_INVOKING' environment variable is defined.
         environment["CHERE_INVOKING"] = "1";
 
         MapPath("GNU_TK");

@@ -159,7 +159,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
 
     static void ConfigureShellEnvironment(IDictionary<string, string?> environment)
     {
-        // MSYS2 will not do 'cd "${HOME}"' if environment variable 'CHERE_INVOKING' is defined.
+        // MSYS2 will not do 'cd "${HOME}"' if 'CHERE_INVOKING' environment variable is defined.
         environment["CHERE_INVOKING"] = "1";
 
         // Make MSYS2 shell inherit 'PATH' environment variable from the host system.
