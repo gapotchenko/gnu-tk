@@ -2,6 +2,12 @@
 
 ## 2025
 
+### GNU-TK 2025.7
+
+Release date: not released yet
+
+- GNU-TK packages for Windows include the BusyBox GNU toolkit
+
 ### GNU-TK 2025.6
 
 Release date: July 31, 2025
