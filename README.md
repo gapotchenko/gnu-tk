@@ -165,7 +165,7 @@ By default, custom scripts defined in `package.json` are executed using the comm
 This is sufficient for basic tasks, but more complex scenarios may require commands like `cp`, `mv`, `sed`, and others.
 While some of these commands have OS-specific equivalents, relying on them can reduce the portability of your project across different environments.
 
-In that case, you can use `gnu-tk` to make your project scripts portable across different platforms.
+In that case, you can use `gnu-tk` to make your project scripts provably portable across different platforms.
 Let's examine a sample `package.json` file:
 
 ```json
