@@ -73,7 +73,10 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
         var commandBuilder = new StringBuilder();
 
-        string environmentScript = BuildEnvironmentScript(TranslateEnvironment(processEnvironment.AsReadOnly()));
+        var environmentScriptWriter = new StringWriter();
+        WriteEnvironmentScript(environmentScriptWriter, TranslateEnvironment(processEnvironment.AsReadOnly()));
+        string environmentScript = environmentScriptWriter.ToString();
+
         if (environmentScript is not [])
             commandBuilder.Append(environmentScript).Append(';');
 
@@ -108,21 +111,30 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         }
     }
 
-    static string BuildEnvironmentScript(IReadOnlyDictionary<string, string?> environment)
+    static void WriteEnvironmentScript(TextWriter writer, IReadOnlyDictionary<string, string?> environment)
     {
-        var builder = new StringBuilder();
+        bool first = true;
 
         foreach (var (name, value) in environment)
         {
-            if (builder.Length != 0)
-                builder.Append(';');
-            if (value is null)
-                builder.Append("unset ").Append(name);
+            if (first)
+                first = false;
             else
-                builder.Append("export ").Append(name).Append('=').Append(ShellHelper.EscapeVariableValue(value));
-        }
+                writer.Write(';');
 
-        return builder.ToString();
+            if (value is null)
+            {
+                writer.Write("unset ");
+                writer.Write(ShellHelper.Escape(name));
+            }
+            else
+            {
+                writer.Write("export ");
+                writer.Write(ShellHelper.Escape(name));
+                writer.Write('=');
+                writer.Write(ShellHelper.Escape(value));
+            }
+        }
     }
 
     static IReadOnlyDictionary<string, string?> TranslateEnvironment(IReadOnlyDictionary<string, string?> environment)
