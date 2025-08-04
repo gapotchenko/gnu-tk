@@ -1,1 +1,1 @@
-This directory contains the files provided by [BusyBox for Windows project](https://frippery.org/busybox/).
+This directory contains the files provided by [BusyBox for Windows](https://frippery.org/busybox/)  project.
