@@ -1,5 +1,11 @@
 <Solution>
   <Folder Name="/01. Components/" />
+  <Folder Name="/01. Components/Toolkits/">
+    <File Path="../Toolkits/README.md" />
+  </Folder>
+  <Folder Name="/01. Components/Toolkits/BusyBox/">
+    <File Path="../Toolkits/BusyBox/README.md" />
+  </Folder>
   <Folder Name="/02. Modules/">
     <Project Path="Gapotchenko.GnuTK/Gapotchenko.GnuTK.csproj" />
     <Project Path="Tests/Gapotchenko.GnuTK.Tests/Gapotchenko.GnuTK.Tests.csproj">
