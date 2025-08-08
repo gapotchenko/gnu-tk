@@ -7,6 +7,7 @@
 
 using Gapotchenko.FX.IO;
 using Gapotchenko.FX.Linq;
+using Gapotchenko.GnuTK.Toolkits.BusyBox;
 using Gapotchenko.GnuTK.Toolkits.Cygwin;
 using Gapotchenko.GnuTK.Toolkits.Git;
 using Gapotchenko.GnuTK.Toolkits.Homebrew;
@@ -115,7 +116,7 @@ static class ToolkitServices
         families = families.Memoize();
 
         // Portable toolkits are prioritized according to the paths' order.
-        var portableToolkits = paths.SelectMany(path => families.SelectMany(family => family.EnumerateToolkitsFromDirectory(path)));
+        var portableToolkits = paths.SelectMany(path => families.SelectMany(family => family.EnumerateToolkitsInDirectory(path)));
 
         // Installed toolkits are prioritized according to the families' order.
         var installedToolkits = families.SelectMany(family => family.EnumerateInstalledToolkits());
@@ -143,7 +144,16 @@ static class ToolkitServices
             //      Rigid but ubiquitous, often present in continuous integration systems by default
             //   4. WSL is ubiquitous and configurable, but prone to path mapping issues and to delays caused
             //      by VM's spin ups and spin downs
-            return [MSys2ToolkitFamily.Instance, CygwinToolkitFamily.Instance, GitToolkitFamily.Instance, WslToolkitFamily.Instance];
+            //   5. BusyBox is a minimal GNU/Unix-like toolkit which is better than nothing when no specialized
+            //      GNU toolkit is installed
+            return
+                [
+                    MSys2ToolkitFamily.Instance,
+                    CygwinToolkitFamily.Instance,
+                    GitToolkitFamily.Instance,
+                    WslToolkitFamily.Instance,
+                    BusyBoxToolkitFamily.Instance
+                ];
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
@@ -153,7 +163,7 @@ static class ToolkitServices
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             // That was an easy one :)
-            return [SystemToolkitFamily.Instance];
+            return [SystemToolkitFamily.Instance, BusyBoxToolkitFamily.Instance];
 
             // Homebrew package manager can be installed on Linux,
             // but there is no need to handle it specifically here

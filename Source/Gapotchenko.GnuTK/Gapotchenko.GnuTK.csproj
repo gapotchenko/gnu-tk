@@ -52,6 +52,7 @@
     <PackageReference Include="Gapotchenko.FX.Data.Archives.Zip" Version="2025.1.25-beta" />
     <PackageReference Include="Gapotchenko.FX.IO" Version="2025.1.25-beta" />
     <PackageReference Include="Gapotchenko.FX.Tuples" Version="2025.1.25-beta" />
+    <PackageReference Include="Gapotchenko.Shields.BusyBox.Deployment" Version="2025.1.1-beta" />
     <PackageReference Include="Gapotchenko.Shields.Cygwin.Deployment" Version="2025.1.4-beta" />
     <PackageReference Include="Gapotchenko.Shields.Git.Deployment" Version="2025.1.1-beta" />
     <PackageReference Include="Gapotchenko.Shields.Homebrew.Management" Version="2025.1.3-beta" />

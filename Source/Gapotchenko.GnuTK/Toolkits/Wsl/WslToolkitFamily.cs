@@ -38,5 +38,5 @@ sealed class WslToolkitFamily : IToolkitFamily
 
     WslToolkit CreateToolkit(IWslSetupInstance setupInstance) => new(this, setupInstance);
 
-    public IEnumerable<IToolkit> EnumerateToolkitsFromDirectory(string path) => [];
+    public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path) => [];
 }

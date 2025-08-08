@@ -26,6 +26,8 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
 
     public IToolkitFamily Family => family;
 
+    public ToolkitTraits Traits => ToolkitTraits.None;
+
     public ToolkitIsolation Isolation => ToolkitIsolation.None;
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)

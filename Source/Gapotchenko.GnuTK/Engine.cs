@@ -234,7 +234,12 @@ sealed class Engine
 
             Console.Write(toolkit.Name.PadRight(nameColumnWidth));
             Console.Write(toolkit.Description.PadRight(descriptionColumnWidth));
-            Console.Write(toolkit.InstallationPath);
+
+            string? location = (toolkit.Traits & ToolkitTraits.BuiltIn) != 0
+                ? "(built-in)"
+                : toolkit.InstallationPath;
+
+            Console.Write(location);
             Console.WriteLine();
         }
 

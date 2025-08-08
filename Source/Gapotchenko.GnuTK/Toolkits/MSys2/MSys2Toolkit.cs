@@ -33,6 +33,8 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
 
     public IToolkitFamily Family => family;
 
+    public ToolkitTraits Traits => ToolkitTraits.None;
+
     public ToolkitIsolation Isolation => ToolkitIsolation.None;
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)

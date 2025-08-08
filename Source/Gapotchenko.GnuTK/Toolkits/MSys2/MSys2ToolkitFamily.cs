@@ -34,7 +34,7 @@ sealed class MSys2ToolkitFamily : IToolkitFamily
         MSys2Deployment.EnumerateSetupInstances()
         .SelectMany(EnumerateToolkits);
 
-    public IEnumerable<IToolkit> EnumerateToolkitsFromDirectory(string path) =>
+    public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path) =>
         MSys2SetupInstance.TryOpen(path) is { } setupInstance
             ? EnumerateToolkits(setupInstance)
             : [];

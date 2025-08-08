@@ -37,9 +37,9 @@ interface IToolkitFamily
     IEnumerable<IToolkit> EnumerateInstalledToolkits();
 
     /// <summary>
-    /// Enumerates portable toolkits from a directory.
+    /// Enumerates portable toolkits in a specified directory.
     /// </summary>
     /// <param name="path">The directory path.</param>
     /// <returns>A sequence of discovered toolkits.</returns>
-    IEnumerable<IToolkit> EnumerateToolkitsFromDirectory(string path);
+    IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path);
 }

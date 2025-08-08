@@ -40,4 +40,9 @@ interface IToolkit
     /// Gets the toolkit family.
     /// </summary>
     IToolkitFamily Family { get; }
+
+    /// <summary>
+    /// Gets the toolkit traits.
+    /// </summary>
+    ToolkitTraits Traits { get; }
 }

@@ -87,13 +87,17 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
         init;
     }
 
+    public ToolkitTraits Traits => GetUnderlyingToolkits()
+        .Select(toolkit => toolkit.Traits)
+        .Aggregate((a, b) => a | b);
+
     sealed class MetaFamily(ToolkitFamilyTraits traits) : IToolkitFamily
     {
         public string Name => "Meta";
         public IReadOnlyList<string> Aliases => [];
         public ToolkitFamilyTraits Traits => traits;
         public IEnumerable<IToolkit> EnumerateInstalledToolkits() => [];
-        public IEnumerable<IToolkit> EnumerateToolkitsFromDirectory(string path) => [];
+        public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path) => [];
     }
 
     IEnumerable<IToolkit> GetUnderlyingToolkits() => [.. m_ToolkitEnvironments, scriptableToolkit];
