@@ -1,6 +1,6 @@
 #!gnu-tk -f
 
-# Installs development prerequisites dependent on a GNU toolkit.
+# Installs system-dependent development prerequisites.
 
 set -eu
 

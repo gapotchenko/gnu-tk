@@ -51,7 +51,7 @@ prerequisites:
     go install github.com/sibprogrammer/xq@latest
     npm install -g prettier
     go install mvdan.cc/sh/v3/cmd/shfmt@latest
-    gnu-tk -i -f Build/Prerequisites.sh
+    gnu-tk -i -f Source/Build/Prerequisites.sh
 
 # Format source code
 [group("development")]
