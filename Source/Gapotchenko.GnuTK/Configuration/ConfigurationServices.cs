@@ -5,6 +5,7 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
+using Gapotchenko.FX;
 using Gapotchenko.GnuTK.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Ini;
@@ -34,18 +35,19 @@ static class ConfigurationServices
 
     static ConfigurationProvider? CreateConfigurationProvider()
     {
-        string? processPath = Environment.ProcessPath;
-        if (processPath is null)
+        string? modulePath = GetModulePath();
+        if (modulePath is null)
             return null;
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (modulePath.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) ||
+            modulePath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
         {
-            processPath = Path.Combine(
-                Path.GetDirectoryName(processPath) ?? "",
-                Path.GetFileNameWithoutExtension(processPath));
+            modulePath = Path.Combine(
+                Path.GetDirectoryName(modulePath) ?? "",
+                Path.GetFileNameWithoutExtension(modulePath));
         }
 
-        string configurationFilePath = processPath + ".ini";
+        string configurationFilePath = modulePath + ".ini";
         if (!File.Exists(configurationFilePath))
             return null;
 
@@ -77,9 +79,14 @@ static class ConfigurationServices
 
     static string GetBaseDirectory()
     {
-        string? baseDirectory = Path.GetDirectoryName(Environment.ProcessPath);
+        string? baseDirectory = Path.GetDirectoryName(GetModulePath());
         if (string.IsNullOrEmpty(baseDirectory))
             throw new InvalidOperationException("Cannot determine configuration base directory.");
         return baseDirectory;
     }
+
+    [UnconditionalSuppressMessage("SingleFile", "IL3000", Justification = "Returns an empty string for assemblies embedded in a single-file app.")]
+    static string? GetModulePath() =>
+        Empty.Nullify(typeof(ConfigurationServices).Assembly.Location) ??
+        Environment.ProcessPath;
 }
