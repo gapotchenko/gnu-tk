@@ -180,7 +180,7 @@ static class ToolkitServices
             //   4. WSL is ubiquitous and configurable, but prone to path mapping issues and to delays caused
             //      by VM's spin ups and spin downs
             //   5. BusyBox is a minimal GNU-like toolkit which is better than nothing when no specialized GNU
-            //      toolkit is installed
+            //      toolkit is available
             return
                 [
                     MSys2ToolkitFamily.Instance,
