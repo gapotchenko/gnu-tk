@@ -234,7 +234,7 @@ sealed class Engine
 
             Console.Write(toolkit.Name.PadRight(nameColumnWidth));
             Console.Write(toolkit.Description.PadRight(descriptionColumnWidth));
-            Console.Write(GetLocation(toolkit));
+            Console.Write(GetToolkitLocation(toolkit));
             Console.WriteLine();
         }
 
@@ -380,7 +380,7 @@ sealed class Engine
 
         Console.WriteLine("Name: {0}", toolkit.Name);
         Console.WriteLine("Description: {0}", toolkit.Description);
-        if (GetLocation(toolkit) is { } location)
+        if (GetToolkitLocation(toolkit) is { } location)
             Console.WriteLine("Location: {0}", location);
         Console.WriteLine("Semantics: {0}", toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.Alike) ? "GNU-like" : "GNU");
         Console.WriteLine(
@@ -463,7 +463,7 @@ sealed class Engine
         return families;
     }
 
-    static string? GetLocation(IToolkit toolkit)
+    static string? GetToolkitLocation(IToolkit toolkit)
     {
         return (toolkit.Traits & ToolkitTraits.BuiltIn) != 0
             ? "(built-in)"
