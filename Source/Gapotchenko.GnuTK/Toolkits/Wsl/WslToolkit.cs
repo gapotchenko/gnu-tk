@@ -36,19 +36,19 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        return ExecuteCommandCore(command, arguments, environment, ["-e"]);
+        return ExecuteShell(command, arguments, environment, ["-e"]);
     }
 
     public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
-        return ExecuteCommandCore(
+        return ExecuteShell(
             "sh \"`wslpath \"$0\"`\" \"$@\"",
             [NormalizePath(path), .. arguments],
             environment,
             null);
     }
 
-    int ExecuteCommandCore(
+    int ExecuteShell(
         string command,
         IReadOnlyList<string> commandArguments,
         IReadOnlyDictionary<string, string?>? environment,
