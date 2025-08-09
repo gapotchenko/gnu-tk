@@ -6,7 +6,7 @@ set windows-shell := ["gnu-tk", "-i", "-c"]
 
 pack:
     rm -rf bin obj && mkdir bin obj
-    cd scripts && chmod +x *.sh && ./pack.sh
+    cd build && chmod +x *.sh && ./pack.sh
 
 clean:
     rm -rf bin obj
