@@ -159,7 +159,7 @@ static class ToolkitServices
         if (Directory.Exists(ridPath))
             path = ridPath;
 
-        return family.EnumerateToolkitsInDirectory(Path.GetFullPath(path), ToolkitTraits.BuiltIn);
+        return family.EnumerateToolkitsInDirectory(path, ToolkitTraits.BuiltIn);
     }
 
     /// <summary>
