@@ -38,6 +38,18 @@ sealed class DiagnosticException : ProgramException
     }
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="DiagnosticException"/> class with a specified diagnostic code
+    /// and a reference to the inner exception that is the cause of this exception.
+    /// </summary>
+    /// <inheritdoc cref="ProgramException(string?, Exception?)"/>
+    /// <param name="code">The diagnostic code.</param>
+    public DiagnosticException(Exception? innerException, DiagnosticCode code) :
+        base(string.Empty, innerException)
+    {
+        Code = code;
+    }
+
+    /// <summary>
     /// Gets or initializes the diagnostic code.
     /// </summary>
     public DiagnosticCode Code { get; }

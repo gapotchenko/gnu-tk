@@ -28,4 +28,6 @@ static class DiagnosticMessages
     public static string CannotStartProcess(string? name) => string.Format(DiagnosticResources.CannotStartProcessX, name);
 
     public static string ConflictingProgramArguments(string? a, string? b) => string.Format(DiagnosticResources.ConflictingProgramArgumentsXY, a, b);
+
+    public static string BuiltInToolkitDirectoryNotFound(string? toolkit, string? directory) => string.Format(DiagnosticResources.BuiltInToolkitXDirectoryYNotFound, toolkit, directory);
 }

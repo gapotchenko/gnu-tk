@@ -8,6 +8,7 @@
 using Gapotchenko.FX;
 using Gapotchenko.FX.AppModel;
 using Gapotchenko.GnuTK.Diagnostics;
+using System.Reflection;
 
 namespace Gapotchenko.GnuTK.UI;
 
@@ -88,22 +89,37 @@ static class UIShell
         {
             writer.Write("Error");
 
-            int? errorCode = (int?)(exception as DiagnosticException)?.Code;
+            int? errorCode = (int?)(exception.SelfAndInnerExceptions().OfType<DiagnosticException>().FirstOrDefault()?.Code);
             writer.Write(Invariant($": GNUTK{errorCode:D4}: "));
 
-            if (exception is InternalException or not ProgramException)
+            if (exception is InternalException || errorCode is null && exception is not ProgramException)
                 writer.Write("Internal error: ");
 
             bool hasParent = false;
+
+            bool point = false;
             foreach (var i in exception.SelfAndInnerExceptions())
             {
+                if (i is TypeInitializationException or TargetInvocationException)
+                    continue;
+
+                string message = i.Message;
+
+                var s = message.AsSpan().TrimEnd('.');
+                if (s is [])
+                    continue;
+                point = s.Length != message.Length;
+
                 if (hasParent)
                     writer.Write(" --> ");
                 else
                     hasParent = true;
 
-                writer.Write(i.Message);
+                writer.Write(s);
             }
+
+            if (point)
+                writer.Write('.');
         }
         writer.WriteLine();
     }

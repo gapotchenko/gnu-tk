@@ -32,8 +32,7 @@ static class TestServices
                 yield return "git";
             if (WslDeployment.EnumerateSetupInstances(ValueInterval.FromInclusive(new Version(2, 0))).Any())
                 yield return "wsl";
-            if (BusyBoxDeployment.EnumerateSetupInstances().Any())
-                yield return "busybox";
+            yield return "busybox"; // built-in
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {

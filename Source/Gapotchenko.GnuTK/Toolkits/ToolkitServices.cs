@@ -7,6 +7,8 @@
 
 using Gapotchenko.FX.IO;
 using Gapotchenko.FX.Linq;
+using Gapotchenko.GnuTK.Configuration;
+using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Toolkits.BusyBox;
 using Gapotchenko.GnuTK.Toolkits.Cygwin;
 using Gapotchenko.GnuTK.Toolkits.Git;
@@ -142,9 +144,22 @@ static class ToolkitServices
 
     static IEnumerable<IToolkit> EnumerateBuiltInToolkits(IToolkitFamily family)
     {
-        // TODO
+        string name = family.Name;
 
-        return [];
+        string? path = ConfigurationServices.TryGetSetting("BuiltInToolkits:" + name);
+        if (path is null)
+            return [];
+
+        string originalPath = path;
+        path = Path.GetFullPath(path, ConfigurationServices.BaseDirectory);
+        if (!Directory.Exists(path))
+            throw new DirectoryNotFoundException(DiagnosticMessages.BuiltInToolkitDirectoryNotFound(name, originalPath));
+
+        string ridPath = Path.Combine(path, RuntimeInformation.RuntimeIdentifier);
+        if (Directory.Exists(ridPath))
+            path = ridPath;
+
+        return family.EnumerateToolkitsInDirectory(Path.GetFullPath(path), ToolkitTraits.BuiltIn);
     }
 
     /// <summary>

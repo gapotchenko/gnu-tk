@@ -17,5 +17,6 @@ public enum DiagnosticCode
 {
     InvalidProgramArguments = 1,
     SuitableToolkitNotFound = 2,
-    ConflictingProgramArguments = 3
+    ConflictingProgramArguments = 3,
+    ConfigurationFileLoadError = 4
 }
