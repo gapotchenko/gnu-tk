@@ -61,7 +61,7 @@ namespace Gapotchenko.GnuTK.Diagnostics {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Directory &apos;{1}&apos; specified for a built-in GNU toolkit &apos;{0}&apos; is not found..
+        ///   Looks up a localized string similar to Directory &apos;{1}&apos; specified for built-in GNU toolkit &apos;{0}&apos; is not found..
         /// </summary>
         internal static string BuiltInToolkitXDirectoryYNotFound {
             get {
