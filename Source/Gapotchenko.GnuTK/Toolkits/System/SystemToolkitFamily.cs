@@ -40,5 +40,5 @@ sealed class SystemToolkitFamily : IToolkitFamily
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     IReadOnlyList<IToolkit>? m_CachedInstalledToolkits;
 
-    public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path) => [];
+    public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path, ToolkitTraits traits) => [];
 }

@@ -97,7 +97,7 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
         public IReadOnlyList<string> Aliases => [];
         public ToolkitFamilyTraits Traits => traits;
         public IEnumerable<IToolkit> EnumerateInstalledToolkits() => [];
-        public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path) => [];
+        public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path, ToolkitTraits traits) => [];
     }
 
     IEnumerable<IToolkit> GetUnderlyingToolkits() => [.. m_ToolkitEnvironments, scriptableToolkit];

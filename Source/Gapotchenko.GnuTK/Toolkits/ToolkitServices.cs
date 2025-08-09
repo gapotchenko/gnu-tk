@@ -125,15 +125,26 @@ static class ToolkitServices
         families = families.Memoize();
 
         // Portable toolkits are prioritized according to the paths' order.
-        var portableToolkits = paths.SelectMany(path => families.SelectMany(family => family.EnumerateToolkitsInDirectory(path)));
+        var portableToolkits = paths.SelectMany(path => families.SelectMany(family => family.EnumerateToolkitsInDirectory(path, ToolkitTraits.None)));
 
         // Installed toolkits are prioritized according to the families' order.
         var installedToolkits = families.SelectMany(family => family.EnumerateInstalledToolkits());
 
+        // Built-in toolkits are prioritized according to the families' order.
+        var builtInToolkits = families.SelectMany(EnumerateBuiltInToolkits);
+
         return
             portableToolkits // portable toolkits come first
             .Concat(installedToolkits) // installed toolkits come next            
+            .Concat(builtInToolkits) // built-in toolkits come last
             .DistinctBy(toolkit => toolkit.Name, StringComparer.OrdinalIgnoreCase); // without duplicates
+    }
+
+    static IEnumerable<IToolkit> EnumerateBuiltInToolkits(IToolkitFamily family)
+    {
+        // TODO
+
+        return [];
     }
 
     /// <summary>
@@ -167,8 +178,13 @@ static class ToolkitServices
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             // While GNU is not Unix, macOS is a close enough Unix-based alternative.
-            // There is no ready-to-use BusyBox for macOS available, but we are be optimistic for the future.
-            return [HomebrewToolkitFamily.Instance, SystemToolkitFamily.Instance, BusyBoxToolkitFamily.Instance];
+            return
+                [
+                    HomebrewToolkitFamily.Instance,
+                    SystemToolkitFamily.Instance,
+                    // There is no ready-to-use BusyBox for macOS available, but we are be optimistic for the future.
+                    BusyBoxToolkitFamily.Instance
+                ];
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {

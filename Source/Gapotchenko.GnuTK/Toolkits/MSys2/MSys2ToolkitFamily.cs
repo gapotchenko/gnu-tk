@@ -32,14 +32,14 @@ sealed class MSys2ToolkitFamily : IToolkitFamily
 
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>
         MSys2Deployment.EnumerateSetupInstances()
-        .SelectMany(EnumerateToolkits);
+        .SelectMany(setupInstance => EnumerateToolkits(setupInstance, ToolkitTraits.None));
 
-    public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path) =>
+    public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path, ToolkitTraits traits) =>
         MSys2SetupInstance.TryOpen(path) is { } setupInstance
-            ? EnumerateToolkits(setupInstance)
+            ? EnumerateToolkits(setupInstance, traits)
             : [];
 
-    IEnumerable<MSys2Toolkit> EnumerateToolkits(IMSys2SetupInstance setupInstance) =>
+    IEnumerable<MSys2Toolkit> EnumerateToolkits(IMSys2SetupInstance setupInstance, ToolkitTraits traits) =>
         setupInstance.EnumerateEnvironments()
-        .Select(environment => new MSys2Toolkit(this, environment));
+        .Select(environment => new MSys2Toolkit(this, environment, traits));
 }

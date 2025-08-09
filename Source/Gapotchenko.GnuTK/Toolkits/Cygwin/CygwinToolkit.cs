@@ -14,7 +14,10 @@ using System.Text;
 
 namespace Gapotchenko.GnuTK.Toolkits.Cygwin;
 
-sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setupInstance) :
+sealed class CygwinToolkit(
+    CygwinToolkitFamily family,
+    ICygwinSetupInstance setupInstance,
+    ToolkitTraits traits) :
     IScriptableToolkit,
     IToolkitEnvironment
 {
@@ -26,7 +29,7 @@ sealed class CygwinToolkit(CygwinToolkitFamily family, ICygwinSetupInstance setu
 
     public IToolkitFamily Family => family;
 
-    public ToolkitTraits Traits => ToolkitTraits.None;
+    public ToolkitTraits Traits => traits;
 
     public ToolkitIsolation Isolation => ToolkitIsolation.None;
 

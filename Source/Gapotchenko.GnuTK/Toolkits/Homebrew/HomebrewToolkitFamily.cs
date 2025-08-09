@@ -31,7 +31,7 @@ sealed class HomebrewToolkitFamily : IToolkitFamily
         BrewDeployment.EnumerateSetupInstances()
         .SelectMany(EnumerateToolkits);
 
-    public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path) => [];
+    public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path, ToolkitTraits traits) => [];
 
     IEnumerable<HomebrewToolkitEnvironment> EnumerateToolkits(IBrewSetupInstance setupInstance)
     {

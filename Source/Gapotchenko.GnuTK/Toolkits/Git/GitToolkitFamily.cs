@@ -32,21 +32,21 @@ sealed class GitToolkitFamily : IToolkitFamily
 
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>
         GitDeployment.EnumerateSetupInstances()
-        .Select(TryCreateToolkit)
+        .Select(setupInstance => TryCreateToolkit(setupInstance, ToolkitTraits.None))
         .Where(toolkit => toolkit != null)!;
 
-    public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path) =>
+    public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path, ToolkitTraits traits) =>
         GitSetupInstance.TryOpen(path) is { } setupInstance &&
-        TryCreateToolkit(setupInstance) is { } toolkit
+        TryCreateToolkit(setupInstance, traits) is { } toolkit
             ? [toolkit]
             : [];
 
-    GitToolkit? TryCreateToolkit(IGitSetupInstance setupInstance)
+    GitToolkit? TryCreateToolkit(IGitSetupInstance setupInstance, ToolkitTraits traits)
     {
         string shellPath = setupInstance.ResolvePath(@"usr\bin\sh.exe");
         if (!File.Exists(shellPath))
             return null;
 
-        return new GitToolkit(this, setupInstance, shellPath);
+        return new GitToolkit(this, setupInstance, shellPath, traits);
     }
 }

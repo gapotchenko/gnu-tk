@@ -21,7 +21,10 @@ namespace Gapotchenko.GnuTK.Toolkits.MSys2;
 /// <remarks>
 /// MSYS2 toolkit is built upon Cygwin.
 /// </remarks>
-sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2environment) :
+sealed class MSys2Toolkit(
+    MSys2ToolkitFamily family,
+    IMSys2Environment msys2environment,
+    ToolkitTraits traits) :
     IScriptableToolkit,
     IToolkitEnvironment
 {
@@ -33,7 +36,7 @@ sealed class MSys2Toolkit(MSys2ToolkitFamily family, IMSys2Environment msys2envi
 
     public IToolkitFamily Family => family;
 
-    public ToolkitTraits Traits => ToolkitTraits.None;
+    public ToolkitTraits Traits => traits;
 
     public ToolkitIsolation Isolation => ToolkitIsolation.None;
 

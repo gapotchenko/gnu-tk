@@ -40,6 +40,7 @@ interface IToolkitFamily
     /// Enumerates portable toolkits in a specified directory.
     /// </summary>
     /// <param name="path">The directory path.</param>
+    /// <param name="traits">The minimal set of traits a discovered toolkit should declare.</param>
     /// <returns>A sequence of discovered toolkits.</returns>
-    IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path);
+    IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path, ToolkitTraits traits);
 }
