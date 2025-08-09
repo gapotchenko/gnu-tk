@@ -252,7 +252,11 @@ sealed class Engine
             Console.Write("Tips:");
         Console.WriteLine();
 
-        var families = EnumerateToolkitFamilies().Memoize();
+        var families =
+            EnumerateToolkitFamilies()
+            .Where(family => (family.Traits & ToolkitFamilyTraits.Unofficial) == 0)
+            .Memoize();
+
         if (!families.Any())
         {
             if (Strict && ToolkitServices.SupportedToolkitFamilies.Any())

@@ -48,5 +48,10 @@ enum ToolkitFamilyTraits
     /// <summary>
     /// Indicates that a toolkit requires file paths to be translated.
     /// </summary>
-    FilePathTranslation = 1 << 3
+    FilePathTranslation = 1 << 3,
+
+    /// <summary>
+    /// Indicates that a toolkit is not officially supported.
+    /// </summary>
+    Unofficial = 1 << 4
 }

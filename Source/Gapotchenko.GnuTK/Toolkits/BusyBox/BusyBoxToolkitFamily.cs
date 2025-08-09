@@ -33,7 +33,18 @@ sealed class BusyBoxToolkitFamily : IToolkitFamily
 
     public IReadOnlyList<string> Aliases => [];
 
-    public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable | ToolkitFamilyTraits.FilePathTranslation;
+    public ToolkitFamilyTraits Traits { get; } = GetTraitsCore();
+
+    static ToolkitFamilyTraits GetTraitsCore()
+    {
+        var traits = ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable | ToolkitFamilyTraits.FilePathTranslation;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            // No ready-to-use BusyBox for macOS is available.
+            traits |= ToolkitFamilyTraits.Unofficial;
+        }
+        return traits;
+    }
 
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>
         BusyBoxDeployment.EnumerateSetupInstances()
