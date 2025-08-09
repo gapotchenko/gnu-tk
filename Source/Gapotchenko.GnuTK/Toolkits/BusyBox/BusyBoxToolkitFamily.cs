@@ -35,18 +35,10 @@ sealed class BusyBoxToolkitFamily : IToolkitFamily
 
     public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable | ToolkitFamilyTraits.FilePathTranslation;
 
-    public IEnumerable<IToolkit> EnumerateInstalledToolkits()
-    {
-        IEnumerable<(IBusyBoxSetupInstance SetupInstance, ToolkitTraits Traits)> query = [];
-
-        query = query
-            .Concat(BusyBoxDeployment.EnumerateSetupInstances()
-                .Take(1)
-                .Select(setupInstance => (SetupInstance: setupInstance, ToolkitTraits.None)))
-            .OrderByDescending(x => x.SetupInstance.Version);
-
-        return query.Select(x => CreateToolkit(x.SetupInstance, x.Traits));
-    }
+    public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>
+        BusyBoxDeployment.EnumerateSetupInstances()
+        .Take(1)
+        .Select(setupInstance => CreateToolkit(setupInstance, ToolkitTraits.None));
 
     public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path) =>
         EnumerateSetupInstancesInDirectory(path)

@@ -6,6 +6,7 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.Math.Intervals;
+using Gapotchenko.Shields.BusyBox.Deployment;
 using Gapotchenko.Shields.Cygwin.Deployment;
 using Gapotchenko.Shields.Git.Deployment;
 using Gapotchenko.Shields.Homebrew.Deployment;
@@ -31,16 +32,22 @@ static class TestServices
                 yield return "git";
             if (WslDeployment.EnumerateSetupInstances(ValueInterval.FromInclusive(new Version(2, 0))).Any())
                 yield return "wsl";
+            if (BusyBoxDeployment.EnumerateSetupInstances().Any())
+                yield return "busybox";
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             if (BrewDeployment.EnumerateSetupInstances().Any())
                 yield return "brew";
             yield return "system";
+            if (BusyBoxDeployment.EnumerateSetupInstances().Any())
+                yield return "busybox";
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             yield return "system";
+            if (BusyBoxDeployment.EnumerateSetupInstances().Any())
+                yield return "busybox";
         }
     }
 
