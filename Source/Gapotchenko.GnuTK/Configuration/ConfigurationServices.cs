@@ -85,7 +85,12 @@ static class ConfigurationServices
         return baseDirectory;
     }
 
-    [UnconditionalSuppressMessage("SingleFile", "IL3000", Justification = "Returns an empty string for assemblies embedded in a single-file app.")]
+    [UnconditionalSuppressMessage(
+        "SingleFile", "IL3000"
+#if DEBUG
+        , Justification = "Returns an empty string for assemblies embedded in a single-file app."
+#endif
+        )]
     static string? GetModulePath() =>
         Empty.Nullify(typeof(ConfigurationServices).Assembly.Location) ??
         Environment.ProcessPath;
