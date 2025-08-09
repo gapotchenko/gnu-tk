@@ -29,4 +29,5 @@ package-lock.json
 
 # Project
 /Source/Packaging/NPM/gnu-tk/platforms
+/Source/Packaging/NPM/gnu-tk/toolkits
 /Source/Packaging/NPM/gnu-tk/README.md
