@@ -234,12 +234,7 @@ sealed class Engine
 
             Console.Write(toolkit.Name.PadRight(nameColumnWidth));
             Console.Write(toolkit.Description.PadRight(descriptionColumnWidth));
-
-            string? location = (toolkit.Traits & ToolkitTraits.BuiltIn) != 0
-                ? "(built-in)"
-                : toolkit.InstallationPath;
-
-            Console.Write(location);
+            Console.Write(GetLocation(toolkit));
             Console.WriteLine();
         }
 
@@ -381,7 +376,8 @@ sealed class Engine
 
         Console.WriteLine("Name: {0}", toolkit.Name);
         Console.WriteLine("Description: {0}", toolkit.Description);
-        Console.WriteLine("Location: {0}", toolkit.InstallationPath);
+        if (GetLocation(toolkit) is { } location)
+            Console.WriteLine("Location: {0}", location);
         Console.WriteLine("Semantics: {0}", toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.Alike) ? "GNU-like" : "GNU");
         Console.WriteLine(
             "Isolation: {0}",
@@ -461,5 +457,12 @@ sealed class Engine
         if (Strict)
             families = families.Where(family => !family.Traits.HasFlag(ToolkitFamilyTraits.Alike));
         return families;
+    }
+
+    static string? GetLocation(IToolkit toolkit)
+    {
+        return (toolkit.Traits & ToolkitTraits.BuiltIn) != 0
+            ? "(built-in)"
+            : toolkit.InstallationPath;
     }
 }
