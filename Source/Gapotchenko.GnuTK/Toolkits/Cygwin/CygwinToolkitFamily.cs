@@ -32,12 +32,12 @@ sealed class CygwinToolkitFamily : IToolkitFamily
 
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>
         CygwinDeployment.EnumerateSetupInstances()
-        .Select(CreateToolkit);
+        .Select(setupInstance => CreateToolkit(setupInstance, ToolkitTraits.None));
 
-    public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path) =>
+    public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path, ToolkitTraits traits) =>
         CygwinSetupInstance.TryOpen(path) is { } setupInstance
-            ? [CreateToolkit(setupInstance)]
+            ? [CreateToolkit(setupInstance, traits)]
             : [];
 
-    CygwinToolkit CreateToolkit(ICygwinSetupInstance setupInstance) => new(this, setupInstance);
+    CygwinToolkit CreateToolkit(ICygwinSetupInstance setupInstance, ToolkitTraits traits) => new(this, setupInstance, traits);
 }

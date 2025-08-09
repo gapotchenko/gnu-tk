@@ -13,7 +13,11 @@ using System.Text;
 
 namespace Gapotchenko.GnuTK.Toolkits.Git;
 
-sealed class GitToolkit(GitToolkitFamily family, IGitSetupInstance setupInstance, string shellPath) :
+sealed class GitToolkit(
+    GitToolkitFamily family,
+    IGitSetupInstance setupInstance,
+    string shellPath,
+    ToolkitTraits traits) :
     IScriptableToolkit,
     IToolkitEnvironment
 {
@@ -25,7 +29,7 @@ sealed class GitToolkit(GitToolkitFamily family, IGitSetupInstance setupInstance
 
     public IToolkitFamily Family => family;
 
-    public ToolkitTraits Traits => ToolkitTraits.None;
+    public ToolkitTraits Traits => traits;
 
     public ToolkitIsolation Isolation => ToolkitIsolation.None;
 

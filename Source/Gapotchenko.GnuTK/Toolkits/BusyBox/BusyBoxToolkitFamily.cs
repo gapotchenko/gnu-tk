@@ -40,13 +40,9 @@ sealed class BusyBoxToolkitFamily : IToolkitFamily
         .Take(1)
         .Select(setupInstance => CreateToolkit(setupInstance, ToolkitTraits.None));
 
-    public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path) =>
-        EnumerateSetupInstancesInDirectory(path)
-        .Select(setupInstance => CreateToolkit(setupInstance, ToolkitTraits.None));
-
-    static IEnumerable<IBusyBoxSetupInstance> EnumerateSetupInstancesInDirectory(string path) =>
+    public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path, ToolkitTraits traits) =>
         BusyBoxSetupInstance.TryOpen(path) is { } setupInstance
-            ? [setupInstance]
+            ? [CreateToolkit(setupInstance, traits)]
             : [];
 
     BusyBoxToolkit CreateToolkit(IBusyBoxSetupInstance setupInstance, ToolkitTraits traits) => new(this, setupInstance, traits);

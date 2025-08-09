@@ -125,7 +125,7 @@ static class ToolkitServices
         families = families.Memoize();
 
         // Portable toolkits are prioritized according to the paths' order.
-        var portableToolkits = paths.SelectMany(path => families.SelectMany(family => family.EnumerateToolkitsInDirectory(path)));
+        var portableToolkits = paths.SelectMany(path => families.SelectMany(family => family.EnumerateToolkitsInDirectory(path, ToolkitTraits.None)));
 
         // Installed toolkits are prioritized according to the families' order.
         var installedToolkits = families.SelectMany(family => family.EnumerateInstalledToolkits());
