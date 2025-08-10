@@ -1,1 +1,1 @@
-This directory contains GNU toolkits that are bundled with GNU-TK packages.
+This directory contains bundled GNU toolkits.

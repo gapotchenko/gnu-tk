@@ -146,7 +146,7 @@ static class ToolkitServices
     {
         string name = family.Name;
 
-        string? path = ConfigurationServices.TryGetSetting("BuiltInToolkits:" + name);
+        string? path = ConfigurationServices.TryGetSetting("Toolkits:BuiltIn:" + name);
         if (path is null)
             return [];
 

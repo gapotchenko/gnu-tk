@@ -86,7 +86,7 @@ test: build
 # Produce publishable artifacts
 publish:
     dotnet clean -c Release
-    dotnet pack -c Release -p:WA49799=true
+    dotnet pack -c Release -p:TargetFormFactor=NuGet
 
 # Build platform-dependent release artifacts
 platform-build: _publish-aot
