@@ -79,15 +79,23 @@ GNU-TK can be readily used on the following platforms:
 Aside from GNU-TK utility itself, you also need an actual GNU toolkit installed on your system:
 
 - **Windows:**
-  - [MSYS2](https://www.msys2.org/) (recommended)
-  - [Cygwin](https://cygwin.com/)
+  - [BusyBox](https://frippery.org/busybox/)
+  - [Cygwin](https://cygwin.com/)  
   - [Git](https://git-scm.com/downloads/win) isn't a GNU toolkit itself, but it includes one based on Cygwin
+  - **[MSYS2](https://www.msys2.org/) (recommended)**
   - [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
 - **macOS:**
   - [Homebrew](https://brew.sh/) package manager with installed GNU packages; [`bash`](https://formulae.brew.sh/formula/bash) and [`coreutils`](https://formulae.brew.sh/formula/coreutils) is a recommended bare minimum
   - OS comes with a pre-installed GNU-like toolkit
 - **Linux:**
+  - [BusyBox](http://www.busybox.net/)
   - OS comes with a pre-installed GNU toolkit
+
+#### Built-in Toolkits
+
+GNU-TK packages come with the following built-in toolkits to guarantee that GNU tools minimally work even when no specialized toolkit is available:
+
+- **Windows:** [BusyBox](https://frippery.org/busybox/)
 
 ## How it Works
 
@@ -100,6 +108,7 @@ Available GNU Toolkits
 
 Name               Description                Location
 ------------------------------------------------------------------------------
+busybox            BusyBox 1.38.0             (built-in)
 cygwin             Cygwin 3.6.2               C:\cygwin64
 git                Git 2.50.1                 C:\Program Files\Git
 msys2-clang64      MSYS2 2025-02-21           C:\msys64
@@ -115,7 +124,7 @@ Tips:
     https://gapt.ch/help/gnu-tk/install-toolkits
   - You can use 'GNU_TK_TOOLKIT_PATH' environment variable to specify the
     directory paths of portable GNU toolkits
-  - GNU toolkits supported on Windows: Cygwin, Git, MSYS2, WSL
+  - GNU toolkits supported on Windows: BusyBox, Cygwin, Git, MSYS2, WSL
 ```
 
 To simplify usage, GNU-TK automatically selects the most suitable GNU toolkit based on common-sense factors.
