@@ -153,7 +153,11 @@ static class ToolkitServices
         string originalPath = path;
         path = Path.GetFullPath(path, ConfigurationServices.BaseDirectory);
         if (!Directory.Exists(path))
-            throw new DirectoryNotFoundException(DiagnosticMessages.BuiltInToolkitDirectoryNotFound(name, originalPath));
+        {
+            throw new DiagnosticException(
+                DiagnosticMessages.BuiltInToolkitDirectoryNotFound(name, originalPath),
+                DiagnosticCode.BuiltInToolkitDirectoryNotFound);
+        }
 
         string ridPath = Path.Combine(path, RuntimeInformation.RuntimeIdentifier);
         if (Directory.Exists(ridPath))

@@ -4,3 +4,4 @@ GNUTK0001     Invalid program arguments.
 GNUTK0002     No suitable GNU toolkit is found.
 GNUTK0003     Program arguments '{0}' and '{1}' cannot be specified simultaneously.
 GNUTK0004     Configuration file load error.
+GNUTK0005     Directory '{0}' of built-in toolkit '{1}' is not foumd.
