@@ -11,11 +11,11 @@ basePath=../../../Gapotchenko.GnuTK/bin/Release/net9.0
 
 mkdir platforms/win-x64
 cp -l "$basePath/win-x64/publish/Gapotchenko.GnuTK.exe" platforms/win-x64/gnu-tk.exe
-cp -l "$scriptPath/gnu-tk.ini" platforms/win-x64
+cp "$scriptPath/gnu-tk.ini" platforms/win-x64
 
 mkdir platforms/win-arm64
 cp -l "$basePath/win-arm64/publish/Gapotchenko.GnuTK.exe" platforms/win-arm64/gnu-tk.exe
-cp -l "$scriptPath/gnu-tk.ini" platforms/win-arm64
+cp "$scriptPath/gnu-tk.ini" platforms/win-arm64
 
 # Linux
 
