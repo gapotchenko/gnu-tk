@@ -93,7 +93,7 @@ Aside from GNU-TK utility itself, you also need an actual GNU toolkit installed 
 
 #### Built-in Toolkits
 
-GNU-TK packages come with the following built-in toolkits to guarantee that GNU tools minimally work even when no specialized toolkit is available:
+The following built-in toolkits are bundled with GNU-TK packages to guarantee that GNU tools minimally work even when no specialized GNU toolkit is available:
 
 - **Windows:** [BusyBox](https://frippery.org/busybox/)
 
