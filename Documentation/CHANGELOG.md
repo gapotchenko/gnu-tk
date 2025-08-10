@@ -4,12 +4,12 @@
 
 ### GNU-TK 2025.7
 
-Release date: not released yet
+Release date: August 10, 2025
 
 - Added support for BusyBox
 - For MSYS2 toolkit, GNU-TK sets `GNU_TK_MSYS2_REPOSITORY_PREFIX` environment variable to simplify working with MSYS2 packages.
   This value is precomputed based on the active MSYS2 environment and can be used to construct the names of MSYS2 packages
-- BusyBox is now bundled with GNU-TK packages for Windows to ensure basic functionality of GNU tools, even when no specialized GNU toolkit is installed
+- BusyBox is now bundled with GNU-TK packages to ensure basic functionality of GNU tools on Windows, even when no specialized GNU toolkit is installed
 
 ### GNU-TK 2025.6
 
