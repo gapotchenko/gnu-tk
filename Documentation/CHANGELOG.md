@@ -2,6 +2,12 @@
 
 ## 2025
 
+### GNU-TK 2025.8
+
+Release date: not released yet
+
+- For MSYS2 toolkits, use MSYS2 environment installation path as the toolkit location
+
 ### GNU-TK 2025.7
 
 Release date: August 10, 2025

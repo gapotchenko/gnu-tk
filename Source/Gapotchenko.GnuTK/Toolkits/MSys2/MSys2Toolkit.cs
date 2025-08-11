@@ -32,7 +32,7 @@ sealed class MSys2Toolkit(
 
     public string Description => msys2environment.SetupInstance.DisplayName;
 
-    public string? InstallationPath => msys2environment.SetupInstance.InstallationPath;
+    public string? InstallationPath => msys2environment.InstallationPath;
 
     public IToolkitFamily Family => family;
 
