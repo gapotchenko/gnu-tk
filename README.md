@@ -12,7 +12,7 @@ Beyond that, GNU tools support a wide variety of other use cases.
 
 A **recurring issue with GNU tools**, however, is their limited accessibility on non-Unix operating systems.
 For example, on Windows, you can use toolkits such as [MSYS2](https://www.msys2.org/), [Cygwin](https://cygwin.com/) or [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux").
-Yet, these introduce their own challenges: correctly identifying the toolkit installation path, modifying environment variables, configuring shells with toolkit-specific parameters, and, finally, managing the handoff of control to and from the toolkit.
+Yet, they introduce their own challenges: correctly identifying the toolkit installation path, modifying environment variables, configuring shells with toolkit-specific parameters, and, finally, managing the handoff of control to and from the toolkit.
 All of this makes using GNU tools far from easy and reproducible.
 
 GNU-TK project solves those problems by providing a small `gnu-tk` command-line utility that serves as an automatic gateway to a GNU toolkit installed on the system.
@@ -161,7 +161,7 @@ Without that option, `gnu-tk` works in relaxed mode allowing built-in Unix OS co
 
 ## Examples
 
-GNU-TK is a highly adaptable tool that works seamlessly with a variety of technologies.
+GNU-TK is an adaptable tool that can work with a variety of technologies.
 In this section, we'll explore a few integration examples.
 
 ### Node.js
