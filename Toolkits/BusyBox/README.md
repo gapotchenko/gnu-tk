@@ -1,4 +1,4 @@
-# BusyBox Bundle
+# BusyBox Bundle for GNU-TK
 
 Includes files from the following projects:
 
