@@ -22,18 +22,18 @@ sealed class HomebrewScriptableToolkit(
     HomebrewToolkitEnvironment(family, packageManagement, packages),
     IScriptableToolkit
 {
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
+    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         // Bash and zsh both support 'pipefail' option.
         return ExecuteShell(["-e", "-o", "pipefail", "-c", command, .. arguments], environment, options);
     }
 
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         return ExecuteShell([path, .. arguments], environment, options);
     }
 
-    int ExecuteShell(IEnumerable<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
+    int ExecuteShell(IEnumerable<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         string processPath = GetShellPath();
 

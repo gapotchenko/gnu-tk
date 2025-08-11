@@ -27,19 +27,19 @@ sealed class BusyBoxToolkit(
 
     public IToolkitFamily Family => family;
 
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
+    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         return ExecuteShell(["-e", "-o", "pipefail", "-c", command, .. arguments], environment);
     }
 
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         return ExecuteShell([path, .. arguments], environment);
     }
 
     int ExecuteShell(
         IEnumerable<string> arguments,
-        IReadOnlyDictionary<string, string?>? environment)
+        IReadOnlyDictionary<string, string?> environment)
     {
         string busyboxPath = setupInstance.ResolvePath(setupInstance.ProductPath);
 
@@ -48,8 +48,7 @@ sealed class BusyBoxToolkit(
             FileName = busyboxPath
         };
 
-        var processEnvironment = psi.Environment;
-        ToolkitEnvironment.CombineWith(processEnvironment, environment);
+        ToolkitEnvironment.CombineWith(psi.Environment, environment);
 
         var busyboxArguments = psi.ArgumentList;
         busyboxArguments.Add("sh");

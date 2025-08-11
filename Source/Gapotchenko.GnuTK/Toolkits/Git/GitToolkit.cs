@@ -31,13 +31,13 @@ sealed class GitToolkit(
 
     public IToolkitFamily Family => family;
 
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
+    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         // The 'sh' shell of the toolkit is 'bash' in disguise.
         return ExecuteShell(command, arguments, environment, ["-e", "-o", "pipefail"]);
     }
 
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         return ExecuteShell("sh \"$0\" \"$@\"", [path, .. arguments], environment, null);
     }
@@ -45,7 +45,7 @@ sealed class GitToolkit(
     int ExecuteShell(
         string command,
         IReadOnlyList<string> commandArguments,
-        IReadOnlyDictionary<string, string?>? environment,
+        IReadOnlyDictionary<string, string?> environment,
         IEnumerable<string>? extraShellArguments)
     {
         var psi = new ProcessStartInfo

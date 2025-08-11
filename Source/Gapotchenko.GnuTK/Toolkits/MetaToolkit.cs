@@ -43,7 +43,7 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
         init;
     }
 
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
+    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         return scriptableToolkit.ExecuteCommand(
             command,
@@ -52,7 +52,7 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
             options);
     }
 
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         return scriptableToolkit.ExecuteFile(
             path,
@@ -61,7 +61,7 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
             options);
     }
 
-    IReadOnlyDictionary<string, string?>? GetCombinedEnvironment(IReadOnlyDictionary<string, string?>? environment) =>
+    IReadOnlyDictionary<string, string?> GetCombinedEnvironment(IReadOnlyDictionary<string, string?> environment) =>
         m_ToolkitEnvironments
         .Select(x => x.Environment)
         .Reverse()

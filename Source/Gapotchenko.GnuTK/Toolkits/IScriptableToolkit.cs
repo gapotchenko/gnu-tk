@@ -27,7 +27,7 @@ interface IScriptableToolkit : IToolkit
     int ExecuteCommand(
         string command,
         IReadOnlyList<string> arguments,
-        IReadOnlyDictionary<string, string?>? environment,
+        IReadOnlyDictionary<string, string?> environment,
         ToolkitExecutionOptions options);
 
     /// <summary>
@@ -40,7 +40,7 @@ interface IScriptableToolkit : IToolkit
     int ExecuteFile(
         string path,
         IReadOnlyList<string> arguments,
-        IReadOnlyDictionary<string, string?>? environment,
+        IReadOnlyDictionary<string, string?> environment,
         ToolkitExecutionOptions options);
 
     /// <summary>
