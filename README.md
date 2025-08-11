@@ -76,7 +76,7 @@ GNU-TK can be readily used on the following platforms:
 
 ### GNU Toolkits
 
-Aside from GNU-TK utility itself, you also need an actual GNU toolkit installed on your system:
+Aside from GNU-TK utility itself, you may also need an actual GNU toolkit installed on your system:
 
 - **Windows:**
   - [BusyBox](https://frippery.org/busybox/)
