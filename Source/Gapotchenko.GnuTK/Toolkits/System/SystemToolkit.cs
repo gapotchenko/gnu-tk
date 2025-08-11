@@ -22,9 +22,9 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
 
     public string? InstallationPath => "/";
 
-    public IToolkitFamily Family => family;
-
     public ToolkitTraits Traits => ToolkitTraits.None;
+
+    public IToolkitFamily Family => family;
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {

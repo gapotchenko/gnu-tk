@@ -23,9 +23,9 @@ sealed class BusyBoxToolkit(
 
     public string? InstallationPath => setupInstance.ResolvePath(setupInstance.ProductPath);
 
-    public IToolkitFamily Family => family;
-
     public ToolkitTraits Traits => traits;
+
+    public IToolkitFamily Family => family;
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {

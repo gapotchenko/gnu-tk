@@ -22,9 +22,9 @@ class HomebrewToolkitEnvironment(
 
     public string? InstallationPath => PackageManagement.Manager.Setup.InstallationPath;
 
-    public IToolkitFamily Family => family;
-
     public ToolkitTraits Traits => ToolkitTraits.None;
+
+    public IToolkitFamily Family => family;
 
     public IReadOnlyDictionary<string, string?> Environment => field ??= GetEnvironmentCore();
 

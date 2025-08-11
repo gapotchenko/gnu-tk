@@ -23,9 +23,9 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
     public string? InstallationPath => setupInstance.InstallationPath;
 
-    public IToolkitFamily Family => family;
-
     public ToolkitTraits Traits => ToolkitTraits.None;
+
+    public IToolkitFamily Family => family;
 
     public ToolkitIsolation Isolation =>
         setupInstance.Version.Major switch

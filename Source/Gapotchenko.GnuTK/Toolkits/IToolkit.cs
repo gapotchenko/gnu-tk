@@ -37,12 +37,12 @@ interface IToolkit
     string? InstallationPath { get; }
 
     /// <summary>
-    /// Gets the toolkit family.
-    /// </summary>
-    IToolkitFamily Family { get; }
-
-    /// <summary>
     /// Gets the toolkit traits.
     /// </summary>
     ToolkitTraits Traits { get; }
+
+    /// <summary>
+    /// Gets the toolkit family.
+    /// </summary>
+    IToolkitFamily Family { get; }
 }

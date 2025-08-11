@@ -27,9 +27,9 @@ sealed class GitToolkit(
 
     public string? InstallationPath => setupInstance.InstallationPath;
 
-    public IToolkitFamily Family => family;
-
     public ToolkitTraits Traits => traits;
+
+    public IToolkitFamily Family => family;
 
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {

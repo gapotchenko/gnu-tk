@@ -75,6 +75,10 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
         .Reverse()
         .Aggregate(ToolkitEnvironment.Combine);
 
+    public ToolkitTraits Traits => GetUnderlyingToolkits()
+        .Select(toolkit => toolkit.Traits)
+        .Aggregate((a, b) => a | b);
+
     public IToolkitFamily Family
     {
         get =>
@@ -86,10 +90,6 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
                 ~ToolkitFamilyTraits.DeploymentMask);
         init;
     }
-
-    public ToolkitTraits Traits => GetUnderlyingToolkits()
-        .Select(toolkit => toolkit.Traits)
-        .Aggregate((a, b) => a | b);
 
     sealed class MetaFamily(ToolkitFamilyTraits traits) : IToolkitFamily
     {
