@@ -5,6 +5,8 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
+using Gapotchenko.GnuTK.IO;
+
 namespace Gapotchenko.GnuTK.Hosting;
 
 /// <summary>
@@ -28,7 +30,23 @@ static class HostEnvironment
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
                 return "FreeBSD";
             else
-                return RuntimeInformation.OSDescription;
+                throw new PlatformNotSupportedException();
         }
     }
+
+    /// <summary>
+    /// Gets a file path format of the current operating system.
+    /// </summary>
+    public static FilePathFormat FilePathFormat => m_CachedFilePathFormat ??= GetFilePathFormatCore();
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    static FilePathFormat? m_CachedFilePathFormat;
+
+    static FilePathFormat GetFilePathFormatCore() =>
+        Environment.OSVersion.Platform switch
+        {
+            PlatformID.Win32NT => FilePathFormat.Windows,
+            PlatformID.Unix => FilePathFormat.Unix,
+            _ => throw new PlatformNotSupportedException()
+        };
 }

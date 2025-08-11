@@ -10,6 +10,7 @@ using Gapotchenko.FX.Diagnostics;
 using Gapotchenko.FX.Linq;
 using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Hosting;
+using Gapotchenko.GnuTK.IO;
 using Gapotchenko.GnuTK.Toolkits;
 using Gapotchenko.GnuTK.UI;
 
@@ -154,7 +155,7 @@ sealed class Engine
 
         static bool IsTranslatableFilePath(string path)
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            if (HostEnvironment.FilePathFormat == FilePathFormat.Windows)
             {
                 if (path.Length >= 2 && path[1] == ':' && char.IsAsciiLetter(path[0]))
                     return true;
