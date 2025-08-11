@@ -4,4 +4,4 @@ set -eu
 
 echo "Test Group B"
 
-cd 01 && ./test.sh && cd ..
+(cd 01 && ./test.sh)

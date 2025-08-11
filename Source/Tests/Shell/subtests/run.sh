@@ -2,6 +2,6 @@
 
 set -eu
 
-cd a && ./run.sh && cd ..
+(cd a && ./run.sh)
 echo
-cd b && ./run.sh && cd ..
+(cd b && ./run.sh)
