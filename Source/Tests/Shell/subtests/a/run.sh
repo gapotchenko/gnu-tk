@@ -11,3 +11,4 @@ cd 04 && ./test.sh && cd ..
 cd 05 && ./test.sh && cd ..
 cd 06 && ./test.sh && cd ..
 cd 07 && ./test.sh && cd ..
+cd 08 && ./test.sh && cd ..

@@ -146,6 +146,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         Translate(ToolkitEnvironment.PosixlyCorrect);
         Translate("GNU_TK");
         Translate("GNU_TK_TOOLKIT");
+        Translate("GNU_TK_VERSION");
 
         if (!newEnvironment.ContainsKey(ToolkitEnvironment.PosixlyCorrect))
             newEnvironment.Add(ToolkitEnvironment.PosixlyCorrect, null);
