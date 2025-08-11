@@ -8,3 +8,5 @@ posixly
 shorthands
 ucrt
 busybox
+coreutils
+binutils

@@ -142,7 +142,7 @@ sealed class MSys2Toolkit(
         environment["MSYSTEM"] = mSystem;
         environment["MSYSCON"] = "";
 
-        // Calculate a repository prefix to match package prefixes according to the repository selector:
+        // Calculate a repository prefix to match package prefixes according to the environment selector:
         // https://packages.msys2.org/packages/
         string? repositoryPrefix =
             mSystem switch
