@@ -94,6 +94,7 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
     sealed class MetaFamily(ToolkitFamilyTraits traits) : IToolkitFamily
     {
         public string Name => "Meta";
+        public string? InformativeName => null;
         public IReadOnlyList<string> Aliases => [];
         public ToolkitFamilyTraits Traits => traits;
         public IEnumerable<IToolkit> EnumerateInstalledToolkits() => [];

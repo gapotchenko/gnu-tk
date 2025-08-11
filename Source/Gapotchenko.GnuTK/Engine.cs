@@ -303,7 +303,7 @@ sealed class Engine
             {
                 string os = HostEnvironment.OSName;
                 var deployableFamilies = families.Where(x => (x.Traits & ToolkitFamilyTraits.DeploymentMask) != 0);
-                string supportedToolkits = string.Join(", ", deployableFamilies.Select(x => x.Name).Order());
+                string supportedToolkits = string.Join(", ", deployableFamilies.Select(x => x.InformativeName ?? x.Name).Order());
                 Console.WriteLine(
                     $"""
                       - GNU toolkits supported on {os}: {supportedToolkits}

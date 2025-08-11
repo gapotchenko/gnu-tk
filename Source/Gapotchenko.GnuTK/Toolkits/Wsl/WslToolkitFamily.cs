@@ -27,6 +27,8 @@ sealed class WslToolkitFamily : IToolkitFamily
 
     public string Name => "WSL";
 
+    public string? InformativeName => "WSL 2+";
+
     public IReadOnlyList<string> Aliases => [];
 
     public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.FilePathTranslation;

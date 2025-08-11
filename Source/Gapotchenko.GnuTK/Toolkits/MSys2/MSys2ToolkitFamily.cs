@@ -26,6 +26,8 @@ sealed class MSys2ToolkitFamily : IToolkitFamily
 
     public string Name => "MSYS2";
 
+    public string? InformativeName => null;
+
     public IReadOnlyList<string> Aliases => ["MSYS"];
 
     public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable | ToolkitFamilyTraits.FilePathTranslation;

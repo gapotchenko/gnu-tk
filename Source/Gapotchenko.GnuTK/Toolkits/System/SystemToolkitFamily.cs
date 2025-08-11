@@ -19,6 +19,8 @@ sealed class SystemToolkitFamily : IToolkitFamily
 
     public string Name => "System";
 
+    public string? InformativeName => null;
+
     public IReadOnlyList<string> Aliases
     {
         get

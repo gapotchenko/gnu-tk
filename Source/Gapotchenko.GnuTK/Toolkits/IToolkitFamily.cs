@@ -21,6 +21,14 @@ interface IToolkitFamily
     string Name { get; }
 
     /// <summary>
+    /// Gets the informative name.
+    /// </summary>
+    /// <remarks>
+    /// For example, "WSL 2+".
+    /// </remarks>
+    string? InformativeName { get; }
+
+    /// <summary>
     /// Gets the name aliases.
     /// </summary>
     IReadOnlyList<string> Aliases { get; }
