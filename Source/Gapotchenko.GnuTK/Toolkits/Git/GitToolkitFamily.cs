@@ -31,7 +31,8 @@ sealed class GitToolkitFamily : IToolkitFamily
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>
         GitDeployment.EnumerateSetupInstances()
         .Select(setupInstance => TryCreateToolkit(setupInstance, ToolkitTraits.None))
-        .Where(toolkit => toolkit != null)!;
+        .Where(toolkit => toolkit != null)
+        .Take(1)!;
 
     public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path, ToolkitTraits traits) =>
         GitSetupInstance.TryOpen(path) is { } setupInstance &&

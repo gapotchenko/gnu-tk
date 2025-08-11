@@ -30,6 +30,7 @@ sealed class CygwinToolkitFamily : IToolkitFamily
 
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>
         CygwinDeployment.EnumerateSetupInstances()
+        .Take(1)
         .Select(setupInstance => CreateToolkit(setupInstance, ToolkitTraits.None));
 
     public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path, ToolkitTraits traits) =>

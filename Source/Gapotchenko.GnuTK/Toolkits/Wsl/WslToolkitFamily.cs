@@ -34,6 +34,7 @@ sealed class WslToolkitFamily : IToolkitFamily
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>
         // GNU-TK supports WSL 2+.
         WslDeployment.EnumerateSetupInstances(ValueInterval.FromInclusive(new Version(2, 0)))
+        .Take(1)
         .Select(CreateToolkit);
 
     WslToolkit CreateToolkit(IWslSetupInstance setupInstance) => new(this, setupInstance);

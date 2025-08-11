@@ -176,7 +176,7 @@ static class ToolkitServices
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             // Priority considerations:
-            //   1. MSYS2 comes with a saner set of packages by default, easy mental model (install and forget)
+            //   1. MSYS2 comes with a saner set of packages by default, has an easy mental model (install and forget)
             //   2. Cygwin provides better execution performance when compared to WSL,
             //      but mental model is on a heavier side (too customizable to the point of a possible frustration)
             //   3. Git for Windows is not a GNU toolkit per se, but it comes with a built-in one based on Cygwin.
