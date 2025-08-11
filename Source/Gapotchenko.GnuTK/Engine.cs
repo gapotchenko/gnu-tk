@@ -5,6 +5,7 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
+using Gapotchenko.FX.AppModel;
 using Gapotchenko.FX.Diagnostics;
 using Gapotchenko.FX.Linq;
 using Gapotchenko.GnuTK.Diagnostics;
@@ -180,12 +181,18 @@ sealed class Engine
     IReadOnlyDictionary<string, string?> GetToolkitExecutionEnvironment()
     {
         var environment = ToolkitEnvironment.Create();
+
         if (Posix)
             environment[ToolkitEnvironment.PosixlyCorrect] = string.Empty;
+
         if (ToolkitNames is { } toolkitNames)
             environment["GNU_TK_TOOLKIT"] = string.Join(',', toolkitNames);
         if (Strict)
             environment["GNU_TK_STRICT"] = string.Empty;
+
+        var version = AppInformation.Current.ProductVersion;
+        environment["GNU_TK_VERSION"] = Invariant($"{version.Major:D4}{version.Minor:D2}{version.Build:D2}");
+
         return environment;
     }
 

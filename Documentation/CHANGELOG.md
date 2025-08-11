@@ -6,7 +6,8 @@
 
 Release date: not released yet
 
-- For MSYS2 toolkits, use MSYS2 environment installation path as the toolkit location
+- Child processes spawned by `gnu-tk` tool have `GNU_TK_VERSION` environment variable set, enabling identification of GNU environments managed by GNU-TK
+- For MSYS2 toolkits, MSYS2 environment installation path is used as the toolkit location
 
 ### GNU-TK 2025.7
 
