@@ -26,12 +26,12 @@ interface IToolkitFamily
     /// <remarks>
     /// For example, "WSL 2+".
     /// </remarks>
-    string? InformativeName { get; }
+    string? InformativeName => null;
 
     /// <summary>
     /// Gets the name aliases.
     /// </summary>
-    IReadOnlyList<string> Aliases { get; }
+    IReadOnlyList<string> Aliases => [];
 
     /// <summary>
     /// Gets the traits.

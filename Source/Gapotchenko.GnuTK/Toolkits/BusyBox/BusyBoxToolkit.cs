@@ -27,8 +27,6 @@ sealed class BusyBoxToolkit(
 
     public ToolkitTraits Traits => traits;
 
-    public ToolkitIsolation Isolation => ToolkitIsolation.None;
-
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
         return ExecuteShell(["-e", "-o", "pipefail", "-c", command, .. arguments], environment);

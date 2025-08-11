@@ -31,10 +31,6 @@ sealed class BusyBoxToolkitFamily : IToolkitFamily
 
     public string Name => "BusyBox";
 
-    public string? InformativeName => null;
-
-    public IReadOnlyList<string> Aliases => [];
-
     public ToolkitFamilyTraits Traits { get; } = GetTraitsCore();
 
     static ToolkitFamilyTraits GetTraitsCore()

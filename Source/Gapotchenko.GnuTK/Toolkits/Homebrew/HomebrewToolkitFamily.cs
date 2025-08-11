@@ -23,10 +23,6 @@ sealed class HomebrewToolkitFamily : IToolkitFamily
 
     public string Name => "Homebrew";
 
-    public string? InformativeName => null;
-
-    public IReadOnlyList<string> Aliases => [];
-
     public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable;
 
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>

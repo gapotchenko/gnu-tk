@@ -68,7 +68,7 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
         .Append(environment)
         .Aggregate(ToolkitEnvironment.Combine);
 
-    public IReadOnlyDictionary<string, string?>? Environment =>
+    public IReadOnlyDictionary<string, string?> Environment =>
         GetUnderlyingToolkits()
         .OfType<IToolkitEnvironment>()
         .Select(x => x.Environment)
@@ -94,8 +94,6 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
     sealed class MetaFamily(ToolkitFamilyTraits traits) : IToolkitFamily
     {
         public string Name => "Meta";
-        public string? InformativeName => null;
-        public IReadOnlyList<string> Aliases => [];
         public ToolkitFamilyTraits Traits => traits;
         public IEnumerable<IToolkit> EnumerateInstalledToolkits() => [];
         public IEnumerable<IToolkit> EnumerateToolkitsInDirectory(string path, ToolkitTraits traits) => [];

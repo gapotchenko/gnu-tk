@@ -26,7 +26,7 @@ class HomebrewToolkitEnvironment(
 
     public ToolkitTraits Traits => ToolkitTraits.None;
 
-    public IReadOnlyDictionary<string, string?>? Environment => field ??= GetEnvironmentCore();
+    public IReadOnlyDictionary<string, string?> Environment => field ??= GetEnvironmentCore();
 
     IReadOnlyDictionary<string, string?> GetEnvironmentCore()
     {

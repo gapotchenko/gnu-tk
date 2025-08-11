@@ -15,7 +15,7 @@ interface IScriptableToolkit : IToolkit
     /// <summary>
     /// Gets the isolation level.
     /// </summary>
-    ToolkitIsolation Isolation { get; }
+    ToolkitIsolation Isolation => ToolkitIsolation.None;
 
     /// <summary>
     /// Executes the specified shell command.

@@ -38,8 +38,6 @@ sealed class MSys2Toolkit(
 
     public ToolkitTraits Traits => traits;
 
-    public ToolkitIsolation Isolation => ToolkitIsolation.None;
-
     public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?>? environment, ToolkitExecutionOptions options)
     {
         // The 'sh' shell of MSYS2 is 'bash' in disguise.
