@@ -1,7 +1,6 @@
 #!/bin/sh
 
 set -eu
-#set -o pipefail
 
 echo "Test Group A"
 
