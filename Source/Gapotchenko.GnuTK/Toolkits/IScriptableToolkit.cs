@@ -24,7 +24,7 @@ interface IScriptableToolkit : IToolkit
     /// <param name="arguments">The command arguments.</param>
     /// <param name="options">The options.</param>
     /// <returns>The exit code.</returns>
-    int ExecuteCommand(
+    int ExecuteShellCommand(
         string command,
         IReadOnlyList<string> arguments,
         IReadOnlyDictionary<string, string?> environment,
@@ -37,7 +37,7 @@ interface IScriptableToolkit : IToolkit
     /// <param name="arguments">The arguments.</param>
     /// <param name="options">The options.</param>
     /// <returns>The exit code.</returns>
-    int ExecuteFile(
+    int ExecuteShellFile(
         string path,
         IReadOnlyList<string> arguments,
         IReadOnlyDictionary<string, string?> environment,

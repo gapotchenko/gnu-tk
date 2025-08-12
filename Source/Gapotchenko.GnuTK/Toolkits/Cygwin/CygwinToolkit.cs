@@ -31,13 +31,13 @@ sealed class CygwinToolkit(
 
     public IToolkitFamily Family => family;
 
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
+    public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         // The 'sh' shell of Cygwin is 'bash' in disguise.
         return ExecuteShell(command, arguments, environment, ["-e", "-o", "pipefail"]);
     }
 
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
+    public int ExecuteShellFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         return ExecuteShell("sh \"$0\" \"$@\"", [path, .. arguments], environment, null);
     }

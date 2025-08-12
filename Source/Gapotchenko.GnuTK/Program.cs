@@ -50,9 +50,9 @@ static class Program
             Options:
               --help               Show this help.
               --version            Show version.            
-              -c --command         Execute a command using a GNU toolkit.
-              -l --command-line    Execute a command line using a GNU toolkit.
-              -f --file            Execute a file using a GNU toolkit.
+              -c --command         Execute a command using a GNU shell.
+              -l --command-line    Execute a command line using a GNU shell.
+              -f --file            Execute a file using a GNU shell.
               -t --toolkit=<name>  Use the specified GNU toolkit [default: auto].
               -s --strict          Use a toolkit with strict GNU semantics.
               -i --integrated      Use a toolkit that operates within the host environment.
@@ -281,29 +281,29 @@ static class Program
     {
         // Most frequently used options are handled first.
 
-        // '-c' command-line option (execute a command).
+        // '-c' command-line option (execute a shell command).
         if ((bool)arguments[ProgramOptions.ExecuteCommand])
         {
             string command = (string)arguments[ProgramOptions.Command];
             var commandArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
-            exitCode = engine.ExecuteCommand(command, commandArguments);
+            exitCode = engine.ExecuteShellCommand(command, commandArguments);
             return true;
         }
 
-        // '-l' command-line option (execute a command line).
+        // '-l' command-line option (execute a shell command line).
         if ((bool)arguments[ProgramOptions.ExecuteCommandLine])
         {
             string command = GetCommandToExecute(arguments, commandLine);
-            exitCode = engine.ExecuteCommandLine(command);
+            exitCode = engine.ExecuteShellCommandLine(command);
             return true;
         }
 
-        // '-f' command-line option (execute a file).
+        // '-f' command-line option (execute a shell file).
         if ((bool)arguments[ProgramOptions.ExecuteFile])
         {
             string filePath = (string)arguments[ProgramOptions.File];
             var fileArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
-            exitCode = engine.ExecuteFile(filePath, fileArguments);
+            exitCode = engine.ExecuteShellFile(filePath, fileArguments);
             return true;
         }
 

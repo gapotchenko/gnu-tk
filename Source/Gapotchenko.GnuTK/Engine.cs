@@ -64,11 +64,11 @@ sealed class Engine
     public bool Quiet { get; init; }
 
     /// <summary>
-    /// Executes the specified command line.
+    /// Executes the specified shell command line.
     /// </summary>
-    /// <param name="command">The command line to execute.</param>
+    /// <param name="command">The shell command line to execute.</param>
     /// <returns>The exit code.</returns>
-    public int ExecuteCommandLine(string commandLine)
+    public int ExecuteShellCommandLine(string commandLine)
     {
         var toolkit = GetToolkit();
 
@@ -98,24 +98,24 @@ sealed class Engine
             command = commandLine;
         }
 
-        return ExecuteCommandCore(toolkit, command, []);
+        return ExecuteShellCommandCore(toolkit, command, []);
     }
 
     /// <summary>
-    /// Executes the specified command.
+    /// Executes the specified shell command.
     /// </summary>
-    /// <param name="command">The command to execute.</param>
+    /// <param name="command">The shell command to execute.</param>
     /// <param name="arguments">The command arguments.</param>
     /// <returns>The exit code.</returns>
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments)
+    public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments)
     {
         var toolkit = GetToolkit();
-        return ExecuteCommandCore(toolkit, command, PrepareCommandArguments(toolkit, arguments));
+        return ExecuteShellCommandCore(toolkit, command, PrepareCommandArguments(toolkit, arguments));
     }
 
-    int ExecuteCommandCore(IScriptableToolkit toolkit, string command, IReadOnlyList<string> arguments)
+    int ExecuteShellCommandCore(IScriptableToolkit toolkit, string command, IReadOnlyList<string> arguments)
     {
-        return toolkit.ExecuteCommand(
+        return toolkit.ExecuteShellCommand(
             command,
             arguments,
             GetToolkitExecutionEnvironment(),
@@ -123,17 +123,17 @@ sealed class Engine
     }
 
     /// <summary>
-    /// Executes the specified file.
+    /// Executes the specified shell file.
     /// </summary>
-    /// <param name="path">The path of file to execute.</param>
+    /// <param name="path">The path of a shell file to execute.</param>
     /// <param name="arguments">The arguments.</param>
     /// <returns>The exit code.</returns>
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments)
+    public int ExecuteShellFile(string path, IReadOnlyList<string> arguments)
     {
         var toolkit = GetToolkit();
         if (path == "-")
             path = "/dev/stdin";
-        return toolkit.ExecuteFile(
+        return toolkit.ExecuteShellFile(
             path,
             PrepareCommandArguments(toolkit, arguments),
             GetToolkitExecutionEnvironment(),

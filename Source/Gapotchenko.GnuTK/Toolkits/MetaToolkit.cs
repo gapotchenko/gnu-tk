@@ -43,18 +43,18 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
         init;
     }
 
-    public int ExecuteCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
+    public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
-        return scriptableToolkit.ExecuteCommand(
+        return scriptableToolkit.ExecuteShellCommand(
             command,
             arguments,
             GetCombinedEnvironment(environment),
             options);
     }
 
-    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
+    public int ExecuteShellFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
-        return scriptableToolkit.ExecuteFile(
+        return scriptableToolkit.ExecuteShellFile(
             path,
             arguments,
             GetCombinedEnvironment(environment),
