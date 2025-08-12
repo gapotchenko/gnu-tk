@@ -1,1 +1,1 @@
-@gnu-tk -f run-tests.sh
+@gnu-tk -i -l exec "%~dpn0.sh"
