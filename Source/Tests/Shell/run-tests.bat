@@ -1,1 +1,1 @@
-@gnu-tk -i -l exec "%~dpn0.sh" %*
+@gnu-tk -i -x "%~dpn0.sh" %*
