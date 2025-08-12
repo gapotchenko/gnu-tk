@@ -13,7 +13,7 @@ set unstable := true
 # ---------------------------------------------------------------------------
 
 set windows-shell := ["cmd", "/c"]
-set script-interpreter := ["gnu-tk", "-i", "-l", "sh", "-eu"]
+set script-interpreter := ["gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
 
 # ---------------------------------------------------------------------------
 # Configuration

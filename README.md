@@ -289,9 +289,10 @@ A cosmopolitan shebang is a shebang designed for maximum portability across all 
 It is composed of two parts:
 
 1. **GNU-TK part** – always fixed:
-  ```sh
-  gnu-tk -i -l
-  ```
+
+```sh
+gnu-tk -i -l
+```
 
 2. **Portable Unix part** – the canonical way to invoke the desired tool on Unix-like systems.
 
