@@ -253,7 +253,7 @@ run:
     cp --help
 ```
 
-Alternatively, this can be done using the shebang syntax:
+You can also achieve the same effect with the shebang syntax:
 
 ```just
 run:
@@ -261,3 +261,12 @@ run:
     echo Just hello
     cp --help
 ```
+
+And if you would like to write your `just` recipes in another language – say, Python:
+
+```just
+run:
+    #!gnu-tk -i -l /usr/bin/env python3
+    print("Hello from Python script")
+```
+
