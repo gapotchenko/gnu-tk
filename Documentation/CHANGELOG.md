@@ -9,7 +9,7 @@ Release date: not released yet
 - Added ability to execute an arbitrary file in a GNU environment
 - Child processes spawned by `gnu-tk` tool have `GNU_TK_VERSION` environment variable set, enabling identification of GNU environments managed by GNU-TK
 - For MSYS2 toolkits, MSYS2 environment installation path is used as the toolkit location
-- Fixed issue in NPM package that prevented `gnu-tk` from working with Node v18.19.1
+- Fixed issue in NPM package that prevented `gnu-tk` from working with Node v18.x
 
 ### GNU-TK 2025.7
 
