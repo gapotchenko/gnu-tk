@@ -4,7 +4,7 @@
 
 ### GNU-TK 2025.8
 
-Release date: not released yet
+Release date: August 12, 2025
 
 - Added ability to execute an arbitrary file in a GNU environment
 - Child processes spawned by `gnu-tk` tool have `GNU_TK_VERSION` environment variable set, enabling identification of GNU environments managed by GNU-TK
