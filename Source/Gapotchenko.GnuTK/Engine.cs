@@ -13,6 +13,7 @@ using Gapotchenko.GnuTK.Hosting;
 using Gapotchenko.GnuTK.IO;
 using Gapotchenko.GnuTK.Toolkits;
 using Gapotchenko.GnuTK.UI;
+using Gapotchenko.Shields.Microsoft.Wsl.Runtime;
 
 namespace Gapotchenko.GnuTK;
 
@@ -405,8 +406,13 @@ sealed class Engine
         Console.Write("Check status: ");
         using (UIStyles.Scope.Success(Console.Out))
         {
-            if (!quiet && (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux)))
+            if (!quiet &&
+                (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ||
+                (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && WslRuntime.RunningInstance is null)))
+            {
                 Console.Write("✔ ");
+            }
+
             Console.Write("PASS");
         }
         Console.WriteLine();
