@@ -11,6 +11,7 @@ import platform from "./platform.js";
 import path from "node:path";
 import fs from "node:fs";
 import { spawn } from "node:child_process";
+import url from "node:url";
 
 try {
   run(process.argv.slice(2));
@@ -37,10 +38,23 @@ function run(args) {
 
 function getProcessPath(rid) {
   let processPath = path.resolve(
-    path.join(import.meta.dirname, "platforms", rid, "gnu-tk"),
+    path.join(
+      import.meta.dirname ?? getMetaDirNameFallback(),
+      "platforms",
+      rid,
+      "gnu-tk",
+    ),
   );
   if (rid.startsWith("win-")) processPath += ".exe";
   return processPath;
+}
+
+// 'import.meta.dirname' was added to Node v21.2.0 and back-ported to v20.11.0 (LTS).
+// In older Node releases it's simply undefined.
+// This function is a fallback implementation.
+function getMetaDirNameFallback() {
+  const fileName = url.fileURLToPath(import.meta.url);
+  return path.dirname(fileName);
 }
 
 function exit(rid, code) {
