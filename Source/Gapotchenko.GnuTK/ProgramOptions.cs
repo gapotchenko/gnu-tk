@@ -16,12 +16,13 @@ static class ProgramOptions
     public const string Quiet = "--quiet";
     public const string Version = "--version";
 
-    public const string ExecuteCommand = "--command";
-    public const string ExecuteCommandLine = "--command-line";
+    public const string ExecuteShellCommand = "--command";
+    public const string ExecuteShellCommandLine = "--command-line";
     public const string Command = "<command>";
     public const string Arguments = "<argument>";
 
-    public const string ExecuteFile = "--file";
+    public const string ExecuteShellFile = "--file";
+    public const string ExecuteFile = "--execute";
     public const string File = "<file>";
 
     public const string Toolkit = "--toolkit";
@@ -36,9 +37,11 @@ static class ProgramOptions
     {
         public const string Quiet = "-q";
 
-        public const string ExecuteCommand = "-c";
-        public const string ExecuteCommandLine = "-l";
-        public const string ExecuteFile = "-f";
+        public const string ExecuteShellCommand = "-c";
+        public const string ExecuteShellCommandLine = "-l";
+
+        public const string ExecuteShellFile = "-f";
+        public const string ExecuteFile = "-x";
 
         public const string Toolkit = "-t";
         public const string Strict = "-s";

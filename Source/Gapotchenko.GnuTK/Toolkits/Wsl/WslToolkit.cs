@@ -34,6 +34,11 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
             _ => ToolkitIsolation.Container
         };
 
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
+    {
+        return ExecuteShellCommand("exec \"$0\" \"$@\"", [path, .. arguments], environment, options);
+    }
+
     public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         return ExecuteShell(command, arguments, environment, ["-e"]);

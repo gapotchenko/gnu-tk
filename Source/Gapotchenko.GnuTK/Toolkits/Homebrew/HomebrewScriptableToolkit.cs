@@ -35,15 +35,32 @@ sealed class HomebrewScriptableToolkit(
 
     int ExecuteShell(IEnumerable<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
-        string processPath = GetShellPath();
+        return ExecuteFileCore(GetShellPath(), arguments, environment, options);
+    }
 
+    string GetShellPath()
+    {
+        string packagePath = PackageManagement.GetPackagePath(shellPackage);
+        string shellPath = Path.Combine(packagePath, "bin", shellPackage.Name);
+        if (!File.Exists(shellPath))
+            throw new ProgramException(DiagnosticMessages.ModuleNotFound(shellPath));
+        return shellPath;
+    }
+
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
+    {
+        return ExecuteFileCore(path, arguments, environment, options);
+    }
+
+    int ExecuteFileCore(string path, IEnumerable<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
+    {
         var psi = new ProcessStartInfo
         {
-            FileName = processPath
+            FileName = path
         };
 
         var processEnvironment = psi.Environment;
-        ConfigureShellEnvironment(processEnvironment, options);
+        ConfigureEnvironment(processEnvironment, options);
         ToolkitEnvironment.CombineWith(processEnvironment, environment);
 
         psi.ArgumentList.AddRange(arguments);
@@ -51,7 +68,7 @@ sealed class HomebrewScriptableToolkit(
         return ProcessHelper.Execute(psi);
     }
 
-    void ConfigureShellEnvironment(
+    void ConfigureEnvironment(
         IDictionary<string, string?> environment,
         ToolkitExecutionOptions options)
     {
@@ -64,15 +81,6 @@ sealed class HomebrewScriptableToolkit(
         }
 
         ToolkitEnvironment.CombineWith(environment, Environment);
-    }
-
-    string GetShellPath()
-    {
-        string packagePath = PackageManagement.GetPackagePath(shellPackage);
-        string shellPath = Path.Combine(packagePath, "bin", shellPackage.Name);
-        if (!File.Exists(shellPath))
-            throw new ProgramException(DiagnosticMessages.ModuleNotFound(shellPath));
-        return shellPath;
     }
 
     public string TranslateFilePath(string path) => path;

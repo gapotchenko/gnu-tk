@@ -31,6 +31,11 @@ sealed class GitToolkit(
 
     public IToolkitFamily Family => family;
 
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
+    {
+        return ExecuteShellCommand("exec \"$0\" \"$@\"", [path, .. arguments], environment, options);
+    }
+
     public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         // The 'sh' shell of the toolkit is 'bash' in disguise.

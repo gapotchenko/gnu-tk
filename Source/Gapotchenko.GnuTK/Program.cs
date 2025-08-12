@@ -43,7 +43,7 @@ static class Program
             Usage:
               gnu-tk [-t <name>] [-s] [-i] [-p] -c [--] <command> [<argument>...]
               gnu-tk [-t <name>] [-s] [-i] [-p] -l [--] <argument>...
-              gnu-tk [-t <name>] [-s] [-i] [-p] -f [--] <file> [<argument>...]
+              gnu-tk [-t <name>] [-s] [-i] [-p] (-f | -x) [--] <file> [<argument>...]
               gnu-tk (list | check [-t <name>]) [-s] [-i] [-q]
               gnu-tk (--help | --version) [-q]
 
@@ -52,13 +52,14 @@ static class Program
               --version            Show version.            
               -c --command         Execute a command using a GNU shell.
               -l --command-line    Execute a command line using a GNU shell.
-              -f --file            Execute a file using a GNU shell.
+              -f --file            Execute a script using a GNU shell.
+              -x --execute         Execute a file in a GNU environment.
               -t --toolkit=<name>  Use the specified GNU toolkit [default: auto].
               -s --strict          Use a toolkit with strict GNU semantics.
               -i --integrated      Use a toolkit that operates within the host environment.
               -p --posix           Enables POSIX-compliant behavior.
               -q --quiet           Do not print any auxiliary messages.
-                                                
+
             Commands:
               list                 List available GNU toolkits.
               check                Check a GNU toolkit.
@@ -139,8 +140,9 @@ static class Program
                 case ArgsCanonicalizationState.Option:
                     switch (arg)
                     {
-                        case ProgramOptions.ExecuteCommand or ProgramOptions.Shorthands.ExecuteCommand:
-                        case ProgramOptions.ExecuteCommandLine or ProgramOptions.Shorthands.ExecuteCommandLine:
+                        case ProgramOptions.ExecuteShellCommand or ProgramOptions.Shorthands.ExecuteShellCommand:
+                        case ProgramOptions.ExecuteShellCommandLine or ProgramOptions.Shorthands.ExecuteShellCommandLine:
+                        case ProgramOptions.ExecuteShellFile or ProgramOptions.Shorthands.ExecuteShellFile:
                         case ProgramOptions.ExecuteFile or ProgramOptions.Shorthands.ExecuteFile:
                             if (hasCommand)
                                 return [];
@@ -282,7 +284,7 @@ static class Program
         // Most frequently used options are handled first.
 
         // '-c' command-line option (execute a shell command).
-        if ((bool)arguments[ProgramOptions.ExecuteCommand])
+        if ((bool)arguments[ProgramOptions.ExecuteShellCommand])
         {
             string command = (string)arguments[ProgramOptions.Command];
             var commandArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
@@ -291,19 +293,28 @@ static class Program
         }
 
         // '-l' command-line option (execute a shell command line).
-        if ((bool)arguments[ProgramOptions.ExecuteCommandLine])
+        if ((bool)arguments[ProgramOptions.ExecuteShellCommandLine])
         {
             string command = GetCommandToExecute(arguments, commandLine);
             exitCode = engine.ExecuteShellCommandLine(command);
             return true;
         }
 
-        // '-f' command-line option (execute a shell file).
+        // '-f' command-line option (execute a shell script file).
+        if ((bool)arguments[ProgramOptions.ExecuteShellFile])
+        {
+            string scriptPath = (string)arguments[ProgramOptions.File];
+            var scriptArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
+            exitCode = engine.ExecuteShellFile(scriptPath, scriptArguments);
+            return true;
+        }
+
+        // '-x' command-line option (execute a file in a GNU environment).
         if ((bool)arguments[ProgramOptions.ExecuteFile])
         {
             string filePath = (string)arguments[ProgramOptions.File];
             var fileArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
-            exitCode = engine.ExecuteShellFile(filePath, fileArguments);
+            exitCode = engine.ExecuteFile(filePath, fileArguments);
             return true;
         }
 
@@ -375,7 +386,7 @@ static class Program
                             state = CommandExtractionState.Argument;
                             break;
 
-                        case ProgramOptions.ExecuteCommandLine or ProgramOptions.Shorthands.ExecuteCommandLine:
+                        case ProgramOptions.ExecuteShellCommandLine or ProgramOptions.Shorthands.ExecuteShellCommandLine:
                             j = (int)reader.Position;
                             state = CommandExtractionState.CaptureCommandLine;
                             break;

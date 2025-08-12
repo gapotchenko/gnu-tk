@@ -27,6 +27,11 @@ sealed class BusyBoxToolkit(
 
     public IToolkitFamily Family => family;
 
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
+    {
+        return ExecuteShellCommand("exec \"$0\" \"$@\"", [path, .. arguments], environment, options);
+    }
+
     public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         return ExecuteShell(["-e", "-o", "pipefail", "-c", command, .. arguments], environment);
@@ -41,6 +46,14 @@ sealed class BusyBoxToolkit(
         IEnumerable<string> arguments,
         IReadOnlyDictionary<string, string?> environment)
     {
+        return ExecuteApplet("sh", arguments, environment);
+    }
+
+    int ExecuteApplet(
+        string applet,
+        IEnumerable<string> arguments,
+        IReadOnlyDictionary<string, string?> environment)
+    {
         string busyboxPath = setupInstance.ResolvePath(setupInstance.ProductPath);
 
         var psi = new ProcessStartInfo
@@ -51,7 +64,7 @@ sealed class BusyBoxToolkit(
         ToolkitEnvironment.CombineWith(psi.Environment, environment);
 
         var busyboxArguments = psi.ArgumentList;
-        busyboxArguments.Add("sh");
+        busyboxArguments.Add(applet);
         busyboxArguments.AddRange(arguments);
 
         return ProcessHelper.Execute(psi);

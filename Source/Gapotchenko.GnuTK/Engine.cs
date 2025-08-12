@@ -131,9 +131,35 @@ sealed class Engine
     public int ExecuteShellFile(string path, IReadOnlyList<string> arguments)
     {
         var toolkit = GetToolkit();
-        if (path == "-")
+
+        if (path is "-")
             path = "/dev/stdin";
+
         return toolkit.ExecuteShellFile(
+            path,
+            PrepareCommandArguments(toolkit, arguments),
+            GetToolkitExecutionEnvironment(),
+            GetToolkitExecutionOptions());
+    }
+
+    /// <summary>
+    /// Executes the specified file in a GNU environment.
+    /// </summary>
+    /// <param name="path">The path of a file to execute.</param>
+    /// <param name="arguments">The arguments.</param>
+    /// <returns>The exit code.</returns>
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments)
+    {
+        var toolkit = GetToolkit();
+
+        if (path is "-")
+            path = "/dev/stdin";
+        else if (Path.GetDirectoryName(path) is [])
+            path = "./" + path;
+        else
+            path = toolkit.TranslateFilePath(path);
+
+        return toolkit.ExecuteFile(
             path,
             PrepareCommandArguments(toolkit, arguments),
             GetToolkitExecutionEnvironment(),

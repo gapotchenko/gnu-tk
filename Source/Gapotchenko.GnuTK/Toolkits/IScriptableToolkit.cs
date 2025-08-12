@@ -44,6 +44,19 @@ interface IScriptableToolkit : IToolkit
         ToolkitExecutionOptions options);
 
     /// <summary>
+    /// Executes the specified file in the toolkit's environment.
+    /// </summary>
+    /// <param name="path">The path of a file to execute.</param>
+    /// <param name="arguments">The arguments.</param>
+    /// <param name="options">The options.</param>
+    /// <returns>The exit code.</returns>
+    int ExecuteFile(
+        string path,
+        IReadOnlyList<string> arguments,
+        IReadOnlyDictionary<string, string?> environment,
+        ToolkitExecutionOptions options);
+
+    /// <summary>
     /// Translates the specified file path to the toolkit's format.
     /// </summary>
     /// <param name="path">The file path to translate in the host format.</param>

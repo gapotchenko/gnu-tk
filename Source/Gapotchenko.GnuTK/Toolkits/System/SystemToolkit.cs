@@ -38,20 +38,7 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
 
     static int ExecuteShell(IEnumerable<string> arguments, IReadOnlyDictionary<string, string?> environment)
     {
-        string envPath = GetEnvPath();
-
-        var psi = new ProcessStartInfo
-        {
-            FileName = envPath
-        };
-
-        ToolkitEnvironment.CombineWith(psi.Environment, environment);
-
-        var args = psi.ArgumentList;
-        args.Add("sh");
-        args.AddRange(arguments);
-
-        return ProcessHelper.Execute(psi);
+        return ExecuteFileCore(GetEnvPath(), ["sh", .. arguments], environment);
     }
 
     static string GetEnvPath()
@@ -60,6 +47,25 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
         if (!File.Exists(envPath))
             throw new ProgramException(DiagnosticMessages.ModuleNotFound(envPath));
         return envPath;
+    }
+
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
+    {
+        return ExecuteFileCore(path, arguments, environment);
+    }
+
+    static int ExecuteFileCore(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment)
+    {
+        var psi = new ProcessStartInfo
+        {
+            FileName = path
+        };
+
+        ToolkitEnvironment.CombineWith(psi.Environment, environment);
+
+        psi.ArgumentList.AddRange(arguments);
+
+        return ProcessHelper.Execute(psi);
     }
 
     public string TranslateFilePath(string path) => path;

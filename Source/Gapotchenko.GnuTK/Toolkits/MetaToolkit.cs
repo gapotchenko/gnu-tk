@@ -61,6 +61,15 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
             options);
     }
 
+    public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
+    {
+        return scriptableToolkit.ExecuteFile(
+            path,
+            arguments,
+            GetCombinedEnvironment(environment),
+            options);
+    }
+
     IReadOnlyDictionary<string, string?> GetCombinedEnvironment(IReadOnlyDictionary<string, string?> environment) =>
         m_ToolkitEnvironments
         .Select(x => x.Environment)

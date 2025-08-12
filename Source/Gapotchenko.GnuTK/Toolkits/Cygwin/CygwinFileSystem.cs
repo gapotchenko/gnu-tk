@@ -35,7 +35,7 @@ static class CygwinFileSystem
         }
         else
         {
-            return path;
+            return path.Replace(Path.DirectorySeparatorChar, '/');
         }
     }
 }
