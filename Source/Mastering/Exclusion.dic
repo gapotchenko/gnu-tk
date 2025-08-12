@@ -1,13 +1,11 @@
+binutils
+busybox
+coreutils
 cygwin
 immersively
-msys
 msys
 posix
 posixify
 posixly
 shorthands
 ucrt
-busybox
-coreutils
-binutils
-busybox
