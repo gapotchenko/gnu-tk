@@ -6,7 +6,7 @@
 
 Release date: August 12, 2025
 
-- Added ability to execute an arbitrary file in a GNU environment
+- Added ability to execute an arbitrary file in GNU environment with `-x` (`--execute`) option
 - Child processes spawned by `gnu-tk` tool have `GNU_TK_VERSION` environment variable set, enabling identification of GNU environments managed by GNU-TK
 - For MSYS2 toolkits, MSYS2 environment installation path is used as the toolkit location
 - Fixed issue in NPM package that prevented `gnu-tk` from working with Node v18.x
