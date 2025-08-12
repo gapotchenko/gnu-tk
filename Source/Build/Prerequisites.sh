@@ -1,4 +1,4 @@
-#!gnu-tk -f
+#!/bin/sh
 
 # Installs system-dependent development prerequisites.
 
