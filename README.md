@@ -280,7 +280,7 @@ All commands within the script will run inside that shell with access to GNU too
 
 - The shebang (`#!gnu-tk`) must be the first line of the script
 - Ensure the `gnu-tk` command is available in your system's PATH
-- On Windows, shebang lines are typically ignored, but the script can still be executed via `gnu-tk -i -l exec <script-file>`
+- On Windows, shebang lines are typically ignored, but the file can be executed in a GNU environment via `gnu-tk -i -l exec <file>` command
 - Some tools support shebang lines even on Windows. For example: `just`
 
 ### Cosmopolitan Shebang
