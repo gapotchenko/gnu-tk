@@ -63,6 +63,7 @@ format:
     fd -e sh -x shfmt -i 4 -l -w
     echo "Formatting **/justfile..."
     fd --glob justfile -x just --unstable --fmt --justfile
+    cd Source/Mastering && sort -u Exclusion.dic | sponge Exclusion.dic
 
 # Build release artifacts
 build:
