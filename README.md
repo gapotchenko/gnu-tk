@@ -262,7 +262,7 @@ run:
     cp --help
 ```
 
-And if you would like to write your `just` recipes in another language – say, Python:
+And if you would like to write your cross-platform `just` recipes in another language – say, Python:
 
 ```just
 run:
