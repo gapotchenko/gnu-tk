@@ -290,12 +290,12 @@ By default, `gnu-tk` uses `sh` shell to execute scripts and commands.
 A cosmopolitan shebang is a shebang designed for maximum portability across all operating systems supported by GNU-TK.
 It is composed of two parts:
 
-1. **GNU-TK part** – always fixed:
+1. **GNU-TK part** â€“ always fixed:
   ```sh
   gnu-tk -i -l
   ```
 
-2. **Portable Unix part** – the canonical way to invoke the desired tool on Unix-like systems.
+2. **Portable Unix part** â€“ the canonical way to invoke the desired tool on Unix-like systems.
 
 Examples:
 
