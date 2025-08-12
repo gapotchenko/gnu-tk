@@ -253,20 +253,11 @@ run:
     cp --help
 ```
 
-You can also achieve the same effect with the shebang syntax:
-
-```just
-run:
-    #!gnu-tk -i -l /bin/sh -eu
-    echo Just hello
-    cp --help
-```
-
 And if you would like to write your cross-platform `just` recipes in another language – say, Python:
 
 ```just
+[script("gnu-tk", "-i", "-l", "/usr/bin/env", "python3")]
 run:
-    #!gnu-tk -i -l /usr/bin/env python3
     print("Hello from Python script")
 ```
 
