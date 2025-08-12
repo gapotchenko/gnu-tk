@@ -24,18 +24,18 @@
   <Choose>
     <When Condition=" '$(TargetFormFactor)' == 'NuGet' ">
       <PropertyGroup>
-        <GnuTKConfigurationFile>Gapotchenko.GnuTK.NuGet.ini</GnuTKConfigurationFile>
+        <GnuTKConfigurationFile>NuGet.ini</GnuTKConfigurationFile>
       </PropertyGroup>
     </When>
     <Otherwise>
       <PropertyGroup>
-        <GnuTKConfigurationFile>Gapotchenko.GnuTK.Development.ini</GnuTKConfigurationFile>
+        <GnuTKConfigurationFile>Development.ini</GnuTKConfigurationFile>
       </PropertyGroup>
     </Otherwise>
   </Choose>
 
   <ItemGroup>
-    <None Update="$(GnuTKConfigurationFile)" TargetPath="Gapotchenko.GnuTK.ini">
+    <None Update="Configuration/$(GnuTKConfigurationFile)" TargetPath="Gapotchenko.GnuTK.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
