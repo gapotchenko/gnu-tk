@@ -11,7 +11,7 @@ pack:
     cp gnu-tk/package.json obj/package.json
     @cd gnu-tk && npm version 0.0.0-reset > /dev/null
     cd gnu-tk && npm version `xq ../../../Mastering/.NET/Version.props -x //Project/PropertyGroup/Version`
-    cd gnu-tk && npm pkg delete devDependencies scripts.format
+    cd gnu-tk && npm pkg delete devDependencies scripts
     npm pack ./gnu-tk --pack-destination bin
     mv -f obj/package.json gnu-tk/package.json
 
