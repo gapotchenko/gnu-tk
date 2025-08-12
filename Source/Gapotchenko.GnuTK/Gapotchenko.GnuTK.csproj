@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <None Include="../../README.md" Pack="true" PackagePath="/" Visible="false" />
-    <None Include="../../Toolkits/**" Exclude="**/*.md;**/SHA256SUMS" Pack="true" PackagePath="x-data/Toolkits/" Visible="false" />
+    <None Include="../../Toolkits/**" Exclude="../../Toolkits/*.md;**/SHA256SUMS" Pack="true" PackagePath="x-data/Toolkits/" Visible="false" />
   </ItemGroup>
 
   <!-- Configuration file -->

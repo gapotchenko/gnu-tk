@@ -8,4 +8,4 @@ basePath=../../../../Toolkits
 # BusyBox
 
 mkdir toolkits/busybox
-cp -r -l "$basePath/BusyBox"/*-* toolkits/busybox
+cp -r -l "$basePath/BusyBox"/{*-*,*.md} toolkits/busybox
