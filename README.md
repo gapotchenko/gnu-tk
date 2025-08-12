@@ -245,7 +245,7 @@ In such cases, a more gradual approach using the `[script]` attribute may be pre
 
 ```just
 set windows-shell := ["cmd", "/c"]
-set script-interpreter := ["gnu-tk", "-i", "-l", "sh", "-eu"]
+set script-interpreter := ["gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
 
 [script]
 run:
@@ -257,7 +257,7 @@ Alternatively, this can be done using the shebang syntax:
 
 ```just
 run:
-    #!gnu-tk -i -l sh -eu
+    #!gnu-tk -i -l /bin/sh -eu
     echo Just hello
     cp --help
 ```
