@@ -280,15 +280,45 @@ All commands within the script will run inside that shell with access to GNU too
 
 - The shebang (`#!gnu-tk`) must be the first line of the script
 - Ensure the `gnu-tk` command is available in your system's PATH
-- On Windows, shebang lines are typically ignored, but the script can still be executed via `gnu-tk -i -f <script-file>`
+- On Windows, shebang lines are typically ignored, but the script can still be executed via `gnu-tk -i -l exec <script-file>`
 - Some tools support shebang lines even on Windows. For example: `just`
 
-By default, `gnu-tk` uses `sh` shell to execute commands.
-If you prefer a different shell such as `bash`, simply adjust the shebang line accordingly:
+By default, `gnu-tk` uses `sh` shell to execute scripts and commands.
 
-```sh
-#!gnu-tk -i -l bash
+#### Cosmopolitan Shebangs
 
-echo "Hello from GNU Bash"
-cp --help
-```
+A cosmopolitan shebang is a shebang designed for maximum portability across all operating systems supported by GNU-TK.
+It is composed of two parts:
+
+1. **GNU-TK part** – always fixed:
+  ```sh
+  gnu-tk -i -l
+  ```
+
+2. **Portable Unix part** – the canonical way to invoke the desired tool on Unix-like systems.
+
+Examples:
+
+- **Bash shell**
+
+  ```sh
+  #!gnu-tk -i -l /usr/bin/env bash
+
+  echo "Hello from Bash shell"
+  ```
+
+- **POSIX sh shell**
+
+  ```sh
+  #!gnu-tk -i -l /bin/sh
+
+  echo "Hello from POSIX sh shell"
+  ```
+
+- **Python**
+
+  ```python
+  #!gnu-tk -i -l /usr/bin/env python
+
+  print("Hello from Python")
+  ```
