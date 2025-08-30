@@ -12,7 +12,7 @@ set unstable := true
 # Shells & Interpreters
 # ---------------------------------------------------------------------------
 
-set windows-shell := ["cmd", "/c"]
+set windows-shell := ["powershell", "-c"]
 set script-interpreter := ["gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
 
 # ---------------------------------------------------------------------------
@@ -76,7 +76,7 @@ rebuild:
 clean:
     dotnet clean -c Debug
     dotnet clean -c Release
-    cd Packaging && just clean
+    cd Packaging; just clean
 
 # Run all tests
 [group("diagnostics")]
@@ -93,22 +93,22 @@ platform-build: _publish-aot
 
 [linux]
 _publish-aot:
-    if [ "$(uname -m)" = "x86_64" ]; then cd Gapotchenko.GnuTK && dotnet publish -c Release -p:PublishAot=true -r linux-x64 -f "{{dotnet-framework}}"; fi
-    if [ "$(uname -m)" = "aarch64" ]; then cd Gapotchenko.GnuTK && dotnet publish -c Release -p:PublishAot=true -r linux-arm64 -f "{{dotnet-framework}}"; fi
+    if [ "$(uname -m)" = "x86_64" ]; then cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r linux-x64 -f "{{dotnet-framework}}"; fi
+    if [ "$(uname -m)" = "aarch64" ]; then cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r linux-arm64 -f "{{dotnet-framework}}"; fi
 
 [windows]
 _publish-aot:
-    cd Gapotchenko.GnuTK && dotnet publish -c Release -p:PublishAot=true -r win-x64 -f "{{dotnet-framework}}"
-    cd Gapotchenko.GnuTK && dotnet publish -c Release -p:PublishAot=true -r win-arm64 -f "{{dotnet-framework}}"
+    cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r win-x64 -f "{{dotnet-framework}}"
+    cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r win-arm64 -f "{{dotnet-framework}}"
 
 [macos]
 _publish-aot:
-    cd Gapotchenko.GnuTK && dotnet publish -c Release -p:PublishAot=true -r osx-arm64 -f "{{dotnet-framework}}"
-    cd Gapotchenko.GnuTK && dotnet publish -c Release -p:PublishAot=true -r osx-x64 -f "{{dotnet-framework}}"
+    cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r osx-arm64 -f "{{dotnet-framework}}"
+    cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r osx-x64 -f "{{dotnet-framework}}"
 
 # Produce platform-dependent publishable artifacts
 platform-publish:
-    cd Packaging && just pack
+    cd Packaging; just pack
 
 # List GNU toolkits
 [group("diagnostics")]
