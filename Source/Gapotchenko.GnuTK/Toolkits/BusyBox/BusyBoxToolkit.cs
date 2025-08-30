@@ -29,6 +29,7 @@ sealed class BusyBoxToolkit(
 
     public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
+        // 'exec' replaces the current shell process with the specified program or command.
         return ExecuteShellCommand("exec \"$0\" \"$@\"", [path, .. arguments], environment, options);
     }
 

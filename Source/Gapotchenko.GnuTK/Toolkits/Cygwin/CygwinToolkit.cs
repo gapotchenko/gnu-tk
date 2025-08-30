@@ -33,12 +33,13 @@ sealed class CygwinToolkit(
 
     public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
+        // 'exec' replaces the current shell process with the specified program or command.
         return ExecuteShellCommand("exec \"$0\" \"$@\"", [path, .. arguments], environment, options);
     }
 
     public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
-        // The 'sh' shell of Cygwin is 'bash' in disguise.
+        // The POSIX shell of Cygwin is Bash in disguise.
         return ExecuteShell(command, arguments, environment, ["-e", "-o", "pipefail"]);
     }
 
