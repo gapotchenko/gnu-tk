@@ -46,12 +46,11 @@ develop:
 
 # Install development prerequisites
 [group("development")]
-[working-directory("..")]
 prerequisites:
     go install github.com/sibprogrammer/xq@latest
     npm install -g prettier
     go install mvdan.cc/sh/v3/cmd/shfmt@latest
-    gnu-tk -i -f Source/Build/Prerequisites.sh
+    gnu-tk -i -x Build/Prerequisites.sh
 
 # Format source code
 [group("development")]
@@ -63,7 +62,7 @@ format:
     fd -e sh -x shfmt -i 4 -l -w
     echo 'Formatting **/justfile...'
     fd --glob justfile -x just --unstable --fmt --justfile
-    cd Source/Mastering && sort -u Exclusion.dic | sponge Exclusion.dic
+    (cd Source/Mastering; cat Exclusion.dic | tr '[:upper:]' '[:lower:]' | sort -u | sponge Exclusion.dic)
 
 # Build release artifacts
 build:

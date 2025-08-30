@@ -260,4 +260,3 @@ And if you would like to write your cross-platform `just` recipes in another lan
 run:
     print("Hello from Python script")
 ```
-
