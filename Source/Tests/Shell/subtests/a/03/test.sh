@@ -2,7 +2,7 @@
 
 set -eu
 
-echo Test A03
+echo "Test A03"
 
 # Tests arguments passing for script file.
 

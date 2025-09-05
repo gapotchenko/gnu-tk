@@ -2,7 +2,7 @@
 
 set -eu
 
-echo "Test Group A"
+echo "== Test Group A =="
 
 (cd 01 && ./test.sh)
 (cd 02 && ./test.sh)

@@ -2,7 +2,7 @@
 
 set -eu
 
-echo Test B01
+echo "Test B01"
 
 # Tests mapping of file path arguments between the host and GNU environments.
 

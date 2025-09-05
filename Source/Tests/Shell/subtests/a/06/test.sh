@@ -2,7 +2,7 @@
 
 set -eu
 
-echo Test A06
+echo "Test A06"
 
 # Tests exit code passing for command line.
 

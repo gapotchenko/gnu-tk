@@ -2,6 +2,6 @@
 
 set -eu
 
-echo "Test Group B"
+echo "== Test Group B =="
 
 (cd 01 && ./test.sh)

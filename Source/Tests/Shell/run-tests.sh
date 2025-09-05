@@ -19,7 +19,7 @@ gnu-tk.sh --version
 gnu-tk.sh check -q
 
 echo
-echo Running subtests...
+echo "Running subtests..."
 echo
 
 export GNU_TK_TEST_FILE_ASSET
@@ -27,9 +27,14 @@ export GNU_TK_TEST_FILE_ASSET
 (cd subtests && ./run.sh) || {
     rc=$?
     echo >&2
-    echo "TEST FAILED" >&2
+    echo "===============" >&2
+    echo "  TEST FAILED" >&2
+    echo "===============" >&2
     exit "$rc"
 }
 
 echo
-echo "TESTS PASSED"
+
+echo "===================="
+echo "  ALL TESTS PASSED"
+echo "===================="

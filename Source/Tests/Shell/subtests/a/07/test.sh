@@ -2,7 +2,7 @@
 
 set -eu
 
-echo Test A07
+echo "Test A07"
 
 # Tests exit code passing for script file.
 

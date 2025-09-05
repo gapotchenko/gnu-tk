@@ -2,7 +2,7 @@
 
 set -eu
 
-echo Test A04
+echo "Test A04"
 
 # Tests default value of 0th command argument.
 
