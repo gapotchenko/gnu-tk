@@ -9,7 +9,7 @@ echo Test A07
 run_test() {
     expected=$1
     actual=0
-    $(gnu-tk.sh -f script.sh $expected) || actual=$?
+    gnu-tk.sh -f script.sh "$expected" || actual=$?
 
     if [ "$actual" != "$expected" ]; then
         echo "Unexpected: $actual"

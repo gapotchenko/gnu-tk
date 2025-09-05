@@ -2,4 +2,4 @@
 
 set -eu
 
-echo $*
+echo "$@"

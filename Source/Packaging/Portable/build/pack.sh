@@ -43,7 +43,7 @@ pack_unix() {
 
     echo "$output_file_name:"
     cd "obj/$platform"
-    tar czvf "../../bin/$output_file_name" * | sed 's_^_  adding: _'
+    tar czvf "../../bin/$output_file_name" -- * | sed 's_^_  adding: _'
     cd ../..
 }
 
@@ -66,4 +66,4 @@ pack_unix macos-arm64 osx-arm64
 cd bin
 
 echo "Calculating checksums..."
-sha256sum -b * | tr '*' ' ' >SHA256SUMS
+sha256sum -b -- * | tr '*' ' ' >SHA256SUMS
