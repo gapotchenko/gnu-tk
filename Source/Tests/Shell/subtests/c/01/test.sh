@@ -2,7 +2,7 @@
 
 set -eu
 
-echo Test A08
+echo Test C01
 
 # Tests value of GNU_TK_VERSION environment variable.
 

@@ -2,12 +2,14 @@
 
 set -eu
 
+cd "$(dirname "$(readlink -fn -- "$0")")"
+
 GNU_TK_TEST_FILE_ASSET="${1-}"
-if [ -n "$GNU_TK_TEST_FILE_ASSET" ]; then
+if [ -z "$GNU_TK_TEST_FILE_ASSET" ]; then
+    GNU_TK_TEST_FILE_ASSET="$(pwd)/assets/file.txt"
+else
     GNU_TK_TEST_FILE_ASSET="$(readlink -fn -- "$GNU_TK_TEST_FILE_ASSET")"
 fi
-
-cd "$(dirname "$(readlink -fn -- "$0")")"
 
 find . -type f -name "*.sh" -exec chmod +x {} \;
 export PATH="$PATH:$(pwd)/tools"
@@ -29,4 +31,4 @@ export GNU_TK_TEST_FILE_ASSET
 }
 
 echo
-echo "TEST PASSED"
+echo "TESTS PASSED"

@@ -5,3 +5,5 @@ set -eu
 (cd a && ./run.sh)
 echo
 (cd b && ./run.sh)
+echo
+(cd c && ./run.sh)

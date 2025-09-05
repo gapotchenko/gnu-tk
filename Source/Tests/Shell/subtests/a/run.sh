@@ -11,4 +11,3 @@ echo "Test Group A"
 (cd 05 && ./test.sh)
 (cd 06 && ./test.sh)
 (cd 07 && ./test.sh)
-(cd 08 && ./test.sh)
