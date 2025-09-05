@@ -7,3 +7,5 @@ echo
 (cd b && ./run.sh)
 echo
 (cd c && ./run.sh)
+echo
+(cd d && ./run.sh)
