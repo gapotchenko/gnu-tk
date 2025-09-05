@@ -12,7 +12,8 @@ else
 fi
 
 find . -type f -name "*.sh" -exec chmod +x {} \;
-export PATH="$PATH:$(pwd)/tools"
+PATH="$PATH:$(pwd)/tools"
+export PATH
 
 gnu-tk.sh --version
 gnu-tk.sh check -q

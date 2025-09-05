@@ -1,3 +1,5 @@
+#!/bin/sh
+
 set -eu
 
 cd ..
@@ -15,7 +17,7 @@ pack_windows() {
     rid=${2:-$platform}
     output_file_name="gnu-tk-$version-$platform.zip"
 
-    mkdir obj/$platform
+    mkdir "obj/$platform"
     cp -l "$basePath/$rid/publish/Gapotchenko.GnuTK.exe" "obj/$platform/gnu-tk.exe"
     cp -l "$repoPath/LICENSE" "obj/$platform/LICENSE.txt"
     cp -l "$repoPath/README.md" "obj/$platform/"
@@ -32,7 +34,7 @@ pack_unix() {
     rid=${2:-$platform}
     output_file_name="gnu-tk-$version-$platform.tar.gz"
 
-    mkdir obj/$platform
+    mkdir "obj/$platform"
     cp -l "$basePath/$rid/publish/Gapotchenko.GnuTK" "obj/$platform/gnu-tk"
     chmod +x "obj/$platform/gnu-tk"
     cp -l "$repoPath/LICENSE" "obj/$platform/"
