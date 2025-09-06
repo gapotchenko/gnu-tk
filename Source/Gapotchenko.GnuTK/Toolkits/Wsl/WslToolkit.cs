@@ -56,7 +56,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
     public int ExecuteShellFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         return ExecuteShell(
-            "exec sh \"`wslpath \"$0\"`\" \"$@\"",
+            "exec sh \"$(wslpath \"$0\")\" \"$@\"",
             [NormalizePath(path), .. arguments],
             environment,
             null);
