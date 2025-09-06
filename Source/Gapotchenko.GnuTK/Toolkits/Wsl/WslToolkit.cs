@@ -37,18 +37,26 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
     public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         // 'exec' replaces the current shell process with the specified program or command.
-        return ExecuteShellCommand("exec \"$0\" \"$@\"", [path, .. arguments], environment, options);
+        return ExecuteShellCommand(
+            "exec \"$0\" \"$@\"",
+            [path, .. arguments],
+            environment,
+            options);
     }
 
     public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
-        return ExecuteShell(command, arguments, environment, ["-e"]);
+        return ExecuteShell(
+            command,
+            arguments,
+            environment,
+            ["-e"]);
     }
 
     public int ExecuteShellFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         return ExecuteShell(
-            "sh \"`wslpath \"$0\"`\" \"$@\"",
+            "exec sh \"`wslpath \"$0\"`\" \"$@\"",
             [NormalizePath(path), .. arguments],
             environment,
             null);

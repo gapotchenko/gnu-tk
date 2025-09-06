@@ -30,17 +30,25 @@ sealed class BusyBoxToolkit(
     public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         // 'exec' replaces the current shell process with the specified program or command.
-        return ExecuteShellCommand("exec \"$0\" \"$@\"", [path, .. arguments], environment, options);
+        return ExecuteShellCommand(
+            "exec \"$0\" \"$@\"",
+            [path, .. arguments],
+            environment,
+            options);
     }
 
     public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
-        return ExecuteShell(["-e", "-o", "pipefail", "-c", command, .. arguments], environment);
+        return ExecuteShell(
+            ["-e", "-o", "pipefail", "-c", command, .. arguments],
+            environment);
     }
 
     public int ExecuteShellFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
-        return ExecuteShell([path, .. arguments], environment);
+        return ExecuteShell(
+            [path, .. arguments],
+            environment);
     }
 
     int ExecuteShell(

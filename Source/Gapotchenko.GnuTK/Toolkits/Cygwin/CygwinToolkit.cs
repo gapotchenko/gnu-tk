@@ -54,7 +54,7 @@ sealed class CygwinToolkit(
     public int ExecuteShellFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         return ExecuteShell(
-            "sh \"$0\" \"$@\"",
+            "exec sh \"$0\" \"$@\"",
             [path, .. arguments],
             environment,
             null);

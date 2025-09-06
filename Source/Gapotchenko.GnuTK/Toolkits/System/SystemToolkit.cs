@@ -28,17 +28,27 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
 
     public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
-        return ExecuteShell(["-e", "-c", command, .. arguments], environment);
+        return ExecuteShell(
+            ["-e", "-c", command, .. arguments],
+            environment,
+            options);
     }
 
     public int ExecuteShellFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
-        return ExecuteShell([path, .. arguments], environment);
+        return ExecuteShell(
+            [path, .. arguments],
+            environment,
+            options);
     }
 
-    static int ExecuteShell(IEnumerable<string> arguments, IReadOnlyDictionary<string, string?> environment)
+    int ExecuteShell(IEnumerable<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
-        return ExecuteFileCore(GetEnvPath(), ["sh", .. arguments], environment);
+        return ExecuteFile(
+            GetEnvPath(),
+            ["sh", .. arguments],
+            environment,
+            options);
     }
 
     static string GetEnvPath()
@@ -50,11 +60,6 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
     }
 
     public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
-    {
-        return ExecuteFileCore(path, arguments, environment);
-    }
-
-    static int ExecuteFileCore(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment)
     {
         var psi = new ProcessStartInfo
         {
