@@ -36,7 +36,7 @@ sealed class CygwinToolkit(
         // 'exec' replaces the current shell process with the specified program or command.
         return ExecuteShellCommand(
             "exec \"$0\" \"$@\"",
-            [path, .. arguments.Select(CygwinIdiosyncrasies.AdjustArgument)],
+            [path, .. arguments],
             environment,
             options);
     }
@@ -45,8 +45,8 @@ sealed class CygwinToolkit(
     {
         // The POSIX shell of Cygwin is Bash in disguise.
         return ExecuteShell(
-            CygwinIdiosyncrasies.AdjustShellCommand(command),
-            [.. arguments.Select(CygwinIdiosyncrasies.AdjustArgument)],
+            command,
+            arguments,
             environment,
             ["-e", "-o", "pipefail"]);
     }
@@ -55,7 +55,7 @@ sealed class CygwinToolkit(
     {
         return ExecuteShell(
             "sh \"$0\" \"$@\"",
-            [path, .. arguments.Select(CygwinIdiosyncrasies.AdjustArgument)],
+            [path, .. arguments],
             environment,
             null);
     }
