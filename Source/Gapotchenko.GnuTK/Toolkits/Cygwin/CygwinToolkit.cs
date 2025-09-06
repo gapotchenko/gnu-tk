@@ -34,18 +34,30 @@ sealed class CygwinToolkit(
     public int ExecuteFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         // 'exec' replaces the current shell process with the specified program or command.
-        return ExecuteShellCommand("exec \"$0\" \"$@\"", [path, .. arguments], environment, options);
+        return ExecuteShellCommand(
+            "exec \"$0\" \"$@\"",
+            [path, .. arguments.Select(CygwinIdiosyncrasies.AdjustArgument)],
+            environment,
+            options);
     }
 
     public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
         // The POSIX shell of Cygwin is Bash in disguise.
-        return ExecuteShell(command, arguments, environment, ["-e", "-o", "pipefail"]);
+        return ExecuteShell(
+            CygwinIdiosyncrasies.AdjustShellCommand(command),
+            [.. arguments.Select(CygwinIdiosyncrasies.AdjustArgument)],
+            environment,
+            ["-e", "-o", "pipefail"]);
     }
 
     public int ExecuteShellFile(string path, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
     {
-        return ExecuteShell("sh \"$0\" \"$@\"", [path, .. arguments], environment, null);
+        return ExecuteShell(
+            "sh \"$0\" \"$@\"",
+            [path, .. arguments.Select(CygwinIdiosyncrasies.AdjustArgument)],
+            environment,
+            null);
     }
 
     int ExecuteShell(

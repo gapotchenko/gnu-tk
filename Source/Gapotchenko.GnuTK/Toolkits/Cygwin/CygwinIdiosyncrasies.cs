@@ -12,6 +12,11 @@ namespace Gapotchenko.GnuTK.Toolkits.Cygwin;
 /// </summary>
 static class CygwinIdiosyncrasies
 {
+    public static string AdjustShellCommand(string value)
+    {
+        return AdjustArgument(value);
+    }
+
     /// <summary>
     /// Adjusts a command-line argument before passing it to a Cygwin-based
     /// toolkit, correcting distortions introduced by Cygwin.
@@ -28,13 +33,10 @@ static class CygwinIdiosyncrasies
     /// Reasons of that behavior are not well understood and remain a mystery.
     /// </para>
     /// </remarks>
-    [return: NotNullIfNotNull(nameof(value))]
-    public static string? AdjustArgument(string? value)
+    public static string AdjustArgument(string value)
     {
-        if (string.IsNullOrEmpty(value))
-            return value;
-        else
+        return value
             // "Undo" the distortions made by Cygwin.
-            return value.Replace(@"\", @"\\", StringComparison.Ordinal);
+            .Replace(@"\", @"\\", StringComparison.Ordinal);
     }
 }
