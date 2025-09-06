@@ -64,44 +64,6 @@ sealed class Engine
     public bool Quiet { get; init; }
 
     /// <summary>
-    /// Executes the specified shell command line.
-    /// </summary>
-    /// <param name="command">The shell command line to execute.</param>
-    /// <returns>The exit code.</returns>
-    public int ExecuteShellCommandLine(string commandLine)
-    {
-        var toolkit = GetToolkit();
-
-        string command;
-        if (toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.FilePathTranslation))
-        {
-            IReadOnlyList<string> parts = [.. CommandLine.Split(commandLine)];
-            IReadOnlyList<string> newParts = [.. parts.Select(part => TranslateFilePath(toolkit, part))];
-            if (newParts.SequenceEqual(parts, StringComparer.Ordinal))
-            {
-                // Minimize command line reconstruction which may introduce inaccuracies otherwise.
-
-                // An example of reconstruction inaccuracy is command-line arguments containing '*' characters.
-                // From the standpoint of escaping, such arguments should be quoted,
-                // but this would change the semantics of a '*' character which signifies a file mask in Unix.
-                // File masks are expanded by a command shell unless a string containing them is quoted.
-
-                command = commandLine;
-            }
-            else
-            {
-                command = CommandLine.Build(newParts);
-            }
-        }
-        else
-        {
-            command = commandLine;
-        }
-
-        return ExecuteShellCommandCore(toolkit, command, []);
-    }
-
-    /// <summary>
     /// Executes the specified shell command.
     /// </summary>
     /// <param name="command">The shell command to execute.</param>
@@ -110,16 +72,21 @@ sealed class Engine
     public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments)
     {
         var toolkit = GetToolkit();
-        return ExecuteShellCommandCore(toolkit, command, PrepareCommandArguments(toolkit, arguments));
-    }
-
-    int ExecuteShellCommandCore(IScriptableToolkit toolkit, string command, IReadOnlyList<string> arguments)
-    {
         return toolkit.ExecuteShellCommand(
             command,
-            arguments,
+            PrepareCommandArguments(toolkit, arguments),
             GetToolkitExecutionEnvironment(),
             GetToolkitExecutionOptions());
+    }
+
+    /// <summary>
+    /// Executes the specified shell command line.
+    /// </summary>
+    /// <param name="arguments">The shell command-line arguments.</param>
+    /// <returns>The exit code.</returns>
+    public int ExecuteShellCommandLine(IReadOnlyList<string> arguments)
+    {
+        return ExecuteShellCommand("\"$0\" \"$@\"", arguments);
     }
 
     /// <summary>

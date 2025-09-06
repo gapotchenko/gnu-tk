@@ -65,24 +65,14 @@ static class Program
               check                Check a GNU toolkit.
             """;
 
-        // Capture the string representation of a command line.
-        string? commandLine = args is [] ? null : Environment.CommandLine;
-
-        var expandedArgs = ExpandArgs(args);
-        if (expandedArgs != args)
-        {
-            // The string command line representation is no longer valid.
-            commandLine = null;
-        }
-
         var parsedArguments =
-            CliServices.TryParseArguments(CanonicalizeArgs(expandedArgs), usage) ??
+            CliServices.TryParseArguments(CanonicalizeArgs(ExpandArgs(args)), usage) ??
             throw new DiagnosticException("Invalid program arguments.", DiagnosticCode.InvalidProgramArguments);
 
         if (UIShell.Run(args, parsedArguments, usage, out int exitCode))
             return exitCode;
         else
-            return RunCore(parsedArguments, commandLine);
+            return RunCore(parsedArguments);
     }
 
     #region Program arguments expansion & canonicalization
@@ -215,12 +205,12 @@ static class Program
     #endregion
 
     [MethodImpl(MethodImplOptions.NoInlining)] // avoid premature initialization of types
-    static int RunCore(IReadOnlyDictionary<string, object> arguments, string? commandLine)
+    static int RunCore(IReadOnlyDictionary<string, object> arguments)
     {
         // Initialize a GNU-TK engine.
         var engine = InitializeEngine(arguments);
 
-        if (RunEngine(engine, arguments, commandLine, out int exitCode))
+        if (RunEngine(engine, arguments, out int exitCode))
             return exitCode;
 
         throw new InternalException("Unhandled command-line arguments.");
@@ -279,7 +269,7 @@ static class Program
         }
     }
 
-    static bool RunEngine(Engine engine, IReadOnlyDictionary<string, object> arguments, string? commandLine, out int exitCode)
+    static bool RunEngine(Engine engine, IReadOnlyDictionary<string, object> arguments, out int exitCode)
     {
         // Most frequently used options are handled first.
 
@@ -295,8 +285,8 @@ static class Program
         // '-l' command-line option (execute a shell command line).
         if ((bool)arguments[ProgramOptions.ExecuteShellCommandLine])
         {
-            string command = GetCommandToExecute(arguments, commandLine);
-            exitCode = engine.ExecuteShellCommandLine(command);
+            var commandLineArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
+            exitCode = engine.ExecuteShellCommandLine(commandLineArguments);
             return true;
         }
 
@@ -335,88 +325,5 @@ static class Program
 
         exitCode = default;
         return false;
-    }
-
-    static string GetCommandToExecute(IReadOnlyDictionary<string, object> arguments, string? commandLine)
-    {
-        if (commandLine != null)
-        {
-            // On Windows, a command line is natively represented as a single string.
-            // Take advantage of this by extracting the required information directly
-            // from the string form of the command line. Otherwise, it would need to
-            // be reconstructed, which could introduce inaccuracies.
-            return ExtractCommandToExecute(commandLine).ToString();
-        }
-        else
-        {
-            // Build a command from the specified command-line arguments.
-            return CommandLine.Build((IEnumerable<string>)arguments[ProgramOptions.Arguments]);
-        }
-    }
-
-    /// <summary>
-    /// Extracts a command to execute from the specified command line string.
-    /// </summary>
-    static ReadOnlySpan<char> ExtractCommandToExecute(string commandLine)
-    {
-        var reader = new PositionTrackingTextReader(new StringReader(commandLine));
-        using var enumerator = CommandLine.Split(reader).GetEnumerator();
-
-        var state = CommandExtractionState.Argument; // skip the name of executable
-        int j = -1;
-
-        // Interpret command-line arguments using a state machine.
-        while (enumerator.MoveNext())
-        {
-            switch (state)
-            {
-                case CommandExtractionState.Option:
-                    switch (enumerator.Current)
-                    {
-                        case ProgramOptions.Strict or ProgramOptions.Shorthands.Strict:
-                        case ProgramOptions.Integrated or ProgramOptions.Shorthands.Integrated:
-                        case ProgramOptions.Posix or ProgramOptions.Shorthands.Posix:
-                        case "-sp": // strict + posix
-                        case "-si": // strict + integrated
-                        case "-sip": // strict + integrated + posix
-                        case "-ip": // integrated + posix
-                            break;
-
-                        case ProgramOptions.Toolkit or ProgramOptions.Shorthands.Toolkit:
-                            state = CommandExtractionState.Argument;
-                            break;
-
-                        case ProgramOptions.ExecuteShellCommandLine or ProgramOptions.Shorthands.ExecuteShellCommandLine:
-                            j = (int)reader.Position;
-                            state = CommandExtractionState.CaptureCommandLine;
-                            break;
-
-                        case var option:
-                            throw new InternalException(string.Format("Cannot interpret command-line option '{0}'.", option));
-                    }
-                    break;
-
-                case CommandExtractionState.Argument:
-                    // Start interpreting command-line arguments.
-                    state = CommandExtractionState.Option;
-                    break;
-
-                case CommandExtractionState.CaptureCommandLine:
-                    Debug.Assert(j != -1);
-                    // Skip an optional delimiter of positional arguments.
-                    if (enumerator.Current == "--")
-                        j = (int)reader.Position;
-                    return commandLine.AsSpan(j);
-            }
-        }
-
-        throw new InternalException("Cannot extract a command from the command line.");
-    }
-
-    enum CommandExtractionState
-    {
-        Option,
-        Argument,
-        CaptureCommandLine
     }
 }

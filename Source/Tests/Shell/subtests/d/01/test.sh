@@ -14,7 +14,7 @@ actual=$(sh -c 'echo "\$VAR"')
 expected='$VAR'
 
 if [ "$actual" != "$expected" ]; then
-    echo "Unexpected at 1.A: $actual"
+    echo "Unexpected 1.A: $actual"
     exit 2
 fi
 
@@ -23,7 +23,7 @@ fi
 actual=$(gnu-tk.sh -c 'echo "\$VAR"')
 
 if [ "$actual" != "$expected" ]; then
-    echo "Unexpected at 1.B: $actual"
+    echo "Unexpected 1.B: $actual"
     exit 2
 fi
 
@@ -32,7 +32,7 @@ fi
 actual=$(gnu-tk.sh -l sh -c 'echo "\$VAR"')
 
 if [ "$actual" != "$expected" ]; then
-    echo "Unexpected at 1.C: $actual"
+    echo "Unexpected 1.C: $actual"
     exit 2
 fi
 
@@ -42,6 +42,6 @@ actual=$(sh -c 'echo "\\$VAR"')
 expected='\ABC'
 
 if [ "$actual" != "$expected" ]; then
-    echo "Unexpected at 2.A: $actual"
+    echo "Unexpected 2.A: $actual"
     exit 2
 fi

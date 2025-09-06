@@ -6,6 +6,8 @@
 
 Release date: not released yet
 
+- Fixed handling of `\` character in command-line arguments
+
 ### GNU-TK 2025.8
 
 Release date: August 12, 2025
