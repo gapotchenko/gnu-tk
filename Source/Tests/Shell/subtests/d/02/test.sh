@@ -7,11 +7,6 @@ echo "Test D02"
 # Tests handling of LF and '\' characters for command-line arguments.
 # ===========================================================================
 
-if ! sed --version 2>/dev/null | grep 'GNU sed' >/dev/null; then
-   echo "Skipped for non-GNU 'sed' utility."
-   exit
-fi 
-
 # ---------------------------------------------------------------------------
 # Case 1
 # Handling of LF and '\' characters for a command.
@@ -21,6 +16,7 @@ actual=$(gnu-tk.sh -c 'echo CGI | sed "1i\\
 HTTP/1.1 200 OK\\
 Content-Type: text/plain\\
 Cache-Control: public, max-age=3600\\
+
 "')
 
 expected="HTTP/1.1 200 OK
@@ -43,6 +39,7 @@ actual=$(gnu-tk.sh -l sh -c 'echo CGI | sed "1i\\
 HTTP/1.1 200 OK\\
 Content-Type: text/plain\\
 Cache-Control: public, max-age=3600\\
+
 "')
 
 if [ "$actual" != "$expected" ]; then
