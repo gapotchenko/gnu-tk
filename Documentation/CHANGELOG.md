@@ -6,7 +6,7 @@
 
 Release date: not released yet
 
-- Automatic rectification of quirks in `\` character handling for command-line arguments in Cygwin, MSYS2 and Git toolkits
+- Automatic rectification of quirks in `\` character handling for command-line arguments in Cygwin-based toolkits (Cygwin, Git, MSYS2)
 - Fixed handling of `\` character in command-line arguments
 
 ### GNU-TK 2025.8
