@@ -6,7 +6,6 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.AppModel;
-using Gapotchenko.FX.Diagnostics;
 using Gapotchenko.FX.Linq;
 using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Hosting;
