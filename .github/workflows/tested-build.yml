@@ -30,6 +30,11 @@ jobs:
         if: runner.os == 'Windows'
         uses: cygwin/cygwin-install-action@v6
 
+      - name: Setup GNU
+        if: runner.os == 'macOS'
+        run: |
+          brew install gnu-sed
+
       - name: Diagnostic
         run: |
           just toolkit-list
