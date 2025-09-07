@@ -12,11 +12,6 @@ namespace Gapotchenko.GnuTK.Toolkits.Cygwin;
 /// </summary>
 static class CygwinIdiosyncrasies
 {
-    public static string AdjustShellCommand(string value)
-    {
-        return AdjustArgument(value);
-    }
-
     /// <summary>
     /// Adjusts a command-line argument before passing it to a Cygwin-based
     /// toolkit, correcting distortions introduced by Cygwin.

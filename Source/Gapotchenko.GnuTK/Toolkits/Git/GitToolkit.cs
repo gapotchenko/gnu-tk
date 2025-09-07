@@ -13,6 +13,9 @@ using System.Text;
 
 namespace Gapotchenko.GnuTK.Toolkits.Git;
 
+/// <summary>
+/// Represents a GNU toolkit that comes with "Git for Windows".
+/// </summary>
 sealed class GitToolkit(
     GitToolkitFamily family,
     IGitSetupInstance setupInstance,
@@ -100,13 +103,13 @@ sealed class GitToolkit(
             // Unset it if not instructed by a user.
             commandBuilder.Append("unset POSIXLY_CORRECT;");
         }
-        commandBuilder.Append(command);
+        commandBuilder.Append(GitIdiosyncrasies.AdjustArgument(command));
         shellArguments.Add(commandBuilder.ToString());
 
         if (commandArguments is [])
             shellArguments.Add(shellPath);
         else
-            shellArguments.AddRange(commandArguments);
+            shellArguments.AddRange(commandArguments.Select(GitIdiosyncrasies.AdjustArgument));
 
         return ProcessHelper.Execute(psi);
     }

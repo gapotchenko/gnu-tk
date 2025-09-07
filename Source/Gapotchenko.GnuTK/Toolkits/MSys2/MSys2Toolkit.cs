@@ -120,13 +120,13 @@ sealed class MSys2Toolkit(
             // Unset it if not instructed by a user.
             commandBuilder.Append("unset POSIXLY_CORRECT;");
         }
-        commandBuilder.Append(command);
+        commandBuilder.Append(MSys2Idiosyncrasies.AdjustArgument(command));
         shellArguments.Add(commandBuilder.ToString());
 
         if (commandArguments is [])
             shellArguments.Add(shellPath);
         else
-            shellArguments.AddRange(commandArguments);
+            shellArguments.AddRange(commandArguments.Select(MSys2Idiosyncrasies.AdjustArgument));
 
         return ProcessHelper.Execute(psi);
     }
