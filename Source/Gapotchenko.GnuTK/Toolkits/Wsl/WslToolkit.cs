@@ -153,12 +153,12 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         }
     }
 
-    static IReadOnlyDictionary<string, string?> TranslateEnvironment(IReadOnlyDictionary<string, string?> environment)
+    IReadOnlyDictionary<string, string?> TranslateEnvironment(IReadOnlyDictionary<string, string?> environment)
     {
         var newEnvironment = new Dictionary<string, string?>(StringComparer.Ordinal);
 
         Translate(ToolkitEnvironment.PosixlyCorrect);
-        Translate("GNU_TK");
+        Translate("GNU_TK", true);
         Translate("GNU_TK_TOOLKIT");
         Translate("GNU_TK_VERSION");
 
@@ -167,15 +167,25 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
         return newEnvironment;
 
-        void Translate(string name)
+        void Translate(string name, bool translateFilePath = false)
         {
             if (environment.TryGetValue(name, out string? value))
+            {
+                if (value != null)
+                {
+                    if (translateFilePath)
+                        value = TranslateFilePath(value);
+                }
                 newEnvironment[name] = value;
+            }
         }
     }
 
     public string TranslateFilePath(string path)
     {
+        if (path is [])
+            return path;
+
         string wslPath = GetWslPath();
 
         var psi = new ProcessStartInfo
