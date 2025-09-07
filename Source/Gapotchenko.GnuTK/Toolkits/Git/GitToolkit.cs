@@ -40,7 +40,8 @@ sealed class GitToolkit(
         return ExecuteShellCommand(
             "exec \"$0\" \"$@\"",
             [path, .. arguments],
-            environment, options);
+            environment,
+            options);
     }
 
     public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments, IReadOnlyDictionary<string, string?> environment, ToolkitExecutionOptions options)
