@@ -12,7 +12,7 @@ echo "Test D02"
 # Handling of LF and '\' characters for a command.
 # ---------------------------------------------------------------------------
 
-actual=$(gnu-tk.sh -c 'echo CGI | sed "1i\\
+actual=$(gnu-tk.sh -s -c 'echo CGI | sed "1i\\
 HTTP/1.1 200 OK\\
 Content-Type: text/plain\\
 Cache-Control: public, max-age=3600\\
@@ -34,7 +34,7 @@ fi
 # Handling of LF and '\' characters for a command line.
 # ---------------------------------------------------------------------------
 
-actual=$(gnu-tk.sh -l sh -c 'echo CGI | sed "1i\\
+actual=$(gnu-tk.sh -s -l sh -c 'echo CGI | sed "1i\\
 HTTP/1.1 200 OK\\
 Content-Type: text/plain\\
 Cache-Control: public, max-age=3600\\

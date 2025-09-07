@@ -51,6 +51,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           just toolkit-check brew
+          echo "sed: $(just gnu-tk -l which sed)"
 
       - name: Test
         run: just test

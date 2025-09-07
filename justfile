@@ -126,3 +126,7 @@ toolkit-list:
 [group("diagnostics")]
 toolkit-check toolkit="auto":
     dotnet run --project Gapotchenko.GnuTK -c Release -f "{{ dotnet-framework }}" --no-launch-profile -v q -- -t "{{ toolkit }}" check -q
+
+[group("diagnostics")]
+gnu-tk *args:
+    dotnet run --project Gapotchenko.GnuTK -c Release -f "{{ dotnet-framework }}" --no-launch-profile -v q -- {{args}}
