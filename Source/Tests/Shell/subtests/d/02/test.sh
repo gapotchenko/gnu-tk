@@ -4,7 +4,7 @@ set -eu
 
 # ===========================================================================
 echo "Test D02"
-# Tests handling of LF and '\' characterss for command-line arguments.
+# Tests handling of LF and '\' characters for command-line arguments.
 # ===========================================================================
 
 # ---------------------------------------------------------------------------
