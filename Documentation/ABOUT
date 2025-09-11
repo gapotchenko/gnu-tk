@@ -1,3 +1,6 @@
-GNU-TK on the Internet
+GNU-TK
+
+A multi-platform command-line utility that provides seamless access to GNU
+toolkits on non-GNU operating systems.
 
 Project page: https://github.com/gapotchenko/gnu-tk
