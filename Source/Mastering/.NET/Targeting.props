@@ -1,7 +1,7 @@
 ﻿<Project>
 
   <!-- Target Frameworks -->
-  <PropertyGroup>
+  <PropertyGroup Condition= " '$(UsingMicrosoftNETSdk)' == 'true' ">
     <TargetFrameworks Condition=" '$(MasteringProjectKind)' == 'module' ">net8.0;net9.0;net10.0</TargetFrameworks>
     <TargetFrameworks Condition=" '$(MasteringProjectKind)' == 'test' ">net8.0;net9.0;net10.0</TargetFrameworks>
   </PropertyGroup>
