@@ -1,0 +1,17 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+
+    <FeatureGroup Id="FG.Product">
+      <Feature Id="F.Product">
+        <ComponentGroupRef Id="CG.Product" />
+      </Feature>
+    </FeatureGroup>
+
+    <ComponentGroup Id="CG.Product" Directory="INSTALLFOLDER">
+      <Component>
+        <File Source="Example.txt" />
+      </Component>
+    </ComponentGroup>
+
+  </Fragment>
+</Wix>

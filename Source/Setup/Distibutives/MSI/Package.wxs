@@ -1,5 +1,6 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Package Id="Gapotchenko.GnuTK" Name="GNU-TK" Manufacturer="Gapotchenko" Version="0.0.1">
+
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
 
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" CompressionLevel="high" />
@@ -10,8 +11,7 @@
       </Directory>
     </StandardDirectory>
 
-    <Feature Id="F.Main">
-      <ComponentGroupRef Id="CG.Main" />
-    </Feature>
+    <FeatureGroupRef Id="FG.Product"/>
+
   </Package>
 </Wix>
