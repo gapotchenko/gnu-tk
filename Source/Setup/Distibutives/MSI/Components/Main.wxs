@@ -1,0 +1,9 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <ComponentGroup Id="CG.Main" Directory="INSTALLFOLDER">
+      <Component>
+        <File Source="Example.txt" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
