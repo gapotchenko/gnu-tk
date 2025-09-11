@@ -1,17 +1,13 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
      xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
   <Fragment>
-
     <UI Id="UI">
-      
-      <!-- https://docs.firegiant.com/wix/tools/wixext/wixui/ -->
+            <!-- https://docs.firegiant.com/wix/tools/wixext/wixui/ -->
       <ui:WixUI
               Id="WixUI_InstallDir"
               InstallDirectory="INSTALLFOLDER"
           />
     </UI>
-
     <WixVariable Id="WixUILicenseRtf" Value="../../../../Legal/LICENSE.rtf" />
-
   </Fragment>
 </Wix>
