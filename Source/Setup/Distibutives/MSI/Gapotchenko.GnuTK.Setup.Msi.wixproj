@@ -1,8 +1,9 @@
 <Project Sdk="WixToolset.Sdk/6.0.0">
-
   <PropertyGroup>
     <!-- Workaround for CLI build issue. -->
     <TargetFrameworks>native</TargetFrameworks>
   </PropertyGroup>
-
+  <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" Version="6.0.2" />
+  </ItemGroup>
 </Project>

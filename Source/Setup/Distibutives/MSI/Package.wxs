@@ -1,5 +1,17 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Package Id="Gapotchenko.GnuTK" Name="GNU-TK" Manufacturer="Gapotchenko" Version="0.0.1">
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+
     <File Source="Example.txt" />
   </Package>
+
+  <Fragment>
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" CompressionLevel="high" />
+
+    <StandardDirectory Id="ProgramFiles6432Folder">
+      <Directory Id="D.Manufacturer" Name="!(bind.Property.Manufacturer)">
+        <Directory Id="INSTALLFOLDER" Name="!(bind.Property.ProductName)" />
+      </Directory>
+    </StandardDirectory>
+  </Fragment>
 </Wix>
