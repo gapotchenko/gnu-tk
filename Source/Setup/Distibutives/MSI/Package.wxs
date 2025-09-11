@@ -14,7 +14,7 @@
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
     
     <!-- Media -->
-    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" CompressionLevel="high" />
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" CompressionLevel="$(CompressionLevel)" />
 
     <!-- Directory layout -->
     <StandardDirectory Id="ProgramFiles6432Folder">
