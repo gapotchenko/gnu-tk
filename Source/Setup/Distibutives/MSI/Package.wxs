@@ -1,5 +1,5 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Package Id="Gapotchenko.GnuTK" Name="GNU-TK" Manufacturer="Gapotchenko" Version="0.0.1">
+  <Package Id="Gapotchenko.GnuTK" Name="GNU-TK" Manufacturer="Gapotchenko" Version="$(Version)">
 
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
 
