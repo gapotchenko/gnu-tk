@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "author": "Gapotchenko",
   "license": "GPL-3.0-only",
-  "description": "A mutli-platform command-line utility that provides seamless access to GNU toolkits on non-GNU operating systems.",
+  "description": "A multi-platform command-line utility that provides seamless access to GNU toolkits on non-GNU operating systems.",
   "keywords": [
     "gnu",
     "toolkit"
