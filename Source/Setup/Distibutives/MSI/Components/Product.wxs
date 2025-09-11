@@ -8,8 +8,8 @@
     </FeatureGroup>
 
     <ComponentGroup Id="CG.Product" Directory="INSTALLFOLDER">
-      <Component>
-        <File Source="Example.txt" />
+      <Component Guid="10CCEC14-8F98-4239-921C-51D1B945B6C8">
+        <File Source="../../../../LICENSE" Name="LICENSE.txt" />
       </Component>
     </ComponentGroup>
 

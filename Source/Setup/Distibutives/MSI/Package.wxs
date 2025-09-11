@@ -1,16 +1,29 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Package Id="Gapotchenko.GnuTK" Name="GNU-TK" Manufacturer="Gapotchenko" Version="$(Version)">
 
+    <!-- Launch conditions -->
+    <Property Id="RequiredLaunchOS" Value="Windows 10" />
+    <Property Id="WIN10FOUND">
+      <DirectorySearch Id="DS.SearchSystem.Win10" Path="[SystemFolder]" Depth="0">
+        <FileSearch Name="advapi32.dll" MinVersion="6.3.10000.0"/>
+      </DirectorySearch>
+    </Property>    
+    <Launch Condition="Installed OR VersionNT >= 1000 OR WIN10FOUND" Message="!(loc.LaunchOSError)" />
+    
+    <!-- Upgrades -->
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
-
+    
+    <!-- Media -->
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" CompressionLevel="high" />
 
+    <!-- Directory layout -->
     <StandardDirectory Id="ProgramFiles6432Folder">
       <Directory Id="D.Manufacturer" Name="!(bind.Property.Manufacturer)">
         <Directory Id="INSTALLFOLDER" Name="!(bind.Property.ProductName)" />
       </Directory>
     </StandardDirectory>
 
+    <!-- Features -->
     <FeatureGroupRef Id="FG.Product"/>
 
     <UIRef Id="UI"/>
