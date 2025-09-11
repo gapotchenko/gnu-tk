@@ -13,5 +13,7 @@
 
     <FeatureGroupRef Id="FG.Product"/>
 
+    <UIRef Id="UI"/>
+
   </Package>
 </Wix>
