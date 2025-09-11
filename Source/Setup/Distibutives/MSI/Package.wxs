@@ -25,6 +25,7 @@
 
     <!-- Features -->
     <FeatureGroupRef Id="FG.Product"/>
+    <FeatureGroupRef Id="FG.Toolkits"/>
 
     <UIRef Id="UI"/>
 

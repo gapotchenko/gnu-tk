@@ -1,5 +1,26 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Fragment>
 
+    <FeatureGroup Id="FG.Toolkits.BusyBox">
+      <Feature Id="F.Toolkits.BusyBox"
+               Title="BusyBox"
+               Description="Minimalistic toolkit that combines tiny versions of many common UNIX utilities."
+               AllowAbsent="true"
+               AllowAdvertise="false">
+        <ComponentGroupRef Id="CG.Toolkits.BusyBox" />
+      </Feature>
+    </FeatureGroup>
+
+    <ComponentGroup Id="CG.Toolkits.BusyBox" Directory="D.Toolkits.BusyBox">
+      <Component Guid="88C2B476-810E-4F79-B157-167E30BDB9CE">
+        <File Source="../../../../Toolkits/BusyBox/win-x64/busybox64u.exe" />
+        <File Source="../../../../Toolkits/BusyBox/LICENSE" Name="LICENSE.txt" />
+      </Component>
+    </ComponentGroup>
+
+    <DirectoryRef Id="D.Toolkits">
+      <Directory Id="D.Toolkits.BusyBox" Name="BusyBox" />
+    </DirectoryRef>
+
   </Fragment>
 </Wix>

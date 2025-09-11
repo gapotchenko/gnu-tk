@@ -1,5 +1,21 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Fragment>
 
+    <!-- Directory layout -->
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Directory Id="D.Toolkits" Name="Toolkits" />
+    </DirectoryRef>
+
+    <!-- Features -->
+    <FeatureGroup Id="FG.Toolkits">
+      <Feature Id="F.Toolkits"
+               Title="Built-in Toolkits"
+               Description="Optional GNU toolkits bundled with GNU-TK."
+               AllowAbsent="true"
+               AllowAdvertise="false">
+        <FeatureGroupRef Id="FG.Toolkits.BusyBox" />
+      </Feature>
+    </FeatureGroup>
+    
   </Fragment>
 </Wix>

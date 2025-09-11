@@ -15,6 +15,8 @@
       <Component Guid="10CCEC14-8F98-4239-921C-51D1B945B6C8">
         <File Source="../../../Gapotchenko.GnuTK/bin/Release/$(TFM)/win-$(Platform)/publish/Gapotchenko.GnuTK.exe" Name="gnu-tk.exe" />
         <File Source="../../../../LICENSE" Name="LICENSE.txt" />
+        <File Source="../../../../Documentation/ABOUT" Name="ABOUT.txt" />
+        <!-- Register in the system PATH. -->
         <Environment Name="PATH" Action="set" Permanent="false" Part="last" System="true" Value="[INSTALLFOLDER]" />
       </Component>
     </ComponentGroup>
