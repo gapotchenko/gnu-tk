@@ -4,7 +4,7 @@
     <FeatureGroup Id="FG.Product">
       <Feature Id="F.Product"
                Title="GNU-TK"
-               Description="Provides seamless access to GNU toolkits on non-GNU operating systems."
+               Description="!(loc.ProductDescription)"
                AllowAbsent="false"
                AllowAdvertise="false">
         <ComponentGroupRef Id="CG.Product" />

@@ -1,0 +1,3 @@
+<WixLocalization xmlns="http://wixtoolset.org/schemas/v4/wxl" Culture="en-US">
+  <String Id="ProductDescription" Value="Provides seamless access to GNU toolkits on non-GNU operating systems." />
+</WixLocalization>

@@ -4,7 +4,7 @@
     <FeatureGroup Id="FG.Toolkits.BusyBox">
       <Feature Id="F.Toolkits.BusyBox"
                Title="BusyBox"
-               Description="Minimalistic toolkit that combines tiny versions of many common UNIX utilities."
+               Description="!(loc.BusyBoxDescription)"
                AllowAbsent="true"
                AllowAdvertise="false">
         <ComponentGroupRef Id="CG.Toolkits.BusyBox" />
@@ -15,6 +15,9 @@
       <Component Guid="88C2B476-810E-4F79-B157-167E30BDB9CE">
         <File Source="../../../../Toolkits/BusyBox/win-x64/busybox64u.exe" />
         <File Source="../../../../Toolkits/BusyBox/LICENSE" Name="LICENSE.txt" />
+      </Component>
+      <Component Directory="INSTALLFOLDER">
+        <File Source="Resources/gnu-tk.ini" />        
       </Component>
     </ComponentGroup>
 

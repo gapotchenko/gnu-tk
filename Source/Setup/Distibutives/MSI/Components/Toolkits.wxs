@@ -9,8 +9,8 @@
     <!-- Features -->
     <FeatureGroup Id="FG.Toolkits">
       <Feature Id="F.Toolkits"
-               Title="Built-in Toolkits"
-               Description="Optional GNU toolkits bundled with GNU-TK."
+               Title="!(loc.ToolkitsTitle)"
+               Description="!(loc.ToolkitsDescription)"
                AllowAbsent="true"
                AllowAdvertise="false">
         <FeatureGroupRef Id="FG.Toolkits.BusyBox" />

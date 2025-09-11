@@ -1,0 +1,4 @@
+<WixLocalization xmlns="http://wixtoolset.org/schemas/v4/wxl" Culture="en-US">
+  <String Id="ToolkitsTitle" Value="Built-in Toolkits" />
+  <String Id="ToolkitsDescription" Value="Optional GNU toolkits bundled with GNU-TK." />
+</WixLocalization>
