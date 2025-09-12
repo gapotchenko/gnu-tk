@@ -18,9 +18,7 @@
 
     <!-- Directory layout -->
     <StandardDirectory Id="ProgramFiles6432Folder">
-      <Directory Id="D.Manufacturer" Name="!(bind.Property.Manufacturer)">
-        <Directory Id="INSTALLFOLDER" Name="!(bind.Property.ProductName)" />
-      </Directory>
+      <Directory Id="INSTALLFOLDER" Name="!(bind.Property.ProductName)" />
     </StandardDirectory>
 
     <!-- Features -->
