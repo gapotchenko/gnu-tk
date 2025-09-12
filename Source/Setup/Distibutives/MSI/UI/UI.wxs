@@ -7,6 +7,9 @@
               Id="WixUI_InstallDir"
               InstallDirectory="INSTALLFOLDER"
           />
+      <?ifdef GP_OSS_BRANDING ?>
+      <UIRef Id="UI.Branding" />
+      <?endif?>
     </UI>
     <WixVariable Id="WixUILicenseRtf" Value="../../../../Legal/LICENSE.rtf" />
   </Fragment>

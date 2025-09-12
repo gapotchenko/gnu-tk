@@ -8,6 +8,7 @@
                AllowAbsent="false"
                AllowAdvertise="false">
         <ComponentGroupRef Id="CG.Product" />
+        <ComponentRef Id="C.Product.Documentation" />
       </Feature>
     </FeatureGroup>
 
@@ -22,7 +23,6 @@
       </Component>
 
       <ComponentRef Id="C.Product.Legal" />
-      <ComponentRef Id="C.Product.Documentation" />
     </ComponentGroup>
 
     <DirectoryRef Id="INSTALLFOLDER">
