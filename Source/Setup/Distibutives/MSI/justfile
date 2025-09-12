@@ -1,0 +1,24 @@
+﻿set dotenv-load := true
+set windows-shell := ["powershell", "-c"]
+set script-interpreter := ["gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
+set unstable := true
+
+# -----------------------------------------------------------------------------
+# Recipes
+# -----------------------------------------------------------------------------
+
+# Show the help for this justfile
+@help:
+    just --list
+
+# Start IDE using the project environment
+[group("development")]
+[windows]
+develop:
+    @Start-Process (Get-ChildItem -Path . -Filter *.slnx | Select-Object -First 1).FullName
+
+# Start IDE using the project environment
+[group("development")]
+[unix]
+develop:
+    open *.slnx
