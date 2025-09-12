@@ -6,25 +6,34 @@
 
 Release date: not released yet
 
-- Automatic rectification of quirks in `\` character handling for command-line arguments in Cygwin-based toolkits (Cygwin, Git, MSYS2)
+- Automatic rectification of quirks in `\` character handling for command-line
+  arguments in Cygwin-based toolkits (Cygwin, Git, MSYS2)
 - Fixed handling of `\` character in command-line arguments
 
 ### GNU-TK 2025.8
 
 Release date: August 12, 2025
 
-- Added ability to execute an arbitrary file in GNU environment with `-x` (`--execute`) option
-- Child processes spawned by `gnu-tk` tool have `GNU_TK_VERSION` environment variable set, enabling identification of GNU environments managed by GNU-TK
-- For MSYS2 toolkits, MSYS2 environment installation path is used as the toolkit location
-- Fixed issue in NPM package that prevented `gnu-tk` from working with Node v18.x
+- Added ability to execute an arbitrary file in GNU environment with `-x`
+  (`--execute`) option
+- Child processes spawned by `gnu-tk` tool have `GNU_TK_VERSION` environment
+  variable set, enabling identification of GNU environments managed by GNU-TK
+- For MSYS2 toolkits, MSYS2 environment installation path is used as the toolkit
+  location
+- Fixed issue in NPM package that prevented `gnu-tk` from working with Node
+  v18.x
 
 ### GNU-TK 2025.7
 
 Release date: August 10, 2025
 
 - Added support for BusyBox
-- For MSYS2 toolkit, GNU-TK sets `GNU_TK_MSYS2_REPOSITORY_PREFIX` environment variable to simplify working with MSYS2 packages. This value is precomputed based on the active MSYS2 environment and can be used to construct the names of MSYS2 packages
-- BusyBox is now bundled with GNU-TK packages to ensure basic functionality of GNU tools on Windows, even when no specialized GNU toolkit is available
+- For MSYS2 toolkit, GNU-TK sets `GNU_TK_MSYS2_REPOSITORY_PREFIX` environment
+  variable to simplify working with MSYS2 packages. This value is precomputed
+  based on the active MSYS2 environment and can be used to construct the names
+  of MSYS2 packages
+- BusyBox is now bundled with GNU-TK packages to ensure basic functionality of
+  GNU tools on Windows, even when no specialized GNU toolkit is available
 
 ### GNU-TK 2025.6
 
@@ -33,7 +42,8 @@ Release date: July 31, 2025
 - Portable GNU-TK installations
 - Discover MSYS2 setup instances deployed by/for `GHCup` utility
 - Fixed translation of file path arguments for `-f` (`--file`) option
-- Fixed issue that prevented executable files of an MSYS2 environment to be found
+- Fixed issue that prevented executable files of an MSYS2 environment to be
+  found
 
 ### GNU-TK 2025.5
 
@@ -41,13 +51,15 @@ Release date: July 28, 2025
 
 - Added support for GNU toolkit provided by Git for Windows
 - WSL toolkit commands are executed using a login shell
-- GNU toolkit strictness can be activated by `GNU_TK_STRICT` environment variable
+- GNU toolkit strictness can be activated by `GNU_TK_STRICT` environment
+  variable
 
 ### GNU-TK 2025.4
 
 Release date: July 18, 2025
 
-- Use `errexit` and `pipefail` shell options when executing commands and command lines (but not files)
+- Use `errexit` and `pipefail` shell options when executing commands and command
+  lines (but not files)
 - Utilize MSYS2 toolkits installed by `msys2/setup-msys2` GitHub action
 - Fixed handling of command arguments for Cygwin and MSYS2 toolkits
 - Fixed toolkit deduplication
@@ -66,7 +78,8 @@ Release date: July 16, 2025
 
 - Expansion of naturally occurring shebang arguments
 - Automatic translation of file path arguments
-- Ability to use only a GNU toolkit that operates within the host environment (`-i`/`--integrated` command-line option)
+- Ability to use only a GNU toolkit that operates within the host environment
+  (`-i`/`--integrated` command-line option)
 
 ### GNU-TK 2025.1
 

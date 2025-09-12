@@ -61,6 +61,10 @@ format:
     fd -e sh -x shfmt -i 4 -l -w
     echo 'Formatting **/justfile...'
     fd --glob justfile -x just --unstable --fmt --justfile
+    echo 'Formatting **/README.md...'
+    fd --glob README.md -x deno fmt
+    deno fmt Documentation/CHANGELOG.md
+    echo 'Formatting miscellaneous files...'
     (cd Source/Mastering; cat Exclusion.dic | tr '[:upper:]' '[:lower:]' | sort -u | sponge Exclusion.dic)
 
 # Check source code
