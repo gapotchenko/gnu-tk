@@ -25,10 +25,12 @@ toolkit-specific parameters, and, finally, managing the handoff of control to
 and from the toolkit. All of this makes using GNU tools far from easy and
 reproducible.
 
-GNU-TK project solves those problems by providing a small `gnu-tk` command-line
-utility that serves as an automatic gateway to a GNU toolkit installed on the
-system. `gnu-tk` has a concise and stable command-line interface making it
-suitable for effortless cross-platform scripting.
+GNU-TK project addresses these problems by providing a small `gnu-tk`
+command-line utility that acts as an automatic gateway to a GNU toolkit
+installed on the system. `gnu-tk` has a concise and stable command-line
+interface making it suitable for effortless cross-platform scripting. In
+addition, GNU-TK rectifies all known ideosyncraises and omissions of a
+particular GNU toolkit.
 
 ## Usage
 
