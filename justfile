@@ -35,8 +35,7 @@ dotnet-framework := "net9.0"
 [group("development")]
 [windows]
 develop:
-    #!cmd /c
-    @for /F "delims=" %%i in ('"dir /b | findstr ".*\.sln""') do @(start "" "%%i")
+    @Start-Process (Get-ChildItem -Path . -Filter *.slnx | Select-Object -First 1).FullName
 
 # Start IDE using the project environment
 [group("development")]
