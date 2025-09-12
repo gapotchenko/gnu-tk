@@ -12,13 +12,27 @@
     </FeatureGroup>
 
     <ComponentGroup Id="CG.Toolkits.BusyBox" Directory="D.Toolkits.BusyBox">
+
       <Component Guid="88C2B476-810E-4F79-B157-167E30BDB9CE">
+
+        <?if $(Platform) = "x64" ?>
+        <!-- x64 -->
         <File Source="../../../../Toolkits/BusyBox/win-x64/busybox64u.exe" />
+        <?elseif $(Platform) = "ARM64" ?>
+        <!-- ARM64 -->
+        <File Source="../../../../Toolkits/BusyBox/win-arm64/busybox64a.exe" />
+        <?else?>
+        <!-- Unexpected -->
+        <?error BusyBox for Windows does not support $(Platform) platform. ?>
+        <?endif?>
+
         <File Source="../../../../Toolkits/BusyBox/LICENSE" Name="LICENSE.txt" />
       </Component>
+
       <Component Directory="INSTALLFOLDER">
-        <File Source="Resources/gnu-tk.ini" />        
+        <File Source="Resources/gnu-tk.ini" />
       </Component>
+
     </ComponentGroup>
 
     <DirectoryRef Id="D.Toolkits">
