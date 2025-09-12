@@ -2,13 +2,10 @@
      xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
   <Fragment>
     <UI Id="UI">
-      <!-- https://docs.firegiant.com/wix/tools/wixext/wixui/ -->
-      <ui:WixUI
-              Id="WixUI_InstallDir"
-              InstallDirectory="INSTALLFOLDER"
-          />
       <?ifdef GP_OSS_BRANDING ?>
       <UIRef Id="UI.Branding" />
+      <?else?>
+      <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
       <?endif?>
     </UI>
     <WixVariable Id="WixUILicenseRtf" Value="../../../../Legal/LICENSE.rtf" />
