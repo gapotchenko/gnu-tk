@@ -3,17 +3,18 @@
     <Pedantic>true</Pedantic>
   </PropertyGroup>
   <PropertyGroup>
+    <WixProductVersion>$(Version)</WixProductVersion>
     <!-- MSI only allows up to 3 version components, each in [0,255]
          interfval. To satisfy that requirement, omit the millenium part of the
          major product version component. For example: 2025.9.2 -> 25.9.2. -->
-    <WixVersion>$(Version.Substring(2))</WixVersion>
+    <WixVersion>$(WixProductVersion.Substring(2))</WixVersion>
     <WixTfm>net9.0</WixTfm>
     <WixCompressionLevel>high</WixCompressionLevel>
     <WixCompressionLevel Condition=" '$(Configuration)' == 'Debug' ">low</WixCompressionLevel>
     <WixManufacturer>$([MSBuild]::ValueOrDefault('$(GP_OSS_MANUFACTURER)', 'Contoso'))</WixManufacturer>
     <WixSwidRegId>$([MSBuild]::ValueOrDefault('$(GP_OSS_SWID_REGID)', 'example.com'))</WixSwidRegId>
     <!-- Pass the variables to Wix Toolset -->
-    <DefineConstants>$(DefineConstants);Version=$(WixVersion);CompressionLevel=$(WixCompressionLevel);TFM=$(WixTfm);Manufacturer=$(WixManufacturer);SwidRegId=$(WixSwidRegId)</DefineConstants>
+    <DefineConstants>$(DefineConstants);Version=$(WixVersion);ProductVersion=$(WixProductVersion);CompressionLevel=$(WixCompressionLevel);TFM=$(WixTfm);Manufacturer=$(WixManufacturer);SwidRegId=$(WixSwidRegId)</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <None Include="Resources\gnu-tk.ini" />

@@ -8,8 +8,6 @@
                AllowAbsent="false"
                AllowAdvertise="false">
         <ComponentGroupRef Id="CG.Product" />
-        <ComponentRef Id="C.Product.Legal" />
-        <ComponentRef Id="C.Product.Documentation" />
       </Feature>
     </FeatureGroup>
 
@@ -18,7 +16,13 @@
         <File Source="../../../Gapotchenko.GnuTK/bin/Release/$(TFM)/win-$(Platform)/publish/Gapotchenko.GnuTK.exe" Name="gnu-tk.exe" />
         <!-- Register in the system PATH. -->
         <Environment Name="PATH" Action="set" Permanent="false" Part="last" System="true" Value="[INSTALLFOLDER]" />
+        <!-- Store product information in registry so that other software can find it. -->
+        <RegistryValue Root="HKLM" Key="Software\[Manufacturer]\[ProductName]" Name="InstallDir" Type="string" Value="[INSTALLFOLDER]" />
+        <RegistryValue Root="HKLM" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Type="string" Value="$(ProductVersion)" />
       </Component>
+
+      <ComponentRef Id="C.Product.Legal" />
+      <ComponentRef Id="C.Product.Documentation" />
     </ComponentGroup>
 
     <DirectoryRef Id="INSTALLFOLDER">
