@@ -57,6 +57,10 @@ jobs:
         run: just test
 
       - name: Build platform-dependent artifacts
+        env:
+          GP_OSS_MANUFACTURER: ${{ env.GP_OSS_MANUFACTURER }}
+          GP_OSS_SWID_REGID: ${{ env.GP_OSS_SWID_REGID }}
+          GP_OSS_PROJECT_DEV_URL: ${{ secrets.GP_OSS_PROJECT_DEV_URL }}
         run: just platform-build
 
       - uses: actions/upload-artifact@v4
