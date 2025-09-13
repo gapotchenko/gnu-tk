@@ -1,0 +1,39 @@
+# Gapotchenko.GnuTK
+#
+# Copyright © Gapotchenko and Contributors
+#
+# File introduced by: Oleksiy Gapotchenko
+# Year of introduction: 2025
+
+set unstable := true
+
+# ---------------------------------------------------------------------------
+# Shells & Interpreters
+# ---------------------------------------------------------------------------
+
+set windows-shell := ["powershell", "-c"]
+set script-interpreter := ["gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
+
+# ---------------------------------------------------------------------------
+# Configuration
+# ---------------------------------------------------------------------------
+
+set dotenv-load := true
+
+# ---------------------------------------------------------------------------
+# Recipes
+# ---------------------------------------------------------------------------
+
+# Show the help for this justfile
+@help:
+    just --list
+
+[windows]
+build:
+    cd MSI; just build
+
+[unix]
+build:
+
+clean:
+    cd MSI; just clean

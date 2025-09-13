@@ -87,6 +87,7 @@ clean:
     dotnet clean -c Debug
     dotnet clean -c Release
     cd Packaging; just clean
+    cd Setup; just clean
 
 # Run all tests
 [group("diagnostics")]
@@ -99,7 +100,7 @@ publish:
     dotnet pack -c Release -p:TargetFormFactor=NuGet
 
 # Build platform-dependent release artifacts
-platform-build: _publish-aot
+platform-build: _publish-aot _build-setup
 
 [linux]
 _publish-aot:
@@ -115,6 +116,9 @@ _publish-aot:
 _publish-aot:
     cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r osx-arm64 -f "{{ dotnet-framework }}"
     cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r osx-x64 -f "{{ dotnet-framework }}"
+
+_build-setup:
+    cd Setup; just build 
 
 # Produce platform-dependent publishable artifacts
 platform-publish:
