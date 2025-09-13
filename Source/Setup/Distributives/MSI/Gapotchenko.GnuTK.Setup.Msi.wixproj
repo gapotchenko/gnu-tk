@@ -13,8 +13,10 @@
     <WixCompressionLevel Condition=" '$(Configuration)' == 'Debug' ">low</WixCompressionLevel>
     <WixManufacturer>$([MSBuild]::ValueOrDefault('$(GP_OSS_MANUFACTURER)', 'Contoso'))</WixManufacturer>
     <WixSwidRegId>$(GP_OSS_SWID_REGID)</WixSwidRegId>
+    <WixBranding>false</WixBranding>
+    <WixBranding Condition=" Exists('Branding') ">true</WixBranding>
     <!-- Pass the variables to Wix Toolset -->
-    <DefineConstants>$(DefineConstants);Version=$(WixVersion);ProductVersion=$(WixProductVersion);CompressionLevel=$(WixCompressionLevel);TFM=$(WixTfm);Manufacturer=$(WixManufacturer);SwidRegId=$(WixSwidRegId)</DefineConstants>
+    <DefineConstants>$(DefineConstants);Version=$(WixVersion);ProductVersion=$(WixProductVersion);CompressionLevel=$(WixCompressionLevel);TFM=$(WixTfm);Manufacturer=$(WixManufacturer);SwidRegId=$(WixSwidRegId);Branding=$(WixBranding)</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <None Include="Resources\gnu-tk.ini" />

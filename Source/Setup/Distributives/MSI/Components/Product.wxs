@@ -17,7 +17,7 @@
         <File Source="../../../Gapotchenko.GnuTK/bin/Release/$(TFM)/win-$(Platform)/publish/Gapotchenko.GnuTK.exe" Name="gnu-tk.exe" />
         <!-- Register in the system PATH. -->
         <Environment Name="PATH" Action="set" Permanent="false" Part="last" System="true" Value="[INSTALLFOLDER]" />
-        <!-- Store product information in registry so that other software can find it. -->
+        <!-- Store product information in the registry so that other software can find it. -->
         <RegistryValue Root="HKLM" Key="Software\[Manufacturer]\[ProductName]" Name="InstallDir" Type="string" Value="[INSTALLFOLDER]" />
         <RegistryValue Root="HKLM" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Type="string" Value="$(ProductVersion)" />
       </Component>

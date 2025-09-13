@@ -1,7 +1,11 @@
+set unstable := true
+set fallback := true
 set dotenv-load := true
 set windows-shell := ["powershell", "-c"]
-set script-interpreter := ["gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
-set unstable := true
+
+# Dogfood ourselves
+
+set script-interpreter := ["just", "gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
 
 # -----------------------------------------------------------------------------
 # Recipes
@@ -23,12 +27,38 @@ develop:
 develop:
     open *.slnx
 
-build:
+build: _branding-build _project-build
+
+clean: _project-clean _branding-clean
+
+# -----------------------------------------------------------------------------
+
+_project-build: _project-clean-release
     dotnet build -c Release /p:Platform=x64
     dotnet build -c Release /p:Platform=ARM64
 
-clean:
-    dotnet clean -c Debug /p:Platform=x64
-    dotnet clean -c Debug /p:Platform=ARM64
-    dotnet clean -c Release /p:Platform=x64
-    dotnet clean -c Release /p:Platform=ARM64
+_project-clean: _project-clean-release
+    dotnet clean -c Debug -p:Platform=x64
+    dotnet clean -c Debug -p:Platform=ARM64
+
+_project-clean-release:
+    dotnet clean -c Release -p:Platform=x64
+    dotnet clean -c Release -p:Platform=ARM64
+
+# -----------------------------------------------------------------------------
+
+[script]
+_branding-build:
+    if [ -n "${GP_OSS_PROJECT_DEV_URL-}" ]; then
+        if [ ! -d "Branding" ]; then
+            mkdir Branding
+            curl -fsSL "$GP_OSS_PROJECT_DEV_URL/msi-setup-branding.tar.gz" | tar -xz -C Branding
+        fi
+        echo "MSI setup branding applied."
+    else
+        just _branding-clean
+    fi
+
+[script]
+_branding-clean:
+    rm -rf Branding

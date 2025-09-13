@@ -2,8 +2,8 @@
      xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
   <Fragment>
     <UI Id="UI">
-      <?ifdef GP_OSS_BRANDING ?>
-      <UIRef Id="UI.Branding" />
+      <?if $(Branding) = "true" ?>
+      <UIRef Id="UI.Branding" />      
       <?else?>
       <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
       <?endif?>
