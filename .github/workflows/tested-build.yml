@@ -57,11 +57,14 @@ jobs:
         run: just test
 
       - name: Build platform-dependent artifacts
+	shell: 'just gnu-tk -t busybox,auto -l sh -e {0}'
         env:
           GP_OSS_MANUFACTURER: ${{ vars.GP_OSS_MANUFACTURER }}
           GP_OSS_SWID_REGID: ${{ vars.GP_OSS_SWID_REGID }}
           GP_OSS_PROJECT_DEV_URL: ${{ secrets.GP_OSS_PROJECT_DEV_URL }}
-        run: just platform-build
+        run: |
+           echo "GP_OSS_MANUFACTURER: $GP_OSS_MANUFACTURER"
+           just platform-build
 
       - uses: actions/upload-artifact@v4
         with:

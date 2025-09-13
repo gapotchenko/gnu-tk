@@ -26,7 +26,9 @@
     </StandardDirectory>
 
     <!-- SWID tag -->
+    <?ifdef WixSwidRegId ?>    
     <SoftwareTag Feature="F.Product" InstallDirectory="D.Metadata" Regid="$(SwidRegId)" />
+    <?endif?>
 
     <!-- Features -->
     <FeatureGroupRef Id="FG.Product"/>

@@ -12,7 +12,7 @@
     <WixCompressionLevel>high</WixCompressionLevel>
     <WixCompressionLevel Condition=" '$(Configuration)' == 'Debug' ">low</WixCompressionLevel>
     <WixManufacturer>$([MSBuild]::ValueOrDefault('$(GP_OSS_MANUFACTURER)', 'Contoso'))</WixManufacturer>
-    <WixSwidRegId>$([MSBuild]::ValueOrDefault('$(GP_OSS_SWID_REGID)', 'contoso.com'))</WixSwidRegId>
+    <WixSwidRegId>$(GP_OSS_SWID_REGID)</WixSwidRegId>
     <!-- Pass the variables to Wix Toolset -->
     <DefineConstants>$(DefineConstants);Version=$(WixVersion);ProductVersion=$(WixProductVersion);CompressionLevel=$(WixCompressionLevel);TFM=$(WixTfm);Manufacturer=$(WixManufacturer);SwidRegId=$(WixSwidRegId)</DefineConstants>
   </PropertyGroup>
