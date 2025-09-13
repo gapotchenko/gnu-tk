@@ -14,7 +14,19 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04, ubuntu-22.04-arm, windows-latest, macos-latest]
+        include:
+          - os: windows-latest
+            bash_shell: 'bash -O igncr -eo pipefail {0}'
+          - os: ubuntu-22.04
+            bash_shell: 'bash -eo pipefail {0}'
+          - os: ubuntu-22.04-arm
+            bash_shell: 'bash -eo pipefail {0}'
+          - os: macos-latest
+            bash_shell: 'bash -eo pipefail {0}'
+
+    defaults:
+      run:
+        shell: ${{ matrix.bash_shell }}
 
     steps:
       - uses: actions/checkout@v4
@@ -57,7 +69,6 @@ jobs:
         run: just test
 
       - name: Build platform-dependent artifacts
-        shell: bash
         env:
           GP_OSS_MANUFACTURER: ${{ vars.GP_OSS_MANUFACTURER }}
           GP_OSS_SWID_REGID: ${{ vars.GP_OSS_SWID_REGID }}
