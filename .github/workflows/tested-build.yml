@@ -59,13 +59,14 @@ jobs:
       - name: Build platform-dependent artifacts
         shell: bash
         env:
-          GP_OSS_MANUFACTURER: ${{ env.GP_OSS_MANUFACTURER }}
-          GP_OSS_SWID_REGID: ${{ env.GP_OSS_SWID_REGID }}
+          GP_OSS_MANUFACTURER: ${{ vars.GP_OSS_MANUFACTURER }}
+          GP_OSS_SWID_REGID: ${{ vars.GP_OSS_SWID_REGID }}
           GP_OSS_PROJECT_DEV_URL: ${{ secrets.GP_OSS_PROJECT_DEV_URL }}
         run: |
           echo "GP_OSS_MANUFACTURER: $GP_OSS_MANUFACTURER"
           echo "GP_OSS_PROJECT_DEV_URL: $GP_OSS_PROJECT_DEV_URL"
-          just 'platform-build'
+          just platform-build
+          echo
 
       - uses: actions/upload-artifact@v4
         with:
