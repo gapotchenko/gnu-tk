@@ -29,8 +29,12 @@ set dotenv-load := true
 @help:
     just --list
 
+[windows]
 build:
-    cd Distributives; just build
+    cd MSI; just build
+
+[unix]
+build:
 
 clean:
-    cd Distributives; just clean
+    cd MSI; just clean

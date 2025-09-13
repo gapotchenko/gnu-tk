@@ -17,16 +17,16 @@
 
         <?if $(Platform) = "x64" ?>
         <!-- x64 -->
-        <File Source="../../../../Toolkits/BusyBox/win-x64/busybox64u.exe" />
+        <File Source="../../../Toolkits/BusyBox/win-x64/busybox64u.exe" />
         <?elseif $(Platform) = "ARM64" ?>
         <!-- ARM64 -->
-        <File Source="../../../../Toolkits/BusyBox/win-arm64/busybox64a.exe" />
+        <File Source="../../../Toolkits/BusyBox/win-arm64/busybox64a.exe" />
         <?else?>
         <!-- Unexpected -->
         <?error BusyBox for Windows does not support $(Platform) platform. ?>
         <?endif?>
 
-        <File Source="../../../../Toolkits/BusyBox/LICENSE" Name="LICENSE.txt" />
+        <File Source="../../../Toolkits/BusyBox/LICENSE" Name="LICENSE.txt" />
       </Component>
 
       <Component Directory="INSTALLFOLDER">
