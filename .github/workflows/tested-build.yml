@@ -64,7 +64,8 @@ jobs:
           GP_OSS_PROJECT_DEV_URL: ${{ secrets.GP_OSS_PROJECT_DEV_URL }}
         run: |
           echo "GP_OSS_MANUFACTURER: $GP_OSS_MANUFACTURER"
-          just platform-build
+          echo "GP_OSS_PROJECT_DEV_URL: $GP_OSS_PROJECT_DEV_URL"
+          just 'platform-build'
 
       - uses: actions/upload-artifact@v4
         with:
