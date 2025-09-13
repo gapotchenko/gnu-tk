@@ -64,6 +64,7 @@ jobs:
           name: gnu-tk-artifacts-${{ matrix.os }}
           path: |
             Source/**/bin/Release/**/publish/
+            Setup/Distributives/MSI/bin/*/Release/*/*.msi
             !Source/**/*.pdb
             !Source/**/*.dbg
             !Source/**/*.dSYM
