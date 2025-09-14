@@ -1,10 +1,20 @@
 set fallback := true
-set windows-shell := ["cmd", "/c"]
+set windows-shell := ["powershell", "-c"]
 
-pack:
-    cd NPM && just pack
-    cd Portable && just pack
+# Show the help for this justfile
+@help:
+    just --list
 
-clean:
-    cd NPM && just clean
-    cd Portable && just clean
+[group("build")]
+[parallel]
+pack: (_component-pack "NPM") (_component-pack "Portable") (_component-pack "Setup")
+
+[group("build")]
+[parallel]
+clean: (_component-clean "NPM") (_component-clean "Portable") (_component-clean "Setup")
+
+_component-pack name:
+    cd "{{ name }}"; just pack
+
+_component-clean name:
+    cd "{{ name }}"; just clean
