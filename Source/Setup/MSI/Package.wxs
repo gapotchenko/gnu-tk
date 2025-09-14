@@ -25,6 +25,10 @@
     </Upgrade>
     <Launch Condition="Installed OR NOT P.UPGRADE.SAMEVER" Message="!(loc.SameVersionError)" />
 
+    <Property Id="INSTALLFOLDER">
+      <RegistrySearch Id="RS.InstallFolder" Type="directory" Root="HKLM" Key="Software\[Manufacturer]\[ProductName]" Name="InstallDir" />
+    </Property>
+
     <!-- Media -->
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" CompressionLevel="$(CompressionLevel)" />
 
