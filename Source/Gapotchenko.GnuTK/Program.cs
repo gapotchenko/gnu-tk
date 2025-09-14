@@ -38,6 +38,14 @@ static class Program
 
     static int Run(IReadOnlyList<string> args)
     {
+        if (args is [])
+        {
+            var writer = Console.Error;
+            writer.WriteLine("gnu-tk: missing program arguments");
+            writer.WriteLine("Try 'gnu-tk --help' for more information.");
+            return 1;
+        }
+
         string usage =
             """
             Usage:
@@ -69,7 +77,7 @@ static class Program
             CliServices.TryParseArguments(CanonicalizeArgs(ExpandArgs(args)), usage) ??
             throw new DiagnosticException("Invalid program arguments.", DiagnosticCode.InvalidProgramArguments);
 
-        if (UIShell.Run(args, parsedArguments, usage, out int exitCode))
+        if (UIShell.Run(parsedArguments, usage, out int exitCode))
             return exitCode;
         else
             return RunCore(parsedArguments);
@@ -83,12 +91,7 @@ static class Program
     /// </summary>
     static IReadOnlyList<string> ExpandArgs(IReadOnlyList<string> args)
     {
-        return
-            args switch
-            {
-                [] => [ProgramOptions.Help],
-                _ => ExpandShebangArgs(args),
-            };
+        return ExpandShebangArgs(args);
 
         /// Expands shebang arguments from <c>"-a -b" c</c> form to <c>-a -b c</c>.
         static IReadOnlyList<string> ExpandShebangArgs(IReadOnlyList<string> args)

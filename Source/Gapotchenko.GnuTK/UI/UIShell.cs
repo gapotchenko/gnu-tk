@@ -15,7 +15,6 @@ namespace Gapotchenko.GnuTK.UI;
 static class UIShell
 {
     public static bool Run(
-        IReadOnlyList<string> originalArgs,
         IReadOnlyDictionary<string, object> arguments,
         string usage,
         out int exitCode)
@@ -28,7 +27,7 @@ static class UIShell
                 Console.WriteLine();
             }
             Console.WriteLine(usage.Replace(" [--] ", " "));
-            exitCode = originalArgs is [] ? 1 : 0;
+            exitCode = 0;
             return true;
         }
 
