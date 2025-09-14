@@ -13,10 +13,11 @@
     <WixCompressionLevel Condition=" '$(Configuration)' == 'Debug' ">low</WixCompressionLevel>
     <WixManufacturer>$([MSBuild]::ValueOrDefault('$(GP_OSS_MANUFACTURER)', 'Contoso'))</WixManufacturer>
     <WixSwidRegId>$(GP_OSS_SWID_REGID)</WixSwidRegId>
+    <WixUpgradeCode>$([MSBuild]::ValueOrDefault('$(GP_OSS_PROJECT_MSI_UPGRADE_CODE)', '11111111-2222-3333-4444-555555555555'))</WixUpgradeCode>
     <WixBranding>false</WixBranding>
     <WixBranding Condition=" Exists('Branding') ">true</WixBranding>
     <!-- Pass the variables to Wix Toolset -->
-    <DefineConstants>$(DefineConstants);Version=$(WixVersion);ProductVersion=$(WixProductVersion);CompressionLevel=$(WixCompressionLevel);TFM=$(WixTfm);Manufacturer=$(WixManufacturer);SwidRegId=$(WixSwidRegId);Branding=$(WixBranding)</DefineConstants>
+    <DefineConstants>$(DefineConstants);Version=$(WixVersion);ProductVersion=$(WixProductVersion);CompressionLevel=$(WixCompressionLevel);TFM=$(WixTfm);Manufacturer=$(WixManufacturer);SwidRegId=$(WixSwidRegId);UpgradeCode=$(WixUpgradeCode);Branding=$(WixBranding)</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="WixToolset.UI.wixext" Version="6.0.2" />

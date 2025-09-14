@@ -1,7 +1,5 @@
-<?define UpgradeCode = "C8CA4814-E3CF-4907-912D-96F6A0F32D24" ?>
-
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Package Id="$(Manufacturer).GnuTK" UpgradeCode="$(UpgradeCode)" Name="GNU-TK" Manufacturer="$(Manufacturer)" Version="$(Version)">
+  <Package UpgradeCode="$(UpgradeCode)" Name="GNU-TK" Manufacturer="$(Manufacturer)" Version="$(Version)">
 
     <!-- Launch conditions -->
     <Property Id="P.Launch.RequiredOS" Value="Windows 10" />

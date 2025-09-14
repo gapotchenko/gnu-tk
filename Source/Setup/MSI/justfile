@@ -52,7 +52,9 @@ _branding-build:
     if [ -n "${GP_OSS_PROJECT_DEV_URL-}" ]; then
         if [ ! -d "Branding" ]; then
             mkdir Branding
+            trap 'rm -rf Branding' ERR
             curl -fsSL "$GP_OSS_PROJECT_DEV_URL/msi-setup-branding.tar.gz" | tar -xz -C Branding
+            trap - ERR
         fi
         echo "MSI setup branding applied."
     else
