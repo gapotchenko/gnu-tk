@@ -1,5 +1,7 @@
+<?define UpgradeCode = "C8CA4814-E3CF-4907-912D-96F6A0F32D24" ?>
+
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Package Id="$(Manufacturer).GnuTK" Name="GNU-TK" Manufacturer="$(Manufacturer)" Version="$(Version)">
+  <Package Id="$(Manufacturer).GnuTK" UpgradeCode="$(UpgradeCode)" Name="GNU-TK" Manufacturer="$(Manufacturer)" Version="$(Version)">
 
     <!-- Launch conditions -->
     <Property Id="P.RequiredLaunchOS" Value="Windows 10" />
@@ -11,7 +13,17 @@
     <Launch Condition="Installed OR VersionNT >= 1000 OR P.WIN10FOUND" Message="!(loc.LaunchOSError)" />
 
     <!-- Upgrades -->
-    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" IgnoreLanguage="true" />
+
+    <Upgrade Id="$(UpgradeCode)">
+      <UpgradeVersion
+          Minimum="$(Version)" IncludeMinimum="true"
+          Maximum="$(Version)" IncludeMaximum="true"
+          ExcludeLanguages="true"
+          OnlyDetect="true"
+          Property="P.UPGRADE.SAMEVER" />
+    </Upgrade>
+    <Launch Condition="Installed OR NOT P.UPGRADE.SAMEVER" Message="!(loc.SameVersionError)" />
 
     <!-- Media -->
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" CompressionLevel="$(CompressionLevel)" />
@@ -26,7 +38,7 @@
     </StandardDirectory>
 
     <!-- SWID tag -->
-    <?ifdef WixSwidRegId ?>    
+    <?ifdef WixSwidRegId ?>
     <SoftwareTag Feature="F.Product" InstallDirectory="D.Metadata" Regid="$(SwidRegId)" />
     <?endif?>
 
