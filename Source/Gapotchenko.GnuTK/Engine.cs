@@ -285,7 +285,7 @@ sealed class Engine
             {
                 Console.WriteLine(
                     """
-                      - You can install a GNU toolkit to add it to the list:
+                      - To add a supported GNU toolkit to the list, you can install it:
                         https://gapt.ch/help/gnu-tk/install-toolkits
                     """);
             }
