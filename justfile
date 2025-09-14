@@ -62,8 +62,8 @@ format:
     echo 'Formatting **/justfile...'
     fd --glob justfile -x just --unstable --fmt --justfile
     echo 'Formatting **/README.md...'
-    fd --glob README.md -x deno fmt
-    deno fmt Documentation/CHANGELOG.md
+    fd --glob README.md -x deno fmt -q
+    deno fmt -q Documentation/CHANGELOG.md
     echo 'Formatting miscellaneous files...'
     (cd Source/Mastering; cat Exclusion.dic | tr '[:upper:]' '[:lower:]' | sort -u | sponge Exclusion.dic)
 
@@ -75,14 +75,17 @@ check:
     fd -e sh -x shellcheck
 
 # Build release artifacts
+[group("build")]
 build:
     dotnet build -c Release
 
 # Rebuild release artifacts
+[group("build")]
 rebuild:
     dotnet build --no-incremental -c Release
 
 # Clean all artifacts
+[group("build")]
 clean:
     dotnet clean -c Debug
     dotnet clean -c Release
@@ -95,11 +98,13 @@ test: build
     dotnet test -c Release -f "{{ dotnet-framework }}"
 
 # Produce publishable artifacts
+[group("build")]
 publish:
     dotnet clean -c Release
     dotnet pack -c Release -p:TargetFormFactor=NuGet
 
 # Build platform-dependent release artifacts
+[group("build")]
 platform-build: _publish-aot _build-setup
 
 [linux]
@@ -121,19 +126,11 @@ _build-setup:
     cd Setup; just build 
 
 # Produce platform-dependent publishable artifacts
+[group("build")]
 platform-publish:
     cd Packaging; just pack
 
-# List GNU toolkits
-[group("diagnostics")]
-toolkit-list:
-    dotnet run --project Gapotchenko.GnuTK -c Release -f "{{ dotnet-framework }}" --no-launch-profile -v q -- list -q
-
-# Check GNU toolkit
-[group("diagnostics")]
-toolkit-check toolkit="auto":
-    dotnet run --project Gapotchenko.GnuTK -c Release -f "{{ dotnet-framework }}" --no-launch-profile -v q -- -t "{{ toolkit }}" check -q
-
+# Run GNU-TK from the source code
 [group("diagnostics")]
 [no-cd]
 gnu-tk *args:

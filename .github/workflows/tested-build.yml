@@ -37,21 +37,28 @@ jobs:
 
       - name: Diagnostic
         run: |
-          just toolkit-list
-          just toolkit-check
+          just gnu-tk list -q
+          just gnu-tk check -q
 
       - name: Diagnostic (Windows)
         if: runner.os == 'Windows'
         run: |
-          just toolkit-check msys2
-          just toolkit-check cygwin
-          just toolkit-check git
+          just gnu-tk check -q -t busybox
+          just gnu-tk check -q -t msys2
+          just gnu-tk check -q -t cygwin
+          just gnu-tk check -q -t git
 
       - name: Diagnostic (macOS)
         if: runner.os == 'macOS'
         run: |
-          just toolkit-check brew
+          just gnu-tk check -q -t system
+          just gnu-tk check -q -t brew
           echo "sed: $(just gnu-tk -l which sed)"
+
+      - name: Diagnostic (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          just gnu-tk check -q -t system
 
       - name: Test
         run: just test
