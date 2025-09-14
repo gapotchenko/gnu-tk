@@ -4,13 +4,13 @@
   <Package Id="$(Manufacturer).GnuTK" UpgradeCode="$(UpgradeCode)" Name="GNU-TK" Manufacturer="$(Manufacturer)" Version="$(Version)">
 
     <!-- Launch conditions -->
-    <Property Id="P.RequiredLaunchOS" Value="Windows 10" />
-    <Property Id="P.WIN10FOUND">
-      <DirectorySearch Id="DS.SearchSystem.Win10" Path="[SystemFolder]" Depth="0">
+    <Property Id="P.Launch.RequiredOS" Value="Windows 10" />
+    <Property Id="P.LAUNCH.WINDOWS10">
+      <DirectorySearch Id="DS.Launch.Windows10" Path="[SystemFolder]" Depth="0">
         <FileSearch Name="advapi32.dll" MinVersion="6.3.10000.0"/>
       </DirectorySearch>
     </Property>
-    <Launch Condition="Installed OR VersionNT >= 1000 OR P.WIN10FOUND" Message="!(loc.LaunchOSError)" />
+    <Launch Condition="Installed OR VersionNT >= 1000 OR P.LAUNCH.WINDOWS10" Message="!(loc.LaunchOSError)" />
 
     <!-- Upgrades -->
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" IgnoreLanguage="true" />
@@ -25,6 +25,7 @@
     </Upgrade>
     <Launch Condition="Installed OR NOT P.UPGRADE.SAMEVER" Message="!(loc.SameVersionError)" />
 
+    <!-- Inherit INSTALLFOLDER from an already installed version, if there is any. -->
     <Property Id="INSTALLFOLDER">
       <RegistrySearch Id="RS.InstallFolder" Type="directory" Root="HKLM" Key="Software\[Manufacturer]\[ProductName]" Name="InstallDir" />
     </Property>

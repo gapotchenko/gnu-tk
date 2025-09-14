@@ -19,9 +19,6 @@
     <DefineConstants>$(DefineConstants);Version=$(WixVersion);ProductVersion=$(WixProductVersion);CompressionLevel=$(WixCompressionLevel);TFM=$(WixTfm);Manufacturer=$(WixManufacturer);SwidRegId=$(WixSwidRegId);Branding=$(WixBranding)</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="Resources\gnu-tk.ini" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="WixToolset.UI.wixext" Version="6.0.2" />
   </ItemGroup>
 </Project>

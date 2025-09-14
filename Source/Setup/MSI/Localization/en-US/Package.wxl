@@ -1,5 +1,5 @@
 <WixLocalization xmlns="http://wixtoolset.org/schemas/v4/wxl" Culture="en-US">
+  <String Id="LaunchOSError" Value="[P.Launch.RequiredOS] or newer operating system is required." />
   <String Id="DowngradeError" Value="A newer version of [ProductName] is already installed." />
-  <String Id="SameVersionError" Value="The same version of [ProductName] is already installed." />
-  <String Id="LaunchOSError" Value="[P.RequiredLaunchOS] or newer operating system is required." />
+  <String Id="SameVersionError" Value="The same version of [ProductName] is already installed. Uninstall it first to continue with this setup." />
 </WixLocalization>
