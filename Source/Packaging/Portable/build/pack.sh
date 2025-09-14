@@ -12,10 +12,16 @@ version=$(xq "$repoPath/Source/Mastering/.NET/Version.props" -x //Project/Proper
 
 # ---------------------------------------------------------------------------
 
+get_output_file_name() {
+    version=$1
+    platform=$2
+    echo "gnu-tk-$version-portable-$platform"
+}
+
 pack_windows() {
     platform=$1
     rid=${2:-$platform}
-    output_file_name="gnu-tk-$version-$platform.zip"
+    output_file_name="$(get_output_file_name "$version" "$platform").zip"
 
     mkdir "obj/$platform"
     cp -l "$basePath/$rid/publish/Gapotchenko.GnuTK.exe" "obj/$platform/gnu-tk.exe"
@@ -32,7 +38,7 @@ pack_windows() {
 pack_unix() {
     platform=$1
     rid=${2:-$platform}
-    output_file_name="gnu-tk-$version-$platform.tar.gz"
+    output_file_name="$(get_output_file_name "$version" "$platform").tar.gz"
 
     mkdir "obj/$platform"
     cp -l "$basePath/$rid/publish/Gapotchenko.GnuTK" "obj/$platform/gnu-tk"
