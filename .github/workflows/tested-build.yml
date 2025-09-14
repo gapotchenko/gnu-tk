@@ -67,6 +67,7 @@ jobs:
         env:
           GP_OSS_MANUFACTURER: ${{ vars.GP_OSS_MANUFACTURER }}
           GP_OSS_SWID_REGID: ${{ vars.GP_OSS_SWID_REGID }}
+          GP_OSS_PROJECT_MSI_UPGRADE_CODE: ${{ vars.GP_OSS_PROJECT_MSI_UPGRADE_CODE }}
           GP_OSS_PROJECT_DEV_URL: ${{ secrets.GP_OSS_PROJECT_DEV_URL }}
         run: just platform-build
 
