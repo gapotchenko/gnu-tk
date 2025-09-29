@@ -4,11 +4,12 @@
 
 ### GNU-TK 2025.9
 
-Release date: not released yet
+Release date: September 29, 2025
 
 - Automatic rectification of quirks in `\` character handling for command-line
   arguments in Cygwin-based toolkits (Cygwin, Git, MSYS2)
-- Fixed handling of `\` character in command-line arguments
+- Fixed handling of `\` character in command-line arguments supplied with `-l`
+  option
 
 ### GNU-TK 2025.8
 
