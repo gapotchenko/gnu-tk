@@ -96,9 +96,9 @@ installed on your system:
 - **Windows:**
   - [BusyBox](https://frippery.org/busybox/)
   - [Cygwin](https://cygwin.com/)
-  - [Git](https://git-scm.com/downloads/win) isn't a GNU toolkit itself, but it
-    includes one based on Cygwin
-  - **[MSYS2](https://www.msys2.org/) (recommended)**
+  - [Git](https://git-scm.com/downloads/win) (isn't a GNU toolkit by itself, but it conveniently
+    includes one based on MSYS2)
+  - [MSYS2](https://www.msys2.org/) (recommended)
   - [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
 - **macOS:**
   - [Homebrew](https://brew.sh/) package manager with installed GNU packages;
