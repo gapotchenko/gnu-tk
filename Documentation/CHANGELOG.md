@@ -6,10 +6,12 @@
 
 Release date: September 29, 2025
 
-- Automatic rectification of quirks in `\` character handling for command-line
-  arguments in Cygwin-based toolkits (Cygwin, Git, MSYS2)
-- Fixed handling of `\` character in command-line arguments supplied with `-l`
-  option
+- Introduced MSI setup packages for Windows
+- Improved command-line argument handling in Cygwin-based toolchains (Cygwin,
+  Git, MSYS2), including automatic correction of quirks related to `\`
+  character
+- Fixed an issue with processing `\` character in arguments passed with `-l`
+  (`--command-line`) option
 
 ### GNU-TK 2025.8
 
