@@ -3,6 +3,10 @@ description: Sets up required software components
 runs:
   using: composite
   steps:
+    # Avoid wasting type on updating man pages which are not used anyway
+    - run: sudo rm -f /var/lib/man-db/auto-update
+      if: runner.os == 'Linux'
+
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v4
       with:
