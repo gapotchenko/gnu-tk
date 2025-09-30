@@ -22,7 +22,6 @@
         <!-- ARM64 -->
         <File Source="../../../Toolkits/BusyBox/win-arm64/busybox64a.exe" />
         <?else?>
-        <!-- Unexpected -->
         <?error BusyBox for Windows does not support $(Platform) platform. ?>
         <?endif?>
 
