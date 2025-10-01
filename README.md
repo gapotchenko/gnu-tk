@@ -96,8 +96,7 @@ installed on your system:
 - **Windows:**
   - [BusyBox](https://frippery.org/busybox/)
   - [Cygwin](https://cygwin.com/)
-  - [Git](https://git-scm.com/downloads/win) (not a GNU toolkit by itself, but it conveniently
-    includes one based on MSYS2)
+  - [Git](https://git-scm.com/downloads/win) (not a GNU toolkit by itself; comes with a stripped down, immutable MSYS2 subset)
   - [MSYS2](https://www.msys2.org/) (recommended)
   - [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
 - **macOS:**
@@ -105,10 +104,10 @@ installed on your system:
     [`bash`](https://formulae.brew.sh/formula/bash) and
     [`coreutils`](https://formulae.brew.sh/formula/coreutils) is a recommended
     bare minimum
-  - OS comes with a pre-installed GNU-like toolkit
+  - Includes a pre-installed GNU-like toolkit
 - **Linux:**
   - [BusyBox](http://www.busybox.net/)
-  - OS comes with a pre-installed GNU toolkit
+  - Includes a pre-installed GNU toolkit
 
 #### Built-in Toolkits
 
