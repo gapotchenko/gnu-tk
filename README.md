@@ -62,7 +62,7 @@ You can install GNU-TK using one of the supported methods below.
 
 Setup packages are standalone installers that let you install GNU-TK directly on your system — no additional tools required.
 
-#### Windows
+#### Windows Installers
 
 - [GNU-TK Setup for Windows (x64)](https://download.gapotchenko.com/gnu-tk/latest/gnu-tk-setup-windows-x64.msi)
 - [GNU-TK Setup for Windows (ARM64)](https://download.gapotchenko.com/gnu-tk/latest/gnu-tk-setup-windows-arm64.msi)
