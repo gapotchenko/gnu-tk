@@ -113,10 +113,10 @@ installed on your system:
     [`bash`](https://formulae.brew.sh/formula/bash) and
     [`coreutils`](https://formulae.brew.sh/formula/coreutils) is a recommended
     bare minimum
-  - Includes a pre-installed GNU-like toolkit
+  - OS includes a pre-installed GNU-like toolkit
 - **Linux:**
   - [BusyBox](http://www.busybox.net/)
-  - Includes a pre-installed GNU toolkit
+  - OS includes a pre-installed GNU toolkit
 
 #### Built-in Toolkits
 
