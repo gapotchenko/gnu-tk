@@ -14,8 +14,7 @@ Release date: September 29, 2025
 
 - Introduced MSI setup packages for Windows
 - Improved command-line argument handling in Cygwin-based toolchains (Cygwin,
-  Git, MSYS2), including automatic correction of quirks related to `\`
-  character
+  Git, MSYS2), including automatic correction of quirks related to `\` character
 - Fixed an issue with processing `\` character in arguments passed with `-l`
   (`--command-line`) option
 

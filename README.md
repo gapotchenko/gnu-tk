@@ -60,7 +60,8 @@ You can install GNU-TK using one of the supported methods below.
 
 ### Setup Packages
 
-Setup packages are standalone installers that let you install GNU-TK directly on your system — no additional tools required.
+Setup packages are standalone installers that let you install GNU-TK directly on
+your system — no additional tools required.
 
 #### Windows
 
@@ -105,7 +106,8 @@ installed on your system:
 - **Windows:**
   - [BusyBox](https://frippery.org/busybox/)
   - [Cygwin](https://cygwin.com/)
-  - [Git](https://git-scm.com/downloads/win) (not a GNU toolkit by itself; includes an immutable stripped down subset of MSYS2)
+  - [Git](https://git-scm.com/downloads/win) (not a GNU toolkit by itself;
+    includes an immutable stripped down subset of MSYS2)
   - [MSYS2](https://www.msys2.org/) (recommended)
   - [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
 - **macOS:**
