@@ -13,7 +13,6 @@ static class ProcessHelper
 {
     public static int Execute(ProcessStartInfo psi)
     {
-        psi.WindowStyle = ProcessWindowStyle.Hidden;
         using var process =
             Process.Start(psi) ??
             throw new InvalidOperationException(DiagnosticMessages.CannotStartProcess(psi.FileName));
@@ -23,7 +22,6 @@ static class ProcessHelper
 
     public static int Execute(ProcessStartInfo psi, TextWriter output)
     {
-        psi.CreateNoWindow = true;
         psi.RedirectStandardOutput = true;
 
         using var process =
