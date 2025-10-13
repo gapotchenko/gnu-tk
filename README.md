@@ -56,7 +56,16 @@ gnu-tk -f <script-file>
 
 ## Installation
 
-To install GNU-TK, you can use one of the supported package managers.
+You can install GNU-TK using one of the supported methods below.
+
+### Setup Packages
+
+Setup packages are standalone installers that let you install GNU-TK directly on your system — no additional tools required.
+
+#### Windows
+
+- [GNU-TK Setup for Windows (x64)](https://download.gapotchenko.com/gnu-tk/latest/gnu-tk-setup-windows-x64.msi)
+- [GNU-TK Setup for Windows (ARM64)](https://download.gapotchenko.com/gnu-tk/latest/gnu-tk-setup-windows-arm64.msi)
 
 ### Package Managers
 
@@ -96,8 +105,7 @@ installed on your system:
 - **Windows:**
   - [BusyBox](https://frippery.org/busybox/)
   - [Cygwin](https://cygwin.com/)
-  - [Git](https://git-scm.com/downloads/win) (not a GNU toolkit by itself, but it conveniently
-    includes one based on MSYS2)
+  - [Git](https://git-scm.com/downloads/win) (not a GNU toolkit by itself; includes an immutable stripped down subset of MSYS2)
   - [MSYS2](https://www.msys2.org/) (recommended)
   - [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
 - **macOS:**
@@ -105,10 +113,10 @@ installed on your system:
     [`bash`](https://formulae.brew.sh/formula/bash) and
     [`coreutils`](https://formulae.brew.sh/formula/coreutils) is a recommended
     bare minimum
-  - OS comes with a pre-installed GNU-like toolkit
+  - OS includes a pre-installed GNU-like toolkit
 - **Linux:**
   - [BusyBox](http://www.busybox.net/)
-  - OS comes with a pre-installed GNU toolkit
+  - OS includes a pre-installed GNU toolkit
 
 #### Built-in Toolkits
 
