@@ -1,6 +1,11 @@
 # Template:
 # https://github.com/github/gitignore/blob/main/Dotnet.gitignore
 
+# dotenv environment variable files
+.env
+.env.*
+!.env.example
+
 # Cryptographical Keys
 *.snk
 
@@ -18,10 +23,10 @@
 ~$*
 *~
 CodeCoverage/
-.env
 .vs
 .idea
 launchSettings.json
+*.user
 
 # Node.js
 node_modules

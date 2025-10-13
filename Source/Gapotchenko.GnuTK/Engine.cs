@@ -338,36 +338,43 @@ sealed class Engine
 
         if (toolkit is null)
         {
+            var error = Console.Error;
+
             if (toolkits.Any() ||
                 Strict && EnumerateToolkits(ToolkitServices.SupportedToolkitFamilies).Any())
             {
-                using (UIStyles.Scope.Error(Console.Out))
+                using (UIStyles.Scope.Error(error))
                 {
+                    UIStyles.ErrorPrologue(error, DiagnosticCode.SuitableToolkitNotFound);
                     if (Strict)
-                        Console.Write(DiagnosticMessages.SuitableStrictToolkitNotFound(names));
+                        error.Write(DiagnosticMessages.SuitableStrictToolkitNotFound(names));
                     else
-                        Console.Write(DiagnosticMessages.SuitableToolkitNotFound(names));
+                        error.Write(DiagnosticMessages.SuitableToolkitNotFound(names));
                 }
-                Console.WriteLine();
+                error.WriteLine();
 
                 if (!quiet)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("To list all available toolkits, use 'gnu-tk list' command.");
+                    error.WriteLine();
+                    error.WriteLine("To list all available toolkits, use 'gnu-tk list' command.");
                 }
             }
             else
             {
-                using (UIStyles.Scope.Error(Console.Out))
-                    Console.Write("No available GNU toolkits are found.");
-                Console.WriteLine();
+                using (UIStyles.Scope.Error(error))
+                {
+                    UIStyles.ErrorPrologue(error, DiagnosticCode.SuitableToolkitNotFound);
+                    error.Write("No available GNU toolkits are found.");
+                }
+                error.WriteLine();
 
                 if (!quiet)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("Learn more: https://gapt.ch/help/gnu-tk/install-toolkits");
+                    error.WriteLine();
+                    error.WriteLine("Learn more: https://gapt.ch/help/gnu-tk/install-toolkits");
                 }
             }
+
             return false;
         }
 

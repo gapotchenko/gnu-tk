@@ -2,6 +2,12 @@
 
 ## 2025
 
+### GNU-TK 2025.10
+
+Release date: not released yet
+
+- `check` command uses `stderr` for errors
+
 ### GNU-TK 2025.9
 
 Release date: September 29, 2025

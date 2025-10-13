@@ -86,10 +86,8 @@ static class UIShell
         var writer = Console.Error;
         using (UIStyles.Scope.Error(writer))
         {
-            writer.Write("Error");
-
-            int? errorCode = (int?)(exception.SelfAndInnerExceptions().OfType<DiagnosticException>().FirstOrDefault()?.Code);
-            writer.Write(Invariant($": GNUTK{errorCode:D4}: "));
+            var errorCode = exception.SelfAndInnerExceptions().OfType<DiagnosticException>().FirstOrDefault()?.Code;
+            UIStyles.ErrorPrologue(writer, errorCode);
 
             if (exception is InternalException || errorCode is null && exception is not ProgramException)
                 writer.Write("Internal error: ");

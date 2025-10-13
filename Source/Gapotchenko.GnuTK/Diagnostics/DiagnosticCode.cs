@@ -13,7 +13,7 @@ namespace Gapotchenko.GnuTK.Diagnostics;
 /// <remarks>
 /// Must be in sync with <c>Documentation/Diagnostics/Errors.txt</c> file.
 /// </remarks>
-public enum DiagnosticCode
+enum DiagnosticCode
 {
     InvalidProgramArguments = 1,
     SuitableToolkitNotFound = 2,

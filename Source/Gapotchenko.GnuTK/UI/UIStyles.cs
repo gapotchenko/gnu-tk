@@ -6,11 +6,17 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.Console;
+using Gapotchenko.GnuTK.Diagnostics;
 
 namespace Gapotchenko.GnuTK.UI;
 
 static class UIStyles
 {
+    public static void ErrorPrologue(TextWriter textWriter, DiagnosticCode? errorCode)
+    {
+        textWriter.Write(Invariant($"Error: {DiagnosticServices.GetErrorIdentifier(errorCode)}: "));
+    }
+
     public readonly struct Scope : IDisposable
     {
         public static Scope Title(TextWriter textWriter) =>
