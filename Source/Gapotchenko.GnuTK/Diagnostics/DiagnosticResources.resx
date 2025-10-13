@@ -141,4 +141,7 @@
   <data name="BuiltInToolkitXDirectoryYNotFound" xml:space="preserve">
     <value>Directory '{1}' specified for built-in GNU toolkit '{0}' is not found.</value>
   </data>
+  <data name="InvalidProgramArguments" xml:space="preserve">
+    <value>Invalid program arguments.</value>
+  </data>
 </root>

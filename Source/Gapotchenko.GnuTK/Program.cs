@@ -41,8 +41,16 @@ static class Program
         if (args is [])
         {
             var writer = Console.Error;
-            writer.WriteLine("gnu-tk: missing program arguments");
+
+            using (UIStyles.Scope.Error(writer))
+            {
+                UIStyles.ErrorPrologue(writer, DiagnosticCode.InvalidProgramArguments);
+                writer.WriteLine(DiagnosticMessages.InvalidProgramArguments);
+            }
+
+            writer.WriteLine();
             writer.WriteLine("Try 'gnu-tk --help' for more information.");
+
             return 1;
         }
 
@@ -75,7 +83,7 @@ static class Program
 
         var parsedArguments =
             CliServices.TryParseArguments(CanonicalizeArgs(ExpandArgs(args)), usage) ??
-            throw new DiagnosticException("Invalid program arguments.", DiagnosticCode.InvalidProgramArguments);
+            throw new DiagnosticException(DiagnosticMessages.InvalidProgramArguments, DiagnosticCode.InvalidProgramArguments);
 
         if (UIShell.Run(parsedArguments, usage, out int exitCode))
             return exitCode;

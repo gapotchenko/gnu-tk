@@ -88,6 +88,15 @@ namespace Gapotchenko.GnuTK.Diagnostics {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid program arguments..
+        /// </summary>
+        internal static string InvalidProgramArguments {
+            get {
+                return ResourceManager.GetString("InvalidProgramArguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot find &apos;{0}&apos; module..
         /// </summary>
         internal static string ModuleXNotFound {
