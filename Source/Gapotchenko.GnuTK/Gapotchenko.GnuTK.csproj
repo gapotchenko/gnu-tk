@@ -8,6 +8,7 @@
   <!-- NuGet specification -->
   <PropertyGroup>
     <Description>A multi-platform command-line utility that provides seamless access to GNU toolkits on non-GNU operating systems.</Description>
+    <AssemblyTitle>$(Description)</AssemblyTitle>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <!-- Workaround for https://github.com/dotnet/sdk/issues/49799 -->
     <PackAsTool Condition=" '$(TargetFormFactor)' == 'NuGet' ">true</PackAsTool>
