@@ -105,7 +105,7 @@ installed on your system:
 - **Windows:**
   - [BusyBox](https://frippery.org/busybox/)
   - [Cygwin](https://cygwin.com/)
-  - [Git](https://git-scm.com/downloads/win) (not a GNU toolkit by itself; includes an immutable stripped down MSYS2 subset)
+  - [Git](https://git-scm.com/downloads/win) (not a GNU toolkit by itself; includes an immutable stripped down subset of MSYS2)
   - [MSYS2](https://www.msys2.org/) (recommended)
   - [WSL](https://learn.microsoft.com/windows/wsl/ "Windows Subsystem for Linux")
 - **macOS:**
