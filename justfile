@@ -105,20 +105,20 @@ publish:
 
 # Build platform-dependent release artifacts
 [group("build")]
-platform-build: _publish-aot _build-setup
+platform-build: _build-aot _build-setup
 
 [linux]
-_publish-aot:
+_build-aot:
     if [ "$(uname -m)" = "x86_64" ]; then cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r linux-x64 -f "{{ dotnet-framework }}"; fi
     if [ "$(uname -m)" = "aarch64" ]; then cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r linux-arm64 -f "{{ dotnet-framework }}"; fi
 
 [windows]
-_publish-aot:
+_build-aot:
     cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r win-x64 -f "{{ dotnet-framework }}"
     cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r win-arm64 -f "{{ dotnet-framework }}"
 
 [macos]
-_publish-aot:
+_build-aot:
     cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r osx-arm64 -f "{{ dotnet-framework }}"
     cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r osx-x64 -f "{{ dotnet-framework }}"
 

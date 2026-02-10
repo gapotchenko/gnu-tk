@@ -1,5 +1,5 @@
 Error code    Description
------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 GNUTK0001     Invalid program arguments.
 GNUTK0002     No suitable GNU toolkit is found.
 GNUTK0003     Program arguments '{0}' and '{1}' cannot be specified simultaneously.
