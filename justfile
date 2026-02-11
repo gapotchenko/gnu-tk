@@ -5,31 +5,24 @@
 # File introduced by: Oleksiy Gapotchenko
 # Year of introduction: 2025
 
+set dotenv-load := true
 set working-directory := "Source"
-set unstable := true
-
-# ---------------------------------------------------------------------------
-# Shells & Interpreters
-# ---------------------------------------------------------------------------
-
 set windows-shell := ["powershell", "-c"]
 set script-interpreter := ["gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
 
 # ---------------------------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------------------------
 
-set dotenv-load := true
+dotnet-target-framework := "net9.0"
 
-dotnet-framework := "net9.0"
-
-# ---------------------------------------------------------------------------
-# Recipes
 # ---------------------------------------------------------------------------
 
 # Show the help for this justfile
 @help:
     just --list
+
+# ---------------------------------------------------------------------------
+# Development
+# ---------------------------------------------------------------------------
 
 # Start IDE using the project environment
 [group("development")]
@@ -79,6 +72,10 @@ check:
     echo 'Checking **/*.sh...'
     fd -e sh -x shellcheck
 
+# ---------------------------------------------------------------------------
+# Build
+# ---------------------------------------------------------------------------
+
 # Build release artifacts
 [group("build")]
 build:
@@ -100,7 +97,7 @@ clean:
 # Run all tests
 [group("diagnostics")]
 test: build
-    dotnet test -c Release -f "{{ dotnet-framework }}"
+    dotnet test -c Release -f "{{ dotnet-target-framework }}"
 
 # Produce publishable artifacts
 [group("build")]
@@ -114,18 +111,17 @@ platform-build: _build-aot _build-setup
 
 [linux]
 _build-aot:
-    if [ "$(uname -m)" = "x86_64" ]; then cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r linux-x64 -f "{{ dotnet-framework }}"; fi
-    if [ "$(uname -m)" = "aarch64" ]; then cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r linux-arm64 -f "{{ dotnet-framework }}"; fi
+    if [ "$(uname -m)" = "x86_64" ]; then just _build-aot-arch linux-x64; fi
+    if [ "$(uname -m)" = "aarch64" ]; then just _build-aot-arch linux-arm64; fi
 
 [windows]
-_build-aot:
-    cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r win-x64 -f "{{ dotnet-framework }}"
-    cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r win-arm64 -f "{{ dotnet-framework }}"
+_build-aot: (_build-aot-arch "win-x64") (_build-aot-arch "win-arm64")
 
 [macos]
-_build-aot:
-    cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r osx-arm64 -f "{{ dotnet-framework }}"
-    cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r osx-x64 -f "{{ dotnet-framework }}"
+_build-aot: (_build-aot-arch "osx-arm64") (_build-aot-arch "osx-x64")
+
+_build-aot-arch rid:
+    cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r "{{ rid }}" -f "{{ dotnet-target-framework }}"
 
 _build-setup:
     cd Setup; just build 
@@ -135,8 +131,12 @@ _build-setup:
 platform-publish:
     cd Packaging; just pack
 
+# ---------------------------------------------------------------------------
+# Diagnostics
+# ---------------------------------------------------------------------------
+
 # Run GNU-TK from the source code
 [group("diagnostics")]
 [no-cd]
 gnu-tk *args:
-    dotnet run --project "{{ absolute_path("Gapotchenko.GnuTK") }}" -c Release -f "{{ dotnet-framework }}" --no-launch-profile -v q -- {{ args }}
+    dotnet run --project "{{ absolute_path("Gapotchenko.GnuTK") }}" -c Release -f "{{ dotnet-target-framework }}" --no-launch-profile -v q -- {{ args }}
