@@ -7,7 +7,6 @@
 
 using Gapotchenko.FX;
 using Gapotchenko.FX.Diagnostics;
-using Gapotchenko.FX.IO;
 using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Toolkits;
 using Gapotchenko.GnuTK.UI;

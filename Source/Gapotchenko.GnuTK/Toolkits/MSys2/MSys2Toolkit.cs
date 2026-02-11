@@ -6,7 +6,6 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.Collections.Generic;
-using Gapotchenko.FX.IO;
 using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Helpers;
 using Gapotchenko.GnuTK.Toolkits.Cygwin;

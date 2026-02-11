@@ -5,7 +5,6 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
-using Gapotchenko.FX.IO;
 using Gapotchenko.FX.Linq;
 using Gapotchenko.GnuTK.Configuration;
 using Gapotchenko.GnuTK.Diagnostics;
