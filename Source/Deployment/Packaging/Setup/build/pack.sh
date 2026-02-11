@@ -4,12 +4,12 @@ set -eu
 
 cd ..
 
-# ---------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 repoPath="$(pwd)/../../../.."
 version=$(xq "$repoPath/Source/Mastering/.NET/Version.props" -x //Project/PropertyGroup/Version)
 
-# ---------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 get_output_file_name() {
     version=$1
@@ -28,7 +28,7 @@ pack_windows() {
     cp -l "$repoPath/Source/Deployment/Setup/MSI/bin/$arch/Release/$lang/Gapotchenko.GnuTK.Setup.Msi.msi" "bin/$output_file_name"
 }
 
-# ---------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Windows
 pack_windows windows-x64 x64
