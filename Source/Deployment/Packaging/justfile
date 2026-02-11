@@ -1,15 +1,22 @@
+# Gapotchenko.GnuTK
+#
+# Copyright © Gapotchenko and Contributors
+#
+# File introduced by: Oleksiy Gapotchenko
+# Year of introduction: 2025
+
 set fallback := true
 set windows-shell := ["powershell", "-c"]
+
+# -----------------------------------------------------------------------------
 
 # Show the help for this justfile
 @help:
     just --list
 
-[group("build")]
 [parallel]
 pack: (_component-pack "NPM") (_component-pack "Portable") (_component-pack "Setup")
 
-[group("build")]
 [parallel]
 clean: (_component-clean "NPM") (_component-clean "Portable") (_component-clean "Setup")
 

@@ -91,8 +91,7 @@ rebuild:
 clean:
     dotnet clean -c Debug
     dotnet clean -c Release
-    cd Packaging; just clean
-    cd Setup; just clean
+    cd Deployment; just clean
 
 # Run all tests
 [group("diagnostics")]
@@ -124,12 +123,12 @@ _build-aot-arch rid:
     cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r "{{ rid }}" -f "{{ dotnet-target-framework }}"
 
 _build-setup:
-    cd Setup; just build 
+    cd Deployment/Setup; just build 
 
 # Produce platform-dependent publishable artifacts
 [group("build")]
 platform-publish:
-    cd Packaging; just pack
+    cd Deployment/Packaging; just pack
 
 # ---------------------------------------------------------------------------
 # Diagnostics

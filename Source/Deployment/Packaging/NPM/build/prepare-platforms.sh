@@ -7,7 +7,7 @@ cd ../contents
 
 rm -rf platforms && mkdir platforms
 
-basePath=../../../Gapotchenko.GnuTK/bin/Release/net9.0
+basePath=../../../../Gapotchenko.GnuTK/bin/Release/net9.0
 assetsPath=$scriptPath/../assets
 
 # ---------------------------------------------------------------------------

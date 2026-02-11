@@ -6,7 +6,7 @@ cd ..
 
 # ---------------------------------------------------------------------------
 
-repoPath="$(pwd)/../../.."
+repoPath="$(pwd)/../../../.."
 version=$(xq "$repoPath/Source/Mastering/.NET/Version.props" -x //Project/PropertyGroup/Version)
 
 # ---------------------------------------------------------------------------
@@ -25,7 +25,7 @@ pack_windows() {
     output_file_name="$(get_output_file_name "$version" "$platform").msi"
 
     echo "$output_file_name"
-    cp -l "$repoPath/Source/Setup/MSI/bin/$arch/Release/$lang/Gapotchenko.GnuTK.Setup.Msi.msi" "bin/$output_file_name"
+    cp -l "$repoPath/Source/Deployment/Setup/MSI/bin/$arch/Release/$lang/Gapotchenko.GnuTK.Setup.Msi.msi" "bin/$output_file_name"
 }
 
 # ---------------------------------------------------------------------------

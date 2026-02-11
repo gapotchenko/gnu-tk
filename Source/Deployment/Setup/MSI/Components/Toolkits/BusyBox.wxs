@@ -17,19 +17,19 @@
 
         <?if $(Platform) = "x64" ?>
         <!-- x64 -->
-        <File Source="../../../Toolkits/BusyBox/win-x64/busybox64u.exe" />
+        <File Source="$(RepoPath)/Toolkits/BusyBox/win-x64/busybox64u.exe" />
         <?elseif $(Platform) = "ARM64" ?>
         <!-- ARM64 -->
-        <File Source="../../../Toolkits/BusyBox/win-arm64/busybox64a.exe" />
+        <File Source="$(RepoPath)/Toolkits/BusyBox/win-arm64/busybox64a.exe" />
         <?else?>
         <?error BusyBox for Windows does not support $(Platform) platform. ?>
         <?endif?>
 
-        <File Source="../../../Toolkits/BusyBox/LICENSE" Name="LICENSE.txt" />
+        <File Source="$(RepoPath)/Toolkits/BusyBox/LICENSE" Name="LICENSE.txt" />
       </Component>
 
       <Component Directory="INSTALLFOLDER">
-        <File Source="Resources/gnu-tk.ini" />
+        <File Source="Assets/gnu-tk.ini" />
       </Component>
 
     </ComponentGroup>

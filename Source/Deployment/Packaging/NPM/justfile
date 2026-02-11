@@ -6,11 +6,11 @@ set windows-shell := ["gnu-tk", "-i", "-c"]
 
 pack:
     cd build && chmod +x *.sh && ./prepare-platforms.sh && ./prepare-toolkits.sh
-    cp -l ../../../README.md contents/README.md
+    cp -l ../../../../README.md contents/README.md
     rm -rf bin obj && mkdir bin obj
     cp contents/package.json obj/package.json
     @cd contents && npm version 0.0.0-reset > /dev/null
-    cd contents && npm version `xq ../../../Mastering/.NET/Version.props -x //Project/PropertyGroup/Version`
+    cd contents && npm version `xq ../../../../Mastering/.NET/Version.props -x //Project/PropertyGroup/Version`
     cd contents && npm pkg delete devDependencies scripts
     npm pack ./contents --pack-destination bin
     mv -f obj/package.json contents/package.json

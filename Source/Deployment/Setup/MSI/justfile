@@ -1,3 +1,10 @@
+# Gapotchenko.GnuTK
+#
+# Copyright © Gapotchenko and Contributors
+#
+# File introduced by: Oleksiy Gapotchenko
+# Year of introduction: 2025
+
 set unstable := true
 set fallback := true
 set dotenv-load := true
@@ -8,12 +15,14 @@ set windows-shell := ["powershell", "-c"]
 set script-interpreter := ["just", "gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
 
 # -----------------------------------------------------------------------------
-# Recipes
-# -----------------------------------------------------------------------------
 
 # Show the help for this justfile
 @help:
     just --list
+
+# -----------------------------------------------------------------------------
+# Development
+# -----------------------------------------------------------------------------
 
 # Start IDE using the project environment
 [group("development")]
@@ -27,8 +36,14 @@ develop:
 develop:
     open *.slnx
 
+# -----------------------------------------------------------------------------
+# Build
+# -----------------------------------------------------------------------------
+
+[group("build")]
 build: _branding-build _project-build
 
+[group("build")]
 clean: _project-clean _branding-clean
 
 # -----------------------------------------------------------------------------

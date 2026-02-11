@@ -6,7 +6,7 @@ cd ../contents
 
 rm -rf toolkits && mkdir toolkits
 
-basePath=../../../../Toolkits
+basePath=../../../../../Toolkits
 
 # ---------------------------------------------------------------------------
 # BusyBox

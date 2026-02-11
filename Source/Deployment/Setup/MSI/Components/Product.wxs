@@ -14,7 +14,7 @@
 
     <ComponentGroup Id="CG.Product" Directory="INSTALLFOLDER">
       <Component Guid="10CCEC14-8F98-4239-921C-51D1B945B6C8">
-        <File Source="../../Gapotchenko.GnuTK/bin/Release/$(TFM)/win-$(Platform)/publish/Gapotchenko.GnuTK.exe" Name="gnu-tk.exe" />
+        <File Source="$(RepoPath)/Source/Gapotchenko.GnuTK/bin/Release/$(TFM)/win-$(Platform)/publish/Gapotchenko.GnuTK.exe" Name="gnu-tk.exe" />
         <!-- Register in the system PATH. -->
         <Environment Name="PATH" Action="set" Permanent="false" Part="last" System="true" Value="[INSTALLFOLDER]" />
         <!-- Store product information in the registry so that other software can find it. -->
@@ -28,14 +28,14 @@
     <DirectoryRef Id="INSTALLFOLDER">
       <Directory Name="Legal">
         <Component Id="C.Product.Legal" Guid="6CFA5E40-2597-4CDA-AF98-F451BE5A5167">
-          <File Source="../../../LICENSE" Name="LICENSE.txt" />
+          <File Source="$(RepoPath)/LICENSE" Name="LICENSE.txt" />
         </Component>
       </Directory>
       <Directory Name="Documentation">
         <Component Id="C.Product.Documentation" Guid="00DDA997-5A11-42FD-AD60-538EF9C57732">
-          <File Source="../../../README.md" />
-          <File Source="../../../Documentation/ABOUT" Name="ABOUT.txt" />
-          <File Source="../../../Documentation/CHANGELOG.md" />
+          <File Source="$(RepoPath)/README.md" />
+          <File Source="$(RepoPath)/Documentation/ABOUT" Name="ABOUT.txt" />
+          <File Source="$(RepoPath)/Documentation/CHANGELOG.md" />
         </Component>
       </Directory>
     </DirectoryRef>

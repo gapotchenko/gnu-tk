@@ -6,7 +6,7 @@ cd ..
 
 # ---------------------------------------------------------------------------
 
-repoPath="$(pwd)/../../.."
+repoPath="$(pwd)/../../../.."
 basePath="$repoPath/Source/Gapotchenko.GnuTK/bin/Release/net9.0"
 version=$(xq "$repoPath/Source/Mastering/.NET/Version.props" -x //Project/PropertyGroup/Version)
 

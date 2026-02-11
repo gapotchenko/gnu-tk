@@ -1,7 +1,9 @@
 ﻿<Project Sdk="WixToolset.Sdk/6.0.2">
+
   <PropertyGroup>
     <Pedantic>true</Pedantic>
   </PropertyGroup>
+
   <PropertyGroup>
     <WixProductVersion>$(Version)</WixProductVersion>
     <!-- MSI only allows up to 3 version components, each in [0,255] interval.
@@ -16,10 +18,13 @@
     <WixUpgradeCode>$([MSBuild]::ValueOrDefault('$(GP_OSS_PROJECT_MSI_UPGRADE_CODE)', '11111111-2222-3333-4444-555555555555'))</WixUpgradeCode>
     <WixBranding>false</WixBranding>
     <WixBranding Condition=" Exists('Branding') ">true</WixBranding>
+    <WixRepoPath>$(MSBuildThisFileDirectory)../../../..</WixRepoPath>
     <!-- Pass the variables to Wix Toolset -->
-    <DefineConstants>$(DefineConstants);Version=$(WixVersion);ProductVersion=$(WixProductVersion);CompressionLevel=$(WixCompressionLevel);TFM=$(WixTfm);Manufacturer=$(WixManufacturer);SwidRegId=$(WixSwidRegId);UpgradeCode=$(WixUpgradeCode);Branding=$(WixBranding)</DefineConstants>
+    <DefineConstants>$(DefineConstants);Version=$(WixVersion);ProductVersion=$(WixProductVersion);CompressionLevel=$(WixCompressionLevel);TFM=$(WixTfm);Manufacturer=$(WixManufacturer);SwidRegId=$(WixSwidRegId);UpgradeCode=$(WixUpgradeCode);Branding=$(WixBranding);RepoPath=$(WixRepoPath)</DefineConstants>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="WixToolset.UI.wixext" Version="6.0.2" />
   </ItemGroup>
+
 </Project>

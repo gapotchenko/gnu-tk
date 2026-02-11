@@ -131,9 +131,9 @@ jobs:
           path: |
             Documentation/CHANGELOG.md
             Source/**/bin/Release/nuget/*.nupkg
-            Source/Packaging/**/bin/*.zip
-            Source/Packaging/**/bin/*.tar.gz
-            Source/Packaging/**/bin/*.tgz
-            Source/Packaging/**/bin/*.msi
-            Source/Packaging/**/bin/*SUMS
+            Source/Deployment/Packaging/**/bin/*.zip
+            Source/Deployment/Packaging/**/bin/*.tar.gz
+            Source/Deployment/Packaging/**/bin/*.tgz
+            Source/Deployment/Packaging/**/bin/*.msi
+            Source/Deployment/Packaging/**/bin/*SUMS
           if-no-files-found: error
