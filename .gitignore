@@ -33,7 +33,7 @@ node_modules
 package-lock.json
 
 # Project
-/Source/Packaging/NPM/gnu-tk/platforms
-/Source/Packaging/NPM/gnu-tk/toolkits
-/Source/Packaging/NPM/gnu-tk/README.md
+/Source/Packaging/NPM/contents/platforms
+/Source/Packaging/NPM/contents/toolkits
+/Source/Packaging/NPM/contents/README.md
 Branding

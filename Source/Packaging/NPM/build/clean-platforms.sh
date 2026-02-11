@@ -2,6 +2,6 @@
 
 set -eu
 
-cd ../gnu-tk
+cd ../contents
 
 rm -rf platforms

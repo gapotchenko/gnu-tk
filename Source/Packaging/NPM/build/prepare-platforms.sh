@@ -3,11 +3,12 @@
 set -eu
 
 scriptPath=$(pwd)
-cd ../gnu-tk
+cd ../contents
 
 rm -rf platforms && mkdir platforms
 
 basePath=../../../Gapotchenko.GnuTK/bin/Release/net9.0
+assetsPath=$scriptPath/../assets
 
 # ---------------------------------------------------------------------------
 # Windows
@@ -15,11 +16,11 @@ basePath=../../../Gapotchenko.GnuTK/bin/Release/net9.0
 
 mkdir platforms/win-x64
 cp -l "$basePath/win-x64/publish/Gapotchenko.GnuTK.exe" platforms/win-x64/gnu-tk.exe
-cp "$scriptPath/gnu-tk.ini" platforms/win-x64
+cp "$assetsPath/gnu-tk.ini" platforms/win-x64
 
 mkdir platforms/win-arm64
 cp -l "$basePath/win-arm64/publish/Gapotchenko.GnuTK.exe" platforms/win-arm64/gnu-tk.exe
-cp "$scriptPath/gnu-tk.ini" platforms/win-arm64
+cp "$assetsPath/gnu-tk.ini" platforms/win-arm64
 
 # ---------------------------------------------------------------------------
 # Linux

@@ -2,7 +2,7 @@
 
 set -eu -o pipefail
 
-cd ../gnu-tk
+cd ../contents
 
 rm -rf toolkits && mkdir toolkits
 
