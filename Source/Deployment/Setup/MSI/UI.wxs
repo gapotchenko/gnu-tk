@@ -8,6 +8,6 @@
       <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
       <?endif?>
     </UI>
-    <WixVariable Id="WixUILicenseRtf" Value="$(RepoPath)/Legal/LICENSE.rtf" />
+    <WixVariable Id="WixUILicenseRtf" Value="$(RepoPath)/Documentation/Legal/LICENSE.rtf" />
   </Fragment>
 </Wix>
