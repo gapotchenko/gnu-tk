@@ -1,21 +1,25 @@
 #!/bin/sh
 
 set -eu
-
 cd ..
 
 # -----------------------------------------------------------------------------
 
 repoPath="$(pwd)/../../../.."
-basePath="$repoPath/Source/Gapotchenko.GnuTK/bin/Release/net9.0"
-version=$(xq "$repoPath/Source/Mastering/.NET/Version.props" -x //Project/PropertyGroup/Version)
+
+masterPath="$repoPath/Source/Mastering/Shell"
+product=$("$masterPath/product.sh" name)
+version=$("$masterPath/version.sh" semantic)
+tfm=$("$masterPath/targeting.sh" tfm)
+
+basePath="$repoPath/Source/Gapotchenko.GnuTK/bin/Release/$tfm"
 
 # -----------------------------------------------------------------------------
 
 get_output_file_name() {
     version=$1
     platform=$2
-    echo "gnu-tk-$version-portable-$platform"
+    echo "$product-$version-portable-$platform"
 }
 
 pack_windows() {

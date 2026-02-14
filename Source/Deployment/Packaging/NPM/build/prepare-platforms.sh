@@ -1,14 +1,24 @@
 #!/bin/sh
 
 set -eu
+cd ..
 
-scriptPath=$(pwd)
-cd ../contents
+# -----------------------------------------------------------------------------
 
+parentPath=$(pwd)
+assetsPath=$parentPath/assets
+
+repoPath=$parentPath/../../../..
+
+masterPath="$repoPath/Source/Mastering/Shell"
+tfm=$("$masterPath/targeting.sh" tfm)
+
+basePath=$repoPath/Source/Gapotchenko.GnuTK/bin/Release/$tfm
+
+# -----------------------------------------------------------------------------
+
+cd contents
 rm -rf platforms && mkdir platforms
-
-basePath=../../../../Gapotchenko.GnuTK/bin/Release/net9.0
-assetsPath=$scriptPath/../assets
 
 # -----------------------------------------------------------------------------
 # Windows

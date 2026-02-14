@@ -1,20 +1,22 @@
 #!/bin/sh
 
 set -eu
-
 cd ..
 
 # -----------------------------------------------------------------------------
 
 repoPath="$(pwd)/../../../.."
-version=$(xq "$repoPath/Source/Mastering/.NET/Version.props" -x //Project/PropertyGroup/Version)
+
+masterPath="$repoPath/Source/Mastering/Shell"
+product=$("$masterPath/product.sh" name)
+version=$("$masterPath/version.sh" semantic)
 
 # -----------------------------------------------------------------------------
 
 get_output_file_name() {
     version=$1
     platform=$2
-    echo "gnu-tk-$version-setup-$platform"
+    echo "$product-$version-setup-$platform"
 }
 
 pack_windows() {
