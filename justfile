@@ -100,9 +100,16 @@ test: build
 
 # Produce publishable artifacts
 [group("build")]
-publish:
+publish: _prepare-publish
     dotnet clean -c Release
     dotnet pack -c Release -p:TargetFormFactor=NuGet
+
+[windows]
+_prepare-publish:
+
+[unix]
+_prepare-publish:
+    cd Mastering/Shell; chmod +x *.sh
 
 # Build platform-dependent release artifacts
 [group("build")]
