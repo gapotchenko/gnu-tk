@@ -33,7 +33,7 @@ node_modules
 package-lock.json
 
 # Project
-/Source/Packaging/NPM/contents/platforms
-/Source/Packaging/NPM/contents/toolkits
-/Source/Packaging/NPM/contents/README.md
+/Source/Deployment/Packaging/NPM/contents/platforms
+/Source/Deployment/Packaging/NPM/contents/toolkits
+/Source/Deployment/Packaging/NPM/contents/README.md
 Branding
