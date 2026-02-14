@@ -1,8 +1,8 @@
 # What's New in GNU-TK
 
-## 2025
+## 2026
 
-### GNU-TK 2025.10
+### GNU-TK 2026.1 (Beta)
 
 Release date: not released yet
 
