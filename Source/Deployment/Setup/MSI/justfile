@@ -5,7 +5,6 @@
 # File introduced by: Oleksiy Gapotchenko
 # Year of introduction: 2025
 
-set unstable := true
 set fallback := true
 set dotenv-load := true
 set windows-shell := ["powershell", "-c"]
@@ -49,8 +48,8 @@ clean: _project-clean _branding-clean
 # -----------------------------------------------------------------------------
 
 _project-build: _project-clean-release
-    dotnet build -c Release /p:Platform=x64
-    dotnet build -c Release /p:Platform=ARM64
+    dotnet build -c Release -p:Platform=x64
+    dotnet build -c Release -p:Platform=ARM64
 
 _project-clean: _project-clean-release
     dotnet clean -c Debug -p:Platform=x64
