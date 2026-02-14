@@ -12,7 +12,7 @@ set script-interpreter := ["gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
 
 # -----------------------------------------------------------------------------
 
-dotnet-target-framework := "net9.0"
+dotnet-tfm := "net9.0"
 
 # -----------------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ develop:
 [group("development")]
 [unix]
 develop:
-    open *.sln?
+    open *.slnx
 
 # Install development prerequisites
 [group("development")]
@@ -96,7 +96,7 @@ clean:
 # Run all tests
 [group("diagnostics")]
 test: build
-    dotnet test -c Release -f "{{ dotnet-target-framework }}"
+    dotnet test -c Release -f "{{ dotnet-tfm }}"
 
 # Produce publishable artifacts
 [group("build")]
@@ -120,7 +120,7 @@ _build-aot: (_build-aot-arch "win-x64") (_build-aot-arch "win-arm64")
 _build-aot: (_build-aot-arch "osx-arm64") (_build-aot-arch "osx-x64")
 
 _build-aot-arch rid:
-    cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r "{{ rid }}" -f "{{ dotnet-target-framework }}"
+    cd Gapotchenko.GnuTK; dotnet publish -c Release -p:PublishAot=true -r "{{ rid }}" -f "{{ dotnet-tfm }}"
 
 _build-setup:
     cd Deployment/Setup; just build 
@@ -138,4 +138,4 @@ platform-publish:
 [group("diagnostics")]
 [no-cd]
 gnu-tk *args:
-    dotnet run --project "{{ absolute_path("Gapotchenko.GnuTK") }}" -c Release -f "{{ dotnet-target-framework }}" --no-launch-profile -v q -- {{ args }}
+    dotnet run --project "{{ absolute_path("Gapotchenko.GnuTK") }}" -c Release -f "{{ dotnet-tfm }}" --no-launch-profile -v q -- {{ args }}
