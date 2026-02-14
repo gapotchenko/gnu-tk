@@ -174,8 +174,7 @@ sealed class MSys2Toolkit(
             };
         Debug.Assert(repositoryPrefix != null, "MSYS2 repository prefix calculation failed.");
 
-        // TODO: consider renaming to GNU_TK_MSYS2_REPO_PREFIX to simplify usage.
-        environment["GNU_TK_MSYS2_REPOSITORY_PREFIX"] = repositoryPrefix;
+        environment["GNU_TK_MSYS2_REPO_PREFIX"] = repositoryPrefix;
     }
 
     static void ConfigureShellEnvironment(IDictionary<string, string?> environment)

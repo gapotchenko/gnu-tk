@@ -7,6 +7,7 @@
 Release date: not released yet
 
 - `check` command uses `stderr` for errors
+- `GNU_TK_MSYS2_REPO_PREFIX` environment variable is used instead of decomissioned `GNU_TK_MSYS2_REPOSITORY_PREFIX`
 
 ### GNU-TK 2025.9
 
