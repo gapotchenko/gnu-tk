@@ -10,7 +10,7 @@
          To satisfy that requirement, the millenium part of the major product
          version component is omitted. For example: 2025.9.2 -> 25.9.2. -->
     <WixVersion>$(WixProductVersion.Substring(2))</WixVersion>
-    <WixTfm>net9.0</WixTfm>
+    <WixTfm>$(MainTargetFramework)</WixTfm>
     <WixCompressionLevel>high</WixCompressionLevel>
     <WixCompressionLevel Condition=" '$(Configuration)' == 'Debug' ">low</WixCompressionLevel>
     <WixManufacturer>$([MSBuild]::ValueOrDefault('$(GP_OSS_MANUFACTURER)', 'Contoso'))</WixManufacturer>
