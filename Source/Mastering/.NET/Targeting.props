@@ -3,10 +3,8 @@
   <!-- Target Frameworks -->
   <PropertyGroup>
     <MinimalTargetFramework>net8.0</MinimalTargetFramework>
-    <MainTargetFramework>net9.0</MainTargetFramework>
-    <DefaultTargetFrameworks>$(MinimalTargetFramework);$(MainTargetFramework);net10.0</DefaultTargetFrameworks>
-  </PropertyGroup>
-  <PropertyGroup Condition= " '$(UsingMicrosoftNETSdk)' == 'true' ">
+    <MainTargetFramework>net10.0</MainTargetFramework>
+    <DefaultTargetFrameworks>$(MinimalTargetFramework);net9.0;$(MainTargetFramework)</DefaultTargetFrameworks>
     <TargetFrameworks Condition=" '$(MasteringProjectKind)' == 'module' ">$(DefaultTargetFrameworks)</TargetFrameworks>
     <TargetFrameworks Condition=" '$(MasteringProjectKind)' == 'test' ">$(DefaultTargetFrameworks)</TargetFrameworks>
   </PropertyGroup>
