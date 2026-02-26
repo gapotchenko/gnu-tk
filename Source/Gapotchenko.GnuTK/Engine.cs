@@ -6,6 +6,7 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.AppModel;
+using Gapotchenko.FX.Diagnostics;
 using Gapotchenko.FX.Linq;
 using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Hosting;
@@ -77,13 +78,16 @@ sealed class Engine
     /// </summary>
     /// <param name="command">The shell command to execute.</param>
     /// <param name="arguments">The command arguments.</param>
+    /// <param name="rawArguments">The value indicating whether to not process the command-line arguments.</param>
     /// <returns>The exit code.</returns>
-    public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments)
+    public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments, bool rawArguments = false)
     {
         var toolkit = GetToolkit();
         return toolkit.ExecuteShellCommand(
             command,
-            PrepareCommandArguments(toolkit, arguments),
+            rawArguments
+                ? arguments
+                : PrepareCommandArguments(toolkit, arguments),
             GetToolkitExecutionEnvironment(),
             GetToolkitExecutionOptions());
     }

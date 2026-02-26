@@ -57,7 +57,7 @@ static class Program
             """
             Usage:
               gnu-tk [-t <name>] [-s] [-i] [-p] -c [--] <command> [<argument>...]
-              gnu-tk [-t <name>] [-s] [-i] [-p] -l [--] <argument>...
+              gnu-tk [-t <name>] [-s] [-i] [-p] [--raw-args] -l [--] <argument>...
               gnu-tk [-t <name>] [-s] [-i] [-p] (-f | -x) [--] <file> [<argument>...]
               gnu-tk (list | check [-t <name>]) [-s] [-i] [-q]
               gnu-tk (--help | --version) [-q]
@@ -74,6 +74,9 @@ static class Program
               -i --integrated      Use a toolkit that operates within the host environment.
               -p --posix           Enables POSIX-compliant behavior.
               -q --quiet           Do not print any auxiliary messages.
+
+            Advanced options:
+              --raw-args           Pass command-line arguments without escaping.
 
             Commands:
               list                 List available GNU toolkits.
@@ -166,6 +169,7 @@ static class Program
                         case ProgramOptions.Help:
                         case ProgramOptions.Quiet or ProgramOptions.Shorthands.Quiet:
                         case ProgramOptions.Version:
+                        case ProgramOptions.RawArguments:
                         case ProgramOptions.Strict or ProgramOptions.Shorthands.Strict:
                         case ProgramOptions.Integrated or ProgramOptions.Shorthands.Integrated:
                         case ProgramOptions.Posix or ProgramOptions.Shorthands.Posix:
@@ -296,7 +300,18 @@ static class Program
         if ((bool)arguments[ProgramOptions.ExecuteShellCommandLine])
         {
             var commandLineArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
-            exitCode = engine.ExecuteShellCommandLine(commandLineArguments);
+            bool rawArguments = (bool)arguments[ProgramOptions.RawArguments];
+
+            if (rawArguments)
+            {
+                string command = CommandLine.Build(commandLineArguments);
+                exitCode = engine.ExecuteShellCommand(command, [], true);
+            }
+            else
+            {
+                exitCode = engine.ExecuteShellCommandLine(commandLineArguments);
+            }
+
             return true;
         }
 
