@@ -10,8 +10,6 @@ set working-directory := "Source"
 set windows-shell := ["powershell", "-c"]
 set script-interpreter := ["gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
 
-# -----------------------------------------------------------------------------
-
 dotnet-tfm := "net10.0"
 
 # -----------------------------------------------------------------------------
@@ -93,27 +91,15 @@ clean:
     dotnet clean -c Release
     cd Deployment; just clean
 
-# Run all tests
-[group("diagnostics")]
-test: build
-    dotnet test -c Release -f "{{ dotnet-tfm }}"
-
 # Produce publishable artifacts
 [group("build")]
-publish: _prepare-publish
+publish: _prepare-mastering
     dotnet clean -c Release
     dotnet pack -c Release -p:TargetFormFactor=NuGet
 
-[windows]
-_prepare-publish:
-
-[unix]
-_prepare-publish:
-    cd Mastering/Shell; chmod +x *.sh
-
 # Build platform-dependent release artifacts
 [group("build")]
-platform-build: _build-aot _build-setup
+platform-build: _prepare-mastering _build-aot _build-setup
 
 [linux]
 _build-aot:
@@ -137,9 +123,21 @@ _build-setup:
 platform-publish:
     cd Deployment/Packaging; just pack
 
+[windows]
+_prepare-mastering:
+
+[unix]
+_prepare-mastering:
+    cd Mastering/Shell; chmod +x *.sh
+
 # -----------------------------------------------------------------------------
 # Diagnostics
 # -----------------------------------------------------------------------------
+
+# Run all tests
+[group("diagnostics")]
+test: build
+    dotnet test -c Release -f "{{ dotnet-tfm }}"
 
 # Run GNU-TK from the source code
 [group("diagnostics")]
