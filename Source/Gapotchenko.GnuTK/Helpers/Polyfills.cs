@@ -1,4 +1,4 @@
-﻿namespace Gapotchenko.GnuTK;
+﻿namespace Gapotchenko.GnuTK.Helpers;
 
 static class Polyfills
 {

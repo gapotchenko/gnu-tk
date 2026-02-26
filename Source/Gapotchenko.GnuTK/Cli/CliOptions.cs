@@ -5,12 +5,12 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
-namespace Gapotchenko.GnuTK;
+namespace Gapotchenko.GnuTK.Cli;
 
 /// <summary>
 /// Defines the names of options used by the program.
 /// </summary>
-static class ProgramOptions
+static class CliOptions
 {
     public const string Help = "--help";
     public const string Quiet = "--quiet";

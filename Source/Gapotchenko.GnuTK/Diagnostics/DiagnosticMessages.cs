@@ -5,6 +5,8 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
+using Gapotchenko.GnuTK.Helpers;
+
 namespace Gapotchenko.GnuTK.Diagnostics;
 
 static class DiagnosticMessages
@@ -14,14 +16,14 @@ static class DiagnosticMessages
             ? DiagnosticResources.SuitableToolkitNotFound
             : string.Format(
                 DiagnosticResources.SuitableToolkitXNotFound,
-                LinguisticServices.CombineWithOr(names.Select(LinguisticServices.SingleQuote)));
+                LinguisticHelper.CombineWithOr(names.Select(LinguisticHelper.SingleQuote)));
 
     public static string SuitableStrictToolkitNotFound(IReadOnlyList<string>? names) =>
         names is null
             ? DiagnosticResources.SuitableStrictToolkitNotFound
             : string.Format(
                 DiagnosticResources.SuitableStrictToolkitXNotFound,
-                LinguisticServices.CombineWithOr(names.Select(LinguisticServices.SingleQuote)));
+                LinguisticHelper.CombineWithOr(names.Select(LinguisticHelper.SingleQuote)));
 
     public static string ModuleNotFound(string? name) => string.Format(DiagnosticResources.ModuleXNotFound, name);
 

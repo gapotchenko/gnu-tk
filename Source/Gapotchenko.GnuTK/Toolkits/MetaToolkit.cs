@@ -5,6 +5,8 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
+using Gapotchenko.GnuTK.Helpers;
+
 namespace Gapotchenko.GnuTK.Toolkits;
 
 /// <summary>
@@ -33,7 +35,7 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
                 string.Join(
                     " + ",
                     GetUnderlyingToolkits()
-                    .Select(toolkit => LinguisticServices.SingleQuote(toolkit.Description.TrimEnd('.')))));
+                    .Select(toolkit => LinguisticHelper.SingleQuote(toolkit.Description.TrimEnd('.')))));
         init;
     }
 

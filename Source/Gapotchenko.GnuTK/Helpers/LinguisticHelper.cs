@@ -1,8 +1,8 @@
 ﻿using System.Text;
 
-namespace Gapotchenko.GnuTK;
+namespace Gapotchenko.GnuTK.Helpers;
 
-static class LinguisticServices
+static class LinguisticHelper
 {
     public static string SingleQuote(string value) => $"'{value}'";
 

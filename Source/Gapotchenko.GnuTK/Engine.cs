@@ -12,7 +12,7 @@ using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Hosting;
 using Gapotchenko.GnuTK.IO;
 using Gapotchenko.GnuTK.Toolkits;
-using Gapotchenko.GnuTK.UI;
+using Gapotchenko.GnuTK.Cli;
 using Gapotchenko.Shields.Microsoft.Wsl.Runtime;
 
 namespace Gapotchenko.GnuTK;
@@ -221,7 +221,7 @@ sealed class Engine
             {
                 if (!quiet)
                 {
-                    using (UIStyles.Scope.Title(Console.Out))
+                    using (CliStyles.Scope.Title(Console.Out))
                         Console.Write("Available GNU Toolkits");
                     Console.WriteLine();
 
@@ -253,7 +253,7 @@ sealed class Engine
 
         Console.WriteLine();
 
-        using (UIStyles.Scope.Title(Console.Out))
+        using (CliStyles.Scope.Title(Console.Out))
             Console.Write("Tips:");
         Console.WriteLine();
 
@@ -347,9 +347,9 @@ sealed class Engine
             if (toolkits.Any() ||
                 Strict && EnumerateToolkits(ToolkitServices.SupportedToolkitFamilies).Any())
             {
-                using (UIStyles.Scope.Error(error))
+                using (CliStyles.Scope.Error(error))
                 {
-                    UIStyles.ErrorPrologue(error, DiagnosticCode.SuitableToolkitNotFound);
+                    CliStyles.ErrorPrologue(error, DiagnosticCode.SuitableToolkitNotFound);
                     if (Strict)
                         error.Write(DiagnosticMessages.SuitableStrictToolkitNotFound(names));
                     else
@@ -365,9 +365,9 @@ sealed class Engine
             }
             else
             {
-                using (UIStyles.Scope.Error(error))
+                using (CliStyles.Scope.Error(error))
                 {
-                    UIStyles.ErrorPrologue(error, DiagnosticCode.SuitableToolkitNotFound);
+                    CliStyles.ErrorPrologue(error, DiagnosticCode.SuitableToolkitNotFound);
                     error.Write("No available GNU toolkits are found.");
                 }
                 error.WriteLine();
@@ -384,7 +384,7 @@ sealed class Engine
 
         if (!quiet)
         {
-            using (UIStyles.Scope.Title(Console.Out))
+            using (CliStyles.Scope.Title(Console.Out))
                 Console.Write("GNU Toolkit Check");
             Console.WriteLine();
             Console.WriteLine();
@@ -407,7 +407,7 @@ sealed class Engine
         if (!quiet)
             Console.WriteLine();
         Console.Write("Check status: ");
-        using (UIStyles.Scope.Success(Console.Out))
+        using (CliStyles.Scope.Success(Console.Out))
         {
             if (!quiet &&
                 (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ||
@@ -424,7 +424,7 @@ sealed class Engine
         {
             Console.WriteLine();
 
-            using (UIStyles.Scope.Title(Console.Out))
+            using (CliStyles.Scope.Title(Console.Out))
                 Console.Write("Tips:");
             Console.WriteLine();
 

@@ -6,6 +6,7 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.IO;
+using Gapotchenko.GnuTK.Helpers;
 
 namespace Gapotchenko.GnuTK.Toolkits;
 

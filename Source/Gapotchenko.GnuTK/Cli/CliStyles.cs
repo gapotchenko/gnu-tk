@@ -8,9 +8,9 @@
 using Gapotchenko.FX.Console;
 using Gapotchenko.GnuTK.Diagnostics;
 
-namespace Gapotchenko.GnuTK.UI;
+namespace Gapotchenko.GnuTK.Cli;
 
-static class UIStyles
+static class CliStyles
 {
     public static void ErrorPrologue(TextWriter textWriter, DiagnosticCode? errorCode)
     {

@@ -9,7 +9,7 @@ using Gapotchenko.FX;
 using Gapotchenko.FX.Diagnostics;
 using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Toolkits;
-using Gapotchenko.GnuTK.UI;
+using Gapotchenko.GnuTK.Cli;
 using System.Runtime.CompilerServices;
 
 namespace Gapotchenko.GnuTK;
@@ -21,7 +21,7 @@ static class Program
     {
         try
         {
-            CliServices.InitializeConsole();
+            CliShell.InitializeConsole();
             return Run(args);
         }
         catch (ProgramExitException e)
@@ -30,7 +30,7 @@ static class Program
         }
         catch (Exception e)
         {
-            UIShell.ShowError(e);
+            CliShell.ShowError(e);
             return 1;
         }
     }
@@ -41,9 +41,9 @@ static class Program
         {
             var writer = Console.Error;
 
-            using (UIStyles.Scope.Error(writer))
+            using (CliStyles.Scope.Error(writer))
             {
-                UIStyles.ErrorPrologue(writer, DiagnosticCode.InvalidProgramArguments);
+                CliStyles.ErrorPrologue(writer, DiagnosticCode.InvalidProgramArguments);
                 writer.WriteLine(DiagnosticMessages.InvalidProgramArguments);
             }
 
@@ -84,10 +84,10 @@ static class Program
             """;
 
         var parsedArguments =
-            CliServices.TryParseArguments(CanonicalizeArgs(ExpandArgs(args)), usage) ??
+            CliShell.TryParseArguments(CanonicalizeArgs(ExpandArgs(args)), usage) ??
             throw new DiagnosticException(DiagnosticMessages.InvalidProgramArguments, DiagnosticCode.InvalidProgramArguments);
 
-        if (UIShell.Run(parsedArguments, usage, out int exitCode))
+        if (CliShell.Run(parsedArguments, usage, out int exitCode))
             return exitCode;
         else
             return RunCore(parsedArguments);
@@ -143,36 +143,36 @@ static class Program
                 case ArgsCanonicalizationState.Option:
                     switch (arg)
                     {
-                        case ProgramOptions.ExecuteShellCommand or ProgramOptions.Shorthands.ExecuteShellCommand:
-                        case ProgramOptions.ExecuteShellCommandLine or ProgramOptions.Shorthands.ExecuteShellCommandLine:
-                        case ProgramOptions.ExecuteShellFile or ProgramOptions.Shorthands.ExecuteShellFile:
-                        case ProgramOptions.ExecuteFile or ProgramOptions.Shorthands.ExecuteFile:
+                        case CliOptions.ExecuteShellCommand or CliOptions.Shorthands.ExecuteShellCommand:
+                        case CliOptions.ExecuteShellCommandLine or CliOptions.Shorthands.ExecuteShellCommandLine:
+                        case CliOptions.ExecuteShellFile or CliOptions.Shorthands.ExecuteShellFile:
+                        case CliOptions.ExecuteFile or CliOptions.Shorthands.ExecuteFile:
                             if (hasCommand)
                                 return [];
                             state = ArgsCanonicalizationState.Positional;
                             break;
 
-                        case ProgramOptions.Toolkit or ProgramOptions.Shorthands.Toolkit:
+                        case CliOptions.Toolkit or CliOptions.Shorthands.Toolkit:
                             state = ArgsCanonicalizationState.Argument;
                             break;
 
                         case "-?" or "/?" when RuntimeInformation.IsOSPlatform(OSPlatform.Windows):
                             // A long-standing tradition on Windows.
-                            arg = ProgramOptions.Help;
+                            arg = CliOptions.Help;
                             break;
 
-                        case ProgramOptions.List:
-                        case ProgramOptions.Check:
+                        case CliOptions.List:
+                        case CliOptions.Check:
                             hasCommand = true;
                             break;
 
-                        case ProgramOptions.Help:
-                        case ProgramOptions.Quiet or ProgramOptions.Shorthands.Quiet:
-                        case ProgramOptions.Version:
-                        case ProgramOptions.RawArguments:
-                        case ProgramOptions.Strict or ProgramOptions.Shorthands.Strict:
-                        case ProgramOptions.Integrated or ProgramOptions.Shorthands.Integrated:
-                        case ProgramOptions.Posix or ProgramOptions.Shorthands.Posix:
+                        case CliOptions.Help:
+                        case CliOptions.Quiet or CliOptions.Shorthands.Quiet:
+                        case CliOptions.Version:
+                        case CliOptions.RawArguments:
+                        case CliOptions.Strict or CliOptions.Shorthands.Strict:
+                        case CliOptions.Integrated or CliOptions.Shorthands.Integrated:
+                        case CliOptions.Posix or CliOptions.Shorthands.Posix:
                         case "-sp": // strict + posix
                         case "-si": // strict + integrated
                         case "-sip": // strict + integrated + posix
@@ -240,15 +240,15 @@ static class Program
             ToolkitNames = GetToolkitNames(arguments),
             ToolkitPaths = GetToolkitPaths(),
             ToolkitIsolationLevels = GetToolkitIsolationLevels(arguments),
-            Strict = (bool)arguments[ProgramOptions.Strict] || Environment.GetEnvironmentVariable("GNU_TK_STRICT") != null,
-            Posix = (bool)arguments[ProgramOptions.Posix],
-            Quiet = (bool)arguments[ProgramOptions.Quiet]
+            Strict = (bool)arguments[CliOptions.Strict] || Environment.GetEnvironmentVariable("GNU_TK_STRICT") != null,
+            Posix = (bool)arguments[CliOptions.Posix],
+            Quiet = (bool)arguments[CliOptions.Quiet]
         };
 
         static IReadOnlyList<string>? GetToolkitNames(IReadOnlyDictionary<string, object> arguments)
         {
             return
-                (TryParseNames((string)arguments[ProgramOptions.Toolkit]) ??
+                (TryParseNames((string)arguments[CliOptions.Toolkit]) ??
                 TryParseNames(Environment.GetEnvironmentVariable("GNU_TK_TOOLKIT")))
                 ?.Distinct(StringComparer.OrdinalIgnoreCase)
                 ?.ToArray();
@@ -276,7 +276,7 @@ static class Program
 
         static IReadOnlyList<ToolkitIsolation>? GetToolkitIsolationLevels(IReadOnlyDictionary<string, object> arguments)
         {
-            if ((bool)arguments[ProgramOptions.Integrated])
+            if ((bool)arguments[CliOptions.Integrated])
                 return [ToolkitIsolation.None];
             else
                 return null;
@@ -288,19 +288,19 @@ static class Program
         // Most frequently used options are handled first.
 
         // '-c' command-line option (execute a shell command).
-        if ((bool)arguments[ProgramOptions.ExecuteShellCommand])
+        if ((bool)arguments[CliOptions.ExecuteShellCommand])
         {
-            string command = (string)arguments[ProgramOptions.Command];
-            var commandArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
+            string command = (string)arguments[CliOptions.Command];
+            var commandArguments = (IReadOnlyList<string>)arguments[CliOptions.Arguments];
             exitCode = engine.ExecuteShellCommand(command, commandArguments);
             return true;
         }
 
         // '-l' command-line option (execute a shell command line).
-        if ((bool)arguments[ProgramOptions.ExecuteShellCommandLine])
+        if ((bool)arguments[CliOptions.ExecuteShellCommandLine])
         {
-            var commandLineArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
-            bool rawArguments = (bool)arguments[ProgramOptions.RawArguments];
+            var commandLineArguments = (IReadOnlyList<string>)arguments[CliOptions.Arguments];
+            bool rawArguments = (bool)arguments[CliOptions.RawArguments];
 
             if (rawArguments)
             {
@@ -316,32 +316,32 @@ static class Program
         }
 
         // '-f' command-line option (execute a shell script file).
-        if ((bool)arguments[ProgramOptions.ExecuteShellFile])
+        if ((bool)arguments[CliOptions.ExecuteShellFile])
         {
-            string scriptPath = (string)arguments[ProgramOptions.File];
-            var scriptArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
+            string scriptPath = (string)arguments[CliOptions.File];
+            var scriptArguments = (IReadOnlyList<string>)arguments[CliOptions.Arguments];
             exitCode = engine.ExecuteShellFile(scriptPath, scriptArguments);
             return true;
         }
 
         // '-x' command-line option (execute a file in a GNU environment).
-        if ((bool)arguments[ProgramOptions.ExecuteFile])
+        if ((bool)arguments[CliOptions.ExecuteFile])
         {
-            string filePath = (string)arguments[ProgramOptions.File];
-            var fileArguments = (IReadOnlyList<string>)arguments[ProgramOptions.Arguments];
+            string filePath = (string)arguments[CliOptions.File];
+            var fileArguments = (IReadOnlyList<string>)arguments[CliOptions.Arguments];
             exitCode = engine.ExecuteFile(filePath, fileArguments);
             return true;
         }
 
         // 'check' command.
-        if ((bool)arguments[ProgramOptions.Check])
+        if ((bool)arguments[CliOptions.Check])
         {
             exitCode = engine.CheckToolkit() ? 0 : 1;
             return true;
         }
 
         // 'list' command.
-        if ((bool)arguments[ProgramOptions.List])
+        if ((bool)arguments[CliOptions.List])
         {
             engine.ListToolkits();
             exitCode = 0;
