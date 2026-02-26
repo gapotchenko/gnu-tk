@@ -63,6 +63,16 @@ sealed class Engine
     public bool Quiet { get; init; }
 
     /// <summary>
+    /// Executes the specified shell command line.
+    /// </summary>
+    /// <param name="arguments">The shell command-line arguments.</param>
+    /// <returns>The exit code.</returns>
+    public int ExecuteShellCommandLine(IReadOnlyList<string> arguments)
+    {
+        return ExecuteShellCommand("\"$0\" \"$@\"", arguments);
+    }
+
+    /// <summary>
     /// Executes the specified shell command.
     /// </summary>
     /// <param name="command">The shell command to execute.</param>
@@ -76,16 +86,6 @@ sealed class Engine
             PrepareCommandArguments(toolkit, arguments),
             GetToolkitExecutionEnvironment(),
             GetToolkitExecutionOptions());
-    }
-
-    /// <summary>
-    /// Executes the specified shell command line.
-    /// </summary>
-    /// <param name="arguments">The shell command-line arguments.</param>
-    /// <returns>The exit code.</returns>
-    public int ExecuteShellCommandLine(IReadOnlyList<string> arguments)
-    {
-        return ExecuteShellCommand("\"$0\" \"$@\"", arguments);
     }
 
     /// <summary>
