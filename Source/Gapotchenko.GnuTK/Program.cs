@@ -304,7 +304,7 @@ static class Program
 
             if (verbatim)
             {
-                string command = CommandLine.Build(commandLineArguments);
+                string command = CliVerbatim.GetCommandToExecute(commandLineArguments);
                 exitCode = engine.ExecuteShellCommand(command, [], true);
             }
             else
