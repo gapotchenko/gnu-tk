@@ -78,14 +78,14 @@ sealed class Engine
     /// </summary>
     /// <param name="command">The shell command to execute.</param>
     /// <param name="arguments">The command arguments.</param>
-    /// <param name="rawArguments">The value indicating whether to not process the command-line arguments.</param>
+    /// <param name="verbatim">The value indicating whether to pass command-line arguments as-is, without escaping.</param>
     /// <returns>The exit code.</returns>
-    public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments, bool rawArguments = false)
+    public int ExecuteShellCommand(string command, IReadOnlyList<string> arguments, bool verbatim = false)
     {
         var toolkit = GetToolkit();
         return toolkit.ExecuteShellCommand(
             command,
-            rawArguments
+            verbatim
                 ? arguments
                 : PrepareCommandArguments(toolkit, arguments),
             GetToolkitExecutionEnvironment(),

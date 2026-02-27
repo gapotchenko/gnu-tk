@@ -8,7 +8,7 @@
 namespace Gapotchenko.GnuTK.Cli;
 
 /// <summary>
-/// Defines the names of options used by the program.
+/// CLI option names used by the program.
 /// </summary>
 static class CliOptions
 {
@@ -20,7 +20,7 @@ static class CliOptions
     public const string ExecuteShellCommandLine = "--command-line";
     public const string Command = "<command>";
     public const string Arguments = "<argument>";
-    public const string RawArguments = "--raw-args";
+    public const string Verbatim = "--verbatim";
 
     public const string ExecuteShellFile = "--file";
     public const string ExecuteFile = "--execute";
@@ -34,6 +34,9 @@ static class CliOptions
     public const string List = "list";
     public const string Check = "check";
 
+    /// <summary>
+    /// Short option names.
+    /// </summary>
     public static class Shorthands
     {
         public const string Quiet = "-q";

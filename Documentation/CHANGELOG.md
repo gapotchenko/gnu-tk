@@ -6,7 +6,7 @@
 
 Release date: not released yet
 
-- Added `--raw-args` command-line option that enables direct interpretation of
+- Added `--verbatim` command-line option that enables direct interpretation of
   the specified command line
 - `gnu-tk check` command uses `stderr` for errors
 - `GNU_TK_MSYS2_REPO_PREFIX` environment variable is used instead of

@@ -57,7 +57,7 @@ static class Program
             """
             Usage:
               gnu-tk [-t <name>] [-s] [-i] [-p] -c [--] <command> [<argument>...]
-              gnu-tk [-t <name>] [-s] [-i] [-p] [--raw-args] -l [--] <argument>...
+              gnu-tk [-t <name>] [-s] [-i] [-p] [--verbatim] -l [--] <argument>...
               gnu-tk [-t <name>] [-s] [-i] [-p] (-f | -x) [--] <file> [<argument>...]
               gnu-tk (list | check [-t <name>]) [-s] [-i] [-q]
               gnu-tk (--help | --version) [-q]
@@ -76,7 +76,7 @@ static class Program
               -q --quiet           Do not print any auxiliary messages.
 
             Advanced options:
-              --raw-args           Pass command-line arguments without escaping.
+              --verbatim           Pass command-line arguments as-is, without escaping.
 
             Commands:
               list                 List available GNU toolkits.
@@ -169,7 +169,7 @@ static class Program
                         case CliOptions.Help:
                         case CliOptions.Quiet or CliOptions.Shorthands.Quiet:
                         case CliOptions.Version:
-                        case CliOptions.RawArguments:
+                        case CliOptions.Verbatim:
                         case CliOptions.Strict or CliOptions.Shorthands.Strict:
                         case CliOptions.Integrated or CliOptions.Shorthands.Integrated:
                         case CliOptions.Posix or CliOptions.Shorthands.Posix:
@@ -300,9 +300,9 @@ static class Program
         if ((bool)arguments[CliOptions.ExecuteShellCommandLine])
         {
             var commandLineArguments = (IReadOnlyList<string>)arguments[CliOptions.Arguments];
-            bool rawArguments = (bool)arguments[CliOptions.RawArguments];
+            bool verbatim = (bool)arguments[CliOptions.Verbatim];
 
-            if (rawArguments)
+            if (verbatim)
             {
                 string command = CommandLine.Build(commandLineArguments);
                 exitCode = engine.ExecuteShellCommand(command, [], true);
