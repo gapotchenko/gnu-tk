@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <WixProductVersion>$(Version)</WixProductVersion>
+    <WixProductVersion>$(VersionPrefix)</WixProductVersion>
     <!-- MSI only allows up to 3 version components, each in [0,255] interval.
          To satisfy that requirement, the millenium part of the major product
          version component is omitted. For example: 2025.9.2 -> 25.9.2. -->
