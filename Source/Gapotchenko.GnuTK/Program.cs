@@ -62,19 +62,21 @@ static class Program
               gnu-tk (list | check [-t <name>]) [-s] [-i] [-q]
               gnu-tk (--help | --version) [-q]
 
-            Options:
+            Generic options:
               --help               Show this help.
               --version            Show version.            
               -c --command         Execute a command using a GNU shell.
               -l --command-line    Execute a command line using a GNU shell.
               -f --file            Execute a script using a GNU shell.
               -x --execute         Execute a file in a GNU environment.
+              -q --quiet           Do not print any auxiliary messages.
+
+            Toolkit options:
               -t --toolkit=<name>  Use the specified GNU toolkit [default: auto].
               -s --strict          Use a toolkit with strict GNU semantics.
               -i --integrated      Use a toolkit that operates within the host environment.
               -p --posix           Enables POSIX-compliant behavior.
-              -q --quiet           Do not print any auxiliary messages.
-
+            
             Advanced options:
               --verbatim           Pass command-line arguments as-is, without escaping.
 

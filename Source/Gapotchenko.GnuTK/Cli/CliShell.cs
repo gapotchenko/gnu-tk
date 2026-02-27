@@ -148,7 +148,7 @@ static class CliShell
             Console.WriteLine(AdaptConsoleText(copyright));
 
         Console.WriteLine();
-        Console.WriteLine("Provides seamless access to GNU tools on non-GNU operating systems.");
+        Console.WriteLine("Provides portable access to GNU toolkits.");
     }
 
     static void ShowVersion(bool quiet)
