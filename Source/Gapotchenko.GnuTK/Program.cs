@@ -39,11 +39,10 @@ static class Program
     {
         if (args is [])
         {
-            throw
-                new DiagnosticException(DiagnosticMessages.MissingProgramArguments, DiagnosticCode.MissingProgramArguments)
-                {
-                    Hint = "Try 'gnu-tk --help' for more information."
-                };
+            throw new DiagnosticException(DiagnosticMessages.MissingProgramArguments, DiagnosticCode.MissingProgramArguments)
+            {
+                Hint = DiagnosticMessages.TryXForMoreInformation("gnu-tk --help")
+            };
         }
 
         string description = "Provides portable access to GNU toolkits.";
@@ -89,11 +88,10 @@ static class Program
         {
             if (args.Count == 1)
             {
-                throw
-                    new DiagnosticException(DiagnosticMessages.MissingProgramArguments, DiagnosticCode.MissingProgramArguments)
-                    {
-                        Hint = "Try 'gnu-tk path --help' for more information."
-                    };
+                throw new DiagnosticException(DiagnosticMessages.MissingProgramArguments, DiagnosticCode.MissingProgramArguments)
+                {
+                    Hint = DiagnosticMessages.TryXForMoreInformation("gnu-tk path --help")
+                };
             }
 
             description = "Translate file system paths between guest and host formats.";
@@ -129,7 +127,7 @@ static class Program
         return RunCore(parsedArguments);
     }
 
-    #region Program arguments expansion & canonicalization
+    #region Program argument expansion & canonicalization
 
     /// <summary>
     /// Expands naturally occurring program arguments and
@@ -261,15 +259,16 @@ static class Program
     [MethodImpl(MethodImplOptions.NoInlining)] // avoid premature initialization of types
     static int RunCore(IReadOnlyDictionary<string, object> arguments)
     {
+        // Initialize a GNU-TK engine.
+        var engine = InitializeEngine(arguments);
+
         if ((bool)arguments[CliOptions.Path])
         {
-            throw new NotImplementedException();
+            if (TranslatePath(engine, arguments, out int exitCode))
+                return exitCode;
         }
         else
         {
-            // Initialize a GNU-TK engine.
-            var engine = InitializeEngine(arguments);
-
             if (RunEngine(engine, arguments, out int exitCode))
                 return exitCode;
         }
@@ -288,7 +287,7 @@ static class Program
             ToolkitPaths = GetToolkitPaths(),
             ToolkitIsolationLevels = GetToolkitIsolationLevels(arguments),
             Strict = (bool)arguments[CliOptions.Strict] || Environment.GetEnvironmentVariable("GNU_TK_STRICT") != null,
-            Posix = (bool)arguments[CliOptions.Posix],
+            Posix = arguments.TryGetValue(CliOptions.Posix, out object? posix) && (bool)posix,
             Quiet = (bool)arguments[CliOptions.Quiet]
         };
 
@@ -397,5 +396,10 @@ static class Program
 
         exitCode = default;
         return false;
+    }
+
+    static bool TranslatePath(Engine engine, IReadOnlyDictionary<string, object> arguments, out int exitCode)
+    {
+        throw new NotImplementedException();
     }
 }

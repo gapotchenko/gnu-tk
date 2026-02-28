@@ -154,7 +154,7 @@ static class ToolkitServices
         if (!Directory.Exists(path))
         {
             throw new DiagnosticException(
-                DiagnosticMessages.BuiltInToolkitDirectoryNotFound(name, originalPath),
+                DiagnosticMessages.BuiltinToolkitDirectoryNotFound(name, originalPath),
                 DiagnosticCode.BuiltinToolkitDirectoryNotFound);
         }
 

@@ -31,9 +31,11 @@ static class DiagnosticMessages
 
     public static string ConflictingProgramArguments(string? a, string? b) => string.Format(DiagnosticResources.ConflictingProgramArgumentsXY, a, b);
 
-    public static string BuiltInToolkitDirectoryNotFound(string? toolkit, string? directory) => string.Format(DiagnosticResources.BuiltInToolkitXDirectoryYNotFound, toolkit, directory);
+    public static string BuiltinToolkitDirectoryNotFound(string? toolkit, string? directory) => string.Format(DiagnosticResources.BuiltinToolkitXDirectoryYNotFound, toolkit, directory);
 
     public static string InvalidProgramArguments => DiagnosticResources.InvalidProgramArguments;
 
     public static string MissingProgramArguments => DiagnosticResources.MissingProgramArguments;
+
+    public static string TryXForMoreInformation(string arg) => string.Format(DiagnosticResources.TryXForMoreInformation, arg);
 }

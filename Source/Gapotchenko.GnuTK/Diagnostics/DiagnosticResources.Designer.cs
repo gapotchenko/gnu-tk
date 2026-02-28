@@ -63,9 +63,9 @@ namespace Gapotchenko.GnuTK.Diagnostics {
         /// <summary>
         ///   Looks up a localized string similar to Directory &apos;{1}&apos; specified for built-in GNU toolkit &apos;{0}&apos; is not found..
         /// </summary>
-        internal static string BuiltInToolkitXDirectoryYNotFound {
+        internal static string BuiltinToolkitXDirectoryYNotFound {
             get {
-                return ResourceManager.GetString("BuiltInToolkitXDirectoryYNotFound", resourceCulture);
+                return ResourceManager.GetString("BuiltinToolkitXDirectoryYNotFound", resourceCulture);
             }
         }
         
@@ -147,6 +147,15 @@ namespace Gapotchenko.GnuTK.Diagnostics {
         internal static string SuitableToolkitXNotFound {
             get {
                 return ResourceManager.GetString("SuitableToolkitXNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Try &apos;{0}&apos; for more information..
+        /// </summary>
+        internal static string TryXForMoreInformation {
+            get {
+                return ResourceManager.GetString("TryXForMoreInformation", resourceCulture);
             }
         }
     }

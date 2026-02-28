@@ -138,7 +138,7 @@
   <data name="ConflictingProgramArgumentsXY" xml:space="preserve">
     <value>Program arguments '{0}' and '{1}' cannot be specified simultaneously.</value>
   </data>
-  <data name="BuiltInToolkitXDirectoryYNotFound" xml:space="preserve">
+  <data name="BuiltinToolkitXDirectoryYNotFound" xml:space="preserve">
     <value>Directory '{1}' specified for built-in GNU toolkit '{0}' is not found.</value>
   </data>
   <data name="InvalidProgramArguments" xml:space="preserve">
@@ -146,5 +146,8 @@
   </data>
   <data name="MissingProgramArguments" xml:space="preserve">
     <value>Missing program arguments.</value>
+  </data>
+  <data name="TryXForMoreInformation" xml:space="preserve">
+    <value>Try '{0}' for more information.</value>
   </data>
 </root>
