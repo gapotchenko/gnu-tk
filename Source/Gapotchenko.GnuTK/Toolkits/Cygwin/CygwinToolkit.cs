@@ -149,5 +149,5 @@ sealed class CygwinToolkit(
         }
     }
 
-    public string ConvertFilePathToGuestFormat(string path) => CygwinFileSystem.TranslateFilePath(path, "/cygdrive");
+    public string ConvertFilePathToGuestFormat(string path) => CygwinFileSystem.ConvertFilePathToGuestFormat(path, "/cygdrive");
 }

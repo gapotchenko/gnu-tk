@@ -7,6 +7,8 @@
 
 using Gapotchenko.FX.Collections.Generic;
 using Gapotchenko.GnuTK.Helpers;
+using Gapotchenko.GnuTK.Hosting;
+using Gapotchenko.GnuTK.IO;
 using Gapotchenko.Shields.BusyBox.Deployment;
 
 namespace Gapotchenko.GnuTK.Toolkits.BusyBox;
@@ -79,5 +81,16 @@ sealed class BusyBoxToolkit(
         return ProcessHelper.Execute(psi);
     }
 
-    public string ConvertFilePathToGuestFormat(string path) => path.Replace(Path.DirectorySeparatorChar, '/');
+    public string ConvertFilePathToGuestFormat(string path)
+    {
+        return path.Replace(Path.DirectorySeparatorChar, '/');
+    }
+
+    public string ConvertFilePathToHostFormat(string path)
+    {
+        if (HostEnvironment.FilePathFormat == FilePathFormat.Windows)
+            return path.Replace('/', '\\');
+        else
+            return path;
+    }
 }

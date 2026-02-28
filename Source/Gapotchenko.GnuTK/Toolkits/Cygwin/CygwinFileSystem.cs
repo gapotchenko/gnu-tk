@@ -11,7 +11,7 @@ namespace Gapotchenko.GnuTK.Toolkits.Cygwin;
 
 static class CygwinFileSystem
 {
-    public static string TranslateFilePath(string path, string? prefix)
+    public static string ConvertFilePathToGuestFormat(string path, string? prefix)
     {
         // TODO
         // Deduct the prefix from '/etc/fstab' file as described at
