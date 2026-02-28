@@ -8,7 +8,6 @@
 using Gapotchenko.FX.Collections.Generic;
 using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Helpers;
-using Gapotchenko.GnuTK.Toolkits.Cygwin;
 using Gapotchenko.Shields.MSys2.Deployment;
 using System.Text;
 
@@ -119,13 +118,13 @@ sealed class MSys2Toolkit(
             // Unset it if not instructed by a user.
             commandBuilder.Append("unset POSIXLY_CORRECT;");
         }
-        commandBuilder.Append(MSys2Idiosyncrasies.AdjustProgramArgument(command));
+        commandBuilder.Append(m_Runtime.AdjustProgramArgument(command));
         shellArguments.Add(commandBuilder.ToString());
 
         if (commandArguments is [])
             shellArguments.Add(shellPath);
         else
-            shellArguments.AddRange(commandArguments.Select(MSys2Idiosyncrasies.AdjustProgramArgument));
+            shellArguments.AddRange(commandArguments.Select(m_Runtime.AdjustProgramArgument));
 
         return ProcessHelper.Execute(psi);
     }
@@ -187,5 +186,7 @@ sealed class MSys2Toolkit(
         environment["MSYS2_PATH_TYPE"] = "inherit";
     }
 
-    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) => CygwinFileSystem.ConvertFilePathToGuestFormat(path, null);
+    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) => m_Runtime.ConvertPathToGuestFormat(path);
+
+    readonly MSys2Runtime m_Runtime = new();
 }

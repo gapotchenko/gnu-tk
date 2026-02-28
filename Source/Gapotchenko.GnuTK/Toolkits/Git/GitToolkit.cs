@@ -7,7 +7,6 @@
 
 using Gapotchenko.FX.Collections.Generic;
 using Gapotchenko.GnuTK.Helpers;
-using Gapotchenko.GnuTK.Toolkits.Cygwin;
 using Gapotchenko.Shields.Git.Deployment;
 using System.Text;
 
@@ -104,13 +103,13 @@ sealed class GitToolkit(
             // Unset it if not instructed by a user.
             commandBuilder.Append("unset POSIXLY_CORRECT;");
         }
-        commandBuilder.Append(GitIdiosyncrasies.AdjustProgramArgument(command));
+        commandBuilder.Append(m_Runtime.AdjustProgramArgument(command));
         shellArguments.Add(commandBuilder.ToString());
 
         if (commandArguments is [])
             shellArguments.Add(shellPath);
         else
-            shellArguments.AddRange(commandArguments.Select(GitIdiosyncrasies.AdjustProgramArgument));
+            shellArguments.AddRange(commandArguments.Select(m_Runtime.AdjustProgramArgument));
 
         return ProcessHelper.Execute(psi);
     }
@@ -128,5 +127,7 @@ sealed class GitToolkit(
         return environment;
     }
 
-    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) => CygwinFileSystem.ConvertFilePathToGuestFormat(path, null);
+    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) => m_Runtime.ConvertPathToGuestFormat(path);
+
+    readonly GitRuntime m_Runtime = new();
 }

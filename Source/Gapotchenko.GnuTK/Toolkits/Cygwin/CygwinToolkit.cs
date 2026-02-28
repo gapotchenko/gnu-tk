@@ -103,13 +103,13 @@ sealed class CygwinToolkit(
             // Unset it if not instructed by a user.
             commandBuilder.Append("unset POSIXLY_CORRECT;");
         }
-        commandBuilder.Append(CygwinIdiosyncrasies.AdjustProgramArgument(command));
+        commandBuilder.Append(m_Runtime.AdjustProgramArgument(command));
         shellArguments.Add(commandBuilder.ToString());
 
         if (commandArguments is [])
             shellArguments.Add(shellPath);
         else
-            shellArguments.AddRange(commandArguments.Select(CygwinIdiosyncrasies.AdjustProgramArgument));
+            shellArguments.AddRange(commandArguments.Select(m_Runtime.AdjustProgramArgument));
 
         return ProcessHelper.Execute(psi);
     }
@@ -149,5 +149,10 @@ sealed class CygwinToolkit(
         }
     }
 
-    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) => CygwinFileSystem.ConvertFilePathToGuestFormat(path, "/cygdrive");
+    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) => m_Runtime.ConvertPathToGuestFormat(path);
+
+    readonly CygwinRuntime m_Runtime = new()
+    {
+        PathPrefix = "/cygdrive"
+    };
 }
