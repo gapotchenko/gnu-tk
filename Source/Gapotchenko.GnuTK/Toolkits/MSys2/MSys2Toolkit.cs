@@ -187,5 +187,5 @@ sealed class MSys2Toolkit(
         environment["MSYS2_PATH_TYPE"] = "inherit";
     }
 
-    public string ConvertFilePathToGuestFormat(string path) => CygwinFileSystem.ConvertFilePathToGuestFormat(path, null);
+    public string ConvertFilePathToGuestFormat(string path, ToolkitPathConversionOptions options) => CygwinFileSystem.ConvertFilePathToGuestFormat(path, null);
 }

@@ -114,9 +114,11 @@ sealed class MetaToolkit(IScriptableToolkit scriptableToolkit, IEnumerable<ITool
 
     readonly IReadOnlyList<IToolkitEnvironment> m_ToolkitEnvironments = [.. toolkitEnvironments];
 
-    public string ConvertFilePathToGuestFormat(string path) => scriptableToolkit.ConvertFilePathToGuestFormat(path);
+    public string ConvertFilePathToGuestFormat(string path, ToolkitPathConversionOptions options) =>
+        scriptableToolkit.ConvertFilePathToGuestFormat(path, options);
 
-    public string ConvertFilePathToHostFormat(string path) => scriptableToolkit.ConvertFilePathToHostFormat(path);
+    public string ConvertFilePathToHostFormat(string path, ToolkitPathConversionOptions options) =>
+        scriptableToolkit.ConvertFilePathToHostFormat(path, options);
 
     public ToolkitIsolation Isolation => scriptableToolkit.Isolation;
 }

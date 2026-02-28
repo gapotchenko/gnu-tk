@@ -81,16 +81,22 @@ sealed class BusyBoxToolkit(
         return ProcessHelper.Execute(psi);
     }
 
-    public string ConvertFilePathToGuestFormat(string path)
+    public string ConvertFilePathToGuestFormat(string path, ToolkitPathConversionOptions options)
     {
+        if (options.HasFlag(ToolkitPathConversionOptions.Absolute))
+            path = Path.GetFullPath(path);
+
         return path.Replace(Path.DirectorySeparatorChar, '/');
     }
 
-    public string ConvertFilePathToHostFormat(string path)
+    public string ConvertFilePathToHostFormat(string path, ToolkitPathConversionOptions options)
     {
         if (HostEnvironment.FilePathFormat == FilePathFormat.Windows)
-            return path.Replace('/', '\\');
-        else
-            return path;
+            path = path.Replace('/', '\\');
+
+        if (options.HasFlag(ToolkitPathConversionOptions.Absolute))
+            path = Path.GetFullPath(path);
+
+        return path;
     }
 }

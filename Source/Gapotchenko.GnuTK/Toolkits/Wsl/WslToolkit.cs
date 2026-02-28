@@ -174,21 +174,31 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
                 if (value != null)
                 {
                     if (translateFilePath)
-                        value = ConvertFilePathToGuestFormat(value);
+                        value = ConvertFilePathToGuestFormat(value, ToolkitPathConversionOptions.None);
                 }
                 newEnvironment[name] = value;
             }
         }
     }
 
-    public string ConvertFilePathToGuestFormat(string path)
+    public string ConvertFilePathToGuestFormat(string path, ToolkitPathConversionOptions options)
     {
-        return WslPath(["-u"], NormalizePath(path));
+        List<string> args = ["-u"];
+        AddWslPathOptionArgs(args, options);
+        return WslPath(args, NormalizePath(path));
     }
 
-    public string ConvertFilePathToHostFormat(string path)
+    public string ConvertFilePathToHostFormat(string path, ToolkitPathConversionOptions options)
     {
-        return WslPath(["-w"], path);
+        List<string> args = ["-w"];
+        AddWslPathOptionArgs(args, options);
+        return WslPath(args, path);
+    }
+
+    static void AddWslPathOptionArgs(IList<string> args, ToolkitPathConversionOptions options)
+    {
+        if (options.HasFlag(ToolkitPathConversionOptions.Absolute))
+            args.Add("-a");
     }
 
     string WslPath(IEnumerable<string> args, string path)
@@ -208,7 +218,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         wslArguments.Add("--exec");
         wslArguments.Add("wslpath");
         wslArguments.AddRange(args);
-        wslArguments.Add(NormalizePath(path));
+        wslArguments.Add(path);
 
         var output = new StringWriter();
 

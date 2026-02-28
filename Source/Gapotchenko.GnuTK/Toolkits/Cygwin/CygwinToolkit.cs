@@ -145,9 +145,9 @@ sealed class CygwinToolkit(
         void MapPath(string name)
         {
             if (environment.TryGetValue(name, out string? value) && !string.IsNullOrEmpty(value))
-                environment[name] = ConvertFilePathToGuestFormat(value);
+                environment[name] = ConvertFilePathToGuestFormat(value, ToolkitPathConversionOptions.None);
         }
     }
 
-    public string ConvertFilePathToGuestFormat(string path) => CygwinFileSystem.ConvertFilePathToGuestFormat(path, "/cygdrive");
+    public string ConvertFilePathToGuestFormat(string path, ToolkitPathConversionOptions options) => CygwinFileSystem.ConvertFilePathToGuestFormat(path, "/cygdrive");
 }

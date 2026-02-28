@@ -88,5 +88,5 @@ sealed class HomebrewScriptableToolkit(
         ToolkitEnvironment.CombineWith(environment, Environment);
     }
 
-    public string ConvertFilePathToGuestFormat(string path) => path;
+    public string ConvertFilePathToGuestFormat(string path, ToolkitPathConversionOptions options) => path;
 }

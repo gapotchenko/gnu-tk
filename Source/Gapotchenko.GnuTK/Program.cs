@@ -98,7 +98,7 @@ static class Program
             usage =
                 """
                 Usage:
-                  gnu-tk path [-t <name>] [-s] [-i] (-g | -h) [--] <path>
+                  gnu-tk path [-t <name>] [-s] [-i] (-g | -h) [-a] [--] <path>
                   gnu-tk path --help [-q]
 
                 Generic options:
@@ -109,6 +109,7 @@ static class Program
                   <path>               Path to translate.
                   -g --guest           Convert path to guest system format.
                   -h --host            Convert path to host system format.
+                  -a --absolute        Produce absolute path.
 
                 Toolkit options:
                   -t --toolkit=<name>  Use the specified GNU toolkit [default: auto].
@@ -403,7 +404,9 @@ static class Program
         // '-g' command-line option (convert path to guest system format).
         if ((bool)arguments[CliOptions.Guest])
         {
-            Console.WriteLine(engine.ConvertFilePathToGuestFormat((string)arguments[CliOptions.PathArgument]));
+            string path = (string)arguments[CliOptions.PathArgument];
+            path = engine.ConvertFilePathToGuestFormat(path, GetConversionOptions(arguments));
+            Console.WriteLine(path);
             exitCode = 0;
             return true;
         }
@@ -411,9 +414,19 @@ static class Program
         // '-h' command-line option (convert path to host system format).
         if ((bool)arguments[CliOptions.Host])
         {
-            Console.WriteLine(engine.ConvertFilePathToHostFormat((string)arguments[CliOptions.PathArgument]));
+            string path = (string)arguments[CliOptions.PathArgument];
+            path = engine.ConvertFilePathToHostFormat(path, GetConversionOptions(arguments));
+            Console.WriteLine(path);
             exitCode = 0;
             return true;
+        }
+
+        static ToolkitPathConversionOptions GetConversionOptions(IReadOnlyDictionary<string, object> arguments)
+        {
+            var options = ToolkitPathConversionOptions.None;
+            if ((bool)arguments[CliOptions.Absolute])
+                options |= ToolkitPathConversionOptions.Absolute;
+            return options;
         }
 
         exitCode = default;
