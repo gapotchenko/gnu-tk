@@ -195,6 +195,7 @@ sealed class Engine
             environment["GNU_TK_STRICT"] = string.Empty;
 
         var version = AppInformation.Current.ProductVersion;
+        // Version in YYYYmmbb format (2025.9.3 -> 20250903).
         environment["GNU_TK_VERSION"] = Invariant($"{version.Major:D4}{version.Minor:D2}{version.Build:D2}");
 
         return environment;
