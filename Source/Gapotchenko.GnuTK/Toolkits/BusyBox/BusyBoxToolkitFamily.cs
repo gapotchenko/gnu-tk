@@ -35,7 +35,7 @@ sealed class BusyBoxToolkitFamily : IToolkitFamily
 
     static ToolkitFamilyTraits GetTraitsCore()
     {
-        var traits = ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable | ToolkitFamilyTraits.FilePathTranslation;
+        var traits = ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable | ToolkitFamilyTraits.FilePathConversion;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             // No ready-to-use BusyBox for macOS is available.

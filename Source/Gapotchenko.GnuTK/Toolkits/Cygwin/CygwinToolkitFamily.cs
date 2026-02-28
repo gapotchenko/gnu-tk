@@ -26,7 +26,7 @@ sealed class CygwinToolkitFamily : IToolkitFamily
 
     public string Name => "Cygwin";
 
-    public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable | ToolkitFamilyTraits.FilePathTranslation;
+    public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable | ToolkitFamilyTraits.FilePathConversion;
 
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>
         CygwinDeployment.EnumerateSetupInstances()

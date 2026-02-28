@@ -10,7 +10,7 @@ using Gapotchenko.GnuTK.Diagnostics;
 
 namespace Gapotchenko.GnuTK.Cli;
 
-static class CliStyles
+static class TuiStyles
 {
     public static void ErrorPrologue(TextWriter textWriter, DiagnosticCode? errorCode)
     {

@@ -184,10 +184,10 @@ static class CliShell
         var writer = Console.Error;
 
         var diagnosticException = exception.SelfAndInnerExceptions().OfType<DiagnosticException>().FirstOrDefault();
-        using (CliStyles.Scope.Error(writer))
+        using (TuiStyles.Scope.Error(writer))
         {
             var errorCode = diagnosticException?.Code;
-            CliStyles.ErrorPrologue(writer, errorCode);
+            TuiStyles.ErrorPrologue(writer, errorCode);
 
             if (exception is InternalException || errorCode is null && exception is not ProgramException)
                 writer.Write("Internal error: ");

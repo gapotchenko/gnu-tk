@@ -174,14 +174,14 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
                 if (value != null)
                 {
                     if (translateFilePath)
-                        value = TranslateFilePath(value);
+                        value = ConvertFilePathToGuestFormat(value);
                 }
                 newEnvironment[name] = value;
             }
         }
     }
 
-    public string TranslateFilePath(string path)
+    public string ConvertFilePathToGuestFormat(string path)
     {
         if (path is [])
             return path;

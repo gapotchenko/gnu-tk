@@ -145,9 +145,9 @@ sealed class CygwinToolkit(
         void MapPath(string name)
         {
             if (environment.TryGetValue(name, out string? value) && !string.IsNullOrEmpty(value))
-                environment[name] = TranslateFilePath(value);
+                environment[name] = ConvertFilePathToGuestFormat(value);
         }
     }
 
-    public string TranslateFilePath(string path) => CygwinFileSystem.TranslateFilePath(path, "/cygdrive");
+    public string ConvertFilePathToGuestFormat(string path) => CygwinFileSystem.TranslateFilePath(path, "/cygdrive");
 }

@@ -46,9 +46,9 @@ enum ToolkitFamilyTraits
     Alike = 1 << 2,
 
     /// <summary>
-    /// Indicates that a toolkit requires file paths to be translated.
+    /// Indicates that a toolkit requires file path conversion.
     /// </summary>
-    FilePathTranslation = 1 << 3,
+    FilePathConversion = 1 << 3,
 
     /// <summary>
     /// Indicates that a toolkit is not officially supported.

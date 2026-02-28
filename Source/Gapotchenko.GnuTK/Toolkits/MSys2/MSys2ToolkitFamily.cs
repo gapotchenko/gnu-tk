@@ -28,7 +28,7 @@ sealed class MSys2ToolkitFamily : IToolkitFamily
 
     public IReadOnlyList<string> Aliases => ["MSYS"];
 
-    public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable | ToolkitFamilyTraits.FilePathTranslation;
+    public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable | ToolkitFamilyTraits.FilePathConversion;
 
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>
         MSys2Deployment.EnumerateSetupInstances()

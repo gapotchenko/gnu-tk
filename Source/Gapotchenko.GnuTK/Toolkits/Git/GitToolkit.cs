@@ -128,5 +128,5 @@ sealed class GitToolkit(
         return environment;
     }
 
-    public string TranslateFilePath(string path) => CygwinFileSystem.TranslateFilePath(path, null);
+    public string ConvertFilePathToGuestFormat(string path) => CygwinFileSystem.TranslateFilePath(path, null);
 }

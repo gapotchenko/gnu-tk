@@ -79,5 +79,5 @@ sealed class BusyBoxToolkit(
         return ProcessHelper.Execute(psi);
     }
 
-    public string TranslateFilePath(string path) => path.Replace(Path.DirectorySeparatorChar, '/');
+    public string ConvertFilePathToGuestFormat(string path) => path.Replace(Path.DirectorySeparatorChar, '/');
 }

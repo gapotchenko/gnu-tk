@@ -6,13 +6,12 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.AppModel;
-using Gapotchenko.FX.Diagnostics;
 using Gapotchenko.FX.Linq;
+using Gapotchenko.GnuTK.Cli;
 using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Hosting;
 using Gapotchenko.GnuTK.IO;
 using Gapotchenko.GnuTK.Toolkits;
-using Gapotchenko.GnuTK.Cli;
 using Gapotchenko.Shields.Microsoft.Wsl.Runtime;
 
 namespace Gapotchenko.GnuTK;
@@ -127,7 +126,7 @@ sealed class Engine
         else if (Path.GetDirectoryName(path) is [])
             path = "./" + path;
         else
-            path = toolkit.TranslateFilePath(path);
+            path = toolkit.ConvertFilePathToGuestFormat(path);
 
         return toolkit.ExecuteFile(
             path,
@@ -138,29 +137,36 @@ sealed class Engine
 
     static IReadOnlyList<string> PrepareCommandArguments(IScriptableToolkit toolkit, IReadOnlyList<string> arguments)
     {
-        if (toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.FilePathTranslation))
-            return [.. arguments.Select(argument => TranslateFilePath(toolkit, argument))];
+        if (toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.FilePathConversion))
+            return [.. arguments.Select(argument => ConvertFilePathToGuestFormat(toolkit, argument, false))];
         else
             return arguments;
     }
 
-    static string TranslateFilePath(IScriptableToolkit toolkit, string value)
+    /// <summary>
+    /// Converts the specified file path from host to guest system format.
+    /// </summary>
+    /// <param name="toolkit">The toolkit to convert the path with.</param>
+    /// <param name="path">The file path to convert, presumably in host system format.</param>
+    /// <param name="diligent">Indicates whether to do a diligent conversion.</param>
+    /// <returns>The converted file path in guest system format.</returns>
+    static string ConvertFilePathToGuestFormat(IScriptableToolkit toolkit, string path, bool diligent)
     {
-        return IsTranslatableFilePath(value)
-            ? toolkit.TranslateFilePath(value)
-            : value;
+        return IsConvertibleFilePath(path, diligent)
+            ? toolkit.ConvertFilePathToGuestFormat(path)
+            : path;
 
-        static bool IsTranslatableFilePath(string path)
+        static bool IsConvertibleFilePath(string path, bool diligent)
         {
             if (HostEnvironment.FilePathFormat == FilePathFormat.Windows)
             {
-                if (path.Length >= 2 && path[1] == ':' && char.IsAsciiLetter(path[0]))
-                    return true;
-                else
-                    return false;
+                return
+                    path.Length >= 2 && path[1] == ':' && char.IsAsciiLetter(path[0]) ||
+                    diligent && path.Contains('\\', StringComparison.Ordinal);
             }
             else
             {
+                // The host system already has a Unix file path format.
                 return false;
             }
         }
@@ -221,7 +227,7 @@ sealed class Engine
             {
                 if (!quiet)
                 {
-                    using (CliStyles.Scope.Title(Console.Out))
+                    using (TuiStyles.Scope.Title(Console.Out))
                         Console.Write("Available GNU Toolkits");
                     Console.WriteLine();
 
@@ -253,7 +259,7 @@ sealed class Engine
 
         Console.WriteLine();
 
-        using (CliStyles.Scope.Title(Console.Out))
+        using (TuiStyles.Scope.Title(Console.Out))
             Console.Write("Tips:");
         Console.WriteLine();
 
@@ -347,9 +353,9 @@ sealed class Engine
             if (toolkits.Any() ||
                 Strict && EnumerateToolkits(ToolkitServices.SupportedToolkitFamilies).Any())
             {
-                using (CliStyles.Scope.Error(error))
+                using (TuiStyles.Scope.Error(error))
                 {
-                    CliStyles.ErrorPrologue(error, DiagnosticCode.SuitableToolkitNotFound);
+                    TuiStyles.ErrorPrologue(error, DiagnosticCode.SuitableToolkitNotFound);
                     if (Strict)
                         error.Write(DiagnosticMessages.SuitableStrictToolkitNotFound(names));
                     else
@@ -365,9 +371,9 @@ sealed class Engine
             }
             else
             {
-                using (CliStyles.Scope.Error(error))
+                using (TuiStyles.Scope.Error(error))
                 {
-                    CliStyles.ErrorPrologue(error, DiagnosticCode.SuitableToolkitNotFound);
+                    TuiStyles.ErrorPrologue(error, DiagnosticCode.SuitableToolkitNotFound);
                     error.Write("No available GNU toolkits are found.");
                 }
                 error.WriteLine();
@@ -384,7 +390,7 @@ sealed class Engine
 
         if (!quiet)
         {
-            using (CliStyles.Scope.Title(Console.Out))
+            using (TuiStyles.Scope.Title(Console.Out))
                 Console.Write("GNU Toolkit Check");
             Console.WriteLine();
             Console.WriteLine();
@@ -407,7 +413,7 @@ sealed class Engine
         if (!quiet)
             Console.WriteLine();
         Console.Write("Check status: ");
-        using (CliStyles.Scope.Success(Console.Out))
+        using (TuiStyles.Scope.Success(Console.Out))
         {
             if (!quiet &&
                 (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ||
@@ -424,7 +430,7 @@ sealed class Engine
         {
             Console.WriteLine();
 
-            using (CliStyles.Scope.Title(Console.Out))
+            using (TuiStyles.Scope.Title(Console.Out))
                 Console.Write("Tips:");
             Console.WriteLine();
 

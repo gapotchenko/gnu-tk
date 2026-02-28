@@ -61,5 +61,5 @@ interface IScriptableToolkit : IToolkit
     /// </summary>
     /// <param name="path">The file path to translate in the host format.</param>
     /// <returns>A translated file path in the toolkit's format.</returns>
-    string TranslateFilePath(string path);
+    string ConvertFilePathToGuestFormat(string path);
 }
