@@ -143,35 +143,6 @@ sealed class Engine
             return arguments;
     }
 
-    /// <summary>
-    /// Converts the specified file path from host to guest system format.
-    /// </summary>
-    /// <param name="toolkit">The toolkit to convert the path with.</param>
-    /// <param name="path">The file path to convert, presumably in host system format.</param>
-    /// <param name="diligent">Indicates whether to do a diligent conversion.</param>
-    /// <returns>The converted file path in guest system format.</returns>
-    static string ConvertFilePathToGuestFormat(IScriptableToolkit toolkit, string path, bool diligent)
-    {
-        return IsConvertibleFilePath(path, diligent)
-            ? toolkit.ConvertFilePathToGuestFormat(path)
-            : path;
-
-        static bool IsConvertibleFilePath(string path, bool diligent)
-        {
-            if (HostEnvironment.FilePathFormat == FilePathFormat.Windows)
-            {
-                return
-                    path.Length >= 2 && path[1] == ':' && char.IsAsciiLetter(path[0]) ||
-                    diligent && path.Contains('\\', StringComparison.Ordinal);
-            }
-            else
-            {
-                // The host system already has a Unix file path format.
-                return false;
-            }
-        }
-    }
-
     IScriptableToolkit GetToolkit()
     {
         var names = ToolkitNames;
@@ -492,5 +463,56 @@ sealed class Engine
         return (toolkit.Traits & ToolkitTraits.BuiltIn) != 0
             ? "(built-in)"
             : toolkit.InstallationPath;
+    }
+
+    [return: NotNullIfNotNull(nameof(path))]
+    public string? ConvertFilePathToHostFormat(string? path)
+    {
+        if (string.IsNullOrEmpty(path))
+            return path;
+
+        var toolkit = GetToolkit();
+
+        return "TODO";
+    }
+
+
+    [return: NotNullIfNotNull(nameof(path))]
+    public string? ConvertFilePathToGuestFormat(string? path)
+    {
+        if (string.IsNullOrEmpty(path))
+            return path;
+
+        var toolkit = GetToolkit();
+        return ConvertFilePathToGuestFormat(toolkit, path, true);
+    }
+
+    /// <summary>
+    /// Converts the specified file path from host to guest system format.
+    /// </summary>
+    /// <param name="toolkit">The toolkit to convert the path with.</param>
+    /// <param name="path">The file path to convert, presumably in host system format.</param>
+    /// <param name="diligent">Indicates whether to do a diligent conversion.</param>
+    /// <returns>The converted file path in guest system format.</returns>
+    static string ConvertFilePathToGuestFormat(IScriptableToolkit toolkit, string path, bool diligent)
+    {
+        return IsConvertibleFilePath(path, diligent)
+            ? toolkit.ConvertFilePathToGuestFormat(path)
+            : path;
+
+        static bool IsConvertibleFilePath(string path, bool diligent)
+        {
+            if (HostEnvironment.FilePathFormat == FilePathFormat.Windows)
+            {
+                return
+                    path.Length >= 2 && path[1] == ':' && char.IsAsciiLetter(path[0]) ||
+                    diligent && path.Contains('\\', StringComparison.Ordinal);
+            }
+            else
+            {
+                // The host system already has a Unix file path format.
+                return false;
+            }
+        }
     }
 }

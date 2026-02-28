@@ -36,6 +36,8 @@ static class CliOptions
     public const string Path = "path";
 
     public const string PathArgument = "<path>";
+    public const string Guest = "--guest";
+    public const string Host = "--host";
 
     /// <summary>
     /// Short option names.

@@ -98,7 +98,7 @@ static class Program
             usage =
                 """
                 Usage:
-                  gnu-tk path [-t <name>] [-s] [-i] [-g | -h] [--] <path>
+                  gnu-tk path [-t <name>] [-s] [-i] (-g | -h) [--] <path>
                   gnu-tk path --help [-q]
 
                 Generic options:
@@ -400,6 +400,23 @@ static class Program
 
     static bool TranslatePath(Engine engine, IReadOnlyDictionary<string, object> arguments, out int exitCode)
     {
-        throw new NotImplementedException();
+        // '-g' command-line option (convert path to guest system format).
+        if ((bool)arguments[CliOptions.Guest])
+        {
+            Console.WriteLine(engine.ConvertFilePathToGuestFormat((string)arguments[CliOptions.PathArgument]));
+            exitCode = 0;
+            return true;
+        }
+
+        // '-h' command-line option (convert path to host system format).
+        if ((bool)arguments[CliOptions.Host])
+        {
+            Console.WriteLine(engine.ConvertFilePathToHostFormat((string)arguments[CliOptions.PathArgument]));
+            exitCode = 0;
+            return true;
+        }
+
+        exitCode = default;
+        return false;
     }
 }
