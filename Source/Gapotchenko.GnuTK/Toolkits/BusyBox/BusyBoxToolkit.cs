@@ -81,7 +81,7 @@ sealed class BusyBoxToolkit(
         return ProcessHelper.Execute(psi);
     }
 
-    public string ConvertFilePathToGuestFormat(string path, ToolkitPathConversionOptions options)
+    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options)
     {
         if (options.HasFlag(ToolkitPathConversionOptions.Absolute))
             path = Path.GetFullPath(path);
@@ -89,7 +89,7 @@ sealed class BusyBoxToolkit(
         return path.Replace(Path.DirectorySeparatorChar, '/');
     }
 
-    public string ConvertFilePathToHostFormat(string path, ToolkitPathConversionOptions options)
+    public string ConvertPathToHostFormat(string path, ToolkitPathConversionOptions options)
     {
         if (HostEnvironment.FilePathFormat == FilePathFormat.Windows)
             path = path.Replace('/', '\\');

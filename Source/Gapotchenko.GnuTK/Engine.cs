@@ -126,7 +126,7 @@ sealed class Engine
         else if (Path.GetDirectoryName(path) is [])
             path = "./" + path;
         else
-            path = toolkit.ConvertFilePathToGuestFormat(path, ToolkitPathConversionOptions.None);
+            path = toolkit.ConvertPathToGuestFormat(path, ToolkitPathConversionOptions.None);
 
         return toolkit.ExecuteFile(
             path,
@@ -138,7 +138,7 @@ sealed class Engine
     static IReadOnlyList<string> PrepareCommandArguments(IScriptableToolkit toolkit, IReadOnlyList<string> arguments)
     {
         if (toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.FilePathConversion))
-            return [.. arguments.Select(argument => ConvertFilePathToGuestFormat(toolkit, argument, false))];
+            return [.. arguments.Select(argument => ConvertPathToGuestFormat(toolkit, argument, false))];
         else
             return arguments;
     }
@@ -466,12 +466,12 @@ sealed class Engine
     }
 
     [return: NotNullIfNotNull(nameof(path))]
-    public string? ConvertFilePathToHostFormat(string? path, ToolkitPathConversionOptions options)
+    public string? ConvertPathToHostFormat(string? path, ToolkitPathConversionOptions options)
     {
-        if (!IsConvertibleFilePath(path, options))
+        if (!IsConvertiblePath(path, options))
             return path;
 
-        static bool IsConvertibleFilePath([NotNullWhen(true)] string? path, ToolkitPathConversionOptions options)
+        static bool IsConvertiblePath([NotNullWhen(true)] string? path, ToolkitPathConversionOptions options)
         {
             if (string.IsNullOrEmpty(path))
             {
@@ -493,14 +493,14 @@ sealed class Engine
         }
 
         var toolkit = GetToolkit();
-        return toolkit.ConvertFilePathToHostFormat(path, options);
+        return toolkit.ConvertPathToHostFormat(path, options);
     }
 
 
     [return: NotNullIfNotNull(nameof(path))]
-    public string? ConvertFilePathToGuestFormat(string? path, ToolkitPathConversionOptions options)
+    public string? ConvertPathToGuestFormat(string? path, ToolkitPathConversionOptions options)
     {
-        return ConvertFilePathToGuestFormat(GetToolkit(), path, true, options);
+        return ConvertPathToGuestFormat(GetToolkit(), path, true, options);
     }
 
     /// <summary>
@@ -511,17 +511,17 @@ sealed class Engine
     /// <param name="diligent">Indicates whether to do a diligent conversion.</param>
     /// <returns>The converted file path in guest system format.</returns>
     [return: NotNullIfNotNull(nameof(path))]
-    static string? ConvertFilePathToGuestFormat(
+    static string? ConvertPathToGuestFormat(
         IScriptableToolkit toolkit,
         string? path,
         bool diligent,
         ToolkitPathConversionOptions options = default)
     {
-        return IsConvertibleFilePath(path, diligent, options)
-            ? toolkit.ConvertFilePathToGuestFormat(path, options)
+        return IsConvertiblePath(path, diligent, options)
+            ? toolkit.ConvertPathToGuestFormat(path, options)
             : path;
 
-        static bool IsConvertibleFilePath([NotNullWhen(true)] string? path, bool diligent, ToolkitPathConversionOptions options)
+        static bool IsConvertiblePath([NotNullWhen(true)] string? path, bool diligent, ToolkitPathConversionOptions options)
         {
             if (string.IsNullOrEmpty(path))
             {

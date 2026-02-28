@@ -103,13 +103,13 @@ sealed class CygwinToolkit(
             // Unset it if not instructed by a user.
             commandBuilder.Append("unset POSIXLY_CORRECT;");
         }
-        commandBuilder.Append(CygwinIdiosyncrasies.AdjustArgument(command));
+        commandBuilder.Append(CygwinIdiosyncrasies.AdjustProgramArgument(command));
         shellArguments.Add(commandBuilder.ToString());
 
         if (commandArguments is [])
             shellArguments.Add(shellPath);
         else
-            shellArguments.AddRange(commandArguments.Select(CygwinIdiosyncrasies.AdjustArgument));
+            shellArguments.AddRange(commandArguments.Select(CygwinIdiosyncrasies.AdjustProgramArgument));
 
         return ProcessHelper.Execute(psi);
     }
@@ -145,9 +145,9 @@ sealed class CygwinToolkit(
         void MapPath(string name)
         {
             if (environment.TryGetValue(name, out string? value) && !string.IsNullOrEmpty(value))
-                environment[name] = ConvertFilePathToGuestFormat(value, ToolkitPathConversionOptions.None);
+                environment[name] = ConvertPathToGuestFormat(value, ToolkitPathConversionOptions.None);
         }
     }
 
-    public string ConvertFilePathToGuestFormat(string path, ToolkitPathConversionOptions options) => CygwinFileSystem.ConvertFilePathToGuestFormat(path, "/cygdrive");
+    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) => CygwinFileSystem.ConvertFilePathToGuestFormat(path, "/cygdrive");
 }

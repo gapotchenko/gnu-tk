@@ -405,7 +405,7 @@ static class Program
         if ((bool)arguments[CliOptions.Guest])
         {
             string path = (string)arguments[CliOptions.PathArgument];
-            path = engine.ConvertFilePathToGuestFormat(path, GetConversionOptions(arguments));
+            path = engine.ConvertPathToGuestFormat(path, GetConversionOptions(arguments));
             Console.WriteLine(path);
             exitCode = 0;
             return true;
@@ -415,7 +415,7 @@ static class Program
         if ((bool)arguments[CliOptions.Host])
         {
             string path = (string)arguments[CliOptions.PathArgument];
-            path = engine.ConvertFilePathToHostFormat(path, GetConversionOptions(arguments));
+            path = engine.ConvertPathToHostFormat(path, GetConversionOptions(arguments));
             Console.WriteLine(path);
             exitCode = 0;
             return true;

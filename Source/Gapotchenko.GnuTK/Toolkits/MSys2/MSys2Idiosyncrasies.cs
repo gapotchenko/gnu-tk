@@ -14,6 +14,6 @@ namespace Gapotchenko.GnuTK.Toolkits.MSys2;
 /// </summary>
 static class MSys2Idiosyncrasies
 {
-    /// <inheritdoc cref="CygwinIdiosyncrasies.AdjustArgument(string)"/>
-    public static string AdjustArgument(string value) => CygwinIdiosyncrasies.AdjustArgument(value);
+    /// <inheritdoc cref="CygwinIdiosyncrasies.AdjustProgramArgument(string)"/>
+    public static string AdjustProgramArgument(string value) => CygwinIdiosyncrasies.AdjustProgramArgument(value);
 }

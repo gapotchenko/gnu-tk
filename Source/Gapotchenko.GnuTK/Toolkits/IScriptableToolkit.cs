@@ -62,7 +62,7 @@ interface IScriptableToolkit : IToolkit
     /// <param name="path">The file path to convert in the host system format.</param>
     /// <param name="options">The options.</param>
     /// <returns>A converted file path in the toolkit's format.</returns>
-    string ConvertFilePathToGuestFormat(string path, ToolkitPathConversionOptions options);
+    string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options);
 
     /// <summary>
     /// Converts the specified file path to the host system format.
@@ -70,5 +70,5 @@ interface IScriptableToolkit : IToolkit
     /// <param name="path">The file path to convert in the toolkit's format.</param>
     /// <param name="options">The options.</param>
     /// <returns>A converted file path in the host system format.</returns>
-    string ConvertFilePathToHostFormat(string path, ToolkitPathConversionOptions options) => path;
+    string ConvertPathToHostFormat(string path, ToolkitPathConversionOptions options) => path;
 }

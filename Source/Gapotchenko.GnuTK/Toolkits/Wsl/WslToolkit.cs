@@ -174,21 +174,21 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
                 if (value != null)
                 {
                     if (translateFilePath)
-                        value = ConvertFilePathToGuestFormat(value, ToolkitPathConversionOptions.None);
+                        value = ConvertPathToGuestFormat(value, ToolkitPathConversionOptions.None);
                 }
                 newEnvironment[name] = value;
             }
         }
     }
 
-    public string ConvertFilePathToGuestFormat(string path, ToolkitPathConversionOptions options)
+    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options)
     {
         List<string> args = ["-u"];
         AddWslPathOptionArgs(args, options);
         return WslPath(args, NormalizePath(path));
     }
 
-    public string ConvertFilePathToHostFormat(string path, ToolkitPathConversionOptions options)
+    public string ConvertPathToHostFormat(string path, ToolkitPathConversionOptions options)
     {
         List<string> args = ["-w"];
         AddWslPathOptionArgs(args, options);

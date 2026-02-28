@@ -28,7 +28,7 @@ static class CygwinIdiosyncrasies
     /// Reasons of that behavior are not well understood and remain a mystery.
     /// </para>
     /// </remarks>
-    public static string AdjustArgument(string value)
+    public static string AdjustProgramArgument(string value)
     {
         return value
             // "Undo" the distortions made by Cygwin.

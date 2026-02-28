@@ -104,13 +104,13 @@ sealed class GitToolkit(
             // Unset it if not instructed by a user.
             commandBuilder.Append("unset POSIXLY_CORRECT;");
         }
-        commandBuilder.Append(GitIdiosyncrasies.AdjustArgument(command));
+        commandBuilder.Append(GitIdiosyncrasies.AdjustProgramArgument(command));
         shellArguments.Add(commandBuilder.ToString());
 
         if (commandArguments is [])
             shellArguments.Add(shellPath);
         else
-            shellArguments.AddRange(commandArguments.Select(GitIdiosyncrasies.AdjustArgument));
+            shellArguments.AddRange(commandArguments.Select(GitIdiosyncrasies.AdjustProgramArgument));
 
         return ProcessHelper.Execute(psi);
     }
@@ -128,5 +128,5 @@ sealed class GitToolkit(
         return environment;
     }
 
-    public string ConvertFilePathToGuestFormat(string path, ToolkitPathConversionOptions options) => CygwinFileSystem.ConvertFilePathToGuestFormat(path, null);
+    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) => CygwinFileSystem.ConvertFilePathToGuestFormat(path, null);
 }
