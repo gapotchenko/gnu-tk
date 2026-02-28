@@ -183,6 +183,16 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
     public string ConvertFilePathToGuestFormat(string path)
     {
+        return WslPath(["-u"], NormalizePath(path));
+    }
+
+    public string ConvertFilePathToHostFormat(string path)
+    {
+        return WslPath(["-w"], path);
+    }
+
+    string WslPath(IEnumerable<string> args, string path)
+    {
         if (path is [])
             return path;
 
@@ -197,6 +207,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         var wslArguments = psi.ArgumentList;
         wslArguments.Add("--exec");
         wslArguments.Add("wslpath");
+        wslArguments.AddRange(args);
         wslArguments.Add(NormalizePath(path));
 
         var output = new StringWriter();

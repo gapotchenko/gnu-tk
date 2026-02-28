@@ -468,12 +468,27 @@ sealed class Engine
     [return: NotNullIfNotNull(nameof(path))]
     public string? ConvertFilePathToHostFormat(string? path)
     {
-        if (string.IsNullOrEmpty(path))
+        if (!IsConvertibleFilePath(path))
             return path;
 
-        var toolkit = GetToolkit();
+        static bool IsConvertibleFilePath([NotNullWhen(true)] string? path)
+        {
+            if (string.IsNullOrEmpty(path))
+                return false;
 
-        return "TODO";
+            if (HostEnvironment.FilePathFormat == FilePathFormat.Windows)
+            {
+                return path.Contains('/', StringComparison.Ordinal);
+            }
+            else
+            {
+                // The host system already has a Unix file path format.
+                return false;
+            }
+        }
+
+        var toolkit = GetToolkit();
+        return toolkit.ConvertFilePathToHostFormat(path);
     }
 
 
