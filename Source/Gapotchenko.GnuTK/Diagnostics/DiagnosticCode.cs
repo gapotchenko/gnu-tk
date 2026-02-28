@@ -15,9 +15,10 @@ namespace Gapotchenko.GnuTK.Diagnostics;
 /// </remarks>
 enum DiagnosticCode
 {
-    InvalidProgramArguments = 1,
-    SuitableToolkitNotFound = 2,
+    MissingProgramArguments = 1,
+    InvalidProgramArguments = 2,
     ConflictingProgramArguments = 3,
-    ConfigurationFileLoadError = 4,
-    BuiltInToolkitDirectoryNotFound = 5
+    SuitableToolkitNotFound = 4,
+    ConfigurationFileLoadError = 5,
+    BuiltinToolkitDirectoryNotFound = 6
 }

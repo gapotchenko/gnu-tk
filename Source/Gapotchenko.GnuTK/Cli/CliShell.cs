@@ -110,6 +110,7 @@ static class CliShell
 
     public static bool Run(
         IReadOnlyDictionary<string, object> arguments,
+        string description,
         string usage,
         out int exitCode)
     {
@@ -117,7 +118,7 @@ static class CliShell
         {
             if (!(bool)arguments[CliOptions.Quiet])
             {
-                ShowLogo();
+                ShowLogo(description);
                 Console.WriteLine();
             }
             Console.WriteLine(usage.Replace(" [--] ", " "));
@@ -125,7 +126,7 @@ static class CliShell
             return true;
         }
 
-        if ((bool)arguments[CliOptions.Version])
+        if (arguments.TryGetValue(CliOptions.Version, out object? version) && (bool)version)
         {
             ShowVersion((bool)arguments[CliOptions.Quiet]);
             exitCode = 0;
@@ -136,7 +137,7 @@ static class CliShell
         return false;
     }
 
-    static void ShowLogo()
+    static void ShowLogo(string? description)
     {
         var appInfo = GetAppInfo();
 
@@ -147,8 +148,11 @@ static class CliShell
         if (appInfo.Copyright is not null and var copyright)
             Console.WriteLine(AdaptConsoleText(copyright));
 
-        Console.WriteLine();
-        Console.WriteLine("Provides portable access to GNU toolkits.");
+        if (description != null)
+        {
+            Console.WriteLine();
+            Console.WriteLine(description);
+        }
     }
 
     static void ShowVersion(bool quiet)
@@ -178,9 +182,11 @@ static class CliShell
     public static void ShowError(Exception exception)
     {
         var writer = Console.Error;
+
+        var diagnosticException = exception.SelfAndInnerExceptions().OfType<DiagnosticException>().FirstOrDefault();
         using (CliStyles.Scope.Error(writer))
         {
-            var errorCode = exception.SelfAndInnerExceptions().OfType<DiagnosticException>().FirstOrDefault()?.Code;
+            var errorCode = diagnosticException?.Code;
             CliStyles.ErrorPrologue(writer, errorCode);
 
             if (exception is InternalException || errorCode is null && exception is not ProgramException)
@@ -213,5 +219,11 @@ static class CliShell
                 writer.Write('.');
         }
         writer.WriteLine();
+
+        if (diagnosticException?.Hint is [_, ..] hint)
+        {
+            writer.WriteLine();
+            writer.WriteLine(hint);
+        }
     }
 }

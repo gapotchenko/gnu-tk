@@ -50,7 +50,12 @@ sealed class DiagnosticException : ProgramException
     }
 
     /// <summary>
-    /// Gets or initializes the diagnostic code.
+    /// Gets the diagnostic code.
     /// </summary>
     public DiagnosticCode Code { get; }
+
+    /// <summary>
+    /// Gets or initializes the hint message.
+    /// </summary>
+    public string? Hint { get; init; }
 }

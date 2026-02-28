@@ -144,4 +144,7 @@
   <data name="InvalidProgramArguments" xml:space="preserve">
     <value>Invalid program arguments.</value>
   </data>
+  <data name="MissingProgramArguments" xml:space="preserve">
+    <value>Missing program arguments.</value>
+  </data>
 </root>

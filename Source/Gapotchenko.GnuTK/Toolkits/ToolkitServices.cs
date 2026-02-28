@@ -155,7 +155,7 @@ static class ToolkitServices
         {
             throw new DiagnosticException(
                 DiagnosticMessages.BuiltInToolkitDirectoryNotFound(name, originalPath),
-                DiagnosticCode.BuiltInToolkitDirectoryNotFound);
+                DiagnosticCode.BuiltinToolkitDirectoryNotFound);
         }
 
         string ridPath = Path.Combine(path, RuntimeInformation.RuntimeIdentifier);

@@ -39,26 +39,21 @@ static class Program
     {
         if (args is [])
         {
-            var writer = Console.Error;
-
-            using (CliStyles.Scope.Error(writer))
-            {
-                CliStyles.ErrorPrologue(writer, DiagnosticCode.InvalidProgramArguments);
-                writer.WriteLine(DiagnosticMessages.InvalidProgramArguments);
-            }
-
-            writer.WriteLine();
-            writer.WriteLine("Try 'gnu-tk --help' for more information.");
-
-            return 1;
+            throw
+                new DiagnosticException(DiagnosticMessages.MissingProgramArguments, DiagnosticCode.MissingProgramArguments)
+                {
+                    Hint = "Try 'gnu-tk --help' for more information."
+                };
         }
 
+        string description = "Provides portable access to GNU toolkits.";
         string usage =
             """
             Usage:
               gnu-tk [-t <name>] [-s] [-i] [-p] -c [--] <command> [<argument>...]
               gnu-tk [-t <name>] [-s] [-i] [-p] [--verbatim] -l [--] <argument>...
               gnu-tk [-t <name>] [-s] [-i] [-p] (-f | -x) [--] <file> [<argument>...]
+              gnu-tk path [--] [<argument>...]
               gnu-tk (list | check [-t <name>]) [-s] [-i] [-q]
               gnu-tk (--help | --version) [-q]
 
@@ -83,16 +78,55 @@ static class Program
             Commands:
               list                 List available GNU toolkits.
               check                Check a GNU toolkit.
+              path                 File system path translation.
             """;
 
         var parsedArguments =
             CliShell.TryParseArguments(CanonicalizeArgs(ExpandArgs(args)), usage) ??
             throw new DiagnosticException(DiagnosticMessages.InvalidProgramArguments, DiagnosticCode.InvalidProgramArguments);
 
-        if (CliShell.Run(parsedArguments, usage, out int exitCode))
+        if ((bool)parsedArguments[CliOptions.Path])
+        {
+            if (args.Count == 1)
+            {
+                throw
+                    new DiagnosticException(DiagnosticMessages.MissingProgramArguments, DiagnosticCode.MissingProgramArguments)
+                    {
+                        Hint = "Try 'gnu-tk path --help' for more information."
+                    };
+            }
+
+            description = "Translate file system paths between guest and host formats.";
+            usage =
+                """
+                Usage:
+                  gnu-tk path [-t <name>] [-s] [-i] [-g | -h] [--] <path>
+                  gnu-tk path --help [-q]
+
+                Generic options:
+                  --help               Show this help.
+                  -q --quiet           Do not print any auxiliary messages.
+
+                Path options:
+                  <path>               Path to translate.
+                  -g --guest           Convert path to guest system format.
+                  -h --host            Convert path to host system format.
+
+                Toolkit options:
+                  -t --toolkit=<name>  Use the specified GNU toolkit [default: auto].
+                  -s --strict          Use a toolkit with strict GNU semantics.
+                  -i --integrated      Use a toolkit that operates within the host environment.
+                """;
+
+            parsedArguments =
+                CliShell.TryParseArguments(args, usage) ??
+                throw new DiagnosticException(DiagnosticMessages.InvalidProgramArguments, DiagnosticCode.InvalidProgramArguments);
+        }
+
+        if (CliShell.Run(parsedArguments, description, usage, out int exitCode))
             return exitCode;
-        else
-            return RunCore(parsedArguments);
+
+        return RunCore(parsedArguments);
     }
 
     #region Program arguments expansion & canonicalization
@@ -168,6 +202,10 @@ static class Program
                             hasCommand = true;
                             break;
 
+                        case CliOptions.Path:
+                            state = ArgsCanonicalizationState.Positional;
+                            break;
+
                         case CliOptions.Help:
                         case CliOptions.Quiet or CliOptions.Shorthands.Quiet:
                         case CliOptions.Version:
@@ -223,11 +261,18 @@ static class Program
     [MethodImpl(MethodImplOptions.NoInlining)] // avoid premature initialization of types
     static int RunCore(IReadOnlyDictionary<string, object> arguments)
     {
-        // Initialize a GNU-TK engine.
-        var engine = InitializeEngine(arguments);
+        if ((bool)arguments[CliOptions.Path])
+        {
+            throw new NotImplementedException();
+        }
+        else
+        {
+            // Initialize a GNU-TK engine.
+            var engine = InitializeEngine(arguments);
 
-        if (RunEngine(engine, arguments, out int exitCode))
-            return exitCode;
+            if (RunEngine(engine, arguments, out int exitCode))
+                return exitCode;
+        }
 
         throw new InternalException("Unhandled command-line arguments.");
     }

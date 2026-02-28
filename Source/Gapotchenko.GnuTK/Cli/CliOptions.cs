@@ -33,6 +33,9 @@ static class CliOptions
 
     public const string List = "list";
     public const string Check = "check";
+    public const string Path = "path";
+
+    public const string PathArgument = "<path>";
 
     /// <summary>
     /// Short option names.
