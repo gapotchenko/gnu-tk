@@ -22,15 +22,15 @@ class CygwinRuntime(Func<string, string> getToolPath) :
     ToolkitRuntime
 {
     /// <summary>
-    /// Adjusts a command-line argument before passing it to a Cygwin-based
+    /// Adjusts the specified command-line argument before passing it to a Cygwin-based
     /// toolkit, correcting distortions introduced by Cygwin.
     /// </summary>
-    /// <param name="value">The original argument value.</param>
-    /// <returns>The corrected argument value</returns>
+    /// <param name="value">The command-line argument to adjust.</param>
+    /// <returns>The corrected command-line argument.</returns>
     /// <remarks>
     /// <para>
     /// Cygwin and Cygwin-based toolchains alter the handling of the <c>\</c>
-    /// character in command-line arguments. While this usually has no effect,
+    /// character in command-line arguments. While this usually has no consequences,
     /// the loss of semantic precision can break certain scenarios.
     /// </para>
     /// <para>
