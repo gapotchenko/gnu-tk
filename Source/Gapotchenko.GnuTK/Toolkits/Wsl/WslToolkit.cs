@@ -9,8 +9,6 @@ using Gapotchenko.FX.Collections.Generic;
 using Gapotchenko.FX.IO;
 using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Helpers;
-using Gapotchenko.GnuTK.Hosting;
-using Gapotchenko.GnuTK.IO;
 using Gapotchenko.Shields.Microsoft.Wsl.Deployment;
 using System.Text;
 
@@ -166,7 +164,7 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         if (path.Length == 0)
             return path;
         else
-            return ConvertPath(["-u"], NormalizePath(path), options);
+            return ConvertPathToGuestFormatCore(path, options);
     }
 
     public string ConvertPathToHostFormat(string path, ToolkitPathConversionOptions options)
@@ -182,15 +180,27 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
             path = path.Replace('/', '\\');
 
-            if (options.HasFlag(ToolkitPathConversionOptions.Absolute) &&
-                HostEnvironment.FilePathFormat == FilePathFormat.Windows)
+            if (options.HasFlag(ToolkitPathConversionOptions.Absolute))
             {
-                path = Path.GetFullPath(path);
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    path = Path.GetFullPath(path);
+                else
+                    path = ConvertPathToHostFormatCore(ConvertPathToGuestFormatCore(path, options), options);
             }
 
             return path;
         }
 
+        return ConvertPathToHostFormatCore(path, options);
+    }
+
+    string ConvertPathToGuestFormatCore(string path, ToolkitPathConversionOptions options)
+    {
+        return ConvertPath(["-u"], NormalizePath(path), options);
+    }
+
+    string ConvertPathToHostFormatCore(string path, ToolkitPathConversionOptions options)
+    {
         return ConvertPath(["-w"], path, options);
     }
 
