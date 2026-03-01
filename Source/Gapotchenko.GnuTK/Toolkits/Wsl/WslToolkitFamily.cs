@@ -27,7 +27,7 @@ sealed class WslToolkitFamily : IToolkitFamily
 
     public string Name => "WSL";
 
-    public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.FilePathConversion;
+    public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.PathConversion;
 
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>
         // GNU-TK supports WSL 2+.

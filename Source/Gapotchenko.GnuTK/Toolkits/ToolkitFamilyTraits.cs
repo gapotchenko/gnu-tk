@@ -48,7 +48,7 @@ enum ToolkitFamilyTraits
     /// <summary>
     /// Indicates that a toolkit requires file path conversion.
     /// </summary>
-    FilePathConversion = 1 << 3,
+    PathConversion = 1 << 3,
 
     /// <summary>
     /// Indicates that a toolkit is not officially supported.

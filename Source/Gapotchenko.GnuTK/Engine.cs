@@ -137,7 +137,7 @@ sealed class Engine
 
     static IReadOnlyList<string> PrepareCommandArguments(IScriptableToolkit toolkit, IReadOnlyList<string> arguments)
     {
-        if (toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.FilePathConversion))
+        if (toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.PathConversion))
             return [.. arguments.Select(argument => ConvertPathToGuestFormat(toolkit, argument, false))];
         else
             return arguments;

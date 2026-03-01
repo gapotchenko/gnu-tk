@@ -26,7 +26,7 @@ sealed class GitToolkitFamily : IToolkitFamily
 
     public string Name => "Git";
 
-    public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable | ToolkitFamilyTraits.FilePathConversion;
+    public ToolkitFamilyTraits Traits => ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable | ToolkitFamilyTraits.PathConversion;
 
     public IEnumerable<IToolkit> EnumerateInstalledToolkits() =>
         GitDeployment.EnumerateSetupInstances()

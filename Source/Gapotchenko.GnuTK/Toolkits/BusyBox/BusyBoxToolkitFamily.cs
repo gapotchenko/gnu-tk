@@ -12,14 +12,18 @@ namespace Gapotchenko.GnuTK.Toolkits.BusyBox;
 /// <summary>
 /// Describes a family of BusyBox toolkits that combine tiny versions of many common
 /// UNIX utilities into a single small executable.
-/// BusyBox provides replacements for most of the utilities you usually find in GNU fileutils, shellutils, etc.
 /// </summary>
 /// <remarks>
+/// <para>
+/// BusyBox provides replacements for most of the utilities you usually find in GNU <c>fileutils</c>, <c>shellutils</c>, etc.
+/// </para>
+/// <para>
 /// More information:
 /// <list type="bullet">
 /// <item><see href="https://busybox.net/"/></item>
 /// <item><see href="https://frippery.org/busybox/"/></item> (BusyBox for Windows)
 /// </list>
+/// </para>
 /// </remarks>
 sealed class BusyBoxToolkitFamily : IToolkitFamily
 {
@@ -35,7 +39,7 @@ sealed class BusyBoxToolkitFamily : IToolkitFamily
 
     static ToolkitFamilyTraits GetTraitsCore()
     {
-        var traits = ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable | ToolkitFamilyTraits.FilePathConversion;
+        var traits = ToolkitFamilyTraits.Installable | ToolkitFamilyTraits.Portable | ToolkitFamilyTraits.PathConversion;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             // No ready-to-use BusyBox for macOS is available.
