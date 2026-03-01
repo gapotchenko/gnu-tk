@@ -163,12 +163,12 @@ sealed class MSys2Toolkit(
         string? repositoryPrefix =
             mSystem switch
             {
-                "UCRT64" => "mingw-w64-ucrt-x86_64-",
                 "CLANG64" => "mingw-w64-clang-x86_64-",
                 "CLANGARM64" => "mingw-w64-clang-aarch64-",
-                "MSYS" => "",
-                "MINGW64" => "mingw-w64-x86_64-",
                 "MINGW32" => "mingw-w64-i686-",
+                "MINGW64" => "mingw-w64-x86_64-",
+                "MSYS" => "",
+                "UCRT64" => "mingw-w64-ucrt-x86_64-",
                 _ => null
             };
         Debug.Assert(repositoryPrefix != null, "MSYS2 repository prefix calculation failed.");
