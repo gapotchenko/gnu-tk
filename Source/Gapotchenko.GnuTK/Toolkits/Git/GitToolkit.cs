@@ -134,5 +134,5 @@ sealed class GitToolkit(
         m_Runtime.ConvertPathToHostFormat(path, options);
 
     readonly GitRuntime m_Runtime = new(
-        name => setupInstance.ResolvePath(Path.Join("usr", "bin", name)));
+        getToolPath: name => setupInstance.ResolvePath(Path.Join("usr", "bin", name)));
 }

@@ -193,5 +193,5 @@ sealed class MSys2Toolkit(
         m_Runtime.ConvertPathToHostFormat(path, options);
 
     readonly MSys2Runtime m_Runtime = new(
-        name => msys2environment.SetupInstance.ResolvePath(Path.Join("usr", "bin", name)));
+        getToolPath: name => msys2environment.SetupInstance.ResolvePath(Path.Join("usr", "bin", name)));
 }

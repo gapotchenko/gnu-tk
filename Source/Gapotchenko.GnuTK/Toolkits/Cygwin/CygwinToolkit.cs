@@ -156,5 +156,5 @@ sealed class CygwinToolkit(
         m_Runtime.ConvertPathToHostFormat(path, options);
 
     readonly CygwinRuntime m_Runtime = new(
-        name => setupInstance.ResolvePath(Path.Join("bin", name)));
+        getToolPath: name => setupInstance.ResolvePath(Path.Join("bin", name)));
 }
