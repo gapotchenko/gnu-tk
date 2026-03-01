@@ -138,7 +138,7 @@ sealed class Engine
     static IReadOnlyList<string> PrepareCommandArguments(IScriptableToolkit toolkit, IReadOnlyList<string> arguments)
     {
         if (toolkit.Family.Traits.HasFlag(ToolkitFamilyTraits.PathConversion))
-            return [.. arguments.Select(argument => ConvertPathToGuestFormat(toolkit, argument, false))];
+            return [.. arguments.Select(argument => ConvertPathToGuestFormat(toolkit, argument, ToolkitPathConversionOptions.None, false))];
         else
             return arguments;
     }
@@ -483,7 +483,7 @@ sealed class Engine
             }
             else if (HostEnvironment.FilePathFormat == FilePathFormat.Windows)
             {
-                return path.Contains('/', StringComparison.Ordinal);
+                return path.ContainsAny(['/', '~']);
             }
             else
             {
@@ -500,7 +500,7 @@ sealed class Engine
     [return: NotNullIfNotNull(nameof(path))]
     public string? ConvertPathToGuestFormat(string? path, ToolkitPathConversionOptions options)
     {
-        return ConvertPathToGuestFormat(GetToolkit(), path, true, options);
+        return ConvertPathToGuestFormat(GetToolkit(), path, options, true);
     }
 
     /// <summary>
@@ -514,8 +514,8 @@ sealed class Engine
     static string? ConvertPathToGuestFormat(
         IScriptableToolkit toolkit,
         string? path,
-        bool diligent,
-        ToolkitPathConversionOptions options = default)
+        ToolkitPathConversionOptions options,
+        bool diligent)
     {
         return IsConvertiblePath(path, diligent, options)
             ? toolkit.ConvertPathToGuestFormat(path, options)
