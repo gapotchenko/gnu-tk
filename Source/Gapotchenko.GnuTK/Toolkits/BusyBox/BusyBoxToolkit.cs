@@ -83,6 +83,9 @@ sealed class BusyBoxToolkit(
 
     public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options)
     {
+        if (path.Length == 0)
+            return path;
+
         if (options.HasFlag(ToolkitPathConversionOptions.Absolute))
             path = Path.GetFullPath(path);
 
@@ -91,6 +94,9 @@ sealed class BusyBoxToolkit(
 
     public string ConvertPathToHostFormat(string path, ToolkitPathConversionOptions options)
     {
+        if (path.Length == 0)
+            return path;
+
         if (HostEnvironment.FilePathFormat == FilePathFormat.Windows)
             path = path.Replace('/', '\\');
 
