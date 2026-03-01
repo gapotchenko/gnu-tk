@@ -5,3 +5,4 @@ set -eu
 echo "== Test Group C =="
 
 (cd 01 && ./test.sh)
+(cd 02 && ./test.sh)
