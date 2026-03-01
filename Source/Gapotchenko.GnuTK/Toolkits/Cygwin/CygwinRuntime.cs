@@ -6,6 +6,7 @@
 // Year of introduction: 2025
 
 using Gapotchenko.FX.Collections.Generic;
+using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Helpers;
 
 #pragma warning disable CA1822 // Mark members as static
@@ -70,7 +71,7 @@ class CygwinRuntime(Func<string, string> getToolPath) :
 
     string Cygpath(IEnumerable<string> args, string path)
     {
-        string toolPath = getToolPath("cygpath.exe");
+        string toolPath = GetToolPath("cygpath.exe");
 
         var psi = new ProcessStartInfo
         {
@@ -88,5 +89,13 @@ class CygwinRuntime(Func<string, string> getToolPath) :
             return path;
 
         return output.ToString();
+    }
+
+    string GetToolPath(string name)
+    {
+        string toolPath = getToolPath(name);
+        if (!File.Exists(toolPath))
+            throw new ProgramException(DiagnosticMessages.ModuleNotFound(name));
+        return toolPath;
     }
 }
