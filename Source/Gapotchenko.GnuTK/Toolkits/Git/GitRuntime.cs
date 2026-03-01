@@ -9,6 +9,9 @@ using Gapotchenko.GnuTK.Toolkits.MSys2;
 
 namespace Gapotchenko.GnuTK.Toolkits.Git;
 
+/// <summary>
+/// Provides Git toolkit runtime functionality.
+/// </summary>
 sealed class GitRuntime(Func<string, string> getToolPath) :
     MSys2Runtime(getToolPath)
 {

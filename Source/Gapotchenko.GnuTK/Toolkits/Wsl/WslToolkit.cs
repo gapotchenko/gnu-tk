@@ -183,29 +183,29 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
 
     public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options)
     {
-        List<string> args = ["-u"];
-        AddWslPathOptionArgs(args, options);
-        return WslPath(args, NormalizePath(path));
+        if (path.Length == 0)
+            return path;
+        else
+            return ConvertPath(["-u"], NormalizePath(path), options);
     }
 
     public string ConvertPathToHostFormat(string path, ToolkitPathConversionOptions options)
     {
-        List<string> args = ["-w"];
-        AddWslPathOptionArgs(args, options);
-        return WslPath(args, path);
+        if (path.Length == 0)
+            return path;
+        else
+            return ConvertPath(["-w"], path, options);
     }
 
-    static void AddWslPathOptionArgs(IList<string> args, ToolkitPathConversionOptions options)
+    string ConvertPath(IList<string> args, string path, ToolkitPathConversionOptions options)
     {
         if (options.HasFlag(ToolkitPathConversionOptions.Absolute))
             args.Add("-a");
+        return WslPath(args, path);
     }
 
     string WslPath(IEnumerable<string> args, string path)
     {
-        if (path is [])
-            return path;
-
         string toolPath = GetWslPath();
 
         var psi = new ProcessStartInfo

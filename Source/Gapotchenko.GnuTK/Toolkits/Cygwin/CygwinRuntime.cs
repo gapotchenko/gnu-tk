@@ -29,15 +29,16 @@ class CygwinRuntime(Func<string, string> getToolPath) :
     /// <returns>The corrected argument value</returns>
     /// <remarks>
     /// <para>
-    /// Cygwin and related toolchains alter the handling of the <c>\</c>
+    /// Cygwin and Cygwin-based toolchains alter the handling of the <c>\</c>
     /// character in command-line arguments. While this usually has no effect,
     /// the loss of semantic precision can break certain scenarios.
     /// </para>
     /// <para>
     /// Reasons of that behavior are not well understood and remain a mystery.
+    /// This function rectifies it back to the POSIX compliance.
     /// </para>
     /// </remarks>
-    public string AdjustProgramArgument(string value)
+    public string AdjustCommandLineArgument(string value)
     {
         return value
             // "Undo" the distortions made by Cygwin.
@@ -46,29 +47,29 @@ class CygwinRuntime(Func<string, string> getToolPath) :
 
     public override string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options)
     {
-        List<string> args = ["-u"];
-        AddCygpathOptionArgs(args, options);
-        return Cygpath(args, path);
+        if (path.Length == 0)
+            return path;
+        else
+            return ConvertPath(["-u"], path, options);
     }
 
     public override string ConvertPathToHostFormat(string path, ToolkitPathConversionOptions options)
     {
-        List<string> args = ["-w"];
-        AddCygpathOptionArgs(args, options);
-        return Cygpath(args, path);
+        if (path.Length == 0)
+            return path;
+        else
+            return ConvertPath(["-w"], path, options);
     }
 
-    static void AddCygpathOptionArgs(IList<string> args, ToolkitPathConversionOptions options)
+    string ConvertPath(IList<string> args, string path, ToolkitPathConversionOptions options)
     {
         if (options.HasFlag(ToolkitPathConversionOptions.Absolute))
             args.Add("-a");
+        return Cygpath(args, path);
     }
 
     string Cygpath(IEnumerable<string> args, string path)
     {
-        if (path is [])
-            return path;
-
         string toolPath = getToolPath("cygpath.exe");
 
         var psi = new ProcessStartInfo

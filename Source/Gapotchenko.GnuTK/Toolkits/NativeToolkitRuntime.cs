@@ -7,6 +7,9 @@
 
 namespace Gapotchenko.GnuTK.Toolkits;
 
+/// <summary>
+/// Provides native GNU toolkit runtime functionality.
+/// </summary>
 sealed class NativeToolkitRuntime : ToolkitRuntime
 {
     public static NativeToolkitRuntime Instance { get; } = new();

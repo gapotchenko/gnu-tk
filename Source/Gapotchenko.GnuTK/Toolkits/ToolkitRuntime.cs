@@ -7,6 +7,9 @@
 
 namespace Gapotchenko.GnuTK.Toolkits;
 
+/// <summary>
+/// Provides GNU toolkit runtime functionality.
+/// </summary>
 abstract class ToolkitRuntime
 {
     public virtual string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) => ConvertPath(path, options);

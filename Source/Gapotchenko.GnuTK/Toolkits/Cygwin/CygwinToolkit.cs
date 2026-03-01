@@ -103,13 +103,13 @@ sealed class CygwinToolkit(
             // Unset it if not instructed by a user.
             commandBuilder.Append("unset POSIXLY_CORRECT;");
         }
-        commandBuilder.Append(m_Runtime.AdjustProgramArgument(command));
+        commandBuilder.Append(m_Runtime.AdjustCommandLineArgument(command));
         shellArguments.Add(commandBuilder.ToString());
 
         if (commandArguments is [])
             shellArguments.Add(shellPath);
         else
-            shellArguments.AddRange(commandArguments.Select(m_Runtime.AdjustProgramArgument));
+            shellArguments.AddRange(commandArguments.Select(m_Runtime.AdjustCommandLineArgument));
 
         return ProcessHelper.Execute(psi);
     }
