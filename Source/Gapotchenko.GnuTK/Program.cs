@@ -94,7 +94,7 @@ static class Program
                 };
             }
 
-            description = "Translate file system paths between guest and host formats.";
+            description = "Translate file path between guest and host system formats.";
             usage =
                 """
                 Usage:

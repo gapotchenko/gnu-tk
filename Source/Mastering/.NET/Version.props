@@ -2,8 +2,8 @@
 
   <!-- Version Information -->
   <PropertyGroup>
-    <VersionPrefix>2026.1.5</VersionPrefix>
-    <VersionSuffix>beta</VersionSuffix>
+    <VersionPrefix>2026.1.7</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
   </PropertyGroup>
 
 </Project>

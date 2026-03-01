@@ -2,9 +2,9 @@
 
 ## 2026
 
-### GNU-TK 2026.1 (Beta)
+### GNU-TK 2026.1
 
-Release date: not released yet
+Release date: March 2, 2026
 
 - Added file path translation between host and guest system formats via the
   `gnu-tk path` command
