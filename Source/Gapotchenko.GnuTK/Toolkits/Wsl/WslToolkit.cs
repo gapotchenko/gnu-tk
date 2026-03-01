@@ -104,29 +104,6 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         return ProcessHelper.Execute(psi);
     }
 
-    string GetWslPath()
-    {
-        string fileName = "wsl.exe";
-        string wslPath = setupInstance.ResolvePath(Path.Join(fileName));
-        if (!File.Exists(wslPath))
-            throw new ProgramException(DiagnosticMessages.ModuleNotFound(fileName));
-        return wslPath;
-    }
-
-    static string NormalizePath(string path)
-    {
-        // WSL cannot map paths on substituted drives (as of v2.5.7.0).
-        if (PathUtil.IsSubstitutedPath(path))
-        {
-            // Workaround that by explicitly mapping such a path to the real path.
-            return FileSystem.GetRealPath(path);
-        }
-        else
-        {
-            return path;
-        }
-    }
-
     static void WriteEnvironmentScript(TextWriter writer, IReadOnlyDictionary<string, string?> environment)
     {
         bool first = true;
@@ -227,5 +204,28 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
             return path;
 
         return output.ToString();
+    }
+
+    string GetWslPath()
+    {
+        string fileName = "wsl.exe";
+        string wslPath = setupInstance.ResolvePath(Path.Join(fileName));
+        if (!File.Exists(wslPath))
+            throw new ProgramException(DiagnosticMessages.ModuleNotFound(fileName));
+        return wslPath;
+    }
+
+    static string NormalizePath(string path)
+    {
+        // WSL cannot map paths on substituted drives (as of v2.5.7.0).
+        if (PathUtil.IsSubstitutedPath(path))
+        {
+            // Workaround that by explicitly mapping such a path to the real path.
+            return FileSystem.GetRealPath(path);
+        }
+        else
+        {
+            return path;
+        }
     }
 }
