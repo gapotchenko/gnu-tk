@@ -17,4 +17,21 @@ sealed class NativeToolkitRuntime : ToolkitRuntime
     NativeToolkitRuntime()
     {
     }
+
+    public override string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) => ConvertPath(path, options);
+
+    public override string ConvertPathToHostFormat(string path, ToolkitPathConversionOptions options) => ConvertPath(path, options);
+
+    static string ConvertPath(string path, ToolkitPathConversionOptions options)
+    {
+        // Edge cases
+        if (path.Length == 0)
+            return path;
+
+        // Options
+        if (options.HasFlag(ToolkitPathConversionOptions.Absolute))
+            path = Path.GetFullPath(path);
+
+        return path;
+    }
 }
