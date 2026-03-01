@@ -60,8 +60,8 @@ format:
     echo 'Formatting **/README.md...'
     fd --glob README.md -x deno fmt -q
     deno fmt -q Documentation/CHANGELOG.md
-    echo 'Formatting miscellaneous files...'
-    (cd Source/Mastering; cat Exclusion.dic | tr '[:upper:]' '[:lower:]' | sort -u | sponge Exclusion.dic)
+    #echo 'Formatting miscellaneous files...'
+    #(cd Source/Mastering; cat Exclusion.dic | tr '[:upper:]' '[:lower:]' | sort -u | sponge Exclusion.dic)
 
 # Check source code
 [group("development")]

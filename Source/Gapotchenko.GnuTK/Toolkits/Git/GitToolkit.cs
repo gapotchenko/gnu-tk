@@ -133,5 +133,6 @@ sealed class GitToolkit(
     public string ConvertPathToHostFormat(string path, ToolkitPathConversionOptions options) =>
         m_Runtime.ConvertPathToHostFormat(path, options);
 
-    readonly GitRuntime m_Runtime = new();
+    readonly GitRuntime m_Runtime = new(
+        name => setupInstance.ResolvePath(Path.Join("usr", "bin", name)));
 }

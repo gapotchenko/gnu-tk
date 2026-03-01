@@ -9,6 +9,7 @@ using Gapotchenko.GnuTK.Toolkits.Cygwin;
 
 namespace Gapotchenko.GnuTK.Toolkits.MSys2;
 
-sealed class MSys2Runtime : CygwinRuntime
+class MSys2Runtime(Func<string, string> getToolPath) :
+    CygwinRuntime(getToolPath)
 {
 }

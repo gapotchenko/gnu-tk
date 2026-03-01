@@ -192,5 +192,6 @@ sealed class MSys2Toolkit(
     public string ConvertPathToHostFormat(string path, ToolkitPathConversionOptions options) =>
         m_Runtime.ConvertPathToHostFormat(path, options);
 
-    readonly MSys2Runtime m_Runtime = new();
+    readonly MSys2Runtime m_Runtime = new(
+        name => msys2environment.SetupInstance.ResolvePath(Path.Join("usr", "bin", name)));
 }

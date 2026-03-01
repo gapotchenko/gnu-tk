@@ -206,19 +206,19 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         if (path is [])
             return path;
 
-        string wslPath = GetWslPath();
+        string toolPath = GetWslPath();
 
         var psi = new ProcessStartInfo
         {
-            FileName = wslPath,
+            FileName = toolPath,
             WorkingDirectory = NormalizePath(Directory.GetCurrentDirectory())
         };
 
-        var wslArguments = psi.ArgumentList;
-        wslArguments.Add("--exec");
-        wslArguments.Add("wslpath");
-        wslArguments.AddRange(args);
-        wslArguments.Add(path);
+        var toolArgs = psi.ArgumentList;
+        toolArgs.Add("--exec");
+        toolArgs.Add("wslpath");
+        toolArgs.AddRange(args);
+        toolArgs.Add(path);
 
         var output = new StringWriter();
 

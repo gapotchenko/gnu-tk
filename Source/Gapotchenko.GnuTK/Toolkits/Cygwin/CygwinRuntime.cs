@@ -5,13 +5,21 @@
 // File introduced by: Oleksiy Gapotchenko
 // Year of introduction: 2025
 
-using System.Text;
+using Gapotchenko.FX.Collections.Generic;
+using Gapotchenko.GnuTK.Helpers;
 
 #pragma warning disable CA1822 // Mark members as static
 
 namespace Gapotchenko.GnuTK.Toolkits.Cygwin;
 
-class CygwinRuntime : ToolkitRuntime
+/// <summary>
+/// Provides Cygwin runtime functionality.
+/// </summary>
+/// <param name="getToolPath">
+/// The function that returns a path of the specified Cygwin tool (<c>cygpath.exe</c>, <c>cygcheck.exe</c>, etc).
+/// </param>
+class CygwinRuntime(Func<string, string> getToolPath) :
+    ToolkitRuntime
 {
     /// <summary>
     /// Adjusts a command-line argument before passing it to a Cygwin-based
@@ -38,31 +46,46 @@ class CygwinRuntime : ToolkitRuntime
 
     public override string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options)
     {
-        // TODO
-        // Deduct the prefix from '/etc/fstab' file as described at
-        // https://conemu.github.io/en/CygwinStartDir.html#cygdrive
-
-        if (path.Length >= 2 && path[1] == ':' && char.IsAsciiLetter(path[0]))
-        {
-            // C:/Folder/File.txt => {prefix}/c/Folder/File.txt
-
-            var builder = new StringBuilder(PathPrefix);
-
-            // The drive letter.
-            builder.Append('/').Append(char.ToLowerInvariant(path[0]));
-
-            // The drive path.
-            var s = path[2..].Replace('\\', '/').AsSpan().TrimStart('/');
-            if (!s.IsEmpty)
-                builder.Append('/').Append(s);
-
-            return builder.ToString();
-        }
-        else
-        {
-            return path.Replace(Path.DirectorySeparatorChar, '/');
-        }
+        List<string> args = ["-u"];
+        AddCygpathOptionArgs(args, options);
+        return Cygpath(args, path);
     }
 
-    public string? PathPrefix { get; init; }
+    public override string ConvertPathToHostFormat(string path, ToolkitPathConversionOptions options)
+    {
+        List<string> args = ["-w"];
+        AddCygpathOptionArgs(args, options);
+        return Cygpath(args, path);
+    }
+
+    static void AddCygpathOptionArgs(IList<string> args, ToolkitPathConversionOptions options)
+    {
+        if (options.HasFlag(ToolkitPathConversionOptions.Absolute))
+            args.Add("-a");
+    }
+
+    string Cygpath(IEnumerable<string> args, string path)
+    {
+        if (path is [])
+            return path;
+
+        string toolPath = getToolPath("cygpath.exe");
+
+        var psi = new ProcessStartInfo
+        {
+            FileName = toolPath
+        };
+
+        var toolArgs = psi.ArgumentList;
+        toolArgs.AddRange(args);
+        toolArgs.Add(path);
+
+        var output = new StringWriter();
+
+        int exitCode = ProcessHelper.Execute(psi, output);
+        if (exitCode != 0)
+            return path;
+
+        return output.ToString();
+    }
 }

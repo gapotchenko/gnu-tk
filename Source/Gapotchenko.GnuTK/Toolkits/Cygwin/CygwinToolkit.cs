@@ -155,8 +155,6 @@ sealed class CygwinToolkit(
     public string ConvertPathToHostFormat(string path, ToolkitPathConversionOptions options) =>
         m_Runtime.ConvertPathToHostFormat(path, options);
 
-    readonly CygwinRuntime m_Runtime = new()
-    {
-        PathPrefix = "/cygdrive"
-    };
+    readonly CygwinRuntime m_Runtime = new(
+        name => setupInstance.ResolvePath(Path.Join("bin", name)));
 }

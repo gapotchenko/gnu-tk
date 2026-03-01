@@ -6,6 +6,8 @@
 
 Release date: not released yet
 
+- Added file path translation between host and guest system formats with
+  `gnu-tk path` command
 - Added `--verbatim` command-line option that enables direct interpretation of
   the specified command line
 - `gnu-tk check` command uses `stderr` for errors
