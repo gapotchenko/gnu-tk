@@ -52,7 +52,7 @@ static class Program
               gnu-tk [-t <name>] [-s] [-i] [-p] -c [--] <command> [<argument>...]
               gnu-tk [-t <name>] [-s] [-i] [-p] [--verbatim] -l [--] <argument>...
               gnu-tk [-t <name>] [-s] [-i] [-p] (-f | -x) [--] <file> [<argument>...]
-              gnu-tk path [--] [<argument>...]
+              gnu-tk path [-t <name>] [-s] [-i] [--] [<argument>...]
               gnu-tk (list | check [-t <name>]) [-s] [-i] [-q]
               gnu-tk (--help | --version) [-q]
 
