@@ -9,6 +9,8 @@ using Gapotchenko.FX.Collections.Generic;
 using Gapotchenko.FX.IO;
 using Gapotchenko.GnuTK.Diagnostics;
 using Gapotchenko.GnuTK.Helpers;
+using Gapotchenko.GnuTK.Hosting;
+using Gapotchenko.GnuTK.IO;
 using Gapotchenko.Shields.Microsoft.Wsl.Deployment;
 using System.Text;
 
@@ -171,8 +173,23 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
     {
         if (path.Length == 0)
             return path;
-        else
-            return ConvertPath(["-w"], path, options);
+
+        // Check if the path is already a Windows path.
+        // (The only possible WSL host is Windows.)
+        if (path.Length >= 2 && path[1] == ':' && char.IsAsciiLetter(path[0]))
+        {
+            path = path.Replace('/', '\\');
+
+            if (options.HasFlag(ToolkitPathConversionOptions.Absolute) &&
+                HostEnvironment.FilePathFormat == FilePathFormat.Windows)
+            {
+                path = Path.GetFullPath(path);
+            }
+
+            return path;
+        }
+
+        return ConvertPath(["-w"], path, options);
     }
 
     string ConvertPath(IList<string> args, string path, ToolkitPathConversionOptions options)
