@@ -324,9 +324,21 @@ static class Program
         static IReadOnlyList<ToolkitIsolation>? GetIsolationLevels(IReadOnlyDictionary<string, object> arguments)
         {
             if ((bool)arguments[CliOptions.Integrated])
+            {
                 return [ToolkitIsolation.None];
+            }
+            else if (Environment.GetEnvironmentVariable("GNU_TK_ISOLATION") is [_, ..] isolation)
+            {
+                return [.. isolation
+                    .Split(
+                        [',', ';'],
+                        StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                    .Select(x => ToolkitIsolationFormatter.Parse(x))];
+            }
             else
+            {
                 return null;
+            }
         }
 
         static bool GetStrictness(IReadOnlyDictionary<string, object> arguments)

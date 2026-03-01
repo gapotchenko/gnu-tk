@@ -164,6 +164,8 @@ sealed class Engine
             environment["GNU_TK_TOOLKIT"] = string.Join(',', toolkitNames);
         if (Strict)
             environment["GNU_TK_STRICT"] = string.Empty;
+        if (IsolationLevels is { } isolationLevels)
+            environment["GNU_TK_ISOLATION"] = string.Join(',', isolationLevels.Select(ToolkitIsolationFormatter.GetString));
 
         var version = AppInformation.Current.ProductVersion;
         // Version in YYYYmmbb format (2025.9.3 -> 20250903).
