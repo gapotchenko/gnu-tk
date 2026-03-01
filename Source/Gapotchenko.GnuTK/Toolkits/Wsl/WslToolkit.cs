@@ -178,6 +178,8 @@ sealed class WslToolkit(WslToolkitFamily family, IWslSetupInstance setupInstance
         // (The only possible WSL host is Windows.)
         if (path.Length >= 2 && path[1] == ':' && char.IsAsciiLetter(path[0]))
         {
+            // Handle it here because 'wslpath' produces bad results (in WSL 2.6.3.0 at least).
+
             path = path.Replace('/', '\\');
 
             if (options.HasFlag(ToolkitPathConversionOptions.Absolute) &&
