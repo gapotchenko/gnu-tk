@@ -10,7 +10,9 @@ Release date: not released yet
   `gnu-tk path` command
 - Added `--verbatim` command-line option that enables direct interpretation of
   the specified command line
-- `gnu-tk check` command uses `stderr` for errors
+- Built-in BusyBox for Windows upgraded to version
+  `v1.38.0-FRP-5857-g3681e397f (2025-10-10 08:26:06 UTC)`
+- `gnu-tk check` command now uses `stderr` for errors
 - `GNU_TK_MSYS2_REPO_PREFIX` environment variable is used instead of
   decommissioned `GNU_TK_MSYS2_REPOSITORY_PREFIX`
 
