@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Gapotchenko.GnuTK.Toolkits.Cygwin;
 
-class CygwinRuntime
+class CygwinRuntime : ToolkitRuntime
 {
     /// <summary>
     /// Adjusts a command-line argument before passing it to a Cygwin-based
@@ -36,7 +36,7 @@ class CygwinRuntime
             .Replace(@"\", @"\\", StringComparison.Ordinal);
     }
 
-    public string ConvertPathToGuestFormat(string path)
+    public override string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options)
     {
         // TODO
         // Deduct the prefix from '/etc/fstab' file as described at

@@ -186,7 +186,11 @@ sealed class MSys2Toolkit(
         environment["MSYS2_PATH_TYPE"] = "inherit";
     }
 
-    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) => m_Runtime.ConvertPathToGuestFormat(path);
+    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) =>
+        m_Runtime.ConvertPathToGuestFormat(path, options);
+
+    public string ConvertPathToHostFormat(string path, ToolkitPathConversionOptions options) =>
+        m_Runtime.ConvertPathToHostFormat(path, options);
 
     readonly MSys2Runtime m_Runtime = new();
 }

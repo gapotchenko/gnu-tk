@@ -149,7 +149,11 @@ sealed class CygwinToolkit(
         }
     }
 
-    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) => m_Runtime.ConvertPathToGuestFormat(path);
+    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) =>
+        m_Runtime.ConvertPathToGuestFormat(path, options);
+
+    public string ConvertPathToHostFormat(string path, ToolkitPathConversionOptions options) =>
+        m_Runtime.ConvertPathToHostFormat(path, options);
 
     readonly CygwinRuntime m_Runtime = new()
     {

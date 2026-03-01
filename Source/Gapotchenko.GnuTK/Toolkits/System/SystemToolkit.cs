@@ -73,5 +73,11 @@ sealed class SystemToolkit(SystemToolkitFamily family) : IScriptableToolkit
         return ProcessHelper.Execute(psi);
     }
 
-    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) => path;
+    public string ConvertPathToGuestFormat(string path, ToolkitPathConversionOptions options) =>
+        m_Runtime.ConvertPathToGuestFormat(path, options);
+
+    public string ConvertPathToHostFormat(string path, ToolkitPathConversionOptions options) =>
+        m_Runtime.ConvertPathToHostFormat(path, options);
+
+    static ToolkitRuntime m_Runtime => NativeToolkitRuntime.Instance;
 }
