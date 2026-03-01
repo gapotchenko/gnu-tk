@@ -3,4 +3,4 @@
 set -eu
 
 GNU_TK="${GNU_TK:-gnu-tk}"
-"$GNU_TK" "$@"
+exec "$GNU_TK" "$@"
