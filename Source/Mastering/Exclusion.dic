@@ -14,3 +14,11 @@ Shorthands
 busybox
 Cygpath
 busybox
+mingw
+aarch
+ucrt
+posix
+posixly
+posixify
+pipefail
+msys
