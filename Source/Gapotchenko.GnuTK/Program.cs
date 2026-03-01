@@ -286,8 +286,8 @@ static class Program
         {
             ToolkitNames = GetToolkitNames(arguments),
             ToolkitPaths = GetToolkitPaths(),
-            ToolkitIsolationLevels = GetToolkitIsolationLevels(arguments),
-            Strict = (bool)arguments[CliOptions.Strict] || Environment.GetEnvironmentVariable("GNU_TK_STRICT") != null,
+            IsolationLevels = GetIsolationLevels(arguments),
+            Strict = GetStrictness(arguments),
             Posix = arguments.TryGetValue(CliOptions.Posix, out object? posix) && (bool)posix,
             Quiet = (bool)arguments[CliOptions.Quiet]
         };
@@ -321,12 +321,17 @@ static class Program
             ?.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) ??
             [];
 
-        static IReadOnlyList<ToolkitIsolation>? GetToolkitIsolationLevels(IReadOnlyDictionary<string, object> arguments)
+        static IReadOnlyList<ToolkitIsolation>? GetIsolationLevels(IReadOnlyDictionary<string, object> arguments)
         {
             if ((bool)arguments[CliOptions.Integrated])
                 return [ToolkitIsolation.None];
             else
                 return null;
+        }
+
+        static bool GetStrictness(IReadOnlyDictionary<string, object> arguments)
+        {
+            return (bool)arguments[CliOptions.Strict] || Environment.GetEnvironmentVariable("GNU_TK_STRICT") != null;
         }
     }
 

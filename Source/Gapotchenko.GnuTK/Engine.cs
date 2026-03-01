@@ -42,7 +42,7 @@ sealed class Engine
     /// The toolkit isolation levels to use,
     /// or <see langword="null"/> to not impose restrictions on isolation levels.
     /// </value>
-    public IReadOnlyList<ToolkitIsolation>? ToolkitIsolationLevels { get; init; }
+    public IReadOnlyList<ToolkitIsolation>? IsolationLevels { get; init; }
 
     /// <summary>
     /// Gets or initializes a value indicating whether to
@@ -437,7 +437,7 @@ sealed class Engine
     {
         var toolkits = ToolkitServices.EnumerateToolkits(families, ToolkitPaths);
 
-        if (ToolkitIsolationLevels is { } isolationLevels)
+        if (IsolationLevels is { } isolationLevels)
         {
             toolkits = toolkits.Where(
                 toolkit =>
