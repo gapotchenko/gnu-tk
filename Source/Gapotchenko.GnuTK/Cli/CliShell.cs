@@ -27,6 +27,14 @@ static class CliShell
         {
             // Prefer Unicode if possible.
             ConsoleEx.EnableUnicode();
+
+            // If GNU-TK is active, it means that the current process runs in Unix environment.
+            if (Environment.GetEnvironmentVariable("GNU_TK_VERSION") != null)
+            {
+                const string newLine = "\n";
+                Console.Out.NewLine = newLine;
+                Console.Error.NewLine = newLine;
+            }
         }
     }
 
