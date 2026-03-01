@@ -303,3 +303,26 @@ language – say, Python:
 run:
     print("Hello from Python script")
 ```
+
+### Docker for Windows
+
+When authoring Windows container Dockerfiles, you may find the syntax of
+PowerShell or cmd.exe restrictive, especially if you are accustomed to POSIX
+shell environments.
+
+In such cases, GNU-TK can be installed to provide a POSIX-compatible shell
+inside the container:
+
+```dockerfile
+# Install GNU-TK (POSIX-compatible toolchain and shell)
+RUN iwr https://download.gapotchenko.com/gnu-tk/latest/gnu-tk-setup-windows-x64.msi -UseBasicParsing -OutFile gnu-tk.msi
+RUN msiexec /i gnu-tk.msi /quiet
+RUN del gnu-tk.msi
+
+# Configure container to use a POSIX shell
+SHELL ["gnu-tk", "-t", "busybox", "--verbatim", "-l"]
+```
+
+In this configuration, GNU-TK is explicitly instructed to use the **BusyBox**
+toolkit, which is bundled with the GNU-TK Windows distribution. This enables
+standard POSIX shell semantics within Windows-based Docker containers.
