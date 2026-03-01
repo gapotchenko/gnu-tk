@@ -169,6 +169,8 @@ sealed class Engine
         // Version in YYYYmmbb format (2025.9.3 -> 20250903).
         environment["GNU_TK_VERSION"] = Invariant($"{version.Major:D4}{version.Minor:D2}{version.Build:D2}");
 
+        environment["GNU_TK_HOST_OS"] = HostEnvironment.OSName.ToLowerInvariant();
+
         return environment;
     }
 

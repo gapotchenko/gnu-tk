@@ -6,15 +6,18 @@
 
 Release date: not released yet
 
-- Added file path translation between host and guest system formats with
+- Added file path translation between host and guest system formats via the
   `gnu-tk path` command
 - Added `--verbatim` command-line option that enables direct interpretation of
   the specified command line
-- Built-in BusyBox for Windows upgraded to version
+- Built-in BusyBox for Windows upgraded to
   `v1.38.0-FRP-5857-g3681e397f (2025-10-10 08:26:06 UTC)`
-- `gnu-tk check` command now uses `stderr` for errors
-- `GNU_TK_MSYS2_REPO_PREFIX` environment variable is used instead of
-  decommissioned `GNU_TK_MSYS2_REPOSITORY_PREFIX`
+- `gnu-tk check` command now now outputs errors to `stderr`
+- `GNU_TK_HOST_OS` environment variable is now automatically set in GNU
+  environments spawned by GNU-TK. Possible values: `windows`, `macos`, `linux`,
+  `freebsd`
+- Replaced the deprecated `GNU_TK_MSYS2_REPOSITORY_PREFIX` environment variable
+  with `GNU_TK_MSYS2_REPO_PREFIX`
 
 ### GNU-TK 2025.9
 
