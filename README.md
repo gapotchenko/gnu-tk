@@ -335,8 +335,8 @@ If you need to translate a file path from one format to another, you can use
 `gnu-tk path` command. In practice, this conversion is rarely necessary when
 using BusyBox toolkit, as most applications accept both path formats. One
 notable exception is `msiexec` (a Windows component) that requires file path
-arguments to contain backslashes as directory separators. This is when file path
-translation becomes handy (example):
+arguments to contain backslashes as directory separators. This is where file
+path translation becomes handy (example):
 
 ```dockerfile
 RUN msiexec /i "$(gnu-tk path -h "$TEMP/Setup/Package.msi")" /quiet
