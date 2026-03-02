@@ -367,7 +367,7 @@ sealed class Engine
         if (!quiet)
         {
             using (TuiStyles.Scope.Title(Console.Out))
-                Console.Write("GNU Toolkit Check");
+                Console.Write("GNU Toolkit Integration Check");
             Console.WriteLine();
             Console.WriteLine();
         }

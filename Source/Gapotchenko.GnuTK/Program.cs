@@ -76,7 +76,7 @@ static class Program
 
             Commands:
               list                 List available GNU toolkits.
-              check                Check a GNU toolkit.
+              check                Check GNU toolkit integration.
               path                 File system path translation.
             """;
 
