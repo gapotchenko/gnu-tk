@@ -2,6 +2,10 @@
 
 ## 2026
 
+### GNU-TK 2026.2 (Beta)
+
+Release date: not released yet
+
 ### GNU-TK 2026.1
 
 Release date: March 2, 2026
