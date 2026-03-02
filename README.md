@@ -163,7 +163,7 @@ based on common-sense factors. You can verify the GNU toolkit selection and
 availability using `gnu-tk check` command:
 
 ```
-GNU Toolkit Check
+GNU Toolkit Integration Check
 
 Name: msys2-ucrt64
 Description: MSYS2 2025-02-21
