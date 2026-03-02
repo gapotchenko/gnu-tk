@@ -19,3 +19,5 @@
 - Commands like `gnu-tk open` are better to be scoped as subcommands of a common
   parent (like `gnu-tk system open`) due to the fact that GNU-TK provides its
   own operational environment separate to host and guest systems
+- Make `gnu-tk open` appear in help, but annotate it: `open` - shorthand for
+  `system open`. This solves usage vs. taxonomy dillema
