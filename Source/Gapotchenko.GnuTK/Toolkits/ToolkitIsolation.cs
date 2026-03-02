@@ -10,7 +10,6 @@ namespace Gapotchenko.GnuTK.Toolkits;
 /// <summary>
 /// Defines toolkit isolation levels.
 /// </summary>
-[Flags]
 enum ToolkitIsolation
 {
     /// <summary>
