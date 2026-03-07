@@ -42,8 +42,8 @@ prerequisites:
     npm install -g prettier
     go install mvdan.cc/sh/v3/cmd/shfmt@latest
     # Prerequisites dependent on a particular GNU toolkit
-    if [ -n "${GNU_TK_MSYS2_REPOSITORY_PREFIX-}" ]; then
-        pacman -S --needed --noconfirm "${GNU_TK_MSYS2_REPOSITORY_PREFIX}fd"
+    if [ -n "${GNU_TK_MSYS2_REPO_PREFIX-}" ]; then
+        pacman -S --needed --noconfirm "${GNU_TK_MSYS2_REPO_PREFIX}fd"
         pacman -S --needed --noconfirm moreutils
     fi
 
