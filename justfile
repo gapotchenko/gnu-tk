@@ -24,9 +24,10 @@ dotnet-tfm := "net10.0"
 
 # Start IDE using the project environment
 [group("development")]
+[script]
 [windows]
 develop:
-    @Start-Process (Get-ChildItem -Path . -Filter *.slnx | Select-Object -First 1).FullName
+    start "" *.slnx
 
 # Start IDE using the project environment
 [group("development")]
@@ -57,6 +58,7 @@ format:
     echo 'Formatting **/justfile...'
     fd --glob justfile -x just --unstable --fmt --justfile
     echo 'Formatting miscellaneous files...'
+    # Visual Studio shenanigans: https://developercommunity.visualstudio.com/t/Spelling-Exclusions-dont-work-after-res/10825755
     (cd Source/Mastering/Editor; cat Exclusion.dic | sed 's/\xFF\xFE//g' | iconv -f UTF-16LE -t UTF-8 | tr '[:upper:]' '[:lower:]' | sort -u | iconv -f UTF-8 -t UTF-16LE | sed '1s/^/\xFF\xFE/' | sponge Exclusion.dic)
 
 # Check source code
