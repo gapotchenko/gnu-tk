@@ -20,8 +20,6 @@ Release date: March 2, 2026
   `freebsd`
 - Built-in BusyBox for Windows upgraded to
   `v1.38.0-FRP-5857-g3681e397f (2025-10-10 08:26:06 UTC)`
-- Replaced the deprecated `GNU_TK_MSYS2_REPOSITORY_PREFIX` environment variable
-  with `GNU_TK_MSYS2_REPO_PREFIX`
 
 ### GNU-TK 2025.9
 
