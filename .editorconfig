@@ -34,6 +34,10 @@ csharp_style_expression_bodied_local_functions = when_on_single_line # IDE0061
 csharp_style_expression_bodied_methods = when_on_single_line # IDE0022
 csharp_style_expression_bodied_operators = when_on_single_line # IDE0023, IDE0024
 
+[[shell]]
+indent_style = space
+indent_size = 4
+
 #region Naming
 
 [*.{cs,vb}]
@@ -61,6 +65,6 @@ dotnet_naming_rule.constant_fields_with_pascal_case.severity = warning
 [*.{cs,vb}]
 
 spelling_languages = en-us
-spelling_exclusion_path = Source/Mastering/Exclusion.dic
+spelling_exclusion_path = Source/Mastering/Editor/Exclusion.dic
 
 #endregion

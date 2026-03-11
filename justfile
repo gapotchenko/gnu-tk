@@ -42,9 +42,8 @@ prerequisites:
     npm install -g prettier
     go install mvdan.cc/sh/v3/cmd/shfmt@latest
     # Prerequisites dependent on a particular GNU toolkit
-    if [ -n "${GNU_TK_MSYS2_REPO_PREFIX-}" ]; then
-        pacman -S --needed --noconfirm "${GNU_TK_MSYS2_REPO_PREFIX}fd"
-        pacman -S --needed --noconfirm moreutils
+    if [ -n "${GNU_TK_MSYS2_REPOSITORY_PREFIX-}" ]; then
+        pacman -S --needed --noconfirm moreutils "${GNU_TK_MSYS2_REPOSITORY_PREFIX}fd"
     fi
 
 # Format source code
@@ -54,11 +53,11 @@ prerequisites:
 format:
     prettier --write "**/*.{js,ts,json,md,yml}"
     echo 'Formatting **/*.sh...'
-    fd -e sh -x shfmt -i 4 -l -w
+    fd -e sh -x shfmt -l -w
     echo 'Formatting **/justfile...'
     fd --glob justfile -x just --unstable --fmt --justfile
-    #echo 'Formatting miscellaneous files...'
-    #(cd Source/Mastering; cat Exclusion.dic | tr '[:upper:]' '[:lower:]' | sort -u | sponge Exclusion.dic)
+    echo 'Formatting miscellaneous files...'
+    (cd Source/Mastering/Editor; cat Exclusion.dic | sed 's/\xFF\xFE//g' | iconv -f UTF-16LE -t UTF-8 | tr '[:upper:]' '[:lower:]' | sort -u | iconv -f UTF-8 -t UTF-16LE | sed '1s/^/\xFF\xFE/' | sponge Exclusion.dic)
 
 # Check source code
 [group("development")]
