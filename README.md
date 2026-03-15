@@ -323,7 +323,7 @@ RUN del gnu-tk.msi
 SHELL ["gnu-tk", "-t", "busybox", "--verbatim", "-l"]
 ```
 
-In this configuration, GNU-TK is explicitly instructed to use the **BusyBox**
+In this configuration, GNU-TK is explicitly instructed to use the BusyBox
 toolkit, which is bundled with the GNU-TK Windows distribution. This enables
 standard POSIX shell semantics within Windows-based Docker containers while
 preserving file path structure of the host OS.
@@ -336,7 +336,7 @@ If you need to translate a file path from one format to another, you can use
 using BusyBox toolkit, as most applications accept both path formats. One
 notable exception is `msiexec` (a Windows component) that requires file path
 arguments to contain backslashes as directory separators. This is where file
-path translation becomes handy (example):
+path translation becomes handy, for example:
 
 ```dockerfile
 RUN msiexec /i "$(gnu-tk path -h "$TEMP/Setup/Package.msi")" /quiet
