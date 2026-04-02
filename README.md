@@ -306,7 +306,7 @@ run:
 
 #### Cosmopolitan `justfile`
 
-To ensure a `justfile` work the same across all operating systems, you can use the following directives to make it cosmpolitan by default:
+To ensure a `justfile` works the same across all operating systems, you can use the following directives to make it cosmpolitan by default:
 
 ```just
 set windows-shell := ["gnu-tk", "-i", "-c"]
