@@ -316,7 +316,7 @@ regardless of the host OS, helping you write scripts that work the same on Windo
 ### Docker for Windows
 
 When authoring Windows container Dockerfiles, you may find the syntax of
-PowerShell or cmd.exe restrictive, especially if you are accustomed to POSIX
+PowerShell or `cmd.exe` restrictive, especially if you are accustomed to POSIX
 shell environments.
 
 In such cases, GNU-TK can be installed to provide a POSIX-compatible shell
