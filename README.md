@@ -326,7 +326,7 @@ In such cases, GNU-TK can be installed to provide a POSIX-compatible shell
 inside the container:
 
 ```dockerfile
-# Install GNU-TK (POSIX-compatible toolchain and shell)
+# Install GNU-TK (POSIX-compatible toolchain/shell provider)
 RUN iwr https://download.gapotchenko.com/gnu-tk/latest/gnu-tk-setup-windows-x64.msi -UseBasicParsing -OutFile gnu-tk.msi
 RUN msiexec /i gnu-tk.msi /quiet
 RUN del gnu-tk.msi
