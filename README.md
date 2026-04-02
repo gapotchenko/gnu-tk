@@ -256,8 +256,6 @@ the `cp` command is not available on this OS.
 One way to solve that problem is to use `gnu-tk` in place:
 
 ```just
-set windows-shell := ["cmd", "/c"]
-
 run:
     echo Just hello
     gnu-tk -l cp --help
@@ -286,7 +284,6 @@ attribute may be preferable
 ([docs](https://just.systems/man/en/script-recipes.html)):
 
 ```just
-set windows-shell := ["cmd", "/c"]
 set script-interpreter := ["gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
 
 [script]
