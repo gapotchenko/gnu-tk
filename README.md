@@ -304,6 +304,18 @@ run:
     print("Hello from Python script")
 ```
 
+#### Cosmopolitan `justfile`
+
+To ensure a `justfile` work the same across all operating systems, you can use the following directives to make it cosmpolitan by default:
+
+```just
+set windows-shell := ["gnu-tk", "-i", "-c"]
+set script-interpreter := ["gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
+```
+
+These settings instruct `just` to run commands through a consistent interpreter environment,
+regardless of the host OS, helping you write scripts that work the same on Windows, macOS, and Linux.
+
 ### Docker for Windows
 
 When authoring Windows container Dockerfiles, you may find the syntax of
