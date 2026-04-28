@@ -323,7 +323,7 @@ In such cases, GNU-TK can be installed to provide a POSIX-compatible shell
 inside the container:
 
 ```dockerfile
-# Install GNU-TK (POSIX-compatible toolchain/shell provider)
+# Install GNU-TK (provides access to GNU shell and toolchain)
 RUN iwr https://download.gapotchenko.com/gnu-tk/latest/gnu-tk-setup-windows-x64.msi -UseBasicParsing -OutFile gnu-tk.msi
 RUN msiexec /i gnu-tk.msi /quiet
 RUN del gnu-tk.msi
@@ -342,7 +342,7 @@ as directory separators instead of the Windows-native backslashes (`\`).
 
 If you need to translate a file path from one format to another, you can use
 `gnu-tk path` command. In practice, this conversion is rarely necessary when
-using BusyBox toolkit, as most applications accept both path formats. One
+using BusyBox toolkit, as most applications accept both path formats. A
 notable exception is `msiexec` (a Windows component) that requires file path
 arguments to contain backslashes as directory separators. This is where file
 path translation becomes handy, for example:
