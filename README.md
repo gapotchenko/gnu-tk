@@ -1,7 +1,7 @@
 # GNU-TK
 
 GNU-TK is a tiny project that provides seamless scriptable access to GNU tools
-on non-Unix operating systems.
+on all mainstream desktop and server operating systems.
 
 ## Overview
 
