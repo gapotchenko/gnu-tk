@@ -364,7 +364,7 @@ This is how we can utilize it on Windows:
    
    `gnu-tk -t msys2 -l pacman -S tio`
    
-2. Run `tio` (change parameters to suite your environment):
+2. Run `tio` (change serial port parameters to suite your environment):
 
    `gnu-tk -t msys2 -l tio -b 115200 COM1`
 
