@@ -369,3 +369,12 @@ This is how we can utilize it on Windows:
    `gnu-tk -t msys2 -l tio -b 115200 COM1`
 
 No fuzz with MSYS2 shell shenanigans, thanks to GNU-TK it just works.
+
+## Conclusion
+
+GNU-TK is not about reinventing existing tools. It is about making them accessible.
+
+The GNU ecosystem offers decades of mature, reliable, and well-designed utilities.
+Rather than recreating their functionality for every OS on Earth, GNU-TK bridges the gap, making these tools readily available from the command line.
+
+The real value of GNU-TK is not measured by the functionality it implements, but by the functionality it unlocks.
