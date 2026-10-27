@@ -335,7 +335,7 @@ SHELL ["gnu-tk", "-t", "busybox", "--verbatim", "-l"]
 ```
 
 In this configuration, GNU-TK is explicitly instructed to use the BusyBox
-toolkit, which is bundled with the GNU-TK Windows distribution. This enables
+toolkit, which is bundled with the GNU-TK Windows distribution itself. This enables
 standard POSIX shell semantics within Windows-based Docker containers while
 preserving file path structure of the host OS.
 
