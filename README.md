@@ -355,7 +355,7 @@ RUN msiexec /i "$(gnu-tk path -h "$TEMP/Setup/Package.msi")" /quiet
 
 ### `tio` for Windows
 
-[`tio`](https://github.com/tio/tio) is a command-line serial terminal for serial ports. It exists primarily in
+[`tio`](https://github.com/tio/tio) is a command-line terminal for serial ports. It exists primarily in
 Unix world, and is accessible on Windows via MSYS2 toolkit.
 
 This is how we can utilize it on Windows:
