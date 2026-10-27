@@ -268,7 +268,8 @@ To simplify things, we can configure `gnu-tk` as the default command shell for
 `justfile`:
 
 ```just
-set windows-shell := ["gnu-tk", "-i", "-c"]
+[windows]
+set shell := ["gnu-tk", "-i", "-c"]
 
 run:
     echo Just hello
@@ -278,12 +279,13 @@ run:
 Now, `just run` command will produce the correct results on all supported
 platforms.
 
-Setting `windows-shell` to `gnu-tk` for an entire `justfile` can sometimes be
+Setting `shell` to `gnu-tk` for an entire `justfile` can sometimes be
 too aggressive. In such cases, a more gradual approach using the `[script]`
 attribute may be preferable
 ([docs](https://just.systems/man/en/script-recipes.html)):
 
 ```just
+[windows]
 set script-interpreter := ["gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
 
 [script]
@@ -306,7 +308,7 @@ run:
 To ensure a `justfile` works the same across all operating systems, you can use the following directives to make it cosmpolitan by default:
 
 ```just
-set windows-shell := ["gnu-tk", "-i", "-c"]
+set shell := ["gnu-tk", "-i", "-c"]
 set script-interpreter := ["gnu-tk", "-i", "-l", "/bin/sh", "-eu"]
 ```
 
@@ -350,3 +352,20 @@ path translation becomes handy, for example:
 ```dockerfile
 RUN msiexec /i "$(gnu-tk path -h "$TEMP/Setup/Package.msi")" /quiet
 ```
+
+### `tio` for Windows
+
+[`tio`](https://github.com/tio/tio) is a command-line serial terminal for serial ports. It exists primarily in
+Unix world, and is accessible on Windows via MSYS2 toolkit.
+
+This is how we can utilize it on Windows:
+
+1. Install `tio` package:
+   
+   `gnu-tk -t msys2 -l pacman -S tio`
+   
+2. Run `tio` (change parameters to suite your environment):
+
+   `gnu-tk -t msys2 -l tio -b 115200 COM1`
+
+No fuzz with MSYS2 shell shenanigans, thanks to GNU-TK it just works.
